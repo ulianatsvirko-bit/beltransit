@@ -3,3 +3,4 @@ dist/
 .DS_Store
 *.log
 beltransit-*.png
+!src/assets/beltransit-logo-orange.png

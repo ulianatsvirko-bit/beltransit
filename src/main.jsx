@@ -7,7 +7,10 @@ import {
   Check,
   ClipboardCheck,
   Container,
+  CreditCard,
   Factory,
+  FileText,
+  Globe2,
   Handshake,
   MapPin,
   Menu,
@@ -24,7 +27,7 @@ import {
   Wrench,
   Zap,
 } from "lucide-react";
-import logoMark from "./assets/beltransit-logo-mark.png";
+import logoMark from "./assets/beltransit-logo-orange.png";
 import "./styles.css";
 
 const services = [
@@ -166,6 +169,393 @@ const groupageFaq = [
   ],
 ];
 
+const buyoutStats = [
+  ["12 лет", "работаем с Европой"],
+  ["10+ стран", "география выкупа"],
+  ["1 платёж", "вы платите один раз нам"],
+  ["под ключ", "выкуп + доставка + таможня"],
+];
+
+const buyoutPainPoints = [
+  {
+    icon: CreditCard,
+    title: "Платежи заблокированы",
+    text: "Поставщик в Европе есть, товар есть, цена устраивает — но оплатить из России невозможно.",
+  },
+  {
+    icon: Globe2,
+    title: "Поставщик не работает с РФ",
+    text: "Европейские компании всё чаще отказывают российским покупателям напрямую.",
+  },
+  {
+    icon: FileText,
+    title: "Сложная логистика",
+    text: "Даже если оплата прошла — непонятно как забрать, растаможить и довезти.",
+  },
+];
+
+const buyoutSteps = [
+  ["1", "Контакт", "Вы даёте контакт поставщика"],
+  ["2", "Проверка", "Мы проверяем поставщика и цену"],
+  ["3", "Оплата", "Платим поставщику от своего имени"],
+  ["4", "Забор", "Забираем товар со склада в Европе"],
+  ["5", "Россия", "Везём в Россию + таможня"],
+];
+
+const buyoutAudiences = [
+  {
+    icon: Factory,
+    title: "Бизнес с европейским поставщиком",
+    text: "Работали с Европой до 2022 — сейчас платежи не проходят. Мы восстановим цепочку.",
+  },
+  {
+    icon: Search,
+    title: "Новый импортёр",
+    text: "Нашли поставщика в Европе, но не знаете как организовать сделку. Мы проведём под ключ.",
+  },
+  {
+    icon: Package,
+    title: "Малый бизнес",
+    text: "Небольшие партии товара, которые нет смысла везти самому — выкупим и привезём.",
+  },
+];
+
+const buyoutAdvantages = [
+  "12 лет работаем с европейскими поставщиками — знаем рынок",
+  "Договор на каждую сделку — всё юридически оформлено",
+  "Платите нам только после подтверждения товара",
+  "Все документы на груз передаём вам",
+  "Работаем через Вильнюс — легально, без серых схем",
+];
+
+const buyoutFaq = [
+  [
+    "Как вы оплачиваете поставщику?",
+    "Мы согласуем счёт, проверяем поставщика и оплачиваем товар от своего европейского контура. После этого забираем груз и ведём доставку.",
+  ],
+  [
+    "Что если поставщик откажется работать с посредником?",
+    "Объясняем схему, берём коммуникацию на себя и оформляем сделку так, чтобы поставщику было понятно, кому он продаёт и кто забирает товар.",
+  ],
+  [
+    "Какая минимальная сумма выкупа?",
+    "Ориентируемся на экономику сделки, страну и тип товара. Чаще всего выкуп имеет смысл для регулярных партий или закупок от нескольких тысяч евро.",
+  ],
+  [
+    "Как я буду уверен что вы не исчезнете с деньгами?",
+    "Работаем по договору, фиксируем условия сделки, передаём документы и подтверждения по оплате, забору и движению груза.",
+  ],
+  [
+    "Какие товары вы не выкупаете?",
+    "Не выкупаем запрещённые товары, позиции без документов, опасные грузы без оформления и всё, что нельзя легально провести через таможню.",
+  ],
+];
+
+const partnerStats = [
+  ["12 лет", "на рынке"],
+  ["60%", "клиентов — логисты и посредники"],
+  ["1 склад", "в Вильнюсе"],
+  ["конфиденциально", "не работаем с вашими клиентами напрямую"],
+];
+
+const partnerAudiences = [
+  {
+    icon: Truck,
+    title: "Транспортная компания",
+    text: "Ваши клиенты возят из Европы — нужен надёжный партнёр на стороне ЕС который заберёт, сохранит и отправит.",
+  },
+  {
+    icon: ClipboardCheck,
+    title: "Экспедитор",
+    text: "Организуете перевозки но нет своей инфраструктуры в Европе — мы ваш склад и представитель в Вильнюсе.",
+  },
+  {
+    icon: Handshake,
+    title: "Посредник",
+    text: "Находите клиентов в России и ищете кого подключить на исполнение — работаем как незаметный бэкенд.",
+  },
+];
+
+const partnerBenefits = [
+  {
+    icon: Building2,
+    title: "Склад в Вильнюсе",
+    text: "Принимаем грузы ваших клиентов от любых поставщиков ЕС.",
+  },
+  {
+    icon: ShoppingCart,
+    title: "Выкуп",
+    text: "Покупаем товар у европейских поставщиков когда нужна оплата в ЕС.",
+  },
+  {
+    icon: ClipboardCheck,
+    title: "Таможня",
+    text: "Оформляем через РБ официально с минимальными платежами.",
+  },
+  {
+    icon: Truck,
+    title: "Доставка",
+    text: "Везём в любую точку РФ.",
+  },
+  {
+    icon: FileText,
+    title: "Отчётность",
+    text: "Все документы и статусы в реальном времени.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Конфиденциальность",
+    text: "Работаем под вашим брендом, не контактируем с вашими клиентами.",
+  },
+];
+
+const partnerSteps = [
+  ["1", "Знакомство", "созвон 15 минут"],
+  ["2", "Тестовая отправка", "один груз"],
+  ["3", "Договор и условия", "сотрудничества"],
+  ["4", "Первый груз", "под контролем менеджера"],
+  ["5", "Постоянная работа", "без сбоев"],
+];
+
+const partnerReasons = [
+  "Физический склад в Вильнюсе — не посредник который сам ищет исполнителя",
+  "Фура каждую неделю — предсказуемые сроки для ваших клиентов",
+  "Работаем под вашим брендом — ваш клиент не знает о нас",
+  "Один менеджер за вами — не объясняете каждый раз заново",
+  "Документы день в день — не тормозим вашу цепочку",
+  "14 лет на рынке — проверенная надёжность",
+];
+
+const partnerTestimonials = [
+  {
+    role: "Транспортная компания, Москва",
+    text: "Работаем три года. За это время ни одного серьёзного сбоя. Клиенты довольны — а значит и мы довольны.",
+  },
+  {
+    role: "Экспедитор, Санкт-Петербург",
+    text: "Нашли через знакомых. Сначала попробовали один груз — теперь весь европейский поток через них.",
+  },
+];
+
+const partnerFaq = [
+  [
+    "Работаете ли вы под брендом партнёра?",
+    "Да. Можем вести операционную часть как ваш склад и представитель в Вильнюсе: без прямого контакта с вашим клиентом и без упоминания нас в коммуникации.",
+  ],
+  [
+    "Какой минимальный объём для партнёрства?",
+    "Можно начать с одного тестового груза. Для постоянных условий смотрим частоту, тип грузов, страны забора и требования по документам.",
+  ],
+  [
+    "Как быстро даёте ставку на груз?",
+    "Обычно возвращаемся с первичной ставкой в течение 2 часов в рабочее время, если есть вес, объём, маршрут и описание товара.",
+  ],
+  [
+    "Можно ли работать без договора на первый груз?",
+    "Тестовый груз можем обсудить отдельно. Для регулярной работы фиксируем договор, условия оплат, ответственность и формат отчётности.",
+  ],
+  [
+    "Как происходит расчёт между нами?",
+    "Схему согласуем под ваш процесс: предоплата, оплата по этапам или регулярный закрывающий пакет по договору.",
+  ],
+];
+
+const warehouseStats = [
+  ["Вильнюс", "столица Литвы, граница с РБ"],
+  ["любой поставщик", "из любой страны ЕС"],
+  ["1 отправка", "все грузы вместе"],
+];
+
+const warehouseReasons = [
+  {
+    icon: MapPin,
+    title: "Географически идеально",
+    text: "Литва граничит с Беларусью. Вильнюс — ближайшая точка ЕС к российскому рынку. Минимальный путь = минимальные сроки и стоимость.",
+  },
+  {
+    icon: Globe2,
+    title: "Внутри ЕС",
+    text: "Любой поставщик из Германии, Польши, Италии или Франции может отправить груз на наш склад без таможни — это внутренний рынок ЕС.",
+  },
+  {
+    icon: Truck,
+    title: "Прямой маршрут в РФ",
+    text: "Со склада в Вильнюсе фура идёт через Беларусь прямо в Россию. Никаких лишних перегрузок и границ.",
+  },
+];
+
+const warehouseServices = [
+  {
+    icon: Package,
+    title: "Приёмка",
+    text: "Принимаем груз от любого поставщика в ЕС.",
+  },
+  {
+    icon: Container,
+    title: "Консолидация",
+    text: "Собираем грузы от разных поставщиков в одну отправку.",
+  },
+  {
+    icon: Search,
+    title: "Проверка",
+    text: "Проверяем комплектность и состояние товара.",
+  },
+  {
+    icon: FileText,
+    title: "Документы",
+    text: "Оформляем все необходимые документы.",
+  },
+  {
+    icon: ClipboardCheck,
+    title: "Маркировка",
+    text: "Маркируем груз по вашим требованиям.",
+  },
+  {
+    icon: Truck,
+    title: "Отправка",
+    text: "Загружаем в фуру и отправляем в РФ.",
+  },
+];
+
+const warehouseSteps = [
+  ["1", "Вы даёте", "адрес склада поставщику"],
+  ["2", "Поставщик", "отправляет в Вильнюс"],
+  ["3", "Мы", "принимаем и проверяем"],
+  ["4", "Фура", "раз в неделю уходит в РФ"],
+  ["5", "Доставка", "до двери в РФ + таможня"],
+];
+
+const warehouseAudiences = [
+  {
+    icon: ShoppingCart,
+    title: "Несколько поставщиков",
+    text: "Закупаетесь у 3-5 поставщиков в разных странах Европы. Мы собираем всё в Вильнюсе и везём одной машиной.",
+  },
+  {
+    icon: Package,
+    title: "Накопление перед отправкой",
+    text: "Поставщик отгружает партиями — мы храним на складе и отправляем когда накопится нужный объём.",
+  },
+  {
+    icon: Send,
+    title: "Регулярные поставки",
+    text: "Возите товар из Европы регулярно — склад становится вашей постоянной точкой консолидации.",
+  },
+];
+
+const warehouseAdvantages = [
+  "Не нужно самому ехать в Европу за товаром",
+  "Один адрес для всех ваших поставщиков в ЕС",
+  "Экономия на логистике — один рейс вместо нескольких",
+  "Проверка товара до отправки в РФ — брак остаётся в Европе",
+  "Фура каждую неделю — не ждёте накопления месяцами",
+];
+
+const warehouseFaq = [
+  [
+    "Сколько стоит хранение на складе в Вильнюсе?",
+    "Стоимость зависит от объёма, веса, срока хранения и операций на складе: приёмка, проверка, маркировка, консолидация. Посчитаем условия после описания груза.",
+  ],
+  [
+    "Как долго можно хранить груз?",
+    "Можно хранить до накопления нужного объёма или до ближайшей отправки. Для регулярных поставок согласуем постоянные условия хранения.",
+  ],
+  [
+    "Что если поставщик повредит товар при отгрузке?",
+    "Мы фиксируем состояние груза при приёмке и сообщаем вам до отправки в РФ. Так проблему можно решить с поставщиком пока товар ещё в Европе.",
+  ],
+  [
+    "Можно ли отправлять грузы от разных поставщиков?",
+    "Да. Это главный смысл склада в Вильнюсе: принять партии от разных поставщиков ЕС, объединить их и отправить одной машиной.",
+  ],
+  [
+    "Как я узнаю что мой груз прибыл на склад?",
+    "После приёмки менеджер подтверждает прибытие, сообщает статус, комплектность и следующий шаг по консолидации или отправке.",
+  ],
+];
+
+const fullTruckStats = [
+  ["20 тонн", "грузоподъёмность фуры"],
+  ["любая страна ЕС", "откуда везём"],
+  ["под ключ", "таможня включена"],
+];
+
+const fullTruckTriggers = [
+  {
+    icon: Package,
+    title: "Большой объём",
+    text: "У вас больше 3-5 тонн товара — сборный груз уже невыгоден. Полная фура дешевле на единицу веса.",
+  },
+  {
+    icon: Zap,
+    title: "Срочная доставка",
+    text: "Сборный груз ждёт пока машина заполнится. Полная фура едет сразу как только загружена.",
+  },
+  {
+    icon: Factory,
+    title: "Крупная закупка",
+    text: "Разовая большая партия товара — оборудование, сезонный товар, новая коллекция.",
+  },
+];
+
+const fullTruckCargoTypes = [
+  {
+    icon: Truck,
+    title: "Стандартная фура",
+    text: "До 20 тонн, 82 куба. Любые товары народного потребления, стройматериалы, оборудование.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Рефрижератор",
+    text: "Температурный режим от -20 до +12. Продукты питания, косметика, фармацевтика.",
+  },
+  {
+    icon: Wrench,
+    title: "Негабарит",
+    text: "Станки, промышленное оборудование, крупногабаритные грузы. Специальный транспорт.",
+  },
+];
+
+const fullTruckSteps = [
+  ["1", "Заявка", "говорите откуда и что"],
+  ["2", "Расчёт", "за 3 часа считаем цену"],
+  ["3", "Машина", "подаётся к поставщику"],
+  ["4", "Загрузка", "у поставщика в Европе"],
+  ["5", "Доставка", "до двери в РФ + таможня"],
+];
+
+const fullTruckAdvantages = [
+  "Своя сеть перевозчиков в Европе — не ищем машину неделями",
+  "Маршрут через Беларусь — официально, без серых схем",
+  "Таможня включена — никаких доплат на границе",
+  "Отслеживание груза — знаете где машина в любой момент",
+  "Страхование — груз застрахован на весь маршрут",
+  "Опыт с негабаритом — везли станки весом 100+ тонн",
+];
+
+const fullTruckFaq = [
+  [
+    "Сколько стоит перевезти полную фуру из Европы?",
+    "Цена зависит от страны забора, маршрута, веса, объёма, типа машины, документов и таможенного оформления. Первичный расчёт готовим за 3 часа.",
+  ],
+  [
+    "Как быстро подадите машину к поставщику?",
+    "По стандартным направлениям обычно подбираем машину быстро. Точный срок зависит от страны, даты загрузки, типа кузова и требований к грузу.",
+  ],
+  [
+    "Что если поставщик в труднодоступном месте?",
+    "Проверим адрес, подъезд, ограничения по транспорту и подберём машину под точку загрузки. При необходимости согласуем отдельный забор до магистрального маршрута.",
+  ],
+  [
+    "Можно ли перевезти негабаритный груз?",
+    "Да. Организуем спецтранспорт, разрешения, маршрут, сопровождение, таможенное оформление и доставку до площадки получателя.",
+  ],
+  [
+    "Как застраховать груз при перевозке?",
+    "Страхование включаем в схему перевозки по стоимости груза и маршруту. Условия фиксируем до подачи машины.",
+  ],
+];
+
 function Header() {
   return (
     <header className="site-header">
@@ -175,7 +565,7 @@ function Header() {
         </span>
         <span>
           <strong>BelTransit</strong>
-          <small>Europe freight desk</small>
+          <small>Транспортная логистика</small>
         </span>
       </a>
       <nav className="main-nav" aria-label="Основная навигация">
@@ -204,7 +594,10 @@ function Header() {
   );
 }
 
-function RouteMap() {
+const routePath =
+  "M98 291 C174 214 222 169 310 184 C382 196 416 104 482 128 C552 153 579 234 638 203";
+
+function RouteMap({ showTruck = false }) {
   return (
     <div className="route-map" aria-hidden="true">
       <svg viewBox="0 0 760 430" role="img">
@@ -223,12 +616,28 @@ function RouteMap() {
         <rect width="760" height="430" fill="url(#grid)" />
         <path
           className="map-line ghost"
-          d="M98 291 C174 214 222 169 310 184 C382 196 416 104 482 128 C552 153 579 234 638 203"
+          d={routePath}
         />
+        <path id="route-motion-path" d={routePath} fill="none" opacity="0" />
         <path
           className="map-line live"
-          d="M98 291 C174 214 222 169 310 184 C382 196 416 104 482 128 C552 153 579 234 638 203"
+          d={routePath}
         />
+        {showTruck && (
+          <g className="route-truck">
+            <g className="truck-art">
+              <path className="truck-body" d="M-20 -14 H6 Q10 -14 10 -10 V8 H-20 Q-23 8 -23 5 V-10 Q-23 -14 -20 -14Z" />
+              <path className="truck-cab" d="M10 -9 H21 L28 1 V8 H10Z" />
+              <path className="truck-window" d="M15 -6 H20 L24 0 H15Z" />
+              <path className="truck-accent" d="M-16 -9 H2" />
+              <path className="truck-base" d="M-23 8 H30" />
+              <circle className="truck-wheel" cx="-11" cy="9" r="5.2" />
+              <circle className="truck-wheel" cx="20" cy="9" r="5.2" />
+              <circle className="truck-hub" cx="-11" cy="9" r="2" />
+              <circle className="truck-hub" cx="20" cy="9" r="2" />
+            </g>
+          </g>
+        )}
         <g className="map-node node-eu" filter="url(#glow)">
           <circle cx="98" cy="291" r="9" />
           <text x="76" y="326">Европа</text>
@@ -251,7 +660,7 @@ function RouteMap() {
 function Hero() {
   return (
     <section className="hero">
-      <RouteMap />
+      <RouteMap showTruck />
       <div className="hero-inner">
         <div className="hero-copy">
           <span className="eyebrow">Склад в Вильнюсе · выкуп · таможня · РФ</span>
@@ -350,12 +759,12 @@ function Services() {
       </div>
       <div className="service-grid">
         {services.map(({ icon: Icon, title, text, href }) => (
-          <article className="service-card" key={title}>
+          <a className="service-card" href={href} key={title}>
             <Icon size={28} />
             <h3>{title}</h3>
             <p>{text}</p>
-            <a href={href}>Подробнее</a>
-          </article>
+            <span>Подробнее</span>
+          </a>
         ))}
       </div>
     </section>
@@ -498,17 +907,21 @@ function RequestForm() {
 function ServicePageHero() {
   return (
     <section className="page-hero">
-      <RouteMap />
-      <div className="page-hero-inner">
-        <span className="eyebrow">Сборные грузы · Европа → Вильнюс → Россия</span>
-        <h1>Сборные грузы из Европы в Россию — от 500 кг, склад в Вильнюсе</h1>
-        <p>
-          Собираем грузы от разных поставщиков на нашем складе в Вильнюсе и везём одной машиной.
-          Быстро, дёшево, под ключ.
-        </p>
-        <a className="button button-primary" href="#groupage-request">
-          Рассчитать стоимость <ArrowRight size={18} />
-        </a>
+      <div className="page-hero-shell">
+        <div className="page-hero-inner">
+          <span className="eyebrow">Сборные грузы · Европа → Вильнюс → Россия</span>
+          <h1>Сборные грузы из Европы в Россию — от 500 кг, склад в Вильнюсе</h1>
+          <p>
+            Собираем грузы от разных поставщиков на нашем складе в Вильнюсе и везём одной машиной.
+            Быстро, дёшево, под ключ.
+          </p>
+          <a className="button button-primary" href="#groupage-request">
+            Рассчитать стоимость <ArrowRight size={18} />
+          </a>
+        </div>
+        <div className="page-route-card" aria-hidden="true">
+          <RouteMap />
+        </div>
       </div>
     </section>
   );
@@ -636,16 +1049,24 @@ function GroupageCase() {
         <h2>Пример реальной доставки</h2>
       </div>
       <article className="featured-case">
-        <div>
+        <div className="featured-case-head">
           <span className="case-number">01</span>
           <h3>Автозапчасти из Германии, 1.8 тонны</h3>
+          <div className="case-facts">
+            <span>Германия</span>
+            <span>1.8 тонны</span>
+            <span>11 дней</span>
+            <span>Москва</span>
+          </div>
         </div>
-        <p>
-          Клиент — оптовик из Москвы. Нашёл поставщика в Германии, но не знал как привезти. Мы
-          выкупили товар, собрали на складе в Вильнюсе вместе с другими грузами, растаможили и
-          доставили за 11 дней.
-        </p>
-        <blockquote>Думал это будет сложно — оказалось проще чем заказать на Авито</blockquote>
+        <div className="featured-case-body">
+          <p>
+            Клиент — оптовик из Москвы. Нашёл поставщика в Германии, но не знал как привезти. Мы
+            выкупили товар, собрали на складе в Вильнюсе вместе с другими грузами, растаможили и
+            доставили за 11 дней.
+          </p>
+          <blockquote>Думал это будет сложно — оказалось проще чем заказать на Авито</blockquote>
+        </div>
       </article>
     </section>
   );
@@ -721,6 +1142,963 @@ function GroupagePage() {
   );
 }
 
+function BuyoutHero() {
+  return (
+    <section className="page-hero buyout-hero">
+      <div className="page-hero-shell">
+        <div className="page-hero-inner">
+          <span className="eyebrow">Выкуп товаров · Европа → Россия</span>
+          <h1>Выкуп товаров у европейских поставщиков — мы платим вместо вас</h1>
+          <p>
+            Не можете оплатить поставщику из России? Мы выкупаем товар в Европе от вашего имени и
+            доставляем в Россию под ключ.
+          </p>
+          <a className="button button-primary" href="#buyout-request">
+            Обсудить выкуп <ArrowRight size={18} />
+          </a>
+        </div>
+        <div className="buyout-visual" aria-hidden="true">
+          <div className="bridge-side bridge-side-left">
+            <span>Вы</span>
+            <strong>передаёте счёт</strong>
+          </div>
+          <div className="bridge-center">
+            <span>BelTransit</span>
+            <strong>выкупает товар и ведёт доставку</strong>
+          </div>
+          <div className="bridge-side bridge-side-right">
+            <span>Поставщик</span>
+            <strong>получает оплату в Европе</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BuyoutStats() {
+  return (
+    <section className="service-stats buyout-stats" aria-label="Показатели выкупа товаров">
+      {buyoutStats.map(([value, label]) => (
+        <div className="service-stat" key={value}>
+          <strong>{value}</strong>
+          <span>{label}</span>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function BuyoutProblem() {
+  return (
+    <section className="section buyout-problem-section">
+      <div className="section-heading">
+        <span className="eyebrow">Проблема</span>
+        <h2>Знакомая ситуация?</h2>
+      </div>
+      <div className="pain-grid">
+        {buyoutPainPoints.map(({ icon: Icon, title, text }) => (
+          <article className="pain-card" key={title}>
+            <Icon size={30} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+      <p className="problem-result">Мы решаем все три проблемы сразу.</p>
+    </section>
+  );
+}
+
+function BuyoutProcess() {
+  return (
+    <section className="section process-section buyout-process">
+      <div className="section-heading">
+        <span className="eyebrow">Схема сделки</span>
+        <h2>Как мы выкупаем — 5 шагов</h2>
+      </div>
+      <div className="process-track process-track-five">
+        {buyoutSteps.map(([num, title, text]) => (
+          <article className="process-step" key={num}>
+            <span>{num}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function BuyoutAudience() {
+  return (
+    <section className="section audience-service-section buyout-audience">
+      <div className="section-heading">
+        <span className="eyebrow">Для кого</span>
+        <h2>Кому подходит</h2>
+      </div>
+      <div className="service-audience-grid">
+        {buyoutAudiences.map(({ icon: Icon, title, text }) => (
+          <article className="service-audience-card" key={title}>
+            <Icon size={30} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function BuyoutSafety() {
+  return (
+    <section className="section why-section groupage-why buyout-safety">
+      <div className="section-heading">
+        <span className="eyebrow">Безопасность</span>
+        <h2>Почему вам можно нам доверять</h2>
+      </div>
+      <div className="advantage-list">
+        {buyoutAdvantages.map((item) => (
+          <div className="advantage-item" key={item}>
+            <span>
+              <Check size={18} />
+            </span>
+            <p>{item}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function BuyoutCase() {
+  return (
+    <section className="section featured-case-section buyout-case-section">
+      <div className="section-heading">
+        <span className="eyebrow">Кейс</span>
+        <h2>Пример реального выкупа</h2>
+      </div>
+      <article className="featured-case">
+        <div className="featured-case-head">
+          <span className="case-number">01</span>
+          <h3>Бытовая техника из Германии, €45,000</h3>
+          <div className="case-facts">
+            <span>Германия</span>
+            <span>€45,000</span>
+            <span>14 дней</span>
+            <span>Москва</span>
+          </div>
+        </div>
+        <div className="featured-case-body">
+          <p>
+            Клиент работал с немецким поставщиком 5 лет. После 2022 года платежи перестали
+            проходить. Мы выкупили партию от своего имени, доставили на склад в Вильнюсе,
+            растаможили и довезли в Москву за 14 дней.
+          </p>
+          <blockquote>Думали что потеряли поставщика навсегда — оказалось всё решаемо</blockquote>
+        </div>
+      </article>
+    </section>
+  );
+}
+
+function BuyoutFaq() {
+  return (
+    <section className="section faq-section">
+      <div className="section-heading">
+        <span className="eyebrow">FAQ</span>
+        <h2>Частые вопросы</h2>
+      </div>
+      <div className="faq-list">
+        {buyoutFaq.map(([question, answer], index) => (
+          <details className="faq-item" key={question} open={index === 0}>
+            <summary>{question}</summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function BuyoutFinalCta() {
+  return (
+    <section className="section request-section" id="buyout-request">
+      <div className="request-copy">
+        <span className="eyebrow">Заявка</span>
+        <h2>Есть поставщик в Европе? Давайте обсудим</h2>
+        <p>Расскажите, где находится поставщик, что покупаете и на какую сумму. Мы оценим схему выкупа и доставки.</p>
+      </div>
+      <form className="request-form">
+        <label>
+          <span>Страна поставщика</span>
+          <input type="text" name="supplier-country" placeholder="Германия / Польша / Италия" />
+        </label>
+        <label>
+          <span>Тип товара</span>
+          <input type="text" name="cargo" placeholder="Что покупаете" />
+        </label>
+        <label>
+          <span>Примерная сумма закупки</span>
+          <input type="text" name="amount" placeholder="€ / $" />
+        </label>
+        <label>
+          <span>Телефон / Telegram</span>
+          <input type="text" name="contact" placeholder="+7..." />
+        </label>
+        <button className="button button-primary" type="submit">
+          Обсудить выкуп <Send size={18} />
+        </button>
+        <small>Ответим в течение 2 часов</small>
+      </form>
+    </section>
+  );
+}
+
+function BuyoutPage() {
+  return (
+    <>
+      <BuyoutHero />
+      <BuyoutStats />
+      <BuyoutProblem />
+      <BuyoutProcess />
+      <BuyoutAudience />
+      <BuyoutSafety />
+      <BuyoutCase />
+      <BuyoutFaq />
+      <BuyoutFinalCta />
+    </>
+  );
+}
+
+function PartnerHero() {
+  return (
+    <section className="page-hero partner-hero">
+      <div className="page-hero-shell">
+        <div className="page-hero-inner">
+          <span className="eyebrow">Партнёрство для логистов · Вильнюс → РФ</span>
+          <h1>Надёжный партнёр в Вильнюсе для российских логистов и экспедиторов</h1>
+          <p>
+            Берём ваши грузы на себя в Европе — склад, выкуп, таможня, доставка в РФ. Работаем как
+            субподрядчик, без конкуренции за вашего клиента.
+          </p>
+          <a className="button button-primary" href="#partner-request">
+            Обсудить партнёрство <ArrowRight size={18} />
+          </a>
+        </div>
+        <div className="partner-hero-board" aria-hidden="true">
+          <div className="partner-board-card partner-board-card-main">
+            <span>Ваш клиент</span>
+            <strong>остаётся вашим</strong>
+          </div>
+          <div className="partner-hero-note">
+            <ShieldCheck size={22} />
+            <span>Мы закрываем европейскую часть и не выходим на прямой контакт.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PartnerStats() {
+  return (
+    <section className="service-stats partner-stats" aria-label="Показатели партнёрства">
+      {partnerStats.map(([value, label]) => (
+        <div className="service-stat" key={value}>
+          <strong>{value}</strong>
+          <span>{label}</span>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function PartnerAudience() {
+  return (
+    <section className="section audience-service-section partner-audience">
+      <div className="section-heading">
+        <span className="eyebrow">Для кого</span>
+        <h2>Вы логист или экспедитор из России?</h2>
+      </div>
+      <div className="service-audience-grid">
+        {partnerAudiences.map(({ icon: Icon, title, text }) => (
+          <article className="service-audience-card" key={title}>
+            <Icon size={30} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function PartnerScheme() {
+  return (
+    <section className="section partner-scheme-section">
+      <div className="section-heading">
+        <span className="eyebrow">Модель работы</span>
+        <h2>Ваш клиент остаётся вашим — мы выполняем работу в Европе</h2>
+      </div>
+      <div className="partner-scheme-flow">
+        <div className="partner-scheme-step">
+          <span>01</span>
+          <strong>Вы ведёте клиента</strong>
+          <small>ставка, бренд и отношения остаются на вашей стороне</small>
+        </div>
+        <i />
+        <div className="partner-scheme-step">
+          <span>02</span>
+          <strong>BelTransit закрывает Европу</strong>
+          <small>склад в Вильнюсе, выкуп, таможня и доставка в РФ</small>
+        </div>
+        <i />
+        <div className="partner-scheme-step">
+          <span>03</span>
+          <strong>Клиент получает результат от вас</strong>
+          <small>мы не выходим на прямой контакт и работаем как субподрядчик</small>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PartnerBenefits() {
+  return (
+    <section className="section section-ink partner-benefits">
+      <div className="section-heading">
+        <span className="eyebrow">Операционный контур</span>
+        <h2>Что получаете при работе с нами</h2>
+      </div>
+      <div className="service-grid">
+        {partnerBenefits.map(({ icon: Icon, title, text }) => (
+          <article className="service-card partner-benefit-card" key={title}>
+            <Icon size={28} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function PartnerProcess() {
+  return (
+    <section className="section process-section partner-process">
+      <div className="section-heading">
+        <span className="eyebrow">Схема входа</span>
+        <h2>Как мы работаем с партнёрами</h2>
+      </div>
+      <div className="process-track process-track-five partner-process-track">
+        {partnerSteps.map(([num, title, text]) => (
+          <article className="process-step" key={num}>
+            <span>{num}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function PartnerWhy() {
+  return (
+    <section className="section why-section groupage-why partner-why">
+      <div className="section-heading">
+        <span className="eyebrow">Удобно для вашей цепочки</span>
+        <h2>Почему с нами удобно работать</h2>
+      </div>
+      <div className="advantage-list">
+        {partnerReasons.map((item) => (
+          <div className="advantage-item" key={item}>
+            <span>
+              <Check size={18} />
+            </span>
+            <p>{item}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function PartnerTestimonials() {
+  return (
+    <section className="section partner-testimonials">
+      <div className="section-heading">
+        <span className="eyebrow">Отзывы</span>
+        <h2>Отзывы партнёров</h2>
+      </div>
+      <div className="partner-testimonial-grid">
+        {partnerTestimonials.map((item) => (
+          <article className="partner-testimonial" key={item.role}>
+            <blockquote>{item.text}</blockquote>
+            <strong>{item.role}</strong>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function PartnerFaq() {
+  return (
+    <section className="section faq-section partner-faq">
+      <div className="section-heading">
+        <span className="eyebrow">FAQ</span>
+        <h2>Частые вопросы</h2>
+      </div>
+      <div className="faq-list">
+        {partnerFaq.map(([question, answer], index) => (
+          <details className="faq-item" key={question} open={index === 0}>
+            <summary>{question}</summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function PartnerFinalCta() {
+  return (
+    <section className="section request-section partner-request-section" id="partner-request">
+      <div className="request-copy">
+        <span className="eyebrow">Партнёрский созвон</span>
+        <h2>Давайте познакомимся — 15 минут созвона</h2>
+        <p>Расскажите про поток грузов и текущие маршруты. Мы покажем, где можем закрыть склад, выкуп, таможню и доставку.</p>
+      </div>
+      <form className="request-form">
+        <label>
+          <span>Ваша компания и роль</span>
+          <input type="text" name="company-role" placeholder="Компания / должность" />
+        </label>
+        <label>
+          <span>Примерный объём грузов в месяц</span>
+          <input type="text" name="monthly-volume" placeholder="Например: 4-6 отправок" />
+        </label>
+        <label>
+          <span>Откуда чаще всего везёте</span>
+          <input type="text" name="routes" placeholder="Германия / Польша / Италия" />
+        </label>
+        <label>
+          <span>Телефон / Telegram</span>
+          <input type="text" name="contact" placeholder="+7..." />
+        </label>
+        <button className="button button-primary" type="submit">
+          Обсудить партнёрство <Send size={18} />
+        </button>
+        <small>Ответим в течение 2 часов</small>
+      </form>
+    </section>
+  );
+}
+
+function PartnersPage() {
+  return (
+    <>
+      <PartnerHero />
+      <PartnerStats />
+      <PartnerAudience />
+      <PartnerScheme />
+      <PartnerBenefits />
+      <PartnerProcess />
+      <PartnerWhy />
+      <PartnerTestimonials />
+      <PartnerFaq />
+      <PartnerFinalCta />
+    </>
+  );
+}
+
+function WarehouseHero() {
+  return (
+    <section className="page-hero warehouse-hero">
+      <div className="page-hero-shell">
+        <div className="page-hero-inner">
+          <span className="eyebrow">Склад в Вильнюсе · консолидация ЕС → РФ</span>
+          <h1>Наш склад в Вильнюсе — сердце вашей логистики из Европы</h1>
+          <p>
+            Принимаем грузы от любых поставщиков Европы, консолидируем и отправляем в Россию.
+            Физический актив — не посредник.
+          </p>
+          <a className="button button-primary" href="#warehouse-request">
+            Узнать стоимость хранения <ArrowRight size={18} />
+          </a>
+        </div>
+        <div className="warehouse-hero-board" aria-hidden="true">
+          <div className="warehouse-board-main">
+            <Building2 size={34} />
+            <span>BelTransit</span>
+            <strong>Склад Вильнюс</strong>
+          </div>
+          <div className="warehouse-board-flow">
+            <span>Поставщики ЕС</span>
+            <i />
+            <span>консолидация</span>
+            <i />
+            <span>Россия</span>
+          </div>
+          <div className="warehouse-board-grid">
+            <div>приёмка</div>
+            <div>проверка</div>
+            <div>отправка</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function WarehouseStats() {
+  return (
+    <section className="service-stats warehouse-stats" aria-label="Показатели склада в Вильнюсе">
+      {warehouseStats.map(([value, label]) => (
+        <div className="service-stat" key={value}>
+          <strong>{value}</strong>
+          <span>{label}</span>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function WarehouseReasons() {
+  return (
+    <section className="section warehouse-reasons">
+      <div className="section-heading">
+        <span className="eyebrow">Локация решает</span>
+        <h2>Почему именно Вильнюс — это важно</h2>
+      </div>
+      <div className="service-audience-grid">
+        {warehouseReasons.map(({ icon: Icon, title, text }) => (
+          <article className="service-audience-card" key={title}>
+            <Icon size={30} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WarehouseOperations() {
+  return (
+    <section className="section section-ink warehouse-operations">
+      <div className="section-heading">
+        <span className="eyebrow">Операции склада</span>
+        <h2>Что происходит на складе</h2>
+      </div>
+      <div className="service-grid">
+        {warehouseServices.map(({ icon: Icon, title, text }) => (
+          <article className="service-card warehouse-service-card" key={title}>
+            <Icon size={28} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WarehouseProcess() {
+  return (
+    <section className="section process-section warehouse-process">
+      <div className="section-heading">
+        <span className="eyebrow">Схема работы через склад</span>
+        <h2>Схема работы через склад</h2>
+      </div>
+      <div className="process-track process-track-five warehouse-process-track">
+        {warehouseSteps.map(([num, title, text]) => (
+          <article className="process-step" key={num}>
+            <span>{num}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WarehouseAudience() {
+  return (
+    <section className="section audience-service-section warehouse-audience">
+      <div className="section-heading">
+        <span className="eyebrow">Для кого</span>
+        <h2>Кому нужен склад в Вильнюсе</h2>
+      </div>
+      <div className="service-audience-grid">
+        {warehouseAudiences.map(({ icon: Icon, title, text }) => (
+          <article className="service-audience-card" key={title}>
+            <Icon size={30} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WarehouseAdvantages() {
+  return (
+    <section className="section why-section groupage-why warehouse-advantages">
+      <div className="section-heading">
+        <span className="eyebrow">Экономика маршрута</span>
+        <h2>Почему это выгоднее чем работать напрямую</h2>
+      </div>
+      <div className="advantage-list">
+        {warehouseAdvantages.map((item) => (
+          <div className="advantage-item" key={item}>
+            <span>
+              <Check size={18} />
+            </span>
+            <p>{item}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WarehouseCase() {
+  return (
+    <section className="section featured-case-section warehouse-case-section">
+      <div className="section-heading">
+        <span className="eyebrow">Кейс</span>
+        <h2>Пример работы через склад</h2>
+      </div>
+      <article className="featured-case">
+        <div className="featured-case-head">
+          <span className="case-number">01</span>
+          <h3>Стройматериалы из Польши и Германии, 3 поставщика</h3>
+          <div className="case-facts">
+            <span>Польша</span>
+            <span>Германия</span>
+            <span>3 поставщика</span>
+            <span>Москва</span>
+          </div>
+        </div>
+        <div className="featured-case-body">
+          <p>
+            Клиент закупался у трёх разных поставщиков в Европе. Раньше организовывал три
+            отдельные отправки — дорого и долго. Теперь все три поставщика отгружают на наш склад
+            в Вильнюсе. Раз в две недели одна фура едет в Москву.
+          </p>
+          <blockquote>Логистические расходы упали на 30% в первый же месяц</blockquote>
+        </div>
+      </article>
+    </section>
+  );
+}
+
+function WarehouseFaq() {
+  return (
+    <section className="section faq-section warehouse-faq">
+      <div className="section-heading">
+        <span className="eyebrow">FAQ</span>
+        <h2>Частые вопросы</h2>
+      </div>
+      <div className="faq-list">
+        {warehouseFaq.map(([question, answer], index) => (
+          <details className="faq-item" key={question} open={index === 0}>
+            <summary>{question}</summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WarehouseFinalCta() {
+  return (
+    <section className="section request-section warehouse-request-section" id="warehouse-request">
+      <div className="request-copy">
+        <span className="eyebrow">Заявка на склад</span>
+        <h2>Хотите использовать наш склад в Вильнюсе?</h2>
+        <p>Опишите поставщиков, объём и частоту отправки. Мы предложим условия хранения, консолидации и рейса в РФ.</p>
+      </div>
+      <form className="request-form">
+        <label>
+          <span>Из каких стран ваши поставщики</span>
+          <input type="text" name="supplier-countries" placeholder="Германия / Польша / Италия" />
+        </label>
+        <label>
+          <span>Примерный объём в месяц</span>
+          <input type="text" name="monthly-volume" placeholder="Паллеты / м3 / кг" />
+        </label>
+        <label>
+          <span>Как часто нужна отправка</span>
+          <input type="text" name="shipping-frequency" placeholder="Раз в неделю / раз в две недели" />
+        </label>
+        <label>
+          <span>Телефон / Telegram</span>
+          <input type="text" name="contact" placeholder="+7..." />
+        </label>
+        <button className="button button-primary" type="submit">
+          Обсудить условия <Send size={18} />
+        </button>
+        <small>Ответим в течение 2 часов</small>
+      </form>
+    </section>
+  );
+}
+
+function WarehousePage() {
+  return (
+    <>
+      <WarehouseHero />
+      <WarehouseStats />
+      <WarehouseReasons />
+      <WarehouseOperations />
+      <WarehouseProcess />
+      <WarehouseAudience />
+      <WarehouseAdvantages />
+      <WarehouseCase />
+      <WarehouseFaq />
+      <WarehouseFinalCta />
+    </>
+  );
+}
+
+function FullTruckHero() {
+  return (
+    <section className="page-hero fulltruck-hero">
+      <div className="page-hero-shell">
+        <div className="page-hero-inner">
+          <span className="eyebrow">FTL · контейнеры · Европа → Россия</span>
+          <h1>Полные фуры и контейнеры из Европы в Россию — когда объём большой</h1>
+          <p>
+            Организуем перевозку полной фуры или контейнера от поставщика в Европе до двери в
+            России. Таможня, документы, страховка — всё включено.
+          </p>
+          <a className="button button-primary" href="#fulltruck-request">
+            Рассчитать стоимость фуры <ArrowRight size={18} />
+          </a>
+        </div>
+        <div className="fulltruck-hero-board" aria-hidden="true">
+          <div className="fulltruck-vehicle">
+            <div className="fulltruck-trailer">
+              <span>FTL</span>
+              <strong>20 т</strong>
+              <small>82 куба</small>
+            </div>
+            <div className="fulltruck-cab">
+              <Truck size={38} />
+            </div>
+            <div className="fulltruck-wheel fulltruck-wheel-one" />
+            <div className="fulltruck-wheel fulltruck-wheel-two" />
+            <div className="fulltruck-wheel fulltruck-wheel-three" />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FullTruckStats() {
+  return (
+    <section className="service-stats fulltruck-stats" aria-label="Показатели перевозки фур и контейнеров">
+      {fullTruckStats.map(([value, label]) => (
+        <div className="service-stat" key={value}>
+          <strong>{value}</strong>
+          <span>{label}</span>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function FullTruckTriggers() {
+  return (
+    <section className="section fulltruck-triggers">
+      <div className="section-heading">
+        <span className="eyebrow">Порог объёма</span>
+        <h2>Когда сборный груз уже не подходит</h2>
+      </div>
+      <div className="service-audience-grid">
+        {fullTruckTriggers.map(({ icon: Icon, title, text }) => (
+          <article className="service-audience-card" key={title}>
+            <Icon size={30} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function FullTruckCargoTypes() {
+  return (
+    <section className="section section-ink fulltruck-types">
+      <div className="section-heading">
+        <span className="eyebrow">Тип транспорта</span>
+        <h2>Типы грузов</h2>
+      </div>
+      <div className="service-audience-grid fulltruck-type-grid">
+        {fullTruckCargoTypes.map(({ icon: Icon, title, text }) => (
+          <article className="service-audience-card fulltruck-type-card" key={title}>
+            <Icon size={32} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function FullTruckProcess() {
+  return (
+    <section className="section process-section fulltruck-process">
+      <div className="section-heading">
+        <span className="eyebrow">Подача машины</span>
+        <h2>Как организуем перевозку</h2>
+      </div>
+      <div className="process-track process-track-five fulltruck-process-track">
+        {fullTruckSteps.map(([num, title, text]) => (
+          <article className="process-step" key={num}>
+            <span>{num}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function FullTruckAdvantages() {
+  return (
+    <section className="section why-section groupage-why fulltruck-advantages">
+      <div className="section-heading">
+        <span className="eyebrow">Контроль рейса</span>
+        <h2>Почему через нас</h2>
+      </div>
+      <div className="advantage-list">
+        {fullTruckAdvantages.map((item) => (
+          <div className="advantage-item" key={item}>
+            <span>
+              <Check size={18} />
+            </span>
+            <p>{item}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function FullTruckCase() {
+  return (
+    <section className="section featured-case-section fulltruck-case-section">
+      <div className="section-heading">
+        <span className="eyebrow">Кейс</span>
+        <h2>Пример перевозки полной фуры</h2>
+      </div>
+      <article className="featured-case">
+        <div className="featured-case-head">
+          <span className="case-number">01</span>
+          <h3>Промышленное оборудование из Германии, 5 негабаритных фур</h3>
+          <div className="case-facts">
+            <span>Германия</span>
+            <span>100+ тонн</span>
+            <span>5 фур</span>
+            <span>негабарит</span>
+          </div>
+        </div>
+        <div className="featured-case-body">
+          <p>
+            Клиент закупил производственную линию у немецкого производителя. Оборудование весило
+            более 100 тонн. Организовали специальный транспорт, все разрешения на негабаритный
+            груз, таможенное оформление и доставку до производства.
+          </p>
+          <blockquote>
+            Такой груз с улицы никому не доверишь — нас порекомендовали партнёры и мы не пожалели
+          </blockquote>
+        </div>
+      </article>
+    </section>
+  );
+}
+
+function FullTruckFaq() {
+  return (
+    <section className="section faq-section fulltruck-faq">
+      <div className="section-heading">
+        <span className="eyebrow">FAQ</span>
+        <h2>Частые вопросы</h2>
+      </div>
+      <div className="faq-list">
+        {fullTruckFaq.map(([question, answer], index) => (
+          <details className="faq-item" key={question} open={index === 0}>
+            <summary>{question}</summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function FullTruckFinalCta() {
+  return (
+    <section className="section request-section fulltruck-request-section" id="fulltruck-request">
+      <div className="request-copy">
+        <span className="eyebrow">Расчёт FTL</span>
+        <h2>Нужна фура из Европы?</h2>
+        <p>Укажите маршрут, товар, вес и объём. Мы проверим доступные машины, таможню и вернёмся со ставкой.</p>
+      </div>
+      <form className="request-form">
+        <label>
+          <span>Откуда забираем</span>
+          <input type="text" name="pickup" placeholder="Страна / город / адрес поставщика" />
+        </label>
+        <label>
+          <span>Что везём</span>
+          <input type="text" name="cargo" placeholder="Тип товара" />
+        </label>
+        <label>
+          <span>Примерный вес и объём</span>
+          <input type="text" name="weight-volume" placeholder="Тонны / м3 / паллеты" />
+        </label>
+        <label>
+          <span>Телефон / Telegram</span>
+          <input type="text" name="contact" placeholder="+7..." />
+        </label>
+        <button className="button button-primary" type="submit">
+          Рассчитать стоимость <Send size={18} />
+        </button>
+        <small>Считаем за 3 часа</small>
+      </form>
+    </section>
+  );
+}
+
+function FullTruckPage() {
+  return (
+    <>
+      <FullTruckHero />
+      <FullTruckStats />
+      <FullTruckTriggers />
+      <FullTruckCargoTypes />
+      <FullTruckProcess />
+      <FullTruckAdvantages />
+      <FullTruckCase />
+      <FullTruckFaq />
+      <FullTruckFinalCta />
+    </>
+  );
+}
+
 function HomePage() {
   return (
     <>
@@ -746,7 +2124,7 @@ function Footer() {
           </span>
           <span>
             <strong>BelTransit</strong>
-            <small>Europe freight desk</small>
+            <small>Транспортная логистика</small>
           </span>
         </a>
         <p>Доставка, выкуп и таможенное сопровождение грузов из Европы через Вильнюс.</p>
@@ -757,6 +2135,7 @@ function Footer() {
         <a href="/vykup-tovarov/">Выкуп товаров</a>
         <a href="/tamozhnoe-oformlenie/">Таможенное оформление</a>
         <a href="/sklad-vilnyus/">Склад в Вильнюсе</a>
+        <a href="/fury-konteynery/">Фуры и контейнеры</a>
       </div>
       <div>
         <h3>Контакты</h3>
@@ -785,17 +2164,44 @@ function Footer() {
 function App() {
   const path = window.location.pathname;
   const isGroupagePage = path === "/sbornye-gruzy/" || path === "/sbornye-gruzy";
+  const isBuyoutPage = path === "/vykup-tovarov/" || path === "/vykup-tovarov";
+  const isPartnersPage = path === "/dlya-logistov/" || path === "/dlya-logistov";
+  const isWarehousePage = path === "/sklad-vilnyus/" || path === "/sklad-vilnyus";
+  const isFullTruckPage = path === "/fury-konteynery/" || path === "/fury-konteynery";
+  const pageTitle = isGroupagePage
+    ? "Сборные грузы из Европы — BelTransit"
+    : isBuyoutPage
+      ? "Выкуп товаров в Европе — BelTransit"
+      : isPartnersPage
+        ? "Партнёрство для логистов — BelTransit"
+        : isWarehousePage
+          ? "Склад в Вильнюсе — BelTransit"
+          : isFullTruckPage
+            ? "Фуры и контейнеры из Европы — BelTransit"
+            : "BelTransit — доставка и выкуп грузов из Европы";
 
   React.useEffect(() => {
-    document.title = isGroupagePage
-      ? "Сборные грузы из Европы — BelTransit"
-      : "BelTransit — доставка и выкуп грузов из Европы";
-  }, [isGroupagePage]);
+    document.title = pageTitle;
+  }, [pageTitle]);
 
   return (
     <>
       <Header />
-      <main>{isGroupagePage ? <GroupagePage /> : <HomePage />}</main>
+      <main>
+        {isGroupagePage ? (
+          <GroupagePage />
+        ) : isBuyoutPage ? (
+          <BuyoutPage />
+        ) : isPartnersPage ? (
+          <PartnersPage />
+        ) : isWarehousePage ? (
+          <WarehousePage />
+        ) : isFullTruckPage ? (
+          <FullTruckPage />
+        ) : (
+          <HomePage />
+        )}
+      </main>
       <Footer />
     </>
   );
