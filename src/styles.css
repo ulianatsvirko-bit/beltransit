@@ -459,8 +459,8 @@ h1 small {
   filter:
     drop-shadow(0 0 8px rgba(255, 250, 240, 0.28))
     drop-shadow(0 3px 5px rgba(0, 0, 0, 0.28));
-  transform-box: view-box;
-  transform-origin: 0 0;
+  offset-path: path("M98 291 C174 214 222 169 310 184 C382 196 416 104 482 128 C552 153 579 234 638 203");
+  offset-rotate: auto;
   will-change: transform;
 }
 
@@ -519,28 +519,8 @@ h1 small {
 }
 
 @keyframes truck-drive {
-  0% {
-    transform: translate(98px, 291px) rotate(-36deg);
-  }
-
-  18% {
-    transform: translate(245px, 185px) rotate(-12deg);
-  }
-
-  38% {
-    transform: translate(392px, 148px) rotate(-42deg);
-  }
-
-  58% {
-    transform: translate(482px, 128px) rotate(24deg);
-  }
-
-  78% {
-    transform: translate(570px, 207px) rotate(20deg);
-  }
-
-  100% {
-    transform: translate(638px, 203px) rotate(-5deg);
+  to {
+    offset-distance: 100%;
   }
 }
 
