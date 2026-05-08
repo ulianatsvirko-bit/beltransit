@@ -251,6 +251,114 @@ const buyoutFaq = [
   ],
 ];
 
+const customsStats = [
+  ["12 лет", "опыт в таможне"],
+  ["0 задержек", "по вине оформления"],
+  ["под ключ", "все документы включены"],
+  ["РБ + РФ", "работаем в двух юрисдикциях"],
+];
+
+const customsPainPoints = [
+  {
+    icon: ClipboardCheck,
+    title: "Непонятные документы",
+    text: "CMR, инвойс, упаковочный лист, сертификаты — малейшая ошибка и груз стоит на границе.",
+  },
+  {
+    icon: CreditCard,
+    title: "Неожиданные платежи",
+    text: "Таможенная стоимость, пошлины, НДС, акцизы — без опыта невозможно посчитать заранее.",
+  },
+  {
+    icon: Zap,
+    title: "Задержки на границе",
+    text: "Груз застрял на таможне — поставщик ждёт оплаты, клиент ждёт товар, деньги заморожены.",
+  },
+];
+
+const customsServices = [
+  {
+    icon: FileText,
+    title: "Декларирование",
+    text: "Подаём декларацию от вашего имени.",
+  },
+  {
+    icon: CreditCard,
+    title: "Расчёт платежей",
+    text: "Считаем пошлины и НДС до отправки.",
+  },
+  {
+    icon: Settings,
+    title: "Классификация",
+    text: "Подбираем правильный код ТНВЭД под ваш товар.",
+  },
+  {
+    icon: ClipboardCheck,
+    title: "Документы",
+    text: "Проверяем и готовим весь пакет.",
+  },
+  {
+    icon: Building2,
+    title: "Представительство",
+    text: "Общаемся с таможней вместо вас.",
+  },
+  {
+    icon: Check,
+    title: "Выпуск",
+    text: "Добиваемся выпуска в максимально короткий срок.",
+  },
+];
+
+const customsSteps = [
+  ["1", "Документы", "Вы даёте документы на товар"],
+  ["2", "Платежи", "Мы считаем пошлины заранее"],
+  ["3", "Пакет", "Готовим и проверяем документы"],
+  ["4", "Декларация", "Подаём декларацию на таможне"],
+  ["5", "Выпуск", "Груз выпущен и едет к вам"],
+];
+
+const customsAdvantages = [
+  "Знаем белорусскую таможню — работаем через РБ официально",
+  "Льготные ставки для ряда товаров через РБ — экономия до 18%",
+  "Считаем платежи до отправки — никаких сюрпризов",
+  "Правильный код ТНВЭД — минимальная легальная пошлина",
+  "Опыт с фито и ветгрузами — берём сложные категории",
+];
+
+const customsCargo = [
+  ["Автозапчасти", Settings],
+  ["Велосипеды", Bike],
+  ["Бытовая техника", Zap],
+  ["Инструменты и оборудование", Wrench],
+  ["Стройматериалы", Factory],
+  ["Сантехника", ShieldCheck],
+  ["Продукты питания (фито/вет)", Store],
+  ["Товары народного потребления", Package],
+];
+
+const customsFaq = [
+  [
+    "Сколько стоит таможенное оформление?",
+    "Стоимость зависит от товара, документов, страны происхождения, кода ТНВЭД и схемы ввоза. Первичный расчёт делаем по описанию партии.",
+  ],
+  [
+    "Как рассчитать таможенные пошлины заранее?",
+    "Нужны тип товара, стоимость партии, страна происхождения и документы поставщика. По этим данным считаем пошлины, НДС и возможные доплаты до отправки.",
+  ],
+  [
+    "Что такое ТНВЭД и почему это важно?",
+    "ТНВЭД — код товара для таможни. От него зависят ставка пошлины, требования к документам и риск задержки на выпуске.",
+  ],
+  [
+    "Можно ли растаможить товар через Беларусь?",
+    "Да, мы работаем через Беларусь официально и заранее проверяем, подходит ли такая схема под ваш товар и документы.",
+  ],
+  [
+    "Что будет если документы окажутся неправильными?",
+    "Мы проверяем пакет до отправки. Если видим риск, просим поставщика исправить документы заранее, чтобы груз не завис на границе.",
+  ],
+];
+
 const partnerStats = [
   ["12 лет", "на рынке"],
   ["60%", "клиентов — логисты и посредники"],
@@ -556,6 +664,263 @@ const fullTruckFaq = [
   ],
 ];
 
+const generalFaqCategories = [
+  {
+    icon: Package,
+    title: "Сборные грузы",
+    questions: [
+      [
+        "Какой минимальный вес для сборного груза?",
+        "От 500 кг. Меньше не берём — экономически нецелесообразно для обеих сторон.",
+      ],
+      [
+        "Как часто уходит фура из Вильнюса в Россию?",
+        "Раз в неделю. Если ваш груз поступил на склад в понедельник — уже в следующую пятницу едет.",
+      ],
+      [
+        "Можно ли собрать груз от нескольких поставщиков в разных странах?",
+        "Да. Принимаем от любых поставщиков в ЕС на склад в Вильнюсе и везём одной отправкой.",
+      ],
+      [
+        "Что если мой груз не заполняет даже минимум 500 кг?",
+        "Напишите нам — иногда делаем исключения или помогаем дождаться следующей партии.",
+      ],
+    ],
+  },
+  {
+    icon: ShoppingCart,
+    title: "Выкуп товаров",
+    questions: [
+      [
+        "Как вы оплачиваете поставщику в Европе?",
+        "У нас есть европейские счета и карты. Платим поставщику в евро от имени нашей литовской компании.",
+      ],
+      [
+        "Поставщик не хочет работать с посредником — что делать?",
+        "Частая ситуация. Представляемся как европейская логистическая компания — большинство поставщиков соглашаются.",
+      ],
+      [
+        "Какая минимальная сумма для выкупа?",
+        "От €2,000. Меньше нецелесообразно с учётом комиссии за выкуп.",
+      ],
+      [
+        "Как я буду уверен что вы не исчезнете с деньгами?",
+        "Работаем по договору. Оплата поэтапная — никогда не берём 100% предоплату. Плюс 14 лет на рынке — репутация дороже.",
+      ],
+    ],
+  },
+  {
+    icon: ClipboardCheck,
+    title: "Таможня",
+    questions: [
+      [
+        "Сколько стоит таможенное оформление?",
+        "Зависит от типа товара и стоимости партии. Считаем индивидуально — напишите нам параметры груза.",
+      ],
+      [
+        "Можно ли растаможить товар через Беларусь?",
+        "Да, именно так и работаем. Таможенное оформление в РБ — официально, легально, с полным пакетом документов.",
+      ],
+      [
+        "Есть ли льготы по таможне для определённых товаров?",
+        "Да. Для ряда категорий через РБ ставки ниже чем при прямом ввозе в РФ. Экономия до 18% на таможенных платежах.",
+      ],
+      [
+        "Что такое ТНВЭД и зачем это важно?",
+        "Код товарной номенклатуры — определяет размер пошлины. Неправильный код = переплата или штраф. Мы подбираем оптимальный код легально.",
+      ],
+    ],
+  },
+  {
+    icon: Truck,
+    title: "Доставка и сроки",
+    questions: [
+      [
+        "Сколько времени занимает доставка из Европы в Россию?",
+        "Сборный груз — 7-14 дней. Полная фура — 7-10 дней. Зависит от страны отправления и города доставки в РФ.",
+      ],
+      [
+        "Доставляете по всей России?",
+        "Да. Москва, СПб, Екатеринбург, Новосибирск и другие города — везём до двери.",
+      ],
+      [
+        "Можно ли отслеживать груз в пути?",
+        "Да. Держим вас в курсе на каждом этапе — отправляем статусы в Telegram.",
+      ],
+      [
+        "Что если груз задержится на границе?",
+        "За 14 лет не было ни одной задержки по нашей вине. Если задержка по независящим причинам — сразу сообщаем и решаем.",
+      ],
+    ],
+  },
+  {
+    icon: CreditCard,
+    title: "Оплата и документы",
+    questions: [
+      [
+        "Как происходит оплата?",
+        "Предоплата 50% после подписания договора. Остаток — после доставки. Никогда не берём 100% вперёд.",
+      ],
+      [
+        "Какие документы вы передаёте по итогу?",
+        "CMR, таможенная декларация, инвойс, упаковочный лист — полный пакет для бухгалтерии.",
+      ],
+      [
+        "Работаете с юридическими лицами?",
+        "Да. Выставляем счета, подписываем договоры, предоставляем все закрывающие документы.",
+      ],
+      [
+        "В какой валюте оплата?",
+        "Принимаем в рублях, долларах и евро — обсуждаем индивидуально.",
+      ],
+    ],
+  },
+  {
+    icon: ShieldCheck,
+    title: "Безопасность и доверие",
+    questions: [
+      [
+        "Вы страхуете грузы?",
+        "Да. Груз застрахован на всём маршруте. При необходимости оформляем дополнительное страхование.",
+      ],
+      [
+        "Что если товар придёт повреждённым?",
+        "Проверяем груз на складе в Вильнюсе до отправки. Если повреждение произошло в пути — компенсируем через страховку.",
+      ],
+      [
+        "Какие товары вы не везёте?",
+        "Санкционные товары, одежду и обувь в больших объёмах (высокая пошлина делает это невыгодным), грузы вне маршрута Европа→РФ.",
+      ],
+      [
+        "Работаете ли вы с физическими лицами?",
+        "Нет. Только B2B — юридические лица и ИП.",
+      ],
+    ],
+  },
+];
+
+const workSteps = [
+  {
+    num: "1",
+    title: "Заявка",
+    text: "Оставляете заявку на сайте или пишете в Telegram. Указываете что везёте, откуда, примерный объём.",
+  },
+  {
+    num: "2",
+    title: "Расчёт",
+    text: "В течение 2 часов в рабочее время присылаем полный расчёт — стоимость доставки, таможенные платежи, сроки. Никаких скрытых доплат потом.",
+  },
+  {
+    num: "3",
+    title: "Договор",
+    text: "Подписываем договор. Фиксируем стоимость, сроки и ответственность сторон. Работаем только по договору.",
+  },
+  {
+    num: "4",
+    title: "Оплата",
+    text: "Предоплата 50% после подписания договора. Остаток — после доставки. Никогда не берём 100% вперёд.",
+  },
+  {
+    num: "5",
+    title: "Забираем груз",
+    text: "Забираем товар у вашего поставщика в Европе или принимаем на склад в Вильнюсе. Вы получаете подтверждение с фото.",
+  },
+  {
+    num: "6",
+    title: "Таможня и транспортировка",
+    text: "Оформляем таможенные документы, загружаем в фуру и везём в Россию. Вы видите статус груза.",
+  },
+  {
+    num: "7",
+    title: "Доставка",
+    text: "Груз прибывает в указанную точку в РФ. Передаём все документы. Подписываем акт — вы платите остаток.",
+  },
+];
+
+const workGuarantees = [
+  {
+    icon: ClipboardCheck,
+    title: "Договор",
+    text: "Каждая сделка оформляется договором. Стоимость зафиксирована — никаких доплат в процессе.",
+  },
+  {
+    icon: CreditCard,
+    title: "Поэтапная оплата",
+    text: "Никогда не берём 100% предоплату. Платите частями по мере выполнения работы.",
+  },
+  {
+    icon: FileText,
+    title: "Документы",
+    text: "Все документы на груз — CMR, таможенная декларация, инвойс — передаём вам.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Страхование",
+    text: "Груз застрахован на всём маршруте. Если что-то случится — компенсируем.",
+  },
+];
+
+const workContacts = [
+  {
+    icon: Send,
+    title: "Telegram",
+    text: "Большинство клиентов общаются в Telegram — отвечаем быстро, держим в курсе статуса груза.",
+  },
+  {
+    icon: Phone,
+    title: "Телефон",
+    text: "Для срочных вопросов — звоните напрямую менеджеру.",
+  },
+  {
+    icon: FileText,
+    title: "Email",
+    text: "Для официальной переписки и документов.",
+  },
+];
+
+const workTeam = [
+  {
+    initials: "Р",
+    name: "Роман",
+    role: "основатель",
+    text: "14 лет в логистике. Лично контролирует сложные грузы и новых клиентов.",
+  },
+  {
+    initials: "М",
+    name: "Менеджер по работе с клиентами",
+    role: "ваша точка контакта",
+    text: "Ваша точка контакта от заявки до доставки. Один человек — никакого телефона доверия.",
+  },
+  {
+    initials: "Т",
+    name: "Таможенный специалист",
+    role: "документы и ТНВЭД",
+    text: "Знает каждый код ТНВЭД. Ни одного груза не задержано по вине документов.",
+  },
+];
+
+const workTrustStats = [
+  ["14 лет", "на рынке"],
+  ["10 000+", "доставленных грузов"],
+  ["1", "клиент ушёл к конкуренту за всё время"],
+  ["0", "задержек по вине документов"],
+];
+
+const workTestimonials = [
+  {
+    role: "Оптовик, Москва",
+    text: "Работаем 4 года. Ни разу не подвели по срокам. Рекомендую всем кто возит из Европы.",
+  },
+  {
+    role: "Продавец Wildberries, Екатеринбург",
+    text: "Первый раз боялся отдавать деньги незнакомым людям с интернета. Сейчас уже восьмая поставка.",
+  },
+  {
+    role: "Логист, Санкт-Петербург",
+    text: "Весь европейский поток через них уже два года. Надёжно, предсказуемо, без нервов.",
+  },
+];
+
 function Header() {
   return (
     <header className="site-header">
@@ -582,6 +947,7 @@ function Header() {
         <a href="/o-kompanii/">О компании</a>
         <a href="/kejsy/">Кейсы</a>
         <a href="/blog/">Блог</a>
+        <a href="/faq/">FAQ</a>
         <a href="/kontakty/">Контакты</a>
       </nav>
       <a className="button button-primary header-cta" href="/kalkulyator/">
@@ -1371,6 +1737,269 @@ function BuyoutPage() {
   );
 }
 
+function CustomsHero() {
+  return (
+    <section className="page-hero customs-hero">
+      <div className="page-hero-shell">
+        <div className="page-hero-inner">
+          <span className="eyebrow">Таможенное оформление · РБ + РФ</span>
+          <h1>Таможенное оформление грузов из Европы — без задержек и сюрпризов</h1>
+          <p>
+            Берём таможню на себя. Вы получаете товар уже растаможенным — без очередей, штрафов и
+            непонятных доплат.
+          </p>
+          <a className="button button-primary" href="#customs-request">
+            Рассчитать таможенные платежи <ArrowRight size={18} />
+          </a>
+        </div>
+        <div className="customs-visual" aria-hidden="true">
+          <div className="customs-folder">
+            <div className="customs-paper customs-paper-main">
+              <span>Declaration</span>
+              <strong>ТНВЭД / НДС / пошлина</strong>
+              <i />
+              <i />
+              <i />
+              <b>ВЫПУСК</b>
+            </div>
+            <div className="customs-paper customs-paper-side">
+              <span>CMR</span>
+              <i />
+              <i />
+              <i />
+            </div>
+          </div>
+          <div className="customs-border">
+            <span>Европа</span>
+            <strong>РБ</strong>
+            <strong>РФ</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CustomsStats() {
+  return (
+    <section className="service-stats customs-stats" aria-label="Показатели таможенного оформления">
+      {customsStats.map(([value, label]) => (
+        <div className="service-stat" key={value}>
+          <strong>{value}</strong>
+          <span>{label}</span>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function CustomsProblem() {
+  return (
+    <section className="section buyout-problem-section customs-problem-section">
+      <div className="section-heading">
+        <span className="eyebrow">Риски импорта</span>
+        <h2>Таможня — главная головная боль при импорте</h2>
+      </div>
+      <div className="pain-grid customs-pain-grid">
+        {customsPainPoints.map(({ icon: Icon, title, text }) => (
+          <article className="pain-card customs-pain-card" key={title}>
+            <Icon size={30} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+      <p className="problem-result customs-result">Мы делаем это за вас — быстро, чисто, предсказуемо.</p>
+    </section>
+  );
+}
+
+function CustomsIncluded() {
+  return (
+    <section className="section customs-included-section">
+      <div className="section-heading section-heading-row">
+        <div>
+          <span className="eyebrow">Состав услуги</span>
+          <h2>Что мы берём на себя</h2>
+        </div>
+      </div>
+      <div className="customs-service-grid">
+        {customsServices.map(({ icon: Icon, title, text }) => (
+          <article className="customs-service-card" key={title}>
+            <Icon size={28} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CustomsProcess() {
+  return (
+    <section className="section process-section customs-process">
+      <div className="section-heading">
+        <span className="eyebrow">Порядок оформления</span>
+        <h2>Как проходит таможенное оформление</h2>
+      </div>
+      <div className="process-track process-track-five">
+        {customsSteps.map(([num, title, text]) => (
+          <article className="process-step" key={num}>
+            <span>{num}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CustomsAdvantages() {
+  return (
+    <section className="section why-section customs-advantages">
+      <div className="section-heading">
+        <span className="eyebrow">Экономика и контроль</span>
+        <h2>Почему таможня через нас — это выгодно</h2>
+      </div>
+      <div className="advantage-list">
+        {customsAdvantages.map((item) => (
+          <div className="advantage-item" key={item}>
+            <span>
+              <Check size={18} />
+            </span>
+            <p>{item}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CustomsCargo() {
+  return (
+    <section className="section cargo-section customs-cargo-section">
+      <div className="section-heading">
+        <span className="eyebrow">Товары</span>
+        <h2>С какими товарами работаем</h2>
+      </div>
+      <div className="cargo-grid">
+        {customsCargo.map(([name, Icon]) => (
+          <a className="cargo-tile" href="/chto-vezem/" key={name}>
+            <Icon size={25} />
+            <span>{name}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CustomsCase() {
+  return (
+    <section className="section featured-case-section customs-case-section">
+      <div className="section-heading">
+        <span className="eyebrow">Кейс</span>
+        <h2>Пример таможенного оформления</h2>
+      </div>
+      <article className="featured-case">
+        <div className="featured-case-head">
+          <span className="case-number">01</span>
+          <h3>Оборудование из Германии, €120,000</h3>
+          <div className="case-facts">
+            <span>Германия</span>
+            <span>€120,000</span>
+            <span>2 дня</span>
+            <span>Выпуск</span>
+          </div>
+        </div>
+        <div className="featured-case-body">
+          <p>
+            Клиент впервые ввозил промышленное оборудование. Боялся ошибиться с документами и
+            получить штраф. Мы рассчитали платежи заранее, подготовили весь пакет документов,
+            подали декларацию и получили выпуск за 2 дня.
+          </p>
+          <blockquote>Думал таможня займёт недели — уложились в два дня</blockquote>
+        </div>
+      </article>
+    </section>
+  );
+}
+
+function CustomsFaq() {
+  return (
+    <section className="section faq-section customs-faq-section">
+      <div className="section-heading">
+        <span className="eyebrow">FAQ</span>
+        <h2>Частые вопросы</h2>
+      </div>
+      <div className="faq-list">
+        {customsFaq.map(([question, answer], index) => (
+          <details className="faq-item" key={question} open={index === 0}>
+            <summary>{question}</summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CustomsFinalCta() {
+  return (
+    <section className="section request-section customs-request-section" id="customs-request">
+      <div className="request-copy">
+        <span className="eyebrow">Расчёт</span>
+        <h2>Рассчитайте таможенные платежи заранее</h2>
+        <p>
+          Дайте вводные по товару и стоимости партии. Мы проверим код, документы и заранее посчитаем
+          обязательные платежи.
+        </p>
+      </div>
+      <form className="request-form">
+        <label>
+          <span>Тип товара</span>
+          <input type="text" name="cargo-type" placeholder="Оборудование / запчасти / продукты" />
+        </label>
+        <label>
+          <span>Страна происхождения</span>
+          <input type="text" name="origin-country" placeholder="Германия / Польша / Италия" />
+        </label>
+        <label>
+          <span>Примерная стоимость партии</span>
+          <input type="text" name="cargo-value" placeholder="€ / $" />
+        </label>
+        <label>
+          <span>Телефон / Telegram</span>
+          <input type="text" name="contact" placeholder="+7..." />
+        </label>
+        <button className="button button-primary" type="submit">
+          Получить расчёт <Send size={18} />
+        </button>
+        <small>Посчитаем пошлины и НДС — бесплатно</small>
+      </form>
+    </section>
+  );
+}
+
+function CustomsPage() {
+  return (
+    <>
+      <CustomsHero />
+      <CustomsStats />
+      <CustomsProblem />
+      <CustomsIncluded />
+      <CustomsProcess />
+      <CustomsAdvantages />
+      <CustomsCargo />
+      <CustomsCase />
+      <CustomsFaq />
+      <CustomsFinalCta />
+    </>
+  );
+}
+
 function PartnerHero() {
   return (
     <section className="page-hero partner-hero">
@@ -2099,6 +2728,300 @@ function FullTruckPage() {
   );
 }
 
+function WorkHero() {
+  return (
+    <section className="page-hero work-hero">
+      <div className="page-hero-shell">
+        <div className="page-hero-inner">
+          <span className="eyebrow">Процесс · договор · документы</span>
+          <h1>Как мы работаем — от заявки до доставки без сюрпризов</h1>
+          <p>
+            Прозрачная схема работы, фиксированные цены, все документы на руках. Никаких скрытых
+            платежей и исчезновений после оплаты.
+          </p>
+          <a className="button button-primary" href="#work-request">
+            Оставить заявку <ArrowRight size={18} />
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function WorkIntro() {
+  return (
+    <section className="section work-intro-section">
+      <div className="section-heading">
+        <span className="eyebrow">Честно и прямо</span>
+        <h2>Впервые работаете с нами?</h2>
+      </div>
+      <div className="work-intro-card">
+        <p>
+          Понимаем что доверить груз незнакомой компании с интернета — это риск. Именно поэтому мы
+          работаем максимально прозрачно. Договор до начала работы, оплата поэтапно, все документы
+          передаём вам на каждом шаге. 14 лет на рынке — нам важна репутация больше чем один заказ.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function WorkSteps() {
+  return (
+    <section className="section work-steps-section">
+      <div className="section-heading">
+        <span className="eyebrow">Полная схема</span>
+        <h2>Как проходит каждая доставка — 7 шагов</h2>
+      </div>
+      <div className="work-steps-list">
+        {workSteps.map((step) => (
+          <article className="work-step-card" key={step.num}>
+            <span>{step.num}</span>
+            <div>
+              <h3>Шаг {step.num} · {step.title}</h3>
+              <p>{step.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WorkGuarantees() {
+  return (
+    <section className="section section-ink work-guarantees">
+      <div className="section-heading">
+        <span className="eyebrow">Фиксация условий</span>
+        <h2>Что мы гарантируем</h2>
+      </div>
+      <div className="service-grid">
+        {workGuarantees.map(({ icon: Icon, title, text }) => (
+          <article className="service-card work-guarantee-card" key={title}>
+            <Icon size={28} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WorkContacts() {
+  return (
+    <section className="section work-contacts-section">
+      <div className="section-heading">
+        <span className="eyebrow">Каналы связи</span>
+        <h2>Как с нами удобнее работать</h2>
+      </div>
+      <div className="service-audience-grid">
+        {workContacts.map(({ icon: Icon, title, text }) => (
+          <article className="service-audience-card work-contact-card" key={title}>
+            <Icon size={30} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WorkTeam() {
+  return (
+    <section className="section work-team-section">
+      <div className="section-heading">
+        <span className="eyebrow">Команда</span>
+        <h2>Люди которые везут ваш груз</h2>
+      </div>
+      <div className="work-team-grid">
+        {workTeam.map((member) => (
+          <article className="work-team-card" key={member.name}>
+            <div className="work-team-photo" aria-label={`Фото: ${member.name}`}>
+              <span>{member.initials}</span>
+            </div>
+            <div className="work-team-copy">
+              <small>{member.role}</small>
+              <h3>{member.name}</h3>
+              <p>{member.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WorkTrustStats() {
+  return (
+    <section className="section work-stats-section">
+      <div className="section-heading">
+        <span className="eyebrow">Цифры доверия</span>
+        <h2>БелТранзит в цифрах</h2>
+      </div>
+      <div className="work-trust-stats" aria-label="БелТранзит в цифрах">
+        {workTrustStats.map(([value, label]) => (
+          <div className="service-stat" key={value}>
+            <strong>{value}</strong>
+            <span>{label}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WorkTestimonials() {
+  return (
+    <section className="section work-testimonials">
+      <div className="section-heading">
+        <span className="eyebrow">Отзывы</span>
+        <h2>Отзывы клиентов</h2>
+      </div>
+      <div className="case-grid">
+        {workTestimonials.map((item) => (
+          <article className="case-card work-review-card" key={item.role}>
+            <span className="case-number">отзыв</span>
+            <h3>{item.role}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WorkFinalCta() {
+  return (
+    <section className="section request-section work-request-section" id="work-request">
+      <div className="request-copy">
+        <span className="eyebrow">Первый груз</span>
+        <h2>Готовы попробовать?</h2>
+        <p>Начнём с одного груза — убедитесь сами.</p>
+      </div>
+      <form className="request-form">
+        <label>
+          <span>Что хотите привезти</span>
+          <input type="text" name="cargo" placeholder="Тип товара" />
+        </label>
+        <label>
+          <span>Откуда</span>
+          <input type="text" name="from" placeholder="Страна / город" />
+        </label>
+        <label>
+          <span>Телефон / Telegram</span>
+          <input type="text" name="contact" placeholder="+7..." />
+        </label>
+        <button className="button button-primary" type="submit">
+          Оставить заявку <Send size={18} />
+        </button>
+        <small>Ответим в течение 2 часов</small>
+      </form>
+    </section>
+  );
+}
+
+function WorkPage() {
+  return (
+    <>
+      <WorkHero />
+      <WorkIntro />
+      <WorkSteps />
+      <WorkGuarantees />
+      <WorkContacts />
+      <WorkTeam />
+      <WorkTrustStats />
+      <WorkTestimonials />
+      <WorkFinalCta />
+    </>
+  );
+}
+
+function GeneralFaqHero() {
+  return (
+    <section className="page-hero general-faq-hero">
+      <div className="page-hero-shell general-faq-hero-shell">
+        <div className="page-hero-inner">
+          <span className="eyebrow">FAQ · доставка из Европы</span>
+          <h1>Частые вопросы о доставке грузов из Европы</h1>
+          <p>
+            Собрали ответы на вопросы которые задают чаще всего. Не нашли свой — напишите нам.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function GeneralFaqCategories() {
+  return (
+    <section className="section general-faq-section">
+      <div className="general-faq-layout">
+        <aside className="general-faq-aside">
+          <span className="eyebrow">Темы вопросов</span>
+          <h2>Вопросы по категориям</h2>
+        </aside>
+        <div className="general-faq-categories">
+          {generalFaqCategories.map(({ icon: Icon, title, questions }, categoryIndex) => (
+            <details className="general-faq-category" key={title} open={categoryIndex === 0}>
+              <summary>
+                <span>
+                  <Icon size={24} />
+                  {title}
+                </span>
+              </summary>
+              <div className="general-faq-questions">
+                {questions.map(([question, answer], questionIndex) => (
+                  <details className="faq-item general-faq-item" key={question} open={categoryIndex === 0 && questionIndex === 0}>
+                    <summary>{question}</summary>
+                    <p>{answer}</p>
+                  </details>
+                ))}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function GeneralFaqContact() {
+  return (
+    <section className="section general-faq-contact-section">
+      <div className="general-faq-contact">
+        <div>
+          <span className="eyebrow">Живой ответ</span>
+          <h2>Не нашли ответ на свой вопрос?</h2>
+          <p>Напишите нам — ответим в течение 2 часов.</p>
+        </div>
+        <div className="general-faq-actions">
+          <a className="button button-primary" href="https://t.me/beltransit">
+            Написать в Telegram <Send size={18} />
+          </a>
+          <a className="button button-secondary" href="tel:+375000000000">
+            Позвонить <Phone size={18} />
+          </a>
+          <a className="button button-secondary" href="/kalkulyator/">
+            Оставить заявку <ArrowRight size={18} />
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function GeneralFaqPage() {
+  return (
+    <>
+      <GeneralFaqHero />
+      <GeneralFaqCategories />
+      <GeneralFaqContact />
+    </>
+  );
+}
+
 function HomePage() {
   return (
     <>
@@ -2165,20 +3088,30 @@ function App() {
   const path = window.location.pathname;
   const isGroupagePage = path === "/sbornye-gruzy/" || path === "/sbornye-gruzy";
   const isBuyoutPage = path === "/vykup-tovarov/" || path === "/vykup-tovarov";
+  const isCustomsPage =
+    path === "/tamozhnoe-oformlenie/" || path === "/tamozhnoe-oformlenie";
   const isPartnersPage = path === "/dlya-logistov/" || path === "/dlya-logistov";
   const isWarehousePage = path === "/sklad-vilnyus/" || path === "/sklad-vilnyus";
   const isFullTruckPage = path === "/fury-konteynery/" || path === "/fury-konteynery";
+  const isWorkPage = path === "/kak-my-rabotaem/" || path === "/kak-my-rabotaem";
+  const isGeneralFaqPage = path === "/faq/" || path === "/faq";
   const pageTitle = isGroupagePage
     ? "Сборные грузы из Европы — BelTransit"
     : isBuyoutPage
       ? "Выкуп товаров в Европе — BelTransit"
-      : isPartnersPage
-        ? "Партнёрство для логистов — BelTransit"
-        : isWarehousePage
+      : isCustomsPage
+        ? "Таможенное оформление грузов — BelTransit"
+        : isPartnersPage
+          ? "Партнёрство для логистов — BelTransit"
+          : isWarehousePage
           ? "Склад в Вильнюсе — BelTransit"
           : isFullTruckPage
             ? "Фуры и контейнеры из Европы — BelTransit"
-            : "BelTransit — доставка и выкуп грузов из Европы";
+            : isWorkPage
+              ? "Как мы работаем — BelTransit"
+              : isGeneralFaqPage
+                ? "FAQ по доставке грузов из Европы — BelTransit"
+                : "BelTransit — доставка и выкуп грузов из Европы";
 
   React.useEffect(() => {
     document.title = pageTitle;
@@ -2192,12 +3125,18 @@ function App() {
           <GroupagePage />
         ) : isBuyoutPage ? (
           <BuyoutPage />
+        ) : isCustomsPage ? (
+          <CustomsPage />
         ) : isPartnersPage ? (
           <PartnersPage />
         ) : isWarehousePage ? (
           <WarehousePage />
         ) : isFullTruckPage ? (
           <FullTruckPage />
+        ) : isWorkPage ? (
+          <WorkPage />
+        ) : isGeneralFaqPage ? (
+          <GeneralFaqPage />
         ) : (
           <HomePage />
         )}
