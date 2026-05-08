@@ -261,18 +261,18 @@ const customsStats = [
 const customsPainPoints = [
   {
     icon: ClipboardCheck,
-    title: "Непонятные документы",
-    text: "CMR, инвойс, упаковочный лист, сертификаты — малейшая ошибка и груз стоит на границе.",
+    title: "Документы проверены",
+    text: "CMR, инвойс, упаковочный лист и сертификаты смотрим заранее, чтобы груз не встал на границе.",
   },
   {
     icon: CreditCard,
-    title: "Неожиданные платежи",
-    text: "Таможенная стоимость, пошлины, НДС, акцизы — без опыта невозможно посчитать заранее.",
+    title: "Платежи известны заранее",
+    text: "Считаем таможенную стоимость, пошлины, НДС и возможные доплаты до отправки груза.",
   },
   {
     icon: Zap,
-    title: "Задержки на границе",
-    text: "Груз застрял на таможне — поставщик ждёт оплаты, клиент ждёт товар, деньги заморожены.",
+    title: "Выпуск без лишних простоев",
+    text: "Ведём оформление и коммуникацию с таможней, чтобы партия быстрее прошла выпуск.",
   },
 ];
 
@@ -1797,8 +1797,8 @@ function CustomsProblem() {
   return (
     <section className="section buyout-problem-section customs-problem-section">
       <div className="section-heading">
-        <span className="eyebrow">Риски импорта</span>
-        <h2>Таможня — главная головная боль при импорте</h2>
+        <span className="eyebrow">Контроль импорта</span>
+        <h2>Таможня становится понятной, когда ей занимаемся мы</h2>
       </div>
       <div className="pain-grid customs-pain-grid">
         {customsPainPoints.map(({ icon: Icon, title, text }) => (
@@ -1809,7 +1809,7 @@ function CustomsProblem() {
           </article>
         ))}
       </div>
-      <p className="problem-result customs-result">Мы делаем это за вас — быстро, чисто, предсказуемо.</p>
+      <p className="problem-result customs-result">Документы, платежи и выпуск — в одном спокойном процессе.</p>
     </section>
   );
 }
@@ -2948,6 +2948,11 @@ function GeneralFaqHero() {
           <p>
             Собрали ответы на вопросы которые задают чаще всего. Не нашли свой — напишите нам.
           </p>
+          <div className="general-faq-hero-meta" aria-label="Сводка FAQ">
+            <span>6 тем</span>
+            <span>24 ответа</span>
+            <span>ответим за 2 часа</span>
+          </div>
         </div>
       </div>
     </section>
@@ -2957,19 +2962,25 @@ function GeneralFaqHero() {
 function GeneralFaqCategories() {
   return (
     <section className="section general-faq-section">
-      <div className="general-faq-layout">
-        <aside className="general-faq-aside">
+      <div className="general-faq-wrap">
+        <div className="section-heading general-faq-top">
           <span className="eyebrow">Темы вопросов</span>
-          <h2>Вопросы по категориям</h2>
-        </aside>
+          <h2>Найдите ответ по теме</h2>
+        </div>
         <div className="general-faq-categories">
           {generalFaqCategories.map(({ icon: Icon, title, questions }, categoryIndex) => (
-            <details className="general-faq-category" key={title} open={categoryIndex === 0}>
-              <summary>
-                <span>
+            <details
+              className="general-faq-category"
+              id={`faq-${title.toLowerCase().replaceAll(" ", "-")}`}
+              key={title}
+              open={categoryIndex === 0}
+            >
+              <summary className="general-faq-category-head">
+                <span className="general-faq-category-title">
                   <Icon size={24} />
-                  {title}
+                  <span>{title}</span>
                 </span>
+                <span className="general-faq-category-count">{questions.length} вопроса</span>
               </summary>
               <div className="general-faq-questions">
                 {questions.map(([question, answer], questionIndex) => (
