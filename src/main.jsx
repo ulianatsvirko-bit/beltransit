@@ -69,7 +69,7 @@ const services = [
     icon: Search,
     title: "Поиск поставщика",
     text: "Находим европейских поставщиков и проверяем условия сделки.",
-    href: "/vykup-tovarov/",
+    href: "/poisk-postavshchika/",
   },
 ];
 
@@ -97,7 +97,7 @@ const megaMenuColumns = [
     title: "Для кого",
     links: [
       ["Для логистов", "/dlya-logistov/"],
-      ["Поиск поставщика", "/vykup-tovarov/"],
+      ["Поиск поставщика", "/poisk-postavshchika/"],
       ["Как мы работаем", "/kak-my-rabotaem/"],
       ["Кейсы", "/#cases"],
     ],
@@ -137,6 +137,78 @@ const cases = [
     meta: "14 дней",
     text: "Выкупили у поставщика, собрали документы и довезли до двери получателя.",
   },
+];
+
+const caseFilters = ["Все", "Сборные грузы", "Выкуп", "Полная фура", "Сложные грузы"];
+
+const deliveryCases = [
+  {
+    category: "Сборные грузы",
+    title: "Автозапчасти из Германии и Польши — два поставщика, одна доставка",
+    client: "Владелец магазина автозапчастей в Москве",
+    task: "Закупается у двух поставщиков в разных странах, платил двум перевозчикам.",
+    solution: "Собрали оба груза на складе в Вильнюсе, отправили одной фурой.",
+    result: "Срок 11 дней, логистические расходы снизились на 25%.",
+    quote: "Раньше платил двум разным перевозчикам и координировал два рейса. Теперь один звонок — и всё.",
+    facts: ["11 дней", "-25%", "2 поставщика"],
+  },
+  {
+    category: "Выкуп",
+    title: "Бытовая техника из Германии — поставки восстановлены после 2022",
+    client: "Продавец на Wildberries, Екатеринбург",
+    task: "Работал с немецким дистрибьютором 3 года — в 2022 оплата перестала проходить.",
+    solution: "Выкупили партию от имени нашей литовской компании, доставили через Вильнюс.",
+    result: "Поставки восстановлены за 2 недели, срок доставки 12 дней.",
+    quote: "Думал потерял поставщика навсегда. Оказалось всё решаемо за две недели.",
+    facts: ["2 недели", "12 дней", "выкуп"],
+  },
+  {
+    category: "Полная фура",
+    title: "Велосипеды из Нидерландов — сезонная поставка под старт продаж",
+    client: "Оптовик, поставляет велосипеды в розничные магазины Москвы",
+    task: "Нужно было получить крупную партию до начала сезона, сроки критичны.",
+    solution: "Выделенная фура из Нидерландов, прямой маршрут через Вильнюс.",
+    result: "Доставка за 8 дней, товар поступил в магазины за неделю до старта сезона.",
+    quote: "Если бы опоздали на неделю — потеряли бы весь сезон. Успели с запасом.",
+    facts: ["8 дней", "FTL", "сезон"],
+  },
+  {
+    category: "Сложные грузы",
+    title: "Промышленное оборудование из Германии — 5 негабаритных фур",
+    client: "Производственная компания, Екатеринбург",
+    task: "Перевезти производственную линию весом более 100 тонн.",
+    solution: "Специальный транспорт, все разрешения на негабарит, таможенное оформление.",
+    result: "Доставка в срок, оборудование установлено и запущено.",
+    quote: "Такой груз с улицы никому не доверишь. Нас порекомендовали партнёры — и мы не пожалели.",
+    facts: ["100+ тонн", "5 фур", "негабарит"],
+  },
+  {
+    category: "Выкуп",
+    title: "Инструменты из Германии — нашли производителя за 5 дней",
+    client: "Продавец инструментов на Wildberries, Москва",
+    task: "Хотел работать с немецким производителем напрямую, но не знал как найти.",
+    solution: "Нашли трёх производителей, проверили, запросили прайсы, организовали первую поставку.",
+    result: "Первая партия получена через 3 недели после обращения.",
+    quote: "За неделю получил то что сам искал бы месяц.",
+    facts: ["5 дней", "3 производителя", "первая партия"],
+  },
+  {
+    category: "Сборные грузы",
+    title: "Стройматериалы из Польши — регулярные поставки раз в две недели",
+    client: "Строительная компания, Москва",
+    task: "Нужны регулярные поставки от трёх польских поставщиков.",
+    solution: "Все три поставщика отгружают на наш склад в Вильнюсе, раз в две недели одна фура.",
+    result: "Логистические расходы снизились на 30%, поставки предсказуемы.",
+    quote: "Логистика перестала быть головной болью. Просто работает.",
+    facts: ["-30%", "раз в 2 недели", "3 поставщика"],
+  },
+];
+
+const casesStats = [
+  ["до 25%", "экономия на логистике при консолидации"],
+  ["2 недели", "восстановление поставок после блокировки"],
+  ["8 дней", "минимальный срок доставки полной фуры"],
+  ["0", "срывов дедлайна по вине БелТранзит"],
 ];
 
 const advantages = [
@@ -1014,6 +1086,110 @@ const tireFaq = [
   ],
 ];
 
+const supplierSearchStats = [
+  ["14 лет", "на европейском рынке"],
+  ["10+ стран", "география поиска"],
+  ["5-7 дней", "срок подбора"],
+  ["проверенные", "только надёжные поставщики"],
+];
+
+const supplierPainPoints = [
+  {
+    icon: "🔍",
+    title: "Не знаете где искать",
+    text: "Alibaba — это Китай. А где найти европейского производителя конкретного товара — непонятно.",
+  },
+  {
+    icon: "🤝",
+    title: "Поставщик не отвечает",
+    text: "Написали на сайт европейской компании — молчат. Не знают как работать с российскими покупателями.",
+  },
+  {
+    icon: "❓",
+    title: "Не знаете кому доверять",
+    text: "Нашли поставщика но не уверены — реальная компания или мошенники? Как проверить из России?",
+  },
+];
+
+const supplierSearchServices = [
+  ["🔍", "Поиск", "находим производителей и дистрибьюторов под ваш товар"],
+  ["✅", "Проверка", "проверяем компанию на надёжность и реальность"],
+  ["💬", "Переговоры", "связываемся от вашего имени, узнаём условия"],
+  ["💰", "Цены", "получаем реальные прайсы и условия поставки"],
+  ["📋", "Отчёт", "передаём вам список проверенных поставщиков с контактами и ценами"],
+  ["🤝", "Введение", "при необходимости представляем вас поставщику лично"],
+];
+
+const supplierSearchSteps = [
+  ["1", "Вы описываете", "товар и требования"],
+  ["2", "Мы ищем", "поставщиков в Европе"],
+  ["3", "Проверяем", "надёжность и репутацию"],
+  ["4", "Запрашиваем", "цены и условия"],
+  ["5", "Передаём", "вам готовый список"],
+];
+
+const supplierSearchAudiences = [
+  {
+    icon: "🆕",
+    title: "Начинаете импорт",
+    text: "Хотите закупать в Европе но не знаете с чего начать — найдём первого поставщика и проведём через всю сделку.",
+  },
+  {
+    icon: "🔄",
+    title: "Ищете альтернативу",
+    text: "Текущий поставщик поднял цены или перестал работать с РФ — найдём замену с аналогичным товаром.",
+  },
+  {
+    icon: "📦",
+    title: "Новый товар",
+    text: "Расширяете ассортимент — ищете производителя конкретного продукта в Европе.",
+  },
+];
+
+const supplierSearchAdvantages = [
+  "Знаем рынок 14 лет — знаем кто реально работает с СНГ",
+  "Говорим по-немецки, по-польски, по-английски — нет языкового барьера",
+  "Физически присутствуем в Европе — можем съездить и проверить",
+  "Сразу считаем логистику — знаете полную стоимость товара в России",
+  "Если нашли — сразу везём — не нужен второй подрядчик",
+];
+
+const supplierSearchPricing = [
+  {
+    icon: "📋",
+    title: "Поиск и отчёт",
+    text: "Находим 3-5 проверенных поставщиков с контактами, ценами и условиями поставки. Фиксированная стоимость — уточняйте у менеджера.",
+  },
+  {
+    icon: "🤝",
+    title: "Поиск + сопровождение сделки",
+    text: "Поиск поставщика + выкуп товара + доставка в Россию под ключ. Стоимость поиска входит в стоимость логистики.",
+  },
+];
+
+const supplierSearchFaq = [
+  [
+    "Сколько стоит поиск поставщика в Европе?",
+    "Стоимость зависит от товара, страны, глубины проверки и формата отчёта. Если дальше ведём выкуп и доставку, стоимость поиска можем включить в логистику.",
+  ],
+  [
+    "Сколько времени занимает поиск?",
+    "Обычно 5-7 дней на первичный список проверенных поставщиков. Для редких товаров или сложных требований срок согласуем отдельно.",
+  ],
+  [
+    "Что если поставщик откажется работать с российской компанией?",
+    "Можем выступить европейской стороной сделки: оплатить поставщику от своей компании, забрать товар и организовать доставку в Россию.",
+  ],
+  [
+    "Можете найти поставщика конкретного бренда?",
+    "Да. Проверим официальных дистрибьюторов, наличие, минимальную партию, условия оплаты и возможность отгрузки на наш склад.",
+  ],
+  [
+    "Что если найденный поставщик окажется ненадёжным?",
+    "Мы проверяем компанию до передачи контакта: документы, следы деятельности, репутацию, условия оплаты и признаки риска.",
+  ],
+];
+
 const generalFaqCategories = [
   {
     icon: Package,
@@ -1207,6 +1383,78 @@ const companyDetails = [
   ["УНП / ИНН", "000000000"],
   ["Юридический адрес", "Республика Беларусь, г. Минск, адрес компании"],
   ["Банковские реквизиты", "Расчётный счёт, банк, SWIFT — по запросу"],
+];
+
+const blogCategories = [
+  "Все статьи",
+  "Таможня",
+  "Маршруты",
+  "Платежи и выкуп",
+  "Сборные грузы",
+  "ВЭД для новичков",
+];
+
+const blogPosts = [
+  {
+    category: "Таможня",
+    title: "Как рассчитать таможенные платежи при ввозе товара из Европы в 2025",
+    text: "Пошлины, НДС, сборы — объясняем как считать и где можно сэкономить законно.",
+    time: "8 минут чтения",
+    href: "/blog/kak-rasschitat-tamozhennye-platezhi/",
+  },
+  {
+    category: "Маршруты",
+    title: "Почему маршрут через Беларусь — самый выгодный для импорта из Европы",
+    text: "Сравниваем маршруты, сроки и стоимость. Почему Вильнюс→Минск→Москва выигрывает.",
+    time: "6 минут чтения",
+    href: "/blog/marshrut-cherez-belarus/",
+  },
+  {
+    category: "Платежи и выкуп",
+    title: "Как оплатить европейского поставщика из России в 2025 — рабочие схемы",
+    text: "Что работает сейчас, что нет, и как организовать оплату легально.",
+    time: "10 минут чтения",
+    href: "/blog/oplata-postavshchika-iz-rossii/",
+  },
+  {
+    category: "Сборные грузы",
+    title: "Сборный груз или полная фура — когда что выгоднее",
+    text: "Считаем на реальных примерах при каком объёме выгоднее переходить с LTL на FTL.",
+    time: "5 минут чтения",
+    href: "/blog/sbornyy-gruz-ili-polnaya-fura/",
+  },
+  {
+    category: "ВЭД для новичков",
+    title: "Первый импорт из Европы — пошаговая инструкция для малого бизнеса",
+    text: "С чего начать, какие документы нужны, как найти поставщика и не попасть на штрафы.",
+    time: "12 минут чтения",
+    href: "/blog/pervyy-import-iz-evropy/",
+  },
+  {
+    category: "Таможня",
+    title: "ТНВЭД коды — что это такое и почему неправильный код стоит денег",
+    text: "Объясняем простым языком как работает классификация товаров и почему это важно.",
+    time: "7 минут чтения",
+    href: "/blog/tnved-kody/",
+  },
+];
+
+const blogReasons = [
+  {
+    icon: CreditCard,
+    title: "14 лет опыта",
+    text: "Каждая статья основана на реальных ситуациях из нашей работы. Не теория — живая практика.",
+  },
+  {
+    icon: Zap,
+    title: "Актуально",
+    text: "Правила меняются — маршруты, платежи, таможня. Обновляем информацию когда что-то меняется.",
+  },
+  {
+    icon: Search,
+    title: "Без воды",
+    text: "Пишем только то что реально помогает принять решение. Никакого SEO-мусора.",
+  },
 ];
 
 const workSteps = [
@@ -2640,6 +2888,160 @@ function CargoCatalogPage() {
   );
 }
 
+function CasesHero() {
+  return (
+    <section className="page-hero cases-hero">
+      <div className="page-hero-shell cases-hero-shell">
+        <div className="page-hero-inner">
+          <span className="eyebrow">Кейсы · реальные доставки</span>
+          <h1>Реальные доставки — без приукрас</h1>
+          <p>
+            Не отзывы на сайте — а конкретные истории. Что везли, откуда, как решали сложности и
+            что получил клиент.
+          </p>
+        </div>
+        <div className="cases-hero-proof" aria-hidden="true">
+          <span>01</span>
+          <strong>задача</strong>
+          <i />
+          <strong>решение</strong>
+          <i />
+          <strong>результат</strong>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CasesFilter({ activeFilter, onChange }) {
+  return (
+    <section className="cases-filter-section" aria-label="Фильтр кейсов">
+      <div className="cases-filter-bar">
+        {caseFilters.map((filter) => (
+          <button
+            className={activeFilter === filter ? "is-active" : ""}
+            type="button"
+            key={filter}
+            onClick={() => onChange(filter)}
+          >
+            {filter}
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CasesList({ activeFilter }) {
+  const filteredCases =
+    activeFilter === "Все"
+      ? deliveryCases
+      : deliveryCases.filter((item) => item.category === activeFilter);
+
+  return (
+    <section className="section cases-page-section">
+      <div className="cases-page-grid">
+        {filteredCases.map((item, index) => (
+          <article className="delivery-case-card" key={item.title}>
+            <div className="delivery-case-head">
+              <span className="case-number">{String(index + 1).padStart(2, "0")}</span>
+              <strong>{item.category}</strong>
+            </div>
+            <h2>{item.title}</h2>
+            <div className="delivery-case-facts">
+              {item.facts.map((fact) => (
+                <span key={fact}>{fact}</span>
+              ))}
+            </div>
+            <dl className="delivery-case-details">
+              <div>
+                <dt>Клиент</dt>
+                <dd>{item.client}</dd>
+              </div>
+              <div>
+                <dt>Задача</dt>
+                <dd>{item.task}</dd>
+              </div>
+              <div>
+                <dt>Решение</dt>
+                <dd>{item.solution}</dd>
+              </div>
+              <div>
+                <dt>Результат</dt>
+                <dd>{item.result}</dd>
+              </div>
+            </dl>
+            <blockquote>{item.quote}</blockquote>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CasesStats() {
+  return (
+    <section className="section cases-stats-section">
+      <div className="section-heading">
+        <span className="eyebrow">Цифры из кейсов</span>
+        <h2>Что говорят цифры</h2>
+      </div>
+      <div className="cases-stat-grid">
+        {casesStats.map(([value, label]) => (
+          <article className="cases-stat-card" key={value}>
+            <strong>{value}</strong>
+            <span>{label}</span>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CasesFinalCta() {
+  return (
+    <section className="section request-section cases-request-section" id="cases-request">
+      <div className="request-copy">
+        <span className="eyebrow">Ваш груз</span>
+        <h2>Хотите такой же результат?</h2>
+        <p>Расскажите о вашем грузе — предложим оптимальную схему.</p>
+      </div>
+      <form className="request-form">
+        <label>
+          <span>Что хотите привезти</span>
+          <input type="text" name="cargo" placeholder="Товар / категория" />
+        </label>
+        <label>
+          <span>Откуда</span>
+          <input type="text" name="from" placeholder="Страна / город" />
+        </label>
+        <label>
+          <span>Телефон / Telegram</span>
+          <input type="text" name="contact" placeholder="+7..." />
+        </label>
+        <button className="button button-primary" type="submit">
+          Обсудить мой груз <Send size={18} />
+        </button>
+        <small>Ответим в течение 2 часов</small>
+      </form>
+    </section>
+  );
+}
+
+function CasesPage() {
+  const [activeFilter, setActiveFilter] = React.useState("Все");
+
+  return (
+    <>
+      <CasesHero />
+      <CasesFilter activeFilter={activeFilter} onChange={setActiveFilter} />
+      <CasesList activeFilter={activeFilter} />
+      <CasesStats />
+      <CasesFinalCta />
+    </>
+  );
+}
+
 function PartnerHero() {
   return (
     <section className="page-hero partner-hero">
@@ -4061,6 +4463,277 @@ function TiresPage() {
   );
 }
 
+function SupplierSearchHero() {
+  return (
+    <section className="page-hero supplier-hero">
+      <div className="page-hero-shell">
+        <div className="page-hero-inner">
+          <span className="eyebrow">Поиск поставщика · Европа</span>
+          <h1>Найдём поставщика в Европе — вы получаете готовый контакт и цену</h1>
+          <p>
+            Знаем европейский рынок 14 лет. Находим производителей и дистрибьюторов под ваш
+            товар, проверяем надёжность и договариваемся об условиях.
+          </p>
+          <a className="button button-primary" href="#supplier-search-request">
+            Оставить заявку на поиск <ArrowRight size={18} />
+          </a>
+        </div>
+        <div className="supplier-hero-board" aria-hidden="true">
+          <div className="supplier-radar">
+            <span />
+            <i />
+            <i />
+            <i />
+          </div>
+          <div className="supplier-list-card">
+            <strong>3-5</strong>
+            <span>проверенных поставщиков</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function SupplierSearchStats() {
+  return (
+    <section className="service-stats supplier-stats" aria-label="Показатели поиска поставщика">
+      {supplierSearchStats.map(([value, label]) => (
+        <div className="service-stat" key={value}>
+          <strong>{value}</strong>
+          <span>{label}</span>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function SupplierSearchProblem() {
+  return (
+    <section className="section supplier-problem-section">
+      <div className="section-heading">
+        <span className="eyebrow">Проблема</span>
+        <h2>Знакомая ситуация?</h2>
+      </div>
+      <div className="service-audience-grid">
+        {supplierPainPoints.map((item) => (
+          <article className="service-audience-card supplier-pain-card" key={item.title}>
+            <span className="supplier-emoji">{item.icon}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+      <div className="supplier-problem-result">
+        Мы знаем европейский рынок изнутри. Найдём, проверим, договоримся.
+      </div>
+    </section>
+  );
+}
+
+function SupplierSearchIncluded() {
+  return (
+    <section className="section section-ink supplier-included-section">
+      <div className="section-heading">
+        <span className="eyebrow">Состав услуги</span>
+        <h2>Что мы делаем</h2>
+      </div>
+      <div className="supplier-service-grid">
+        {supplierSearchServices.map(([icon, title, text]) => (
+          <article className="supplier-service-card" key={title}>
+            <span>{icon}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function SupplierSearchProcess() {
+  return (
+    <section className="section process-section supplier-process-section">
+      <div className="section-heading">
+        <span className="eyebrow">5 шагов</span>
+        <h2>Как проходит поиск поставщика</h2>
+      </div>
+      <div className="process-track process-track-five supplier-process-track">
+        {supplierSearchSteps.map(([num, title, text]) => (
+          <article className="process-step" key={num}>
+            <span>{num}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function SupplierSearchAudience() {
+  return (
+    <section className="section supplier-audience-section">
+      <div className="section-heading">
+        <span className="eyebrow">Кому подходит</span>
+        <h2>Кому подходит услуга</h2>
+      </div>
+      <div className="service-audience-grid">
+        {supplierSearchAudiences.map((item) => (
+          <article className="service-audience-card supplier-audience-card" key={item.title}>
+            <span className="supplier-emoji">{item.icon}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function SupplierSearchAdvantages() {
+  return (
+    <section className="section why-section groupage-why supplier-advantages-section">
+      <div className="section-heading">
+        <span className="eyebrow">Почему мы</span>
+        <h2>Почему поиск через нас эффективнее чем самостоятельно</h2>
+      </div>
+      <div className="advantage-list">
+        {supplierSearchAdvantages.map((item) => (
+          <div className="advantage-item" key={item}>
+            <span>
+              <Check size={18} />
+            </span>
+            <p>{item}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function SupplierSearchPricing() {
+  return (
+    <section className="section supplier-pricing-section">
+      <div className="section-heading">
+        <span className="eyebrow">Формат работы</span>
+        <h2>Стоимость услуги</h2>
+      </div>
+      <div className="supplier-pricing-grid">
+        {supplierSearchPricing.map((item) => (
+          <article className="supplier-pricing-card" key={item.title}>
+            <span>{item.icon}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function SupplierSearchCase() {
+  return (
+    <section className="section featured-case-section supplier-case-section">
+      <div className="section-heading">
+        <span className="eyebrow">Кейс</span>
+        <h2>Пример реального поиска</h2>
+      </div>
+      <article className="featured-case">
+        <div className="featured-case-head">
+          <span className="case-number">01</span>
+          <h3>Поиск поставщика инструментов в Германии</h3>
+          <div className="case-facts">
+            <span>Германия</span>
+            <span>3 производителя</span>
+            <span>7 дней</span>
+            <span>Wildberries</span>
+          </div>
+        </div>
+        <div className="featured-case-body">
+          <p>
+            Клиент продаёт инструменты на Wildberries. Хотел найти немецкого производителя напрямую
+            — без российских дистрибьюторов. Нашли трёх производителей, проверили, запросили
+            прайсы. Клиент выбрал одного — сразу организовали первую поставку.
+          </p>
+          <blockquote>За неделю получил то что сам искал бы месяц</blockquote>
+        </div>
+      </article>
+    </section>
+  );
+}
+
+function SupplierSearchFaq() {
+  return (
+    <section className="section faq-section supplier-faq-section">
+      <div className="section-heading">
+        <span className="eyebrow">FAQ</span>
+        <h2>Частые вопросы</h2>
+      </div>
+      <div className="faq-list">
+        {supplierSearchFaq.map(([question, answer], index) => (
+          <details className="faq-item" key={question} open={index === 0}>
+            <summary>{question}</summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function SupplierSearchFinalCta() {
+  return (
+    <section className="section request-section supplier-request-section" id="supplier-search-request">
+      <div className="request-copy">
+        <span className="eyebrow">Заявка на поиск</span>
+        <h2>Опишите что ищете — найдём за 5-7 дней</h2>
+        <p>Ответим в течение 2 часов — обсудим товар, страны, объём и формат отчёта.</p>
+      </div>
+      <form className="request-form">
+        <label>
+          <span>Какой товар ищете</span>
+          <input type="text" name="product" placeholder="Категория / бренд / артикул" />
+        </label>
+        <label>
+          <span>Из какой страны предпочтительно</span>
+          <input type="text" name="country" placeholder="Германия / Польша / любая страна ЕС" />
+        </label>
+        <label>
+          <span>Примерный объём закупки</span>
+          <input type="text" name="volume" placeholder="Сумма / кг / количество" />
+        </label>
+        <label>
+          <span>Телефон / Telegram</span>
+          <input type="text" name="contact" placeholder="+7... или @username" />
+        </label>
+        <button className="button button-primary" type="submit">
+          Оставить заявку на поиск <Send size={18} />
+        </button>
+        <small>Ответим в течение 2 часов — обсудим детали</small>
+      </form>
+    </section>
+  );
+}
+
+function SupplierSearchPage() {
+  return (
+    <>
+      <SupplierSearchHero />
+      <SupplierSearchStats />
+      <SupplierSearchProblem />
+      <SupplierSearchIncluded />
+      <SupplierSearchProcess />
+      <SupplierSearchAudience />
+      <SupplierSearchAdvantages />
+      <SupplierSearchPricing />
+      <SupplierSearchCase />
+      <SupplierSearchFaq />
+      <SupplierSearchFinalCta />
+    </>
+  );
+}
+
 function GeneralFaqHero() {
   return (
     <section className="page-hero general-faq-hero">
@@ -4353,6 +5026,144 @@ function ContactsPage() {
   );
 }
 
+function BlogHero() {
+  return (
+    <section className="page-hero blog-hero">
+      <div className="page-hero-shell blog-hero-shell">
+        <div className="page-hero-inner">
+          <span className="eyebrow">Блог · практика логистики</span>
+          <h1>Всё что нужно знать о доставке грузов из Европы в Россию</h1>
+          <p>
+            Пишем о том с чем сталкиваемся каждый день — таможня, маршруты, платежи, схемы работы.
+            Без воды, только практика.
+          </p>
+        </div>
+        <div className="blog-hero-panel" aria-hidden="true">
+          <div className="blog-hero-card">
+            <span>Практика</span>
+            <strong>6 свежих разборов</strong>
+          </div>
+          <div className="blog-hero-tags">
+            <span>таможня</span>
+            <span>маршруты</span>
+            <span>платежи</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BlogArticles() {
+  const [activeCategory, setActiveCategory] = React.useState("Все статьи");
+  const visiblePosts =
+    activeCategory === "Все статьи"
+      ? blogPosts
+      : blogPosts.filter((post) => post.category === activeCategory);
+
+  return (
+    <section className="section blog-articles-section">
+      <div className="blog-filter" aria-label="Фильтр статей по категориям">
+        {blogCategories.map((category) => (
+          <button
+            className={activeCategory === category ? "is-active" : ""}
+            key={category}
+            type="button"
+            onClick={() => setActiveCategory(category)}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+      <div className="blog-grid">
+        {visiblePosts.map((post, index) => (
+          <a className="blog-card" href={post.href} key={post.title}>
+            <span className="blog-card-number">0{index + 1}</span>
+            <small>{post.category}</small>
+            <h3>{post.title}</h3>
+            <p>{post.text}</p>
+            <strong>{post.time}</strong>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function BlogWhyRead() {
+  return (
+    <section className="section section-ink blog-why-section">
+      <div className="section-heading">
+        <span className="eyebrow">Редакция</span>
+        <h2>Пишем из практики — не из учебника</h2>
+      </div>
+      <div className="service-audience-grid blog-reasons-grid">
+        {blogReasons.map(({ icon: Icon, title, text }) => (
+          <article className="service-audience-card blog-reason-card" key={title}>
+            <Icon size={30} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function BlogSubscribe() {
+  return (
+    <section className="section blog-subscribe-section">
+      <div className="blog-subscribe-card">
+        <div>
+          <span className="eyebrow">Telegram-канал</span>
+          <h2>Получайте новые статьи в Telegram</h2>
+          <p>Когда выходит новая статья — отправляем в наш канал. Без спама — только полезное.</p>
+        </div>
+        <a className="button button-primary" href="https://t.me/beltransit">
+          Подписаться на канал <Send size={18} />
+        </a>
+      </div>
+    </section>
+  );
+}
+
+function BlogFinalCta() {
+  return (
+    <section className="section general-faq-contact-section blog-final-section">
+      <div className="general-faq-contact">
+        <div>
+          <span className="eyebrow">Живой вопрос</span>
+          <h2>Есть вопрос по доставке?</h2>
+          <p>Статья не ответила — спросите напрямую.</p>
+        </div>
+        <div className="general-faq-actions">
+          <a className="button button-primary" href="https://t.me/beltransit">
+            Написать в Telegram <Send size={18} />
+          </a>
+          <a className="button button-secondary" href="tel:+375000000000">
+            Позвонить <Phone size={18} />
+          </a>
+          <a className="button button-secondary" href="/kalkulyator/">
+            Оставить заявку <ArrowRight size={18} />
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BlogPage() {
+  return (
+    <>
+      <BlogHero />
+      <BlogArticles />
+      <BlogWhyRead />
+      <BlogSubscribe />
+      <BlogFinalCta />
+    </>
+  );
+}
+
 function HomePage() {
   return (
     <>
@@ -4422,6 +5233,7 @@ function App() {
   const isCustomsPage =
     path === "/tamozhnoe-oformlenie/" || path === "/tamozhnoe-oformlenie";
   const isCargoCatalogPage = path === "/chto-vezem/" || path === "/chto-vezem";
+  const isCasesPage = path === "/kejsy/" || path === "/kejsy";
   const isPartnersPage = path === "/dlya-logistov/" || path === "/dlya-logistov";
   const isWarehousePage = path === "/sklad-vilnyus/" || path === "/sklad-vilnyus";
   const isFullTruckPage = path === "/fury-konteynery/" || path === "/fury-konteynery";
@@ -4430,6 +5242,7 @@ function App() {
   const isContactsPage = path === "/kontakty/" || path === "/kontakty";
   const isWashersPage =
     path === "/kerhery/" || path === "/kerhery" || path === "/kerhery-i-moyki/" || path === "/kerhery-i-moyki";
+  const isSupplierSearchPage = path === "/poisk-postavshchika/" || path === "/poisk-postavshchika";
   const isTiresPage =
     path === "/zapchasti-i-shiny/" ||
     path === "/zapchasti-i-shiny" ||
@@ -4443,9 +5256,11 @@ function App() {
         ? "Таможенное оформление грузов — BelTransit"
         : isCargoCatalogPage
           ? "Что мы везём из Европы — BelTransit"
-          : isPartnersPage
-            ? "Партнёрство для логистов — BelTransit"
-            : isWarehousePage
+          : isCasesPage
+            ? "Кейсы доставок из Европы — BelTransit"
+            : isPartnersPage
+              ? "Партнёрство для логистов — BelTransit"
+              : isWarehousePage
           ? "Склад в Вильнюсе — BelTransit"
           : isFullTruckPage
             ? "Фуры и контейнеры из Европы — BelTransit"
@@ -4457,9 +5272,11 @@ function App() {
                   ? "Контакты — BelTransit"
                   : isWashersPage
                     ? "Кёрхеры и моющие аппараты из Европы — BelTransit"
-                    : isTiresPage
-                      ? "Шины и автозапчасти из Европы — BelTransit"
-                      : "BelTransit — доставка и выкуп грузов из Европы";
+                    : isSupplierSearchPage
+                      ? "Поиск поставщика в Европе — BelTransit"
+                      : isTiresPage
+                        ? "Шины и автозапчасти из Европы — BelTransit"
+                        : "BelTransit — доставка и выкуп грузов из Европы";
 
   React.useEffect(() => {
     document.title = pageTitle;
@@ -4477,6 +5294,8 @@ function App() {
           <CustomsPage />
         ) : isCargoCatalogPage ? (
           <CargoCatalogPage />
+        ) : isCasesPage ? (
+          <CasesPage />
         ) : isPartnersPage ? (
           <PartnersPage />
         ) : isWarehousePage ? (
@@ -4491,6 +5310,8 @@ function App() {
           <ContactsPage />
         ) : isWashersPage ? (
           <WashersPage />
+        ) : isSupplierSearchPage ? (
+          <SupplierSearchPage />
         ) : isTiresPage ? (
           <TiresPage />
         ) : (
