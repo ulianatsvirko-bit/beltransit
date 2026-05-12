@@ -8,10 +8,13 @@ import {
   ClipboardCheck,
   Container,
   CreditCard,
+  Download,
   Factory,
   FileText,
   Globe2,
   Handshake,
+  Mail,
+  MessageCircle,
   MapPin,
   Menu,
   Package,
@@ -23,6 +26,7 @@ import {
   ShoppingCart,
   Sofa,
   Store,
+  Smartphone,
   Truck,
   Wrench,
   Zap,
@@ -65,8 +69,45 @@ const services = [
     icon: Search,
     title: "Поиск поставщика",
     text: "Находим европейских поставщиков и проверяем условия сделки.",
-    href: "/poisk-postavshchika/",
+    href: "/vykup-tovarov/",
   },
+];
+
+const megaMenuColumns = [
+  {
+    title: "Как везём",
+    links: [
+      ["Сборные грузы", "/sbornye-gruzy/"],
+      ["Выкуп товаров", "/vykup-tovarov/"],
+      ["Фуры и контейнеры", "/fury-konteynery/"],
+      ["Склад в Вильнюсе", "/sklad-vilnyus/"],
+      ["Таможенное оформление", "/tamozhnoe-oformlenie/"],
+    ],
+  },
+  {
+    title: "Что везём",
+    links: [
+      ["Шины и автозапчасти", "/shiny-i-avtozapchasti/"],
+      ["Бытовая техника", "/chto-vezem/"],
+      ["Кёрхеры и мойки", "/kerhery-i-moyki/"],
+      ["Что мы везём", "/chto-vezem/"],
+    ],
+  },
+  {
+    title: "Для кого",
+    links: [
+      ["Для логистов", "/dlya-logistov/"],
+      ["Поиск поставщика", "/vykup-tovarov/"],
+      ["Как мы работаем", "/kak-my-rabotaem/"],
+      ["Кейсы", "/#cases"],
+    ],
+  },
+];
+
+const companyMenu = [
+  ["О компании", "/kak-my-rabotaem/"],
+  ["Кейсы", "/#cases"],
+  ["FAQ", "/faq/"],
 ];
 
 const cargo = [
@@ -357,6 +398,94 @@ const customsFaq = [
     "Что будет если документы окажутся неправильными?",
     "Мы проверяем пакет до отправки. Если видим риск, просим поставщика исправить документы заранее, чтобы груз не завис на границе.",
   ],
+];
+
+const cargoCatalog = [
+  {
+    icon: Settings,
+    title: "Автозапчасти",
+    text: "Оригинальные и аналоговые запчасти из Германии, Польши, Чехии. Оптовые партии для магазинов и СТО.",
+  },
+  {
+    icon: Bike,
+    title: "Велосипеды и самокаты",
+    text: "Сезонный товар, большой объём. Везём из Польши, Германии, Нидерландов.",
+  },
+  {
+    icon: Zap,
+    title: "Бытовая техника",
+    text: "Холодильники, стиральные машины, мелкая техника. Популярный товар для Wildberries.",
+  },
+  {
+    icon: Wrench,
+    title: "Инструменты и оборудование",
+    text: "Ручной и электроинструмент, промышленное оборудование, станки.",
+  },
+  {
+    icon: Factory,
+    title: "Стройматериалы",
+    text: "Плитка, сантехника, двери, окна, фасадные материалы из Европы.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Сантехника",
+    text: "Ванны, душевые кабины, смесители европейских брендов.",
+  },
+  {
+    icon: Sofa,
+    title: "Мебель",
+    text: "Корпусная и мягкая мебель, комплектующие для производства.",
+  },
+  {
+    icon: Store,
+    title: "Продукты питания",
+    text: "Фито и ветгрузы — специализация БелТранзит. Берём сложные категории.",
+  },
+  {
+    icon: Smartphone,
+    title: "Косметика и парфюмерия",
+    text: "Профессиональная косметика, уходовые средства европейских брендов.",
+  },
+  {
+    icon: Container,
+    title: "Товары для дома",
+    text: "Бытовая химия, товары для уборки, хозяйственные товары.",
+  },
+  {
+    icon: Building2,
+    title: "Промышленные товары",
+    text: "Комплектующие, расходные материалы для производства.",
+  },
+  {
+    icon: Package,
+    title: "Другие товары",
+    text: "Везём всё что легально ввезти — уточните у менеджера.",
+  },
+];
+
+const cargoSchemes = [
+  ["Объём", "от 500 кг до 3т", "от 5 тонн", "любой"],
+  ["Срок", "7-14 дней", "7-10 дней", "10-16 дней"],
+  ["Подходит для", "регулярные партии", "крупные закупки", "нет оплаты в ЕС"],
+  ["Таможня", "включена", "включена", "включена"],
+];
+
+const complexCargo = [
+  {
+    icon: Store,
+    title: "Фитосанитарные грузы",
+    text: "Продукты растительного происхождения требуют специальных сертификатов. У нас есть опыт и связи.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Ветеринарные грузы",
+    text: "Продукты животного происхождения — сложная документация. Знаем как провезти официально.",
+  },
+  {
+    icon: Factory,
+    title: "Негабарит",
+    text: "Станки, оборудование, конструкции — организуем специальный транспорт и все разрешения.",
+  },
 ];
 
 const partnerStats = [
@@ -664,6 +793,227 @@ const fullTruckFaq = [
   ],
 ];
 
+const washerStats = [
+  ["14 лет", "возим из Европы"],
+  ["от 500 кг", "минимальный объём"],
+  ["7-12 дней", "срок доставки"],
+  ["под ключ", "выкуп + доставка + таможня"],
+];
+
+const washerCargo = [
+  {
+    icon: "🔵",
+    title: "Мойки высокого давления",
+    text: "Karcher, Nilfisk, Kränzle — бытовые и профессиональные серии оптом",
+  },
+  {
+    icon: "🧹",
+    title: "Пылесосы и моющие пылесосы",
+    text: "Промышленные и бытовые, сухая и влажная уборка",
+  },
+  {
+    icon: "🚿",
+    title: "Парогенераторы",
+    text: "Профессиональные пароочистители для клининга и производства",
+  },
+  {
+    icon: "🏭",
+    title: "Промышленные мойки",
+    text: "Стационарные мойки для автосервисов, производств, складов",
+  },
+  {
+    icon: "🧴",
+    title: "Расходники и аксессуары",
+    text: "Насадки, шланги, щётки, моющие средства под оборудование",
+  },
+  {
+    icon: "⚙️",
+    title: "Запчасти для Кёрхер",
+    text: "Оригинальные запчасти и комплектующие для обслуживания техники",
+  },
+];
+
+const washerAudiences = [
+  {
+    icon: "🏪",
+    title: "Магазины и дистрибьюторы",
+    text: "Закупаете моющее оборудование для перепродажи — привезём партию напрямую от европейского поставщика.",
+  },
+  {
+    icon: "🧽",
+    title: "Клининговые компании",
+    text: "Нужна профессиональная техника которой нет в России — найдём и привезём под ключ.",
+  },
+  {
+    icon: "📦",
+    title: "Wildberries и маркетплейсы",
+    text: "Продаёте Кёрхеры и аналоги онлайн — организуем регулярные поставки с минимальными сроками.",
+  },
+];
+
+const washerReasons = [
+  {
+    icon: "💰",
+    title: "Цена",
+    text: "Кёрхеры и аналоги у европейского дистрибьютора на 25-40% дешевле чем у российских посредников.",
+  },
+  {
+    icon: "✅",
+    title: "Оригинал с документами",
+    text: "Прямая закупка у официального дистрибьютора — полный комплект документов, гарантия производителя.",
+  },
+  {
+    icon: "🌍",
+    title: "Полный ассортимент",
+    text: "Профессиональные серии и модели которых нет в официальной российской дистрибуции.",
+  },
+];
+
+const washerSteps = [
+  ["1", "Вы даёте", "список позиций"],
+  ["2", "Находим", "поставщика и считаем цену"],
+  ["3", "Выкупаем", "у поставщика в Европе"],
+  ["4", "Склад", "Вильнюс, консолидация"],
+  ["5", "Доставка", "до двери в РФ + таможня"],
+];
+
+const washerAdvantages = [
+  "Знаем рынок моющего оборудования — подберём поставщика под любой бренд",
+  "Выкупаем сами — не нужна европейская карта и счёт",
+  "Проверяем технику на складе — брак не едет в Россию",
+  "Правильная упаковка — оборудование доезжает без повреждений",
+  "Таможня включена — знаем коды ТНВЭД на моющее оборудование",
+];
+
+const washerFaq = [
+  [
+    "Везёте только Кёрхер или другие бренды тоже?",
+    "Везём Karcher, Nilfisk, Kränzle и другие европейские бренды моющего оборудования, если их можно легально выкупить и оформить.",
+  ],
+  [
+    "Можете найти конкретную модель под заказ?",
+    "Да. Дайте артикул, модель или список позиций — проверим наличие у европейских поставщиков и посчитаем доставку.",
+  ],
+  [
+    "Как растаможить моющее оборудование из Европы?",
+    "Мы заранее проверяем документы, код ТНВЭД, стоимость партии и требования к оформлению. Таможенное сопровождение входит в схему под ключ.",
+  ],
+  [
+    "Везёте запчасти и расходники к Кёрхерам?",
+    "Да. Возим насадки, шланги, щётки, фильтры, оригинальные запчасти и расходные материалы партиями от 500 кг.",
+  ],
+  [
+    "Какой минимальный объём для доставки?",
+    "Ориентир — от 500 кг. Если партия меньше, всё равно напишите: проверим, можно ли объединить её с ближайшей отправкой.",
+  ],
+];
+
+const tireStats = [
+  ["14 лет", "возим из Европы"],
+  ["от 500 кг", "минимальный объём"],
+  ["7-12 дней", "срок доставки"],
+  ["под ключ", "выкуп + доставка + таможня"],
+];
+
+const tireCargoGroups = [
+  {
+    icon: "🚗",
+    title: "Шины — основной фокус",
+    items: [
+      "Легковые шины европейских брендов",
+      "Грузовые и коммерческие шины",
+      "Шины для спецтехники",
+      "Всесезонные, летние, зимние",
+      "Оптовые партии для магазинов и шиномонтажей",
+    ],
+  },
+  {
+    icon: "🔧",
+    title: "Автозапчасти",
+    items: [
+      "Оригинальные запчасти из Германии и Польши",
+      "Запчасти для европейских марок",
+      "Расходники и фильтры оптом",
+      "Комплектующие для СТО и автосервисов",
+    ],
+  },
+];
+
+const tireAudiences = [
+  {
+    icon: "🏪",
+    title: "Магазины шин и запчастей",
+    text: "Закупаете у европейских дистрибьюторов — привезём партию под ключ. Регулярные рейсы раз в неделю.",
+  },
+  {
+    icon: "🔧",
+    title: "Шиномонтажи и СТО",
+    text: "Нужны конкретные бренды и размеры которых нет в России — найдём поставщика и привезём.",
+  },
+  {
+    icon: "📦",
+    title: "Wildberries и маркетплейсы",
+    text: "Продаёте шины и запчасти онлайн — организуем регулярные поставки с минимальными сроками.",
+  },
+];
+
+const tireReasons = [
+  {
+    icon: "💰",
+    title: "Цена",
+    text: "Европейские шины у дистрибьютора на 20-35% дешевле чем у российских посредников. Особенно на премиальные бренды.",
+  },
+  {
+    icon: "✅",
+    title: "Оригинал",
+    text: "Прямая закупка у официального дистрибьютора — никаких подделок и пересортицы.",
+  },
+  {
+    icon: "🌍",
+    title: "Ассортимент",
+    text: "Размеры и бренды которых нет в российской дистрибуции — везём любые позиции под заказ.",
+  },
+];
+
+const tireSteps = [
+  ["1", "Вы даёте", "список позиций"],
+  ["2", "Находим", "поставщика и считаем цену"],
+  ["3", "Выкупаем", "у поставщика в Европе"],
+  ["4", "Склад", "Вильнюс, консолидация"],
+  ["5", "Доставка", "до двери в РФ + таможня"],
+];
+
+const tireAdvantages = [
+  "Знаем европейский рынок шин — подберём поставщика под любой бренд",
+  "Выкупаем сами — не нужна европейская карта и счёт",
+  "Сборный груз от 500 кг — не надо ждать полной фуры",
+  "Фура раз в неделю — предсказуемые сроки для вашего бизнеса",
+  "Таможня включена — знаем коды ТНВЭД на шины и запчасти",
+];
+
+const tireFaq = [
+  [
+    "Какие бренды шин везёте из Европы?",
+    "Везём европейские и международные бренды у официальных дистрибьюторов: премиальные, коммерческие и специализированные линейки под заказ.",
+  ],
+  [
+    "Можете найти конкретный размер и бренд под заказ?",
+    "Да. Дайте размер, бренд, сезонность и объём — проверим наличие у поставщиков в Германии, Польше и других странах ЕС.",
+  ],
+  [
+    "Как растаможить шины из Европы?",
+    "Проверяем документы, стоимость партии, коды ТНВЭД и требования заранее. Таможенное оформление включаем в схему доставки под ключ.",
+  ],
+  [
+    "Какой минимальный объём для доставки?",
+    "Ориентир — от 500 кг. Для регулярных поставок можно собирать партии на складе в Вильнюсе и отправлять раз в неделю.",
+  ],
+  [
+    "Везёте грузовые и коммерческие шины?",
+    "Да. Работаем с легковыми, грузовыми, коммерческими шинами и шинами для спецтехники, если партия проходит по документам и объёму.",
+  ],
+];
+
 const generalFaqCategories = [
   {
     icon: Package,
@@ -799,6 +1149,66 @@ const generalFaqCategories = [
   },
 ];
 
+const contactMethods = [
+  {
+    icon: MessageCircle,
+    title: "Telegram",
+    value: "@beltransit",
+    text: "Самый быстрый способ — отвечаем в течение часа.",
+    button: "Написать в Telegram",
+    href: "https://t.me/beltransit",
+    primary: true,
+  },
+  {
+    icon: Phone,
+    title: "Телефон",
+    value: "+375 XX XXX XX XX",
+    text: "Звоните в рабочее время.",
+    button: "Позвонить",
+    href: "tel:+375000000000",
+  },
+  {
+    icon: Mail,
+    title: "Email",
+    value: "info@beltransit.ru",
+    text: "Для официальной переписки и документов.",
+    button: "Написать на email",
+    href: "mailto:info@beltransit.ru",
+  },
+  {
+    icon: Smartphone,
+    title: "WhatsApp",
+    value: "+375 XX XXX XX XX",
+    text: "Для тех кто привык к WhatsApp.",
+    button: "Написать в WhatsApp",
+    href: "https://wa.me/375000000000",
+  },
+];
+
+const contactOffices = [
+  {
+    country: "Литва",
+    title: "Вильнюс — склад и операции",
+    address: "Адрес склада",
+    hours: "Приём грузов: пн-пт 8:00-17:00",
+    text: "Для предварительного согласования отправки.",
+  },
+  {
+    country: "Беларусь",
+    title: "Минск — офис",
+    address: "Адрес офиса",
+    hours: "Пн-пт 9:00-18:00",
+    text: "Таможенное оформление, документы, встречи.",
+  },
+];
+
+const companyDetails = [
+  ["Полное название компании", "ООО «БелТранзит»"],
+  ["УНП / ИНН", "000000000"],
+  ["Юридический адрес", "Республика Беларусь, г. Минск, адрес компании"],
+  ["Банковские реквизиты", "Расчётный счёт, банк, SWIFT — по запросу"],
+];
+
 const workSteps = [
   {
     num: "1",
@@ -902,61 +1312,101 @@ const workTeam = [
 const workTrustStats = [
   ["14 лет", "на рынке"],
   ["10 000+", "доставленных грузов"],
-  ["1", "клиент ушёл к конкуренту за всё время"],
   ["0", "задержек по вине документов"],
 ];
 
-const workTestimonials = [
-  {
-    role: "Оптовик, Москва",
-    text: "Работаем 4 года. Ни разу не подвели по срокам. Рекомендую всем кто возит из Европы.",
-  },
-  {
-    role: "Продавец Wildberries, Екатеринбург",
-    text: "Первый раз боялся отдавать деньги незнакомым людям с интернета. Сейчас уже восьмая поставка.",
-  },
-  {
-    role: "Логист, Санкт-Петербург",
-    text: "Весь европейский поток через них уже два года. Надёжно, предсказуемо, без нервов.",
-  },
-];
-
 function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+
   return (
-    <header className="site-header">
-      <a className="brand" href="/" aria-label="BelTransit главная">
-        <span className="brand-mark">
-          <img src={logoMark} alt="" />
-        </span>
-        <span>
-          <strong>BelTransit</strong>
-          <small>Транспортная логистика</small>
-        </span>
-      </a>
-      <nav className="main-nav" aria-label="Основная навигация">
-        <div className="nav-service">
-          <a href="/sbornye-gruzy/">Услуги</a>
-          <div className="service-menu">
-            {services.map((service) => (
-              <a key={service.title} href={service.href}>
-                {service.title}
+    <>
+      <header className="site-header">
+        <a className="brand" href="/" aria-label="BelTransit главная">
+          <span className="brand-mark">
+            <img src={logoMark} alt="" />
+          </span>
+          <span>
+            <strong>BelTransit</strong>
+            <small>Транспортная логистика</small>
+          </span>
+        </a>
+        <nav className="main-nav" aria-label="Основная навигация">
+          <div className="nav-service nav-mega">
+            <a href="/sbornye-gruzy/">Услуги</a>
+            <div className="service-menu mega-menu">
+              {megaMenuColumns.map((column) => (
+                <div className="mega-menu-column" key={column.title}>
+                  <span>{column.title}</span>
+                  {column.links.map(([label, href]) => (
+                    <a key={label} href={href}>
+                      {label}
+                    </a>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="nav-service nav-simple">
+          <a href="/kak-my-rabotaem/">О компании</a>
+            <div className="service-menu simple-menu">
+              {companyMenu.map(([label, href]) => (
+                <a key={label} href={href}>
+                  {label}
+                </a>
+              ))}
+            </div>
+          </div>
+          <a className="nav-contact-link" href="/kontakty/">
+            Контакты
+          </a>
+        </nav>
+        <a className="button button-primary header-cta" href="/kontakty/">
+          Рассчитать стоимость
+        </a>
+        <button
+          className="mobile-menu"
+          type="button"
+          aria-label="Открыть меню"
+          aria-expanded={isMobileMenuOpen}
+          onClick={() => setIsMobileMenuOpen((open) => !open)}
+        >
+          <Menu size={22} />
+        </button>
+      </header>
+      <div className={`mobile-nav-panel${isMobileMenuOpen ? " is-open" : ""}`}>
+        <details open>
+          <summary>Услуги</summary>
+          <div className="mobile-nav-groups">
+            {megaMenuColumns.map((column) => (
+              <div key={column.title}>
+                <span>{column.title}</span>
+                {column.links.map(([label, href]) => (
+                  <a key={label} href={href} onClick={() => setIsMobileMenuOpen(false)}>
+                    {label}
+                  </a>
+                ))}
+              </div>
+            ))}
+          </div>
+        </details>
+        <details>
+          <summary>О компании</summary>
+          <div className="mobile-nav-list">
+            {companyMenu.map(([label, href]) => (
+              <a key={label} href={href} onClick={() => setIsMobileMenuOpen(false)}>
+                {label}
               </a>
             ))}
           </div>
-        </div>
-        <a href="/o-kompanii/">О компании</a>
-        <a href="/kejsy/">Кейсы</a>
-        <a href="/blog/">Блог</a>
-        <a href="/faq/">FAQ</a>
-        <a href="/kontakty/">Контакты</a>
-      </nav>
-      <a className="button button-primary header-cta" href="/kalkulyator/">
-        Рассчитать стоимость
-      </a>
-      <button className="mobile-menu" aria-label="Открыть меню">
-        <Menu size={22} />
-      </button>
-    </header>
+        </details>
+        <a className="mobile-nav-direct" href="/kontakty/" onClick={() => setIsMobileMenuOpen(false)}>
+          Контакты
+        </a>
+        <a className="button button-primary mobile-nav-cta" href="/kontakty/" onClick={() => setIsMobileMenuOpen(false)}>
+          Рассчитать стоимость
+        </a>
+      </div>
+    </>
   );
 }
 
@@ -1040,7 +1490,7 @@ function Hero() {
             таможня, склад в Вильнюсе. От 500 кг. Работаем с 2014 года.
           </p>
           <div className="hero-actions">
-            <a className="button button-primary" href="/kalkulyator/">
+            <a className="button button-primary" href="#request">
               Рассчитать стоимость <ArrowRight size={18} />
             </a>
             <a className="button button-secondary" href="/kak-my-rabotaem/">
@@ -1191,13 +1641,13 @@ function CargoGrid() {
 
 function CaseStudies() {
   return (
-    <section className="section cases-section">
+    <section className="section cases-section" id="cases">
       <div className="section-heading section-heading-row">
         <div>
           <span className="eyebrow">Практика, не обещания</span>
           <h2>Реальные доставки</h2>
         </div>
-        <a className="text-link" href="/kejsy/">
+        <a className="text-link" href="#cases">
           Смотреть все кейсы <ArrowRight size={17} />
         </a>
       </div>
@@ -2000,6 +2450,196 @@ function CustomsPage() {
   );
 }
 
+function CargoCatalogHero() {
+  return (
+    <section className="page-hero cargo-catalog-hero">
+      <div className="page-hero-shell">
+        <div className="page-hero-inner">
+          <span className="eyebrow">Что мы везём · Европа → Россия</span>
+          <h1>Везём всё что продаётся на рынках, в магазинах и на Wildberries</h1>
+          <p>
+            Сборные грузы, выкуп, полные фуры — для любого товара найдём оптимальную схему доставки
+            из Европы в Россию.
+          </p>
+          <a className="button button-primary" href="#cargo-request">
+            Рассчитать стоимость <ArrowRight size={18} />
+          </a>
+        </div>
+        <div className="cargo-hero-board" aria-hidden="true">
+          <div className="cargo-orbit cargo-orbit-main">
+            <Package size={42} />
+            <strong>12 категорий</strong>
+            <span>маршрут под товар</span>
+          </div>
+          <div className="cargo-orbit cargo-orbit-one">
+            <Settings size={24} />
+            <span>запчасти</span>
+          </div>
+          <div className="cargo-orbit cargo-orbit-two">
+            <Store size={24} />
+            <span>фито / вет</span>
+          </div>
+          <div className="cargo-orbit cargo-orbit-three">
+            <Factory size={24} />
+            <span>оборудование</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CargoDisclaimer() {
+  return (
+    <section className="section cargo-disclaimer-section">
+      <div className="section-heading">
+        <span className="eyebrow">Важное</span>
+        <h2>Что мы везём — и что не везём</h2>
+      </div>
+      <div className="cargo-disclaimer-grid">
+        <article className="cargo-disclaimer-card cargo-disclaimer-yes">
+          <span>
+            <Check size={24} />
+          </span>
+          <h3>Везём</h3>
+          <p>
+            Любые легальные товары народного потребления, промышленное оборудование, стройматериалы,
+            продукты питания, автозапчасти и всё что можно официально растаможить.
+          </p>
+        </article>
+        <article className="cargo-disclaimer-card cargo-disclaimer-no">
+          <span>×</span>
+          <h3>Не везём</h3>
+          <p>
+            Одежду и обувь в больших объёмах, санкционные товары, грузы вне маршрута Европа → РФ.
+            Если есть сомнения — проверим товар до расчёта.
+          </p>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function CargoCatalogGrid() {
+  return (
+    <section className="section cargo-catalog-section">
+      <div className="section-heading">
+        <span className="eyebrow">Категории</span>
+        <h2>Что чаще всего везут наши клиенты</h2>
+      </div>
+      <div className="cargo-catalog-grid">
+        {cargoCatalog.map(({ icon: Icon, title, text }) => (
+          <article className="cargo-catalog-card" key={title}>
+            <Icon size={28} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CargoSchemeTable() {
+  return (
+    <section className="section cargo-scheme-section">
+      <div className="section-heading">
+        <span className="eyebrow">Схема доставки</span>
+        <h2>Какая схема подходит вашему товару</h2>
+      </div>
+      <div className="cargo-scheme-table" role="table" aria-label="Сравнение схем доставки">
+        <div className="cargo-scheme-row cargo-scheme-head" role="row">
+          <span role="columnheader" />
+          <strong role="columnheader">Сборный груз</strong>
+          <strong role="columnheader">Полная фура</strong>
+          <strong role="columnheader">Выкуп + доставка</strong>
+        </div>
+        {cargoSchemes.map(([label, groupage, truck, buyout]) => (
+          <div className="cargo-scheme-row" role="row" key={label}>
+            <span role="rowheader">{label}</span>
+            <p role="cell" data-label="Сборный груз">
+              {groupage}
+            </p>
+            <p role="cell" data-label="Полная фура">
+              {truck}
+            </p>
+            <p role="cell" data-label="Выкуп + доставка">
+              {buyout}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ComplexCargo() {
+  return (
+    <section className="section audience-service-section complex-cargo-section">
+      <div className="section-heading">
+        <span className="eyebrow">Сложные грузы</span>
+        <h2>Берёмся за сложные грузы</h2>
+      </div>
+      <div className="service-audience-grid complex-cargo-grid">
+        {complexCargo.map(({ icon: Icon, title, text }) => (
+          <article className="service-audience-card complex-cargo-card" key={title}>
+            <Icon size={30} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CargoFinalCta() {
+  return (
+    <section className="section request-section cargo-request-section" id="cargo-request">
+      <div className="request-copy">
+        <span className="eyebrow">Проверка товара</span>
+        <h2>Не нашли свой товар?</h2>
+        <p>Напишите нам — скажем можем ли везти и какая схема оптимальна.</p>
+      </div>
+      <form className="request-form">
+        <label>
+          <span>Что хотите привезти</span>
+          <input type="text" name="cargo" placeholder="Товар / категория" />
+        </label>
+        <label>
+          <span>Откуда</span>
+          <input type="text" name="from" placeholder="Страна / город" />
+        </label>
+        <label>
+          <span>Примерный объём</span>
+          <input type="text" name="volume" placeholder="Вес / кубы / количество" />
+        </label>
+        <label>
+          <span>Телефон / Telegram</span>
+          <input type="text" name="contact" placeholder="+7..." />
+        </label>
+        <button className="button button-primary" type="submit">
+          Уточнить по моему товару <Send size={18} />
+        </button>
+        <small>Ответим в течение 2 часов</small>
+      </form>
+    </section>
+  );
+}
+
+function CargoCatalogPage() {
+  return (
+    <>
+      <CargoCatalogHero />
+      <CargoDisclaimer />
+      <CargoCatalogGrid />
+      <CargoSchemeTable />
+      <ComplexCargo />
+      <CargoFinalCta />
+    </>
+  );
+}
+
 function PartnerHero() {
   return (
     <section className="page-hero partner-hero">
@@ -2733,7 +3373,6 @@ function WorkHero() {
     <section className="page-hero work-hero">
       <div className="page-hero-shell">
         <div className="page-hero-inner">
-          <span className="eyebrow">Процесс · договор · документы</span>
           <h1>Как мы работаем — от заявки до доставки без сюрпризов</h1>
           <p>
             Прозрачная схема работы, фиксированные цены, все документы на руках. Никаких скрытых
@@ -2872,26 +3511,6 @@ function WorkTrustStats() {
   );
 }
 
-function WorkTestimonials() {
-  return (
-    <section className="section work-testimonials">
-      <div className="section-heading">
-        <span className="eyebrow">Отзывы</span>
-        <h2>Отзывы клиентов</h2>
-      </div>
-      <div className="case-grid">
-        {workTestimonials.map((item) => (
-          <article className="case-card work-review-card" key={item.role}>
-            <span className="case-number">отзыв</span>
-            <h3>{item.role}</h3>
-            <p>{item.text}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function WorkFinalCta() {
   return (
     <section className="section request-section work-request-section" id="work-request">
@@ -2932,8 +3551,512 @@ function WorkPage() {
       <WorkContacts />
       <WorkTeam />
       <WorkTrustStats />
-      <WorkTestimonials />
       <WorkFinalCta />
+    </>
+  );
+}
+
+function WashersHero() {
+  return (
+    <section className="page-hero washers-hero">
+      <div className="page-hero-shell">
+        <div className="page-hero-inner">
+          <span className="eyebrow">Моющее оборудование · Европа → Россия</span>
+          <h1>Кёрхеры и моющие аппараты из Европы — напрямую от производителя</h1>
+          <p>
+            Везём оптовые партии моющего оборудования европейских брендов. Выкупаем у поставщика,
+            доставляем под ключ, растаможиваем. От 500 кг.
+          </p>
+          <a className="button button-primary" href="#washers-request">
+            Рассчитать стоимость доставки <ArrowRight size={18} />
+          </a>
+        </div>
+        <div className="washers-hero-board" aria-hidden="true">
+          <div className="washer-device">
+            <div className="washer-handle" />
+            <div className="washer-body">
+              <span>K</span>
+              <strong>PRO</strong>
+            </div>
+            <div className="washer-hose" />
+            <div className="washer-wheel washer-wheel-left" />
+            <div className="washer-wheel washer-wheel-right" />
+          </div>
+          <div className="washer-jet washer-jet-one" />
+          <div className="washer-jet washer-jet-two" />
+          <div className="washers-hero-meta">
+            <span>опт</span>
+            <span>выкуп</span>
+            <span>таможня</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function WashersStats() {
+  return (
+    <section className="service-stats washers-stats" aria-label="Показатели доставки моющего оборудования">
+      {washerStats.map(([value, label]) => (
+        <div className="service-stat" key={value}>
+          <strong>{value}</strong>
+          <span>{label}</span>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function WashersCargo() {
+  return (
+    <section className="section washers-cargo-section">
+      <div className="section-heading">
+        <span className="eyebrow">Ассортимент</span>
+        <h2>Что везём</h2>
+      </div>
+      <div className="washers-card-grid">
+        {washerCargo.map((item) => (
+          <article className="washers-card" key={item.title}>
+            <span>{item.icon}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WashersAudience() {
+  return (
+    <section className="section washers-audience-section">
+      <div className="section-heading">
+        <span className="eyebrow">Клиенты</span>
+        <h2>Кому везём</h2>
+      </div>
+      <div className="service-audience-grid">
+        {washerAudiences.map((item) => (
+          <article className="service-audience-card washers-audience-card" key={item.title}>
+            <span className="washers-emoji">{item.icon}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WashersReasons() {
+  return (
+    <section className="section section-ink washers-reasons-section">
+      <div className="section-heading">
+        <span className="eyebrow">Экономика закупки</span>
+        <h2>Зачем везти моющее оборудование из Европы</h2>
+      </div>
+      <div className="service-audience-grid washers-reason-grid">
+        {washerReasons.map((item) => (
+          <article className="service-audience-card washers-reason-card" key={item.title}>
+            <span className="washers-emoji">{item.icon}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WashersProcess() {
+  return (
+    <section className="section process-section washers-process-section">
+      <div className="section-heading">
+        <span className="eyebrow">Маршрут</span>
+        <h2>Как организуем доставку</h2>
+      </div>
+      <div className="process-track process-track-five washers-process-track">
+        {washerSteps.map(([num, title, text]) => (
+          <article className="process-step" key={num}>
+            <span>{num}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WashersAdvantages() {
+  return (
+    <section className="section why-section groupage-why washers-advantages-section">
+      <div className="section-heading">
+        <span className="eyebrow">Контроль техники</span>
+        <h2>Почему выбирают нас</h2>
+      </div>
+      <div className="advantage-list">
+        {washerAdvantages.map((item) => (
+          <div className="advantage-item" key={item}>
+            <span>
+              <Check size={18} />
+            </span>
+            <p>{item}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WashersCase() {
+  return (
+    <section className="section featured-case-section washers-case-section">
+      <div className="section-heading">
+        <span className="eyebrow">Кейс</span>
+        <h2>Пример реальной поставки</h2>
+      </div>
+      <article className="featured-case">
+        <div className="featured-case-head">
+          <span className="case-number">01</span>
+          <h3>Кёрхеры профессиональная серия из Германии, 1.8 тонны</h3>
+          <div className="case-facts">
+            <span>Германия</span>
+            <span>1.8 тонны</span>
+            <span>11 дней</span>
+            <span>выкуп</span>
+          </div>
+        </div>
+        <div className="featured-case-body">
+          <p>
+            Дистрибьютор моющего оборудования из Москвы хотел закупать напрямую у немецкого
+            производителя, но оплата из России не проходила. Выкупили партию от имени нашей
+            литовской компании, проверили на складе в Вильнюсе и доставили за 11 дней.
+          </p>
+          <blockquote>Маржа выросла на 30% — теперь работаем только через них</blockquote>
+        </div>
+      </article>
+    </section>
+  );
+}
+
+function WashersFaq() {
+  return (
+    <section className="section faq-section washers-faq-section">
+      <div className="section-heading">
+        <span className="eyebrow">FAQ</span>
+        <h2>Частые вопросы</h2>
+      </div>
+      <div className="faq-list">
+        {washerFaq.map(([question, answer], index) => (
+          <details className="faq-item" key={question} open={index === 0}>
+            <summary>{question}</summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WashersFinalCta() {
+  return (
+    <section className="section request-section washers-request-section" id="washers-request">
+      <div className="request-copy">
+        <span className="eyebrow">Расчёт партии</span>
+        <h2>Нужны Кёрхеры или моющее оборудование из Европы?</h2>
+        <p>Опишите технику, объём и поставщика. Мы проверим выкуп, доставку, склад и таможню.</p>
+      </div>
+      <form className="request-form">
+        <label>
+          <span>Что нужно привезти</span>
+          <input type="text" name="cargo" placeholder="Мойки / пылесосы / запчасти" />
+        </label>
+        <label>
+          <span>Примерный объём</span>
+          <input type="text" name="volume" placeholder="кг / паллеты / количество" />
+        </label>
+        <label>
+          <span>Есть ли поставщик</span>
+          <input type="text" name="supplier" placeholder="Есть / нужно найти / нужна оплата" />
+        </label>
+        <label>
+          <span>Телефон / Telegram</span>
+          <input type="text" name="contact" placeholder="+7... или @username" />
+        </label>
+        <button className="button button-primary" type="submit">
+          Получить расчёт <Send size={18} />
+        </button>
+        <small>Ответим в течение 2 часов</small>
+      </form>
+    </section>
+  );
+}
+
+function WashersPage() {
+  return (
+    <>
+      <WashersHero />
+      <WashersStats />
+      <WashersCargo />
+      <WashersAudience />
+      <WashersReasons />
+      <WashersProcess />
+      <WashersAdvantages />
+      <WashersCase />
+      <WashersFaq />
+      <WashersFinalCta />
+    </>
+  );
+}
+
+function TiresHero() {
+  return (
+    <section className="page-hero tires-hero">
+      <div className="page-hero-shell">
+        <div className="page-hero-inner">
+          <span className="eyebrow">Шины · автозапчасти · Европа → Россия</span>
+          <h1>Шины и автозапчасти из Европы в Россию — оригинал напрямую от поставщика</h1>
+          <p>
+            Везём оптовые партии шин и запчастей европейских брендов. Выкупаем у поставщика,
+            доставляем сборным грузом или полной фурой, растаможиваем под ключ.
+          </p>
+          <a className="button button-primary" href="#tires-request">
+            Рассчитать стоимость доставки <ArrowRight size={18} />
+          </a>
+        </div>
+        <div className="tires-hero-board" aria-hidden="true">
+          <div className="tire-stack">
+            <div className="tire-ring tire-ring-one" />
+            <div className="tire-ring tire-ring-two" />
+            <div className="tire-ring tire-ring-three" />
+          </div>
+          <div className="parts-strip">
+            <span>OEM</span>
+            <span>R17-R22</span>
+            <span>EU</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function TiresStats() {
+  return (
+    <section className="service-stats tires-stats" aria-label="Показатели доставки шин и автозапчастей">
+      {tireStats.map(([value, label]) => (
+        <div className="service-stat" key={value}>
+          <strong>{value}</strong>
+          <span>{label}</span>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function TiresCargo() {
+  return (
+    <section className="section tires-cargo-section">
+      <div className="section-heading">
+        <span className="eyebrow">Ассортимент</span>
+        <h2>Что везём</h2>
+      </div>
+      <div className="tire-cargo-grid">
+        {tireCargoGroups.map((group) => (
+          <article className="tire-cargo-card" key={group.title}>
+            <span>{group.icon}</span>
+            <h3>{group.title}</h3>
+            <ul>
+              {group.items.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function TiresAudience() {
+  return (
+    <section className="section tires-audience-section">
+      <div className="section-heading">
+        <span className="eyebrow">Клиенты</span>
+        <h2>Кому везём</h2>
+      </div>
+      <div className="service-audience-grid">
+        {tireAudiences.map((item) => (
+          <article className="service-audience-card tires-audience-card" key={item.title}>
+            <span className="tires-emoji">{item.icon}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function TiresReasons() {
+  return (
+    <section className="section section-ink tires-reasons-section">
+      <div className="section-heading">
+        <span className="eyebrow">Экономика партии</span>
+        <h2>Зачем везти шины из Европы</h2>
+      </div>
+      <div className="service-audience-grid tires-reason-grid">
+        {tireReasons.map((item) => (
+          <article className="service-audience-card tires-reason-card" key={item.title}>
+            <span className="tires-emoji">{item.icon}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function TiresProcess() {
+  return (
+    <section className="section process-section tires-process-section">
+      <div className="section-heading">
+        <span className="eyebrow">Маршрут</span>
+        <h2>Как организуем доставку</h2>
+      </div>
+      <div className="process-track process-track-five tires-process-track">
+        {tireSteps.map(([num, title, text]) => (
+          <article className="process-step" key={num}>
+            <span>{num}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function TiresAdvantages() {
+  return (
+    <section className="section why-section groupage-why tires-advantages-section">
+      <div className="section-heading">
+        <span className="eyebrow">Предсказуемая поставка</span>
+        <h2>Почему выбирают нас</h2>
+      </div>
+      <div className="advantage-list">
+        {tireAdvantages.map((item) => (
+          <div className="advantage-item" key={item}>
+            <span>
+              <Check size={18} />
+            </span>
+            <p>{item}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function TiresCase() {
+  return (
+    <section className="section featured-case-section tires-case-section">
+      <div className="section-heading">
+        <span className="eyebrow">Кейс</span>
+        <h2>Пример реальной поставки</h2>
+      </div>
+      <article className="featured-case">
+        <div className="featured-case-head">
+          <span className="case-number">01</span>
+          <h3>Шины из Германии и Польши, 2.5 тонны</h3>
+          <div className="case-facts">
+            <span>Германия + Польша</span>
+            <span>2.5 тонны</span>
+            <span>10 дней</span>
+            <span>выкуп</span>
+          </div>
+        </div>
+        <div className="featured-case-body">
+          <p>
+            Владелец сети шиномонтажей в Москве хотел возить напрямую из Европы, но не знал как
+            организовать оплату поставщику. Мы выкупили партию от своего имени, собрали на складе
+            в Вильнюсе и доставили за 10 дней.
+          </p>
+          <blockquote>Себестоимость шин упала на 25% — теперь возим каждые две недели</blockquote>
+        </div>
+      </article>
+    </section>
+  );
+}
+
+function TiresFaq() {
+  return (
+    <section className="section faq-section tires-faq-section">
+      <div className="section-heading">
+        <span className="eyebrow">FAQ</span>
+        <h2>Частые вопросы</h2>
+      </div>
+      <div className="faq-list">
+        {tireFaq.map(([question, answer], index) => (
+          <details className="faq-item" key={question} open={index === 0}>
+            <summary>{question}</summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function TiresFinalCta() {
+  return (
+    <section className="section request-section tires-request-section" id="tires-request">
+      <div className="request-copy">
+        <span className="eyebrow">Расчёт партии</span>
+        <h2>Нужны шины или запчасти из Европы?</h2>
+        <p>Опишите список позиций, объём и поставщика. Мы посчитаем выкуп, доставку, склад и таможню.</p>
+      </div>
+      <form className="request-form">
+        <label>
+          <span>Что нужно привезти</span>
+          <input type="text" name="cargo" placeholder="Шины / запчасти / расходники" />
+        </label>
+        <label>
+          <span>Примерный объём</span>
+          <input type="text" name="volume" placeholder="кг / паллеты / количество" />
+        </label>
+        <label>
+          <span>Есть ли поставщик</span>
+          <input type="text" name="supplier" placeholder="Есть / нужно найти / нужна оплата" />
+        </label>
+        <label>
+          <span>Телефон / Telegram</span>
+          <input type="text" name="contact" placeholder="+7... или @username" />
+        </label>
+        <button className="button button-primary" type="submit">
+          Получить расчёт <Send size={18} />
+        </button>
+        <small>Ответим в течение 2 часов</small>
+      </form>
+    </section>
+  );
+}
+
+function TiresPage() {
+  return (
+    <>
+      <TiresHero />
+      <TiresStats />
+      <TiresCargo />
+      <TiresAudience />
+      <TiresReasons />
+      <TiresProcess />
+      <TiresAdvantages />
+      <TiresCase />
+      <TiresFaq />
+      <TiresFinalCta />
     </>
   );
 }
@@ -2948,11 +4071,6 @@ function GeneralFaqHero() {
           <p>
             Собрали ответы на вопросы которые задают чаще всего. Не нашли свой — напишите нам.
           </p>
-          <div className="general-faq-hero-meta" aria-label="Сводка FAQ">
-            <span>6 тем</span>
-            <span>24 ответа</span>
-            <span>ответим за 2 часа</span>
-          </div>
         </div>
       </div>
     </section>
@@ -2960,6 +4078,8 @@ function GeneralFaqHero() {
 }
 
 function GeneralFaqCategories() {
+  const [activeCategory, setActiveCategory] = React.useState(0);
+
   return (
     <section className="section general-faq-section">
       <div className="general-faq-wrap">
@@ -2973,18 +4093,23 @@ function GeneralFaqCategories() {
               className="general-faq-category"
               id={`faq-${title.toLowerCase().replaceAll(" ", "-")}`}
               key={title}
-              open={categoryIndex === 0}
+              open={activeCategory === categoryIndex}
             >
-              <summary className="general-faq-category-head">
+              <summary
+                className="general-faq-category-head"
+                onClick={(event) => {
+                  event.preventDefault();
+                  setActiveCategory(categoryIndex);
+                }}
+              >
                 <span className="general-faq-category-title">
                   <Icon size={24} />
                   <span>{title}</span>
                 </span>
-                <span className="general-faq-category-count">{questions.length} вопроса</span>
               </summary>
               <div className="general-faq-questions">
                 {questions.map(([question, answer], questionIndex) => (
-                  <details className="faq-item general-faq-item" key={question} open={categoryIndex === 0 && questionIndex === 0}>
+                  <details className="faq-item general-faq-item" key={question} open={activeCategory === categoryIndex && questionIndex === 0}>
                     <summary>{question}</summary>
                     <p>{answer}</p>
                   </details>
@@ -3014,7 +4139,7 @@ function GeneralFaqContact() {
           <a className="button button-secondary" href="tel:+375000000000">
             Позвонить <Phone size={18} />
           </a>
-          <a className="button button-secondary" href="/kalkulyator/">
+          <a className="button button-secondary" href="/kontakty/">
             Оставить заявку <ArrowRight size={18} />
           </a>
         </div>
@@ -3029,6 +4154,201 @@ function GeneralFaqPage() {
       <GeneralFaqHero />
       <GeneralFaqCategories />
       <GeneralFaqContact />
+    </>
+  );
+}
+
+function ContactsHero() {
+  return (
+    <section className="page-hero contacts-hero">
+      <div className="page-hero-shell contacts-hero-shell">
+        <div className="page-hero-inner">
+          <span className="eyebrow">Контакты · BelTransit</span>
+          <h1>Свяжитесь с нами — ответим в течение 2 часов</h1>
+          <p>
+            Работаем в будни с 9:00 до 18:00 по московскому времени. Срочные вопросы — в Telegram,
+            отвечаем быстро.
+          </p>
+        </div>
+        <div className="contacts-hero-panel" aria-hidden="true">
+          <div className="contacts-status">
+            <span>пн-пт</span>
+            <strong>9:00-18:00</strong>
+            <small>Москва</small>
+          </div>
+          <div className="contacts-status-row">
+            <span>Telegram</span>
+            <i />
+            <span>телефон</span>
+            <i />
+            <span>email</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ContactMethods() {
+  return (
+    <section className="section contact-methods-section">
+      <div className="section-heading">
+        <span className="eyebrow">Способы связи</span>
+        <h2>Выберите удобный канал</h2>
+      </div>
+      <div className="contact-method-grid">
+        {contactMethods.map(({ icon: Icon, title, value, text, button, href, primary }) => (
+          <article className={`contact-method-card${primary ? " contact-method-card-primary" : ""}`} key={title}>
+            <Icon size={30} />
+            <h3>{title}</h3>
+            <strong>{value}</strong>
+            <p>{text}</p>
+            <a className={`button ${primary ? "button-dark" : "button-plain"}`} href={href}>
+              {button} <ArrowRight size={17} />
+            </a>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ContactOffices() {
+  return (
+    <section className="section contact-offices-section">
+      <div className="section-heading">
+        <span className="eyebrow">Офисы</span>
+        <h2>Где мы работаем</h2>
+      </div>
+      <div className="contact-office-grid">
+        {contactOffices.map((office) => (
+          <article className="contact-office-card" key={office.title}>
+            <span>{office.country}</span>
+            <h3>{office.title}</h3>
+            <strong>{office.address}</strong>
+            <p>{office.hours}</p>
+            <p>{office.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ContactMap() {
+  return (
+    <section className="section contact-map-section">
+      <div className="contact-map">
+        <div className="contact-map-copy">
+          <span className="eyebrow">Карта</span>
+          <h2>Две точки на маршруте Европа → Россия</h2>
+          <p>Склад в Вильнюсе принимает и консолидирует грузы, офис в Минске ведёт документы и таможню.</p>
+        </div>
+        <div className="contact-map-visual" aria-label="Карта с точками Вильнюс и Минск">
+          <div className="contact-map-line" />
+          <div className="contact-map-point contact-map-vilnius">
+            <span />
+            <strong>Склад в Вильнюсе</strong>
+          </div>
+          <div className="contact-map-point contact-map-minsk">
+            <span />
+            <strong>Офис в Минске</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ContactRequestForm() {
+  return (
+    <section className="section request-section contact-request-section" id="contact-request">
+      <div className="request-copy">
+        <span className="eyebrow">Заявка</span>
+        <h2>Или оставьте заявку — перезвоним</h2>
+        <p>Опишите задачу коротко. Менеджер уточнит маршрут, товар, сроки и вернётся с первым ответом.</p>
+      </div>
+      <form className="request-form contact-request-form">
+        <label>
+          <span>Имя</span>
+          <input type="text" name="name" placeholder="Как к вам обращаться" />
+        </label>
+        <label>
+          <span>Компания</span>
+          <input type="text" name="company" placeholder="Название компании" />
+        </label>
+        <label>
+          <span>Телефон / Telegram</span>
+          <input type="text" name="contact" placeholder="+7... / @username" />
+        </label>
+        <label>
+          <span>Что хотите привезти</span>
+          <input type="text" name="cargo" placeholder="Тип товара" />
+        </label>
+        <label className="contact-request-comment">
+          <span>Комментарий</span>
+          <textarea name="comment" placeholder="Опционально: страна, вес, сроки" rows="4" />
+        </label>
+        <button className="button button-primary" type="submit">
+          Отправить заявку <Send size={18} />
+        </button>
+        <small>Не передаём данные третьим лицам</small>
+      </form>
+    </section>
+  );
+}
+
+function ContactPartners() {
+  return (
+    <section className="section contact-partner-section">
+      <div className="contact-partner-card">
+        <div>
+          <span className="eyebrow">Партнёрам</span>
+          <h2>Вы логист или экспедитор?</h2>
+          <p>Для партнёрских запросов — отдельный контакт.</p>
+        </div>
+        <a className="button button-secondary" href="/dlya-logistov/">
+          Обсудить партнёрство <Handshake size={18} />
+        </a>
+      </div>
+    </section>
+  );
+}
+
+function ContactDetails() {
+  return (
+    <section className="section contact-details-section">
+      <div className="section-heading">
+        <span className="eyebrow">Документы</span>
+        <h2>Реквизиты компании</h2>
+      </div>
+      <div className="contact-details-card">
+        <dl>
+          {companyDetails.map(([label, value]) => (
+            <div key={label}>
+              <dt>{label}</dt>
+              <dd>{value}</dd>
+            </div>
+          ))}
+        </dl>
+        <a className="text-link" href="/rekvizity.pdf">
+          Скачать реквизиты PDF <Download size={17} />
+        </a>
+      </div>
+    </section>
+  );
+}
+
+function ContactsPage() {
+  return (
+    <>
+      <ContactsHero />
+      <ContactMethods />
+      <ContactOffices />
+      <ContactMap />
+      <ContactRequestForm />
+      <ContactPartners />
+      <ContactDetails />
     </>
   );
 }
@@ -3086,7 +4406,7 @@ function Footer() {
       </div>
       <div>
         <h3>Документы</h3>
-        <a href="/o-kompanii/">О компании</a>
+        <a href="/kak-my-rabotaem/">О компании</a>
         <a href="/faq/">FAQ</a>
         <a href="/kontakty/">Юридическая информация</a>
         <span>© 2026 BelTransit</span>
@@ -3101,20 +4421,31 @@ function App() {
   const isBuyoutPage = path === "/vykup-tovarov/" || path === "/vykup-tovarov";
   const isCustomsPage =
     path === "/tamozhnoe-oformlenie/" || path === "/tamozhnoe-oformlenie";
+  const isCargoCatalogPage = path === "/chto-vezem/" || path === "/chto-vezem";
   const isPartnersPage = path === "/dlya-logistov/" || path === "/dlya-logistov";
   const isWarehousePage = path === "/sklad-vilnyus/" || path === "/sklad-vilnyus";
   const isFullTruckPage = path === "/fury-konteynery/" || path === "/fury-konteynery";
   const isWorkPage = path === "/kak-my-rabotaem/" || path === "/kak-my-rabotaem";
   const isGeneralFaqPage = path === "/faq/" || path === "/faq";
+  const isContactsPage = path === "/kontakty/" || path === "/kontakty";
+  const isWashersPage =
+    path === "/kerhery/" || path === "/kerhery" || path === "/kerhery-i-moyki/" || path === "/kerhery-i-moyki";
+  const isTiresPage =
+    path === "/zapchasti-i-shiny/" ||
+    path === "/zapchasti-i-shiny" ||
+    path === "/shiny-i-avtozapchasti/" ||
+    path === "/shiny-i-avtozapchasti";
   const pageTitle = isGroupagePage
     ? "Сборные грузы из Европы — BelTransit"
     : isBuyoutPage
       ? "Выкуп товаров в Европе — BelTransit"
       : isCustomsPage
         ? "Таможенное оформление грузов — BelTransit"
-        : isPartnersPage
-          ? "Партнёрство для логистов — BelTransit"
-          : isWarehousePage
+        : isCargoCatalogPage
+          ? "Что мы везём из Европы — BelTransit"
+          : isPartnersPage
+            ? "Партнёрство для логистов — BelTransit"
+            : isWarehousePage
           ? "Склад в Вильнюсе — BelTransit"
           : isFullTruckPage
             ? "Фуры и контейнеры из Европы — BelTransit"
@@ -3122,7 +4453,13 @@ function App() {
               ? "Как мы работаем — BelTransit"
               : isGeneralFaqPage
                 ? "FAQ по доставке грузов из Европы — BelTransit"
-                : "BelTransit — доставка и выкуп грузов из Европы";
+                : isContactsPage
+                  ? "Контакты — BelTransit"
+                  : isWashersPage
+                    ? "Кёрхеры и моющие аппараты из Европы — BelTransit"
+                    : isTiresPage
+                      ? "Шины и автозапчасти из Европы — BelTransit"
+                      : "BelTransit — доставка и выкуп грузов из Европы";
 
   React.useEffect(() => {
     document.title = pageTitle;
@@ -3138,6 +4475,8 @@ function App() {
           <BuyoutPage />
         ) : isCustomsPage ? (
           <CustomsPage />
+        ) : isCargoCatalogPage ? (
+          <CargoCatalogPage />
         ) : isPartnersPage ? (
           <PartnersPage />
         ) : isWarehousePage ? (
@@ -3148,11 +4487,23 @@ function App() {
           <WorkPage />
         ) : isGeneralFaqPage ? (
           <GeneralFaqPage />
+        ) : isContactsPage ? (
+          <ContactsPage />
+        ) : isWashersPage ? (
+          <WashersPage />
+        ) : isTiresPage ? (
+          <TiresPage />
         ) : (
           <HomePage />
         )}
       </main>
       <Footer />
+      <a className="floating-telegram" href="https://t.me/beltransit" aria-label="Написать в Telegram">
+        <Send size={22} />
+      </a>
+      <a className="mobile-bottom-telegram" href="https://t.me/beltransit">
+        Написать в Telegram <Send size={18} />
+      </a>
     </>
   );
 }
