@@ -5789,8 +5789,8 @@ h1 small {
 
 .blog-card {
   position: relative;
-  display: grid;
-  align-content: start;
+  display: flex;
+  flex-direction: column;
   min-height: 22rem;
   padding: clamp(1.1rem, 3vw, 1.45rem);
   overflow: hidden;
@@ -5804,13 +5804,6 @@ h1 small {
   border-color: rgba(243, 107, 33, 0.45);
   box-shadow: var(--shadow);
   transform: translateY(-4px);
-}
-
-.blog-card:nth-child(1) {
-  color: #fff;
-  background:
-    linear-gradient(145deg, rgba(243, 107, 33, 0.18), transparent 48%),
-    var(--graphite);
 }
 
 .blog-card-number {
@@ -5844,17 +5837,14 @@ h1 small {
   line-height: 1.65;
 }
 
-.blog-card:nth-child(1) p {
-  color: rgba(255, 255, 255, 0.66);
-}
-
 .blog-card-footer {
   display: flex;
   flex-wrap: wrap;
   gap: 0.85rem;
   align-items: center;
   justify-content: space-between;
-  margin-top: 1.2rem;
+  margin-top: auto;
+  padding-top: 1.2rem;
 }
 
 .blog-card strong {
