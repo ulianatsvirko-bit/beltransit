@@ -32,6 +32,7 @@ import {
   Target,
   Truck,
   Wrench,
+  X,
   Zap,
 } from "lucide-react";
 import logoMark from "./assets/beltransit-logo-orange.png";
@@ -4961,24 +4962,80 @@ function SupplierSearchAdvantages() {
   );
 }
 
-function SupplierSearchPricing() {
+function SupplierRequestModal({ isOpen, onClose }) {
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e) => e.key === "Escape" && onClose();
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
   return (
-    <section className="section supplier-pricing-section">
-      <div className="section-heading">
-        <span className="eyebrow">Формат работы</span>
-        <h2>Стоимость услуги</h2>
+    <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label="Заявка на поиск поставщика">
+      <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose} aria-label="Закрыть">
+          <X size={20} />
+        </button>
+        <div className="modal-header">
+          <span className="eyebrow">Заявка на поиск</span>
+          <h2>Опишите что ищете</h2>
+        </div>
+        <form className="request-form modal-form">
+          <label>
+            <span>Какой товар ищете</span>
+            <input type="text" name="product" placeholder="Категория / бренд / артикул" />
+          </label>
+          <label>
+            <span>Из какой страны предпочтительно</span>
+            <input type="text" name="country" placeholder="Германия / Польша / любая страна ЕС" />
+          </label>
+          <label>
+            <span>Примерный объём закупки</span>
+            <input type="text" name="volume" placeholder="Сумма / кг / количество" />
+          </label>
+          <label>
+            <span>Телефон / Telegram</span>
+            <input type="text" name="contact" placeholder="+7... или @username" />
+          </label>
+          <button className="button button-primary" type="submit">
+            Оставить заявку на поиск <Send size={18} />
+          </button>
+          <small>Ответим в течение 2 часов — обсудим детали</small>
+        </form>
       </div>
-      <div className="supplier-pricing-grid">
-        {supplierSearchPricing.map((item) => (
-          <article className="supplier-pricing-card" key={item.title}>
-            <span>{item.icon}</span>
-            <h3>{item.title}</h3>
-            <p>{item.text}</p>
-            <a className={`button ${item.cta.btn}`} href={item.cta.href}>{item.cta.label}</a>
-          </article>
-        ))}
-      </div>
-    </section>
+    </div>
+  );
+}
+
+function SupplierSearchPricing() {
+  const [modalOpen, setModalOpen] = React.useState(false);
+
+  return (
+    <>
+      <section className="section supplier-pricing-section">
+        <div className="section-heading">
+          <span className="eyebrow">Формат работы</span>
+          <h2>Стоимость услуги</h2>
+        </div>
+        <div className="supplier-pricing-grid">
+          {supplierSearchPricing.map((item) => (
+            <article className="supplier-pricing-card" key={item.title}>
+              <span>{item.icon}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+              <button className={`button ${item.cta.btn}`} onClick={() => setModalOpen(true)}>{item.cta.label}</button>
+            </article>
+          ))}
+        </div>
+      </section>
+      <SupplierRequestModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+    </>
   );
 }
 
