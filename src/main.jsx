@@ -5624,27 +5624,31 @@ function BlogSubscribe() {
 }
 
 function BlogFinalCta() {
+  const [quoteOpen, setQuoteOpen] = React.useState(false);
   return (
-    <section className="section general-faq-contact-section blog-final-section">
-      <div className="general-faq-contact">
-        <div>
-          <span className="eyebrow">Живой вопрос</span>
-          <h2>Есть вопрос по доставке?</h2>
-          <p>Статья не ответила — спросите напрямую.</p>
+    <>
+      <section className="section general-faq-contact-section blog-final-section">
+        <div className="general-faq-contact">
+          <div>
+            <span className="eyebrow">Живой вопрос</span>
+            <h2>Есть вопрос по доставке?</h2>
+            <p>Статья не ответила — спросите напрямую.</p>
+          </div>
+          <div className="general-faq-actions">
+            <a className="button button-primary" href="https://t.me/beltransit">
+              Написать в Telegram <Send size={18} />
+            </a>
+            <a className="button button-secondary" href="tel:+375000000000">
+              Позвонить <Phone size={18} />
+            </a>
+            <button className="button button-secondary" onClick={() => setQuoteOpen(true)}>
+              Оставить заявку <ArrowRight size={18} />
+            </button>
+          </div>
         </div>
-        <div className="general-faq-actions">
-          <a className="button button-primary" href="https://t.me/beltransit">
-            Написать в Telegram <Send size={18} />
-          </a>
-          <a className="button button-secondary" href="tel:+375000000000">
-            Позвонить <Phone size={18} />
-          </a>
-          <a className="button button-secondary" href="/kalkulyator/">
-            Оставить заявку <ArrowRight size={18} />
-          </a>
-        </div>
-      </div>
-    </section>
+      </section>
+      <QuoteRequestModal isOpen={quoteOpen} onClose={() => setQuoteOpen(false)} />
+    </>
   );
 }
 
