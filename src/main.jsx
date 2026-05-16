@@ -4836,10 +4836,6 @@ function SupplierSearchHero() {
             <i />
             <i />
           </div>
-          <div className="supplier-list-card">
-            <strong>3-5</strong>
-            <span>проверенных поставщиков</span>
-          </div>
         </div>
       </div>
     </section>
