@@ -5669,9 +5669,13 @@ h1 small {
     linear-gradient(135deg, #14181b, #22282d 58%, #101315);
 }
 
+.blog-hero .page-hero-shell {
+  grid-template-columns: 1fr;
+}
+
 .blog-hero h1 {
   max-width: none;
-  font-size: clamp(2.8rem, 6vw, 5.5rem);
+  font-size: clamp(2.4rem, 4.5vw, 4rem);
 }
 
 .blog-hero-panel {
