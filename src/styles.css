@@ -6428,3 +6428,94 @@ h1 small {
 .modal-form .button {
   width: 100%;
 }
+
+.modal-form textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 5rem;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Reading progress bar */
+.reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 3px;
+  background: var(--orange);
+  transform-origin: left;
+  transform: scaleX(0);
+  box-shadow: 0 0 8px rgba(243, 107, 33, 0.5);
+  pointer-events: none;
+}
+
+/* Scroll reveal animations */
+.section.scroll-hidden {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition: opacity 580ms cubic-bezier(0.16, 1, 0.3, 1), transform 580ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.section.scroll-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Active nav state */
+.main-nav a.is-active {
+  color: var(--orange);
+}
+
+/* Article inline CTA */
+.article-inline-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  margin: 2.5rem 0;
+  background: var(--graphite);
+  color: #fff;
+}
+
+.article-inline-cta strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-family: "Unbounded", sans-serif;
+  font-size: 1rem;
+}
+
+.article-inline-cta p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.article-inline-cta .button {
+  flex-shrink: 0;
+}
+
+/* Blog card redesign — remove button look, keep arrow */
+.blog-read-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0;
+  font-weight: 900;
+  font-size: 0.92rem;
+  color: var(--graphite);
+  background: none;
+  transition: gap 180ms ease, color 180ms ease;
+}
+
+.blog-card:hover .blog-read-link {
+  gap: 0.65rem;
+  color: var(--orange);
+  background: none;
+  transform: none;
+}

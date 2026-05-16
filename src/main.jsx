@@ -1998,6 +1998,12 @@ const workTrustStats = [
 
 function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const p = window.location.pathname;
+  const serviceRoutes = ["/sbornye-gruzy","/vykup-tovarov","/tamozhnoe-oformlenie","/chto-vezem","/sklad-vilnyus","/fury-konteynery","/kerhery","/zapchasti-i-shiny","/poisk-postavshchika","/kerhery-i-moyki","/shiny-i-avtozapchasti"];
+  const companyRoutes = ["/kak-my-rabotaem","/kejsy","/dlya-logistov","/faq","/blog"];
+  const isServicesActive = serviceRoutes.some((r) => p.startsWith(r));
+  const isCompanyActive = companyRoutes.some((r) => p.startsWith(r));
+  const isContactsActive = p.startsWith("/kontakty");
 
   return (
     <>
@@ -2013,7 +2019,7 @@ function Header() {
         </a>
         <nav className="main-nav" aria-label="Основная навигация">
           <div className="nav-service nav-mega">
-            <a href="/sbornye-gruzy/">Услуги</a>
+            <a href="/sbornye-gruzy/" className={isServicesActive ? "is-active" : ""}>Услуги</a>
             <div className="service-menu mega-menu">
               {megaMenuColumns.map((column) => (
                 <div className="mega-menu-column" key={column.title}>
@@ -2028,7 +2034,7 @@ function Header() {
             </div>
           </div>
           <div className="nav-service nav-simple">
-          <a href="/kak-my-rabotaem/">О компании</a>
+          <a href="/kak-my-rabotaem/" className={isCompanyActive ? "is-active" : ""}>О компании</a>
             <div className="service-menu simple-menu">
               {companyMenu.map(([label, href]) => (
                 <a key={label} href={href}>
@@ -2037,7 +2043,7 @@ function Header() {
               ))}
             </div>
           </div>
-          <a className="nav-contact-link" href="/kontakty/">
+          <a className={`nav-contact-link${isContactsActive ? " is-active" : ""}`} href="/kontakty/">
             Контакты
           </a>
         </nav>
@@ -5681,6 +5687,73 @@ function ArticleCallout({ tone = "note", children }) {
   return <aside className={`article-callout article-callout-${tone}`}>{children}</aside>;
 }
 
+function ReadingProgressBar() {
+  const [progress, setProgress] = React.useState(0);
+  React.useEffect(() => {
+    const update = () => {
+      const el = document.documentElement;
+      const total = el.scrollHeight - el.clientHeight;
+      setProgress(total > 0 ? (el.scrollTop / total) * 100 : 0);
+    };
+    window.addEventListener("scroll", update, { passive: true });
+    update();
+    return () => window.removeEventListener("scroll", update);
+  }, []);
+  return (
+    <div
+      className="reading-progress-bar"
+      style={{ transform: `scaleX(${progress / 100})` }}
+      aria-hidden="true"
+    />
+  );
+}
+
+function useScrollReveal() {
+  React.useEffect(() => {
+    const revealed = [];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("scroll-visible");
+            e.target.classList.remove("scroll-hidden");
+            observer.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.07, rootMargin: "0px 0px -40px 0px" }
+    );
+    requestAnimationFrame(() => {
+      document.querySelectorAll(".section").forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top > window.innerHeight * 0.92) {
+          el.classList.add("scroll-hidden");
+          observer.observe(el);
+          revealed.push(el);
+        }
+      });
+    });
+    return () => {
+      observer.disconnect();
+      revealed.forEach((el) => el.classList.remove("scroll-hidden", "scroll-visible"));
+    };
+  }, []);
+}
+
+function ArticleInlineCta({ onOpen }) {
+  return (
+    <div className="article-inline-cta">
+      <div>
+        <strong>Нужна помощь с расчётом?</strong>
+        <p>Опишите товар — посчитаем пошлину и организуем доставку.</p>
+      </div>
+      <button className="button button-primary" onClick={onOpen}>
+        Получить расчёт <ArrowRight size={16} />
+      </button>
+    </div>
+  );
+}
+
 function QuoteRequestModal({ isOpen, onClose }) {
   React.useEffect(() => {
     if (!isOpen) return;
@@ -5713,6 +5786,10 @@ function QuoteRequestModal({ isOpen, onClose }) {
           <label>
             <span>Телефон / Telegram</span>
             <input type="text" name="contact" placeholder="+7... или @username" />
+          </label>
+          <label>
+            <span>Что везёте или какой вопрос</span>
+            <textarea name="message" placeholder="Товар, откуда везёте, объём — любые детали помогут дать точный ответ" rows={3} />
           </label>
           <button className="button button-primary" type="submit">
             Отправить <Send size={18} />
@@ -5830,6 +5907,8 @@ function BlogArticlePage() {
             В Беларуси сборы рассчитываются иначе — в белорусских рублях, пропорционально таможенной
             стоимости. На практике для стандартной партии это 50–300 BYN.
           </p>
+
+          <ArticleInlineCta onOpen={() => setQuoteOpen(true)} />
 
           <h2 id="article-section-5">Пример расчёта: промышленные насосы из Германии</h2>
           <div className="article-case">
@@ -6006,6 +6085,8 @@ function BelarusRouteArticlePage() {
               </div>
             ))}
           </div>
+
+          <ArticleInlineCta onOpen={() => setQuoteOpen(true)} />
 
           <h2 id="route-section-4">Как устроено таможенное оформление на маршруте</h2>
           <p>
@@ -6244,6 +6325,8 @@ function PaymentArticlePage() {
             в Вильнюсе: это не серая схема, а стандартная торговая цепочка.
           </p>
 
+          <ArticleInlineCta onOpen={() => setQuoteOpen(true)} />
+
           <h2 id="payment-section-5">Схема 4. Криптовалюта — реально ли?</h2>
           <p>
             Технически — да, стейблкоины использовались и используются для международных расчётов в
@@ -6427,6 +6510,8 @@ function LtlFtlArticlePage() {
             <p>Но на практике переходить стоит раньше — при 55–60 м³.</p>
           </div>
 
+          <ArticleInlineCta onOpen={() => setQuoteOpen(true)} />
+
           <h2 id="ltl-ftl-section-4">Почему переходить стоит раньше точки равенства</h2>
           <p>
             Чистая математика по фрахту — только часть картины. Есть факторы, которые сдвигают
@@ -6600,6 +6685,8 @@ function FirstImportArticlePage() {
             Банки с хорошим ВЭД-обслуживанием для малого бизнеса в 2026 году: Альфа-Банк, Т-Банк,
             Точка, МСП Банк. У всех есть тарифы для импортёров и менеджеры по валютному контролю.
           </ArticleCallout>
+
+          <ArticleInlineCta onOpen={() => setQuoteOpen(true)} />
 
           <h2 id="first-import-section-4">Шаг 4. Найдите поставщика</h2>
           <p>Это тот шаг, который многие считают самым сложным, хотя на деле он самый творческий.</p>
@@ -6889,6 +6976,8 @@ function TnvedArticlePage() {
             предварительное решение.
           </ArticleCallout>
 
+          <ArticleInlineCta onOpen={() => setQuoteOpen(true)} />
+
           <h2 id="article-section-5">Разбор примера: подшипники из Германии</h2>
           <p>
             Смотрим на реальную партию: 500 шарикоподшипников SKF для промышленного оборудования,
@@ -7072,6 +7161,7 @@ function Footer() {
 }
 
 function App() {
+  useScrollReveal();
   const path = window.location.pathname;
   const isGroupagePage = path === "/sbornye-gruzy/" || path === "/sbornye-gruzy";
   const isBuyoutPage = path === "/vykup-tovarov/" || path === "/vykup-tovarov";
@@ -7157,8 +7247,11 @@ function App() {
     document.title = pageTitle;
   }, [pageTitle]);
 
+  const isArticlePage = isCustomsArticlePage || isBelarusRouteArticlePage || isPaymentArticlePage || isLtlFtlArticlePage || isFirstImportArticlePage || isTnvedArticlePage;
+
   return (
     <>
+      {isArticlePage && <ReadingProgressBar />}
       <Header />
       <main>
         {isGroupagePage ? (
