@@ -5445,17 +5445,6 @@ function BlogHero() {
             Без воды, только практика.
           </p>
         </div>
-        <div className="blog-hero-panel" aria-hidden="true">
-          <div className="blog-hero-card">
-            <span>Практика</span>
-            <strong>6 свежих разборов</strong>
-          </div>
-          <div className="blog-hero-tags">
-            <span>таможня</span>
-            <span>маршруты</span>
-            <span>платежи</span>
-          </div>
-        </div>
       </div>
     </section>
   );
