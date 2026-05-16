@@ -5024,6 +5024,13 @@ h1 small {
   background: rgba(255, 250, 240, 0.82);
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.supplier-pricing-card .button {
+  margin-top: auto;
+  align-self: flex-start;
 }
 
 .supplier-pricing-card:nth-child(2) {

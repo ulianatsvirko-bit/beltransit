@@ -1163,11 +1163,13 @@ const supplierSearchPricing = [
     icon: "📋",
     title: "Поиск и отчёт",
     text: "Находим 3-5 проверенных поставщиков с контактами, ценами и условиями поставки. Фиксированная стоимость — уточняйте у менеджера.",
+    cta: { label: "Уточнить стоимость", btn: "button-primary", href: "/kontakty/" },
   },
   {
     icon: "🤝",
     title: "Поиск + сопровождение сделки",
     text: "Поиск поставщика + выкуп товара + доставка в Россию под ключ. Стоимость поиска входит в стоимость логистики.",
+    cta: { label: "Обсудить условия", btn: "button-dark", href: "/kontakty/" },
   },
 ];
 
@@ -4972,6 +4974,7 @@ function SupplierSearchPricing() {
             <span>{item.icon}</span>
             <h3>{item.title}</h3>
             <p>{item.text}</p>
+            <a className={`button ${item.cta.btn}`} href={item.cta.href}>{item.cta.label}</a>
           </article>
         ))}
       </div>
