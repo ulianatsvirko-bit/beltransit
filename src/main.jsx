@@ -1,6 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import {
+  ArrowLeft,
   ArrowRight,
   Bike,
   Briefcase,
@@ -5604,9 +5605,8 @@ function BlogArticlePage() {
       <section className="article-hero">
         <div className="article-hero-inner">
           <a className="article-back-link" href="/blog/">
-            Назад в блог
+            <ArrowLeft size={16} /> Назад в блог
           </a>
-          <span className="eyebrow">Таможня · Практика</span>
           <h1>Как рассчитать таможенные платежи при ввозе товара из Европы в 2026</h1>
           <p>
             Пошлины, НДС, сборы — разбираем по порядку: откуда берутся цифры, как их считать
@@ -5792,9 +5792,8 @@ function BelarusRouteArticlePage() {
       <section className="article-hero route-article-hero">
         <div className="article-hero-inner">
           <a className="article-back-link" href="/blog/">
-            Назад в блог
+            <ArrowLeft size={16} /> Назад в блог
           </a>
-          <span className="eyebrow">Маршруты · Практика</span>
           <h1>Почему маршрут через Беларусь — самый выгодный для импорта из Европы</h1>
           <p>
             Сравниваем маршруты, сроки и стоимость. Почему Вильнюс → Минск → Москва выигрывает.
@@ -5991,9 +5990,8 @@ function PaymentArticlePage() {
       <section className="article-hero payment-article-hero">
         <div className="article-hero-inner">
           <a className="article-back-link" href="/blog/">
-            Назад в блог
+            <ArrowLeft size={16} /> Назад в блог
           </a>
-          <span className="eyebrow">Финансы · ВЭД</span>
           <h1>Как оплатить европейского поставщика из России в 2026 — рабочие схемы</h1>
           <p>Что работает сейчас, что нет, и как организовать оплату легально.</p>
           <div className="article-meta-grid">
@@ -6224,9 +6222,8 @@ function LtlFtlArticlePage() {
       <section className="article-hero ltl-ftl-article-hero">
         <div className="article-hero-inner">
           <a className="article-back-link" href="/blog/">
-            Назад в блог
+            <ArrowLeft size={16} /> Назад в блог
           </a>
-          <span className="eyebrow">Сборные грузы · Практика</span>
           <h1>Сборный груз или полная фура — когда что выгоднее</h1>
           <p>Считаем на реальных примерах, при каком объёме выгоднее переходить с LTL на FTL.</p>
           <div className="article-meta-grid">
@@ -6398,9 +6395,8 @@ function FirstImportArticlePage() {
       <section className="article-hero first-import-article-hero">
         <div className="article-hero-inner">
           <a className="article-back-link" href="/blog/">
-            Назад в блог
+            <ArrowLeft size={16} /> Назад в блог
           </a>
-          <span className="eyebrow">ВЭД для новичков · Практика</span>
           <h1>Первый импорт из Европы — пошаговая инструкция для малого бизнеса</h1>
           <p>С чего начать, какие документы нужны, как найти поставщика и не попасть на штрафы.</p>
           <div className="article-meta-grid">
