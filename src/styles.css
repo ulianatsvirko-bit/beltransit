@@ -5670,7 +5670,8 @@ h1 small {
 }
 
 .blog-hero h1 {
-  max-width: 17ch;
+  max-width: none;
+  font-size: clamp(2.8rem, 6vw, 5.5rem);
 }
 
 .blog-hero-panel {

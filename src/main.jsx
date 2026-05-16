@@ -5599,7 +5599,51 @@ function ArticleCallout({ tone = "note", children }) {
   return <aside className={`article-callout article-callout-${tone}`}>{children}</aside>;
 }
 
+function QuoteRequestModal({ isOpen, onClose }) {
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e) => e.key === "Escape" && onClose();
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label="Получить расчёт">
+      <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose} aria-label="Закрыть">
+          <X size={20} />
+        </button>
+        <div className="modal-header">
+          <span className="eyebrow">Бесплатный расчёт</span>
+          <h2>Оставьте контакт — перезвоним</h2>
+        </div>
+        <form className="request-form modal-form">
+          <label>
+            <span>Как вас зовут</span>
+            <input type="text" name="name" placeholder="Имя" />
+          </label>
+          <label>
+            <span>Телефон / Telegram</span>
+            <input type="text" name="contact" placeholder="+7... или @username" />
+          </label>
+          <button className="button button-primary" type="submit">
+            Отправить <Send size={18} />
+          </button>
+          <small>Ответим в течение 2 часов</small>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 function BlogArticlePage() {
+  const [quoteOpen, setQuoteOpen] = React.useState(false);
   return (
     <>
       <section className="article-hero">
@@ -5615,7 +5659,6 @@ function BlogArticlePage() {
           <div className="article-meta-grid">
             <span>8 минут чтения</span>
             <span>Обновлено: май 2026</span>
-            <span>Таможенный брокер БелТранзит</span>
           </div>
         </div>
       </section>
@@ -5776,17 +5819,19 @@ function BlogArticlePage() {
                 Посчитаем таможенные платежи бесплатно и подскажем оптимальный маршрут через Вильнюс.
               </p>
             </div>
-            <a className="button button-primary" href="/kontakty/">
+            <button className="button button-primary" onClick={() => setQuoteOpen(true)}>
               Получить расчёт <ArrowRight size={18} />
-            </a>
+            </button>
           </div>
         </article>
       </section>
+      <QuoteRequestModal isOpen={quoteOpen} onClose={() => setQuoteOpen(false)} />
     </>
   );
 }
 
 function BelarusRouteArticlePage() {
+  const [quoteOpen, setQuoteOpen] = React.useState(false);
   return (
     <>
       <section className="article-hero route-article-hero">
@@ -5801,7 +5846,6 @@ function BelarusRouteArticlePage() {
           <div className="article-meta-grid">
             <span>6 минут чтения</span>
             <span>Май 2026</span>
-            <span>Логистика и маршруты</span>
           </div>
         </div>
       </section>
@@ -5974,17 +6018,19 @@ function BelarusRouteArticlePage() {
                 доставки через Вильнюс и Беларусь.
               </p>
             </div>
-            <a className="button button-primary" href="/kontakty/">
+            <button className="button button-primary" onClick={() => setQuoteOpen(true)}>
               Получить расчёт <ArrowRight size={18} />
-            </a>
+            </button>
           </div>
         </article>
       </section>
+      <QuoteRequestModal isOpen={quoteOpen} onClose={() => setQuoteOpen(false)} />
     </>
   );
 }
 
 function PaymentArticlePage() {
+  const [quoteOpen, setQuoteOpen] = React.useState(false);
   return (
     <>
       <section className="article-hero payment-article-hero">
@@ -5997,7 +6043,6 @@ function PaymentArticlePage() {
           <div className="article-meta-grid">
             <span>10 минут чтения</span>
             <span>Май 2026</span>
-            <span>Финансы и ВЭД</span>
           </div>
         </div>
       </section>
@@ -6206,17 +6251,19 @@ function PaymentArticlePage() {
                 вашу ситуацию.
               </p>
             </div>
-            <a className="button button-primary" href="/kontakty/">
+            <button className="button button-primary" onClick={() => setQuoteOpen(true)}>
               Получить схему оплаты <ArrowRight size={18} />
-            </a>
+            </button>
           </div>
         </article>
       </section>
+      <QuoteRequestModal isOpen={quoteOpen} onClose={() => setQuoteOpen(false)} />
     </>
   );
 }
 
 function LtlFtlArticlePage() {
+  const [quoteOpen, setQuoteOpen] = React.useState(false);
   return (
     <>
       <section className="article-hero ltl-ftl-article-hero">
@@ -6229,7 +6276,6 @@ function LtlFtlArticlePage() {
           <div className="article-meta-grid">
             <span>5 минут чтения</span>
             <span>Май 2026</span>
-            <span>Сборные грузы</span>
           </div>
         </div>
       </section>
@@ -6379,17 +6425,19 @@ function LtlFtlArticlePage() {
                 Скажите объём, вес и маршрут — сравним LTL, групповую фуру и FTL по реальным ставкам.
               </p>
             </div>
-            <a className="button button-primary" href="/kontakty/">
+            <button className="button button-primary" onClick={() => setQuoteOpen(true)}>
               Рассчитать доставку <ArrowRight size={18} />
-            </a>
+            </button>
           </div>
         </article>
       </section>
+      <QuoteRequestModal isOpen={quoteOpen} onClose={() => setQuoteOpen(false)} />
     </>
   );
 }
 
 function FirstImportArticlePage() {
+  const [quoteOpen, setQuoteOpen] = React.useState(false);
   return (
     <>
       <section className="article-hero first-import-article-hero">
@@ -6402,7 +6450,6 @@ function FirstImportArticlePage() {
           <div className="article-meta-grid">
             <span>12 минут чтения</span>
             <span>Май 2026</span>
-            <span>ВЭД для новичков</span>
           </div>
         </div>
       </section>
@@ -6632,12 +6679,13 @@ function FirstImportArticlePage() {
                 Вильнюс.
               </p>
             </div>
-            <a className="button button-primary" href="/kontakty/">
+            <button className="button button-primary" onClick={() => setQuoteOpen(true)}>
               Задать вопрос по товару <ArrowRight size={18} />
-            </a>
+            </button>
           </div>
         </article>
       </section>
+      <QuoteRequestModal isOpen={quoteOpen} onClose={() => setQuoteOpen(false)} />
     </>
   );
 }
