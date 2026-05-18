@@ -110,7 +110,7 @@ const megaMenuColumns = [
 ];
 
 const companyMenu = [
-  ["О компании", "/kak-my-rabotaem/"],
+  ["О компании", "/o-kompanii/"],
   ["Кейсы", "/#cases"],
   ["Блог", "/blog/"],
   ["FAQ", "/faq/"],
@@ -1996,6 +1996,78 @@ const workTrustStats = [
   ["0", "задержек по вине документов"],
 ];
 
+const aboutStats = [
+  ["2012", "год основания"],
+  ["14 лет", "на рынке"],
+  ["10 000+", "доставленных грузов"],
+  ["0", "задержек по вине документов"],
+];
+
+const aboutDifferentiators = [
+  {
+    emoji: "🏭",
+    title: "Физический актив",
+    text: "Свой склад в Вильнюсе — не посредник который перепродаёт чужие услуги. Реальная инфраструктура.",
+  },
+  {
+    emoji: "🤝",
+    title: "Один менеджер",
+    text: "За каждым клиентом закреплён один человек. Не колл-центр — живой контакт который знает вашу историю.",
+  },
+  {
+    emoji: "📋",
+    title: "Честные цены",
+    text: "Считаем всё до копейки до начала работы. Никаких доплат в процессе — цена в договоре финальная.",
+  },
+  {
+    emoji: "💪",
+    title: "Берёмся за сложное",
+    text: "Негабарит, фито/вет грузы, сложная таможня — не отказываем там где другие разводят руками.",
+  },
+];
+
+const aboutValues = [
+  {
+    emoji: "🤝",
+    title: "Доверие важнее сделки",
+    text: "Если понимаем что не можем везти ваш товар — скажем честно. Не возьмём деньги за работу которую не сделаем.",
+  },
+  {
+    emoji: "📋",
+    title: "Прозрачность в деньгах",
+    text: "Стоимость фиксируется до начала работы. Никогда не приходим с доплатами в процессе.",
+  },
+  {
+    emoji: "💪",
+    title: "Сложное — это интересно",
+    text: "Стандартные грузы везут все. Мы любим задачи где нужно думать и находить нестандартные решения.",
+  },
+];
+
+const aboutLicenses = [
+  "Свидетельство о регистрации компании",
+  "Лицензия таможенного представителя",
+  "Членство в ассоциации экспедиторов",
+];
+
+const aboutReviews = [
+  {
+    text: "Когда всё поменялось в 2022 — они не растерялись. Нашли новые схемы и продолжили работу. Это дорогого стоит.",
+    author: "Оптовик, Москва",
+    since: "8 лет сотрудничества",
+  },
+  {
+    text: "Везут оборудование для нашего производства. Ни разу не подвели по срокам за пять лет.",
+    author: "Производственная компания, Екатеринбург",
+    since: "5 лет",
+  },
+  {
+    text: "Надёжный партнёр в Европе — это редкость. Рекомендую коллегам без раздумий.",
+    author: "Логист, Санкт-Петербург",
+    since: "3 года",
+  },
+];
+
 function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
@@ -2028,7 +2100,7 @@ function Header() {
             </div>
           </div>
           <div className="nav-service nav-simple">
-          <a href="/kak-my-rabotaem/">О компании</a>
+          <a href="/o-kompanii/">О компании</a>
             <div className="service-menu simple-menu">
               {companyMenu.map(([label, href]) => (
                 <a key={label} href={href}>
@@ -4373,6 +4445,257 @@ function WorkFinalCta() {
         <small>Ответим в течение 2 часов</small>
       </form>
     </section>
+  );
+}
+
+function AboutHero() {
+  const [quoteOpen, setQuoteOpen] = React.useState(false);
+  return (
+    <>
+      <section className="page-hero about-hero">
+        <div className="page-hero-shell">
+          <div className="page-hero-inner">
+            <span className="eyebrow">О компании · с 2012 года</span>
+            <h1>БелТранзит — 14 лет возим грузы из Европы в Россию</h1>
+            <p>
+              Начинали с одного направления и одного клиента. Сегодня — склад в Вильнюсе, тысячи доставленных грузов и клиенты которые работают с нами по 10 лет.
+            </p>
+            <button className="button button-primary" onClick={() => setQuoteOpen(true)}>
+              Оставить заявку <ArrowRight size={18} />
+            </button>
+          </div>
+        </div>
+      </section>
+      <QuoteRequestModal isOpen={quoteOpen} onClose={() => setQuoteOpen(false)} />
+    </>
+  );
+}
+
+function AboutHistory() {
+  return (
+    <section className="section about-history-section">
+      <div className="section-heading">
+        <span className="eyebrow">Наша история</span>
+        <h2>Как мы начинали</h2>
+      </div>
+      <div className="about-history-body">
+        <p>
+          Начали в 2010 году с простой идеи — помогать российскому бизнесу работать с европейскими поставщиками. Тогда это было проще, но мы уже понимали что логистика — это не просто перевезти груз из точки А в точку Б. Это доверие.
+        </p>
+        <p>
+          Первые клиенты пришли через знакомых. Через год — знакомые знакомых. Потом выставка в Москве где познакомились с клиентами которые работают с нами до сих пор.
+        </p>
+        <p>
+          За 14 лет многое изменилось — маршруты, правила, платёжные схемы. Но не изменилось главное — каждый груз мы везём так как будто это наш собственный товар.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function AboutStats() {
+  return (
+    <div className="about-stats-band">
+      {aboutStats.map(([value, label]) => (
+        <div className="service-stat" key={value}>
+          <strong>{value}</strong>
+          <span>{label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function AboutDifferentiators() {
+  return (
+    <section className="section about-diff-section">
+      <div className="section-heading">
+        <span className="eyebrow">Наши преимущества</span>
+        <h2>Почему клиенты работают с нами по 10 лет</h2>
+      </div>
+      <div className="about-diff-grid">
+        {aboutDifferentiators.map(({ emoji, title, text }) => (
+          <article className="about-diff-card" key={title}>
+            <span className="about-card-emoji" aria-hidden="true">{emoji}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AboutGeography() {
+  return (
+    <section className="section-ink about-geo-section">
+      <div className="section">
+        <div className="section-heading">
+          <span className="eyebrow">Маршрут</span>
+          <h2>Где мы работаем</h2>
+        </div>
+        <div className="about-route-visual">
+          <div className="about-route-point">
+            <div className="about-route-flag">🇱🇹</div>
+            <div className="about-route-info">
+              <strong>Вильнюс</strong>
+              <span>склад, консолидация, отправка</span>
+            </div>
+          </div>
+          <div className="about-route-arrow" aria-hidden="true">→</div>
+          <div className="about-route-point">
+            <div className="about-route-flag">🇧🇾</div>
+            <div className="about-route-info">
+              <strong>Минск</strong>
+              <span>офис, таможенное оформление</span>
+            </div>
+          </div>
+          <div className="about-route-arrow" aria-hidden="true">→</div>
+          <div className="about-route-point">
+            <div className="about-route-flag">🇷🇺</div>
+            <div className="about-route-info">
+              <strong>Россия</strong>
+              <span>доставка по всей стране</span>
+            </div>
+          </div>
+        </div>
+        <p className="about-geo-note">
+          Маршрут Европа → Вильнюс → Минск → Россия — самый короткий и официальный путь для вашего груза.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function AboutTeam() {
+  return (
+    <section className="section work-team-section about-team-section">
+      <div className="section-heading">
+        <span className="eyebrow">Команда</span>
+        <h2>Люди которые везут ваш груз</h2>
+      </div>
+      <div className="work-team-grid">
+        {workTeam.map((member) => (
+          <article className="work-team-card" key={member.name}>
+            <div className="work-team-photo" aria-label={`Фото: ${member.name}`}>
+              <span>{member.initials}</span>
+            </div>
+            <div className="work-team-copy">
+              <small>{member.role}</small>
+              <h3>{member.name}</h3>
+              <p>{member.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AboutValues() {
+  return (
+    <section className="section-ink about-values-section">
+      <div className="section">
+        <div className="section-heading">
+          <span className="eyebrow">Принципы</span>
+          <h2>Во что мы верим</h2>
+        </div>
+        <div className="about-values-grid">
+          {aboutValues.map(({ emoji, title, text }) => (
+            <article className="about-value-card" key={title}>
+              <span className="about-card-emoji" aria-hidden="true">{emoji}</span>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AboutLicenses() {
+  return (
+    <section className="section about-licenses-section">
+      <div className="section-heading">
+        <span className="eyebrow">Документы</span>
+        <h2>Документы и лицензии</h2>
+      </div>
+      <div className="about-licenses-grid">
+        {aboutLicenses.map((doc, i) => (
+          <article className="about-license-card" key={i}>
+            <FileText size={28} />
+            <span>{doc}</span>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AboutReviews() {
+  return (
+    <section className="section about-reviews-section">
+      <div className="section-heading">
+        <span className="eyebrow">Отзывы клиентов</span>
+        <h2>Что говорят клиенты которые с нами давно</h2>
+      </div>
+      <div className="partner-testimonial-grid">
+        {aboutReviews.map(({ text, author, since }) => (
+          <article className="partner-testimonial" key={author}>
+            <blockquote>"{text}"</blockquote>
+            <strong>{author} — {since}</strong>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AboutFinalCta() {
+  return (
+    <section className="section request-section about-request-section" id="about-request">
+      <div className="request-copy">
+        <span className="eyebrow">Первый груз</span>
+        <h2>Хотите стать нашим клиентом?</h2>
+        <p>Начнём с одного груза. Убедитесь что мы те о ком говорят клиенты выше.</p>
+      </div>
+      <form className="request-form">
+        <label>
+          <span>Что хотите привезти</span>
+          <input type="text" name="cargo" placeholder="Тип товара" />
+        </label>
+        <label>
+          <span>Откуда</span>
+          <input type="text" name="from" placeholder="Страна / город" />
+        </label>
+        <label>
+          <span>Телефон / Telegram</span>
+          <input type="text" name="contact" placeholder="+7..." />
+        </label>
+        <button className="button button-primary" type="submit">
+          Оставить заявку <Send size={18} />
+        </button>
+        <small>Ответим в течение 2 часов</small>
+      </form>
+    </section>
+  );
+}
+
+function AboutPage() {
+  return (
+    <>
+      <AboutHero />
+      <AboutHistory />
+      <AboutStats />
+      <AboutDifferentiators />
+      <AboutGeography />
+      <AboutTeam />
+      <AboutValues />
+      <AboutLicenses />
+      <AboutReviews />
+      <AboutFinalCta />
+    </>
   );
 }
 
@@ -7061,7 +7384,7 @@ function Footer() {
       </div>
       <div>
         <h3>Документы</h3>
-        <a href="/kak-my-rabotaem/">О компании</a>
+        <a href="/o-kompanii/">О компании</a>
         <a href="/blog/">Блог</a>
         <a href="/faq/">FAQ</a>
         <a href="/kontakty/">Юридическая информация</a>
@@ -7083,6 +7406,7 @@ function App() {
   const isWarehousePage = path === "/sklad-vilnyus/" || path === "/sklad-vilnyus";
   const isFullTruckPage = path === "/fury-konteynery/" || path === "/fury-konteynery";
   const isWorkPage = path === "/kak-my-rabotaem/" || path === "/kak-my-rabotaem";
+  const isAboutPage = path === "/o-kompanii/" || path === "/o-kompanii";
   const isGeneralFaqPage = path === "/faq/" || path === "/faq";
   const isContactsPage = path === "/kontakty/" || path === "/kontakty";
   const isBlogPage = path === "/blog/" || path === "/blog";
@@ -7127,6 +7451,8 @@ function App() {
             ? "Фуры и контейнеры из Европы — BelTransit"
             : isWorkPage
               ? "Как мы работаем — BelTransit"
+              : isAboutPage
+                ? "О компании — БелТранзит"
               : isGeneralFaqPage
                 ? "FAQ по доставке грузов из Европы — BelTransit"
                 : isContactsPage
@@ -7179,6 +7505,8 @@ function App() {
           <FullTruckPage />
         ) : isWorkPage ? (
           <WorkPage />
+        ) : isAboutPage ? (
+          <AboutPage />
         ) : isGeneralFaqPage ? (
           <GeneralFaqPage />
         ) : isContactsPage ? (

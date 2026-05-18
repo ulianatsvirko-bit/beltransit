@@ -6428,3 +6428,315 @@ h1 small {
 .modal-form .button {
   width: 100%;
 }
+
+/* ── О компании ─────────────────────────────────── */
+
+.about-hero {
+  background:
+    radial-gradient(circle at 14% 18%, rgba(243, 107, 33, 0.22), transparent 26rem),
+    radial-gradient(circle at 85% 75%, rgba(243, 107, 33, 0.08), transparent 20rem),
+    linear-gradient(135deg, #111417, #22282d 55%, #101315);
+}
+
+.about-hero h1 {
+  max-width: 18ch;
+}
+
+/* История */
+.about-history-section {
+  display: grid;
+  gap: 2rem;
+}
+
+.about-history-body {
+  display: grid;
+  gap: 1.35rem;
+  max-width: 46rem;
+  border-left: 3px solid var(--orange);
+  padding-left: clamp(1rem, 3vw, 1.75rem);
+}
+
+.about-history-body p {
+  margin: 0;
+  color: rgba(17, 20, 23, 0.76);
+  font-size: clamp(1rem, 1.8vw, 1.125rem);
+  line-height: 1.72;
+}
+
+/* Цифры — полноширинная тёмная полоса */
+.about-stats-band {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+  color: #fff;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px) 0 0 / 3rem 3rem,
+    var(--graphite);
+  border-top: 1px solid var(--white-line);
+  border-bottom: 1px solid var(--white-line);
+}
+
+.about-stats-band .service-stat {
+  border-right: 1px solid var(--white-line);
+  padding: clamp(1.25rem, 3vw, 2rem) clamp(1rem, 4vw, 3rem);
+  min-height: 7rem;
+}
+
+.about-stats-band .service-stat strong {
+  font-size: clamp(1.85rem, 4.5vw, 3rem);
+}
+
+/* Что нас отличает */
+.about-diff-section {
+  background: var(--paper);
+}
+
+.about-diff-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.about-diff-card {
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  background: #fffaf0;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  transition: transform 170ms ease, box-shadow 170ms ease;
+}
+
+.about-diff-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 2rem 5rem rgba(17, 20, 23, 0.14);
+}
+
+.about-card-emoji {
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 0.85rem;
+  line-height: 1;
+}
+
+.about-diff-card h3 {
+  margin: 0 0 0.6rem;
+  font-family: "Unbounded", sans-serif;
+  font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+  line-height: 1.2;
+}
+
+.about-diff-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* География */
+.about-geo-section {
+  padding: 0;
+}
+
+.about-geo-section .section {
+  display: grid;
+  gap: 2rem;
+}
+
+.about-route-visual {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.85rem;
+  padding: clamp(1.25rem, 4vw, 2rem);
+  background: rgba(255,255,255,.055);
+  border: 1px solid var(--white-line);
+}
+
+.about-route-point {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex: 1 1 auto;
+  min-width: 10rem;
+}
+
+.about-route-flag {
+  font-size: 2.5rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.about-route-info {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.about-route-info strong {
+  font-family: "Unbounded", sans-serif;
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+.about-route-info span {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,.55);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.about-route-arrow {
+  font-family: "Unbounded", sans-serif;
+  font-size: 1.5rem;
+  color: var(--orange);
+  flex-shrink: 0;
+}
+
+.about-geo-note {
+  margin: 0;
+  color: rgba(255,255,255,.55);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  border-left: 2px solid var(--orange);
+  padding-left: 1rem;
+}
+
+/* Команда — переопределение для страницы О компании */
+.about-team-section {
+  padding: clamp(3.8rem, 8vw, 6rem) clamp(1rem, 4vw, 3rem);
+}
+
+/* Ценности */
+.about-values-section {
+  padding: 0;
+}
+
+.about-values-section .section {
+  display: grid;
+  gap: 2rem;
+}
+
+.about-values-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.about-value-card {
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  background: rgba(255,255,255,.055);
+  border: 1px solid var(--white-line);
+  transition: border-color 170ms ease, background 170ms ease;
+}
+
+.about-value-card:hover {
+  background: rgba(255,255,255,.08);
+  border-color: rgba(243,107,33,.5);
+}
+
+.about-value-card h3 {
+  margin: 0 0 0.6rem;
+  font-family: "Unbounded", sans-serif;
+  font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+  line-height: 1.2;
+  color: #fff;
+}
+
+.about-value-card p {
+  margin: 0;
+  color: rgba(255,255,255,.6);
+  line-height: 1.6;
+}
+
+/* Лицензии */
+.about-licenses-section {
+  background: var(--paper-2);
+  width: 100%;
+  max-width: none;
+}
+
+.about-licenses-section > * {
+  width: min(100%, 76rem);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about-licenses-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.about-license-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: clamp(1.1rem, 3vw, 1.5rem);
+  background: #fffaf0;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.about-license-card svg {
+  color: var(--orange);
+  flex-shrink: 0;
+}
+
+.about-license-card span {
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* Отзывы */
+.about-reviews-section {
+  display: grid;
+  gap: 1.6rem;
+}
+
+/* CTA финальный */
+.about-request-section .request-copy h2 {
+  max-width: 14ch;
+}
+
+/* ── Responsive: О компании ──────────────────────── */
+@media (min-width: 640px) {
+  .about-stats-band {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .about-diff-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-licenses-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .about-route-visual {
+    flex-wrap: nowrap;
+  }
+}
+
+@media (min-width: 768px) {
+  .about-history-section {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+@media (min-width: 1024px) {
+  .about-values-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .about-diff-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .work-team-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .about-request-section {
+    grid-template-columns: 0.95fr 1.05fr;
+    align-items: center;
+  }
+}
