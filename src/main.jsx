@@ -3610,7 +3610,6 @@ function CasesPage() {
       <CasesHero />
       <CasesFilter activeFilter={activeFilter} onChange={setActiveFilter} />
       <CasesList activeFilter={activeFilter} />
-      <CasesStats />
       <CasesFinalCta />
     </>
   );
