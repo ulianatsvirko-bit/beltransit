@@ -93,7 +93,7 @@ const megaMenuColumns = [
     title: "Что везём",
     links: [
       ["Шины и автозапчасти", "/shiny-i-avtozapchasti/"],
-      ["Бытовая техника", "/chto-vezem/"],
+      ["Бытовая техника", "/bytovaya-tehnika/"],
       ["Кёрхеры и мойки", "/kerhery-i-moyki/"],
       ["Что мы везём", "/chto-vezem/"],
     ],
@@ -1089,6 +1089,99 @@ const tireFaq = [
   [
     "Везёте грузовые и коммерческие шины?",
     "Да. Работаем с легковыми, грузовыми, коммерческими шинами и шинами для спецтехники, если партия проходит по документам и объёму.",
+  ],
+];
+
+const applianceStats = [
+  ["14 лет", "возим технику из Европы"],
+  ["от 500 кг", "минимальный объём"],
+  ["7-14 дней", "срок доставки"],
+  ["под ключ", "выкуп + доставка + таможня"],
+];
+
+const applianceCargo = [
+  { icon: "🖥️", title: "Крупная техника", text: "Холодильники, стиральные машины, посудомоечные машины" },
+  { icon: "📱", title: "Мелкая техника", text: "Кофемашины, пылесосы, утюги, блендеры" },
+  { icon: "🎮", title: "Электроника", text: "Телевизоры, аудиотехника, проекторы" },
+  { icon: "🌡️", title: "Климатическая техника", text: "Кондиционеры, обогреватели, вентиляция" },
+  { icon: "🍳", title: "Кухонная техника", text: "Плиты, духовки, микроволновки, вытяжки" },
+  { icon: "🪥", title: "Техника для дома", text: "Роботы-пылесосы, увлажнители, очистители воздуха" },
+  { icon: "⚡", title: "Инструменты", text: "Электроинструмент, садовая техника, оборудование" },
+  { icon: "📦", title: "Другое", text: "Любая техника по запросу — уточним условия" },
+];
+
+const applianceAudiences = [
+  {
+    icon: "🛒",
+    title: "Wildberries и маркетплейсы",
+    text: "Продаёте технику онлайн — организуем регулярные поставки из Европы. Быстро, предсказуемо, под ключ.",
+  },
+  {
+    icon: "🏪",
+    title: "Магазины и оптовики",
+    text: "Закупаете технику для розничной торговли — привезём партию от любого европейского поставщика.",
+  },
+  {
+    icon: "🏢",
+    title: "Корпоративные клиенты",
+    text: "Оснащаете офис или производство — подберём поставщика и организуем поставку под ключ.",
+  },
+];
+
+const applianceReasons = [
+  {
+    icon: "💰",
+    title: "Цена",
+    text: "Европейская техника у производителя часто на 20-40% дешевле чем у российских дистрибьюторов.",
+  },
+  {
+    icon: "✅",
+    title: "Оригинал и гарантия",
+    text: "Прямая закупка у официального дистрибьютора — полный комплект документов и гарантия производителя.",
+  },
+  {
+    icon: "🌍",
+    title: "Ассортимент",
+    text: "Европейские бренды и модели которых нет в официальной российской дистрибуции.",
+  },
+];
+
+const applianceSteps = [
+  ["1", "Вы говорите", "что нужно и объём"],
+  ["2", "Находим", "поставщика и считаем цену"],
+  ["3", "Выкупаем", "у поставщика в Европе"],
+  ["4", "Склад", "Вильнюс, консолидация"],
+  ["5", "Доставка", "до двери в РФ + таможня"],
+];
+
+const applianceAdvantages = [
+  "Выкупаем сами — не нужна европейская карта и счёт",
+  "Проверяем технику на складе — брак не едет в Россию",
+  "Правильная упаковка — техника доезжает без повреждений",
+  "Таможня включена — знаем коды ТНВЭД на любую технику",
+  "Сборный груз от 500 кг — не нужна полная фура",
+];
+
+const applianceFaq = [
+  [
+    "Как растаможить бытовую технику из Европы?",
+    "Проверяем коды ТНВЭД, стоимость партии и документы заранее. Таможенное оформление включено в схему под ключ — вы получаете товар уже растаможенным.",
+  ],
+  [
+    "Можете помочь найти поставщика техники в Европе?",
+    "Да. Дайте список позиций, бренд и объём — проверим наличие у дистрибьюторов в Германии, Польше, Чехии и других странах ЕС.",
+  ],
+  [
+    "Что если техника придёт повреждённой?",
+    "Проверяем каждую партию на складе в Вильнюсе перед отправкой. Если повреждение выявлено — фиксируем с поставщиком до отправки, не после.",
+  ],
+  [
+    "Какой минимальный объём для доставки?",
+    "Ориентир — от 500 кг. Если партия меньше, всё равно напишите: проверим, можно ли объединить с ближайшей отправкой.",
+  ],
+  [
+    "Везёте технику без документов?",
+    "Нет. Работаем только с легально выкупленным товаром с полным пакетом документов: инвойс, упаковочный лист, CMR, декларация.",
   ],
 ];
 
@@ -5210,6 +5303,249 @@ function TiresPage() {
   );
 }
 
+function AppliancesHero() {
+  return (
+    <section className="page-hero appliances-hero">
+      <div className="page-hero-shell">
+        <div className="page-hero-inner">
+          <span className="eyebrow">Бытовая техника · Европа → Россия</span>
+          <h1>
+            Бытовая техника из Европы в Россию —{" "}
+            <span className="accent">для магазинов и Wildberries</span>
+          </h1>
+          <p>
+            Выкупаем у европейских производителей и дистрибьюторов, везём сборным грузом или
+            полной фурой, растаможиваем. От 500 кг. Работаем с оптовиками и маркетплейс-продавцами.
+          </p>
+          <a className="button button-primary" href="#appliances-request">
+            Рассчитать стоимость доставки <ArrowRight size={18} />
+          </a>
+        </div>
+        <div className="appliances-hero-visual" aria-hidden="true">
+          <div className="appliances-hero-grid">
+            {["🖥️", "📱", "🎮", "🌡️", "🍳", "🪥", "⚡", "📦"].map((icon) => (
+              <span key={icon} className="appliances-hero-icon">{icon}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AppliancesStats() {
+  return (
+    <section className="service-stats appliances-stats" aria-label="Показатели доставки бытовой техники">
+      {applianceStats.map(([value, label]) => (
+        <div className="service-stat" key={value}>
+          <strong>{value}</strong>
+          <span>{label}</span>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function AppliancesWhatWe() {
+  return (
+    <section className="section appliances-cargo-section">
+      <div className="section-heading">
+        <span className="eyebrow">Ассортимент</span>
+        <h2>Какую технику везём</h2>
+      </div>
+      <div className="appliances-cargo-grid">
+        {applianceCargo.map((item) => (
+          <article className="appliances-cargo-card" key={item.title}>
+            <span className="appliances-cargo-icon">{item.icon}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AppliancesForWho() {
+  return (
+    <section className="section section-ink appliances-audience-section">
+      <div className="section-heading">
+        <span className="eyebrow">Клиенты</span>
+        <h2>Кому везём технику</h2>
+      </div>
+      <div className="service-audience-grid">
+        {applianceAudiences.map((item) => (
+          <article className="service-audience-card appliances-audience-card" key={item.title}>
+            <span className="washers-emoji">{item.icon}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AppliancesReasons() {
+  return (
+    <section className="section appliances-reasons-section">
+      <div className="section-heading">
+        <span className="eyebrow">Экономика закупки</span>
+        <h2>Зачем везти технику из Европы</h2>
+      </div>
+      <div className="service-audience-grid appliances-reason-grid">
+        {applianceReasons.map((item) => (
+          <article className="service-audience-card appliances-reason-card" key={item.title}>
+            <span className="washers-emoji">{item.icon}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AppliancesProcess() {
+  return (
+    <section className="section process-section appliances-process-section">
+      <div className="section-heading">
+        <span className="eyebrow">Маршрут</span>
+        <h2>Как организуем доставку техники</h2>
+      </div>
+      <div className="process-track process-track-five">
+        {applianceSteps.map(([num, title, text]) => (
+          <article className="process-step" key={num}>
+            <span>{num}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AppliancesAdvantages() {
+  return (
+    <section className="section why-section appliances-advantages-section">
+      <div className="section-heading">
+        <span className="eyebrow">Контроль качества</span>
+        <h2>Почему выбирают нас</h2>
+      </div>
+      <div className="advantage-list">
+        {applianceAdvantages.map((item) => (
+          <div className="advantage-item" key={item}>
+            <span><Check size={18} /></span>
+            <p>{item}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AppliancesCase() {
+  return (
+    <section className="section featured-case-section appliances-case-section">
+      <div className="section-heading">
+        <span className="eyebrow">Кейс</span>
+        <h2>Пример реальной поставки</h2>
+      </div>
+      <article className="featured-case">
+        <div className="featured-case-head">
+          <span className="case-number">01</span>
+          <h3>Кофемашины и мелкая техника из Германии, 1.2 тонны</h3>
+          <div className="case-facts">
+            <span>Германия</span>
+            <span>1.2 тонны</span>
+            <span>12 дней</span>
+            <span>выкуп</span>
+          </div>
+        </div>
+        <div className="featured-case-body">
+          <p>
+            Продавец на Wildberries закупал технику у немецкого дистрибьютора. После 2022 года
+            оплата перестала проходить. Мы выкупили партию от своего имени, проверили на складе
+            в Вильнюсе, упаковали и доставили в Москву за 12 дней.
+          </p>
+          <blockquote>Поставки восстановили за две недели — думал это вообще невозможно теперь</blockquote>
+        </div>
+      </article>
+    </section>
+  );
+}
+
+function AppliancesFaq() {
+  return (
+    <section className="section faq-section appliances-faq-section">
+      <div className="section-heading">
+        <span className="eyebrow">FAQ</span>
+        <h2>Частые вопросы</h2>
+      </div>
+      <div className="faq-list">
+        {applianceFaq.map(([question, answer], index) => (
+          <details className="faq-item" key={question} open={index === 0}>
+            <summary>{question}</summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AppliancesFinalCta() {
+  return (
+    <section className="section request-section appliances-request-section" id="appliances-request">
+      <div className="request-copy">
+        <span className="eyebrow">Расчёт партии</span>
+        <h2>Нужна техника из Европы?</h2>
+        <p>Опишите технику, объём и поставщика. Мы проверим выкуп, доставку, склад и таможню.</p>
+      </div>
+      <form className="request-form">
+        <label>
+          <span>Что нужно привезти</span>
+          <input type="text" name="cargo" placeholder="Холодильники / кофемашины / телевизоры" />
+        </label>
+        <label>
+          <span>Страна поставщика</span>
+          <input type="text" name="country" placeholder="Германия / Польша / не знаю" />
+        </label>
+        <label>
+          <span>Примерный объём</span>
+          <input type="text" name="volume" placeholder="кг / паллеты / количество" />
+        </label>
+        <label>
+          <span>Телефон / Telegram</span>
+          <input type="text" name="contact" placeholder="+7... или @username" />
+        </label>
+        <button className="button button-primary" type="submit">
+          Получить расчёт <Send size={18} />
+        </button>
+        <small>Ответим в течение 2 часов</small>
+      </form>
+    </section>
+  );
+}
+
+function AppliancesPage() {
+  return (
+    <>
+      <AppliancesHero />
+      <AppliancesStats />
+      <AppliancesWhatWe />
+      <AppliancesForWho />
+      <AppliancesReasons />
+      <AppliancesProcess />
+      <AppliancesAdvantages />
+      <AppliancesCase />
+      <AppliancesFaq />
+      <AppliancesFinalCta />
+    </>
+  );
+}
+
 function SupplierSearchHero() {
   return (
     <section className="page-hero supplier-hero">
@@ -7500,6 +7836,7 @@ function App() {
     path === "/blog/pervyy-import-iz-evropy/" || path === "/blog/pervyy-import-iz-evropy";
   const isTnvedArticlePage =
     path === "/blog/tnved-kody/" || path === "/blog/tnved-kody";
+  const isAppliancesPage = path === "/bytovaya-tehnika/" || path === "/bytovaya-tehnika";
   const isWashersPage =
     path === "/kerhery/" || path === "/kerhery" || path === "/kerhery-i-moyki/" || path === "/kerhery-i-moyki";
   const isSupplierSearchPage = path === "/poisk-postavshchika/" || path === "/poisk-postavshchika";
@@ -7546,7 +7883,9 @@ function App() {
                               ? "Первый импорт из Европы — BelTransit"
                               : isTnvedArticlePage
                                 ? "ТН ВЭД коды — что это и почему важно — BelTransit"
-                  : isWashersPage
+                  : isAppliancesPage
+                    ? "Бытовая техника из Европы — BelTransit"
+                    : isWashersPage
                     ? "Кёрхеры и моющие аппараты из Европы — BelTransit"
                     : isSupplierSearchPage
                       ? "Поиск поставщика в Европе — BelTransit"
@@ -7603,6 +7942,8 @@ function App() {
           <FirstImportArticlePage />
         ) : isTnvedArticlePage ? (
           <TnvedArticlePage />
+        ) : isAppliancesPage ? (
+          <AppliancesPage />
         ) : isWashersPage ? (
           <WashersPage />
         ) : isSupplierSearchPage ? (
