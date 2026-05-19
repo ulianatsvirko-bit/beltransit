@@ -4601,101 +4601,129 @@ h1 small {
   font-size: clamp(1.15rem, 3vw, 2rem);
 }
 
+/* Что везём — тёмный блок с двумя колонками */
 .tires-cargo-section {
-  width: 100%;
-  max-width: none;
-  background:
-    linear-gradient(90deg, rgba(17, 20, 23, 0.035) 1px, transparent 1px) 0 0 / 3rem 3rem,
-    var(--paper);
-}
-
-.tires-cargo-section > * {
-  width: min(100%, 70rem);
-  margin-right: auto;
-  margin-left: auto;
+  background: var(--graphite);
 }
 
 .tire-cargo-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem;
+  gap: 1px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin-top: 2rem;
 }
 
 .tire-cargo-card {
-  min-height: 22rem;
-  padding: clamp(1.15rem, 3vw, 1.7rem);
-  background: rgba(255, 250, 240, 0.82);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
+  padding: clamp(1.5rem, 3vw, 2rem);
+  background: var(--graphite-2);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
-.tire-cargo-card:first-child {
-  color: var(--graphite);
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.26), transparent),
-    var(--orange);
+.tire-cargo-card-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
-.tire-cargo-card > span,
-.tires-emoji {
-  display: grid;
-  width: 3.4rem;
-  height: 3.4rem;
-  place-items: center;
-  font-size: 1.65rem;
-  background: var(--orange);
-}
-
-.tire-cargo-card:first-child > span {
-  background: #fffaf0;
+.tire-cargo-icon {
+  font-size: 2rem;
+  line-height: 1;
 }
 
 .tire-cargo-card h3 {
-  margin: 1.25rem 0 0.9rem;
+  margin: 0;
   font-family: "Unbounded", sans-serif;
-  font-size: clamp(1.35rem, 3vw, 2.1rem);
-  line-height: 1.08;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  line-height: 1.15;
+  color: #fff;
 }
 
-.tire-cargo-card ul {
-  display: grid;
-  gap: 0.65rem;
+.tire-cargo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
   padding: 0;
   margin: 0;
   list-style: none;
 }
 
-.tire-cargo-card li {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.55rem;
-  color: rgba(17, 20, 23, 0.74);
+.tire-cargo-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  color: rgba(255,255,255,0.65);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.tire-cargo-list li::before {
+  content: "—";
+  color: var(--orange);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* Кому везём — светлый, горизонтальные строки */
+.tires-audience-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 2rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.tires-audience-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+
+.tires-audience-row:last-child {
+  border-bottom: none;
+}
+
+.tires-audience-num {
+  font-family: "Unbounded", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--orange);
+  opacity: 0.4;
+  flex-shrink: 0;
+  line-height: 1.2;
+}
+
+.tires-audience-body h3 {
+  margin: 0 0 0.35rem;
+  font-family: "Manrope", sans-serif;
+  font-size: 1.05rem;
   font-weight: 800;
-  line-height: 1.42;
+  color: var(--graphite);
 }
 
-.tire-cargo-card li::before {
-  width: 0.55rem;
-  height: 0.55rem;
-  margin-top: 0.48rem;
-  content: "";
-  background: currentColor;
-  transform: rotate(45deg);
+.tires-audience-body p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: rgba(17,20,23,0.65);
 }
 
-.tires-audience-card:nth-child(1),
 .tires-reason-card:nth-child(1) {
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.24), transparent),
     var(--orange);
 }
 
-.tires-audience-card:nth-child(2),
-.tires-audience-card:nth-child(3) {
-  background: rgba(255, 250, 240, 0.78);
-}
-
-.tires-audience-card::before,
 .tires-reason-card::before {
   display: none;
 }
