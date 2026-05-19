@@ -3401,23 +3401,19 @@ function CargoCatalogPage() {
 
 function CasesHero() {
   return (
-    <section className="page-hero cases-hero">
-      <div className="page-hero-shell cases-hero-shell">
-        <div className="page-hero-inner">
+    <section className="page-hero cases-hero section-ink">
+      <div className="cases-hero-inner">
+        <div className="cases-hero-left">
           <span className="eyebrow">Кейсы · реальные доставки</span>
           <h1>Реальные доставки — без приукрас</h1>
-          <p>
-            Не отзывы на сайте — а конкретные истории. Что везли, откуда, как решали сложности и
-            что получил клиент.
-          </p>
+          <p>Не отзывы — конкретные истории. Что везли, откуда, как решили задачу.</p>
         </div>
-        <div className="cases-hero-proof" aria-hidden="true">
-          <span>01</span>
-          <strong>задача</strong>
-          <i />
-          <strong>решение</strong>
-          <i />
-          <strong>результат</strong>
+        <div className="cases-hero-steps" aria-hidden="true">
+          <div className="cases-step"><span>01</span><strong>Задача</strong></div>
+          <div className="cases-step-arrow">→</div>
+          <div className="cases-step"><span>02</span><strong>Решение</strong></div>
+          <div className="cases-step-arrow">→</div>
+          <div className="cases-step"><span>03</span><strong>Результат</strong></div>
         </div>
       </div>
     </section>
@@ -3426,11 +3422,11 @@ function CasesHero() {
 
 function CasesFilter({ activeFilter, onChange }) {
   return (
-    <section className="cases-filter-section" aria-label="Фильтр кейсов">
-      <div className="cases-filter-bar">
+    <div className="cases-filter-wrap" role="group" aria-label="Фильтр кейсов">
+      <div className="cases-pills">
         {caseFilters.map((filter) => (
           <button
-            className={activeFilter === filter ? "is-active" : ""}
+            className={`cases-pill${activeFilter === filter ? " is-active" : ""}`}
             type="button"
             key={filter}
             onClick={() => onChange(filter)}
@@ -3439,7 +3435,7 @@ function CasesFilter({ activeFilter, onChange }) {
           </button>
         ))}
       </div>
-    </section>
+    </div>
   );
 }
 
@@ -3450,61 +3446,51 @@ function CasesList({ activeFilter }) {
       : deliveryCases.filter((item) => item.category === activeFilter);
 
   return (
-    <section className="section cases-page-section">
-      <div className="cases-page-grid">
-        {filteredCases.map((item, index) => (
-          <article className="delivery-case-card" key={item.title}>
-            <div className="delivery-case-head">
-              <span className="case-number">{String(index + 1).padStart(2, "0")}</span>
-              <strong>{item.category}</strong>
+    <section className="cases-list-section">
+      {filteredCases.map((item, index) => (
+        <article className={`case-panel${index % 2 === 1 ? " case-panel--alt" : ""}`} key={item.title}>
+          <div className="case-panel-inner">
+            <div className="case-panel-header">
+              <span className="case-panel-num">{String(index + 1).padStart(2, "0")}</span>
+              <span className="case-panel-cat">{item.category}</span>
+              <h2 className="case-panel-title">{item.title}</h2>
+              <div className="case-panel-facts">
+                {item.facts.map((fact) => <span key={fact}>{fact}</span>)}
+              </div>
             </div>
-            <h2>{item.title}</h2>
-            <div className="delivery-case-facts">
-              {item.facts.map((fact) => (
-                <span key={fact}>{fact}</span>
-              ))}
+            <div className="case-panel-body">
+              <div className="case-col">
+                <p className="case-col-label">Задача</p>
+                <p>{item.task}</p>
+              </div>
+              <div className="case-col">
+                <p className="case-col-label">Решение</p>
+                <p>{item.solution}</p>
+              </div>
+              <div className="case-col case-col--result">
+                <p className="case-col-label">Результат</p>
+                <p>{item.result}</p>
+              </div>
             </div>
-            <dl className="delivery-case-details">
-              <div>
-                <dt>Клиент</dt>
-                <dd>{item.client}</dd>
-              </div>
-              <div>
-                <dt>Задача</dt>
-                <dd>{item.task}</dd>
-              </div>
-              <div>
-                <dt>Решение</dt>
-                <dd>{item.solution}</dd>
-              </div>
-              <div>
-                <dt>Результат</dt>
-                <dd>{item.result}</dd>
-              </div>
-            </dl>
-            <blockquote>{item.quote}</blockquote>
-          </article>
-        ))}
-      </div>
+            <blockquote className="case-panel-quote">
+              <span aria-hidden="true">"</span>{item.quote}
+            </blockquote>
+          </div>
+        </article>
+      ))}
     </section>
   );
 }
 
 function CasesStats() {
   return (
-    <section className="section cases-stats-section">
-      <div className="section-heading">
-        <span className="eyebrow">Цифры из кейсов</span>
-        <h2>Что говорят цифры</h2>
-      </div>
-      <div className="cases-stat-grid">
-        {casesStats.map(([value, label]) => (
-          <article className="cases-stat-card" key={value}>
-            <strong>{value}</strong>
-            <span>{label}</span>
-          </article>
-        ))}
-      </div>
+    <section className="cases-numbers-band">
+      {casesStats.map(([value, label]) => (
+        <div className="cases-number-item" key={value}>
+          <strong>{value}</strong>
+          <span>{label}</span>
+        </div>
+      ))}
     </section>
   );
 }
