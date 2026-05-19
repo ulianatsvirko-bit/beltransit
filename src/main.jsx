@@ -5960,198 +5960,111 @@ function GeneralFaqPage() {
   );
 }
 
-function ContactsHero() {
-  return (
-    <section className="page-hero contacts-hero">
-      <div className="page-hero-shell contacts-hero-shell">
-        <div className="page-hero-inner">
-          <span className="eyebrow">Контакты · BelTransit</span>
-          <h1>Свяжитесь с нами — ответим в течение 2 часов</h1>
-          <p>
-            Работаем в будни с 9:00 до 18:00 по московскому времени. Срочные вопросы — в Telegram,
-            отвечаем быстро.
-          </p>
-        </div>
-        <div className="contacts-hero-panel" aria-hidden="true">
-          <div className="contacts-status">
-            <span>пн-пт</span>
-            <strong>9:00-18:00</strong>
-            <small>Москва</small>
-          </div>
-          <div className="contacts-status-row">
-            <span>Telegram</span>
-            <i />
-            <span>телефон</span>
-            <i />
-            <span>email</span>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ContactMethods() {
-  return (
-    <section className="section contact-methods-section">
-      <div className="section-heading">
-        <span className="eyebrow">Способы связи</span>
-        <h2>Выберите удобный канал</h2>
-      </div>
-      <div className="contact-method-grid">
-        {contactMethods.map(({ icon: Icon, title, value, text, button, href, primary }) => (
-          <article className={`contact-method-card${primary ? " contact-method-card-primary" : ""}`} key={title}>
-            <Icon size={30} />
-            <h3>{title}</h3>
-            <strong>{value}</strong>
-            <p>{text}</p>
-            <a className={`button ${primary ? "button-dark" : "button-plain"}`} href={href}>
-              {button} <ArrowRight size={17} />
-            </a>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function ContactOffices() {
-  return (
-    <section className="section contact-offices-section">
-      <div className="section-heading">
-        <span className="eyebrow">Офисы</span>
-        <h2>Где мы работаем</h2>
-      </div>
-      <div className="contact-office-grid">
-        {contactOffices.map((office) => (
-          <article className="contact-office-card" key={office.title}>
-            <span>{office.country}</span>
-            <h3>{office.title}</h3>
-            <strong>{office.address}</strong>
-            <p>{office.hours}</p>
-            <p>{office.text}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function ContactMap() {
-  return (
-    <section className="section contact-map-section">
-      <div className="contact-map">
-        <div className="contact-map-copy">
-          <span className="eyebrow">Карта</span>
-          <h2>Две точки на маршруте Европа → Россия</h2>
-          <p>Склад в Вильнюсе принимает и консолидирует грузы, офис в Минске ведёт документы и таможню.</p>
-        </div>
-        <div className="contact-map-visual" aria-label="Карта с точками Вильнюс и Минск">
-          <div className="contact-map-line" />
-          <div className="contact-map-point contact-map-vilnius">
-            <span />
-            <strong>Склад в Вильнюсе</strong>
-          </div>
-          <div className="contact-map-point contact-map-minsk">
-            <span />
-            <strong>Офис в Минске</strong>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ContactRequestForm() {
-  return (
-    <section className="section request-section contact-request-section" id="contact-request">
-      <div className="request-copy">
-        <span className="eyebrow">Заявка</span>
-        <h2>Или оставьте заявку — перезвоним</h2>
-        <p>Опишите задачу коротко. Менеджер уточнит маршрут, товар, сроки и вернётся с первым ответом.</p>
-      </div>
-      <form className="request-form contact-request-form">
-        <label>
-          <span>Имя</span>
-          <input type="text" name="name" placeholder="Как к вам обращаться" />
-        </label>
-        <label>
-          <span>Компания</span>
-          <input type="text" name="company" placeholder="Название компании" />
-        </label>
-        <label>
-          <span>Телефон / Telegram</span>
-          <input type="text" name="contact" placeholder="+7... / @username" />
-        </label>
-        <label>
-          <span>Что хотите привезти</span>
-          <input type="text" name="cargo" placeholder="Тип товара" />
-        </label>
-        <label className="contact-request-comment">
-          <span>Комментарий</span>
-          <textarea name="comment" placeholder="Опционально: страна, вес, сроки" rows="4" />
-        </label>
-        <button className="button button-primary" type="submit">
-          Отправить заявку <Send size={18} />
-        </button>
-        <small>Не передаём данные третьим лицам</small>
-      </form>
-    </section>
-  );
-}
-
-function ContactPartners() {
-  return (
-    <section className="section contact-partner-section">
-      <div className="contact-partner-card">
-        <div>
-          <span className="eyebrow">Партнёрам</span>
-          <h2>Вы логист или экспедитор?</h2>
-          <p>Для партнёрских запросов — отдельный контакт.</p>
-        </div>
-        <a className="button button-secondary" href="/dlya-logistov/">
-          Обсудить партнёрство <Handshake size={18} />
-        </a>
-      </div>
-    </section>
-  );
-}
-
-function ContactDetails() {
-  return (
-    <section className="section contact-details-section">
-      <div className="section-heading">
-        <span className="eyebrow">Документы</span>
-        <h2>Реквизиты компании</h2>
-      </div>
-      <div className="contact-details-card">
-        <dl>
-          {companyDetails.map(([label, value]) => (
-            <div key={label}>
-              <dt>{label}</dt>
-              <dd>{value}</dd>
-            </div>
-          ))}
-        </dl>
-        <a className="text-link" href="/rekvizity.pdf">
-          Скачать реквизиты PDF <Download size={17} />
-        </a>
-      </div>
-    </section>
-  );
-}
-
 function ContactsPage() {
   return (
-    <>
-      <ContactsHero />
-      <ContactMethods />
-      <ContactOffices />
-      <ContactMap />
-      <ContactRequestForm />
-      <ContactPartners />
-      <ContactDetails />
-    </>
+    <div className="contacts-page">
+      <section className="contacts-main section-ink">
+        <div className="contacts-main-shell">
+          <div className="contacts-left">
+            <span className="eyebrow">Контакты · BelTransit</span>
+            <h1>Свяжитесь с нами</h1>
+            <p className="contacts-subtitle">Ответим в течение 2 часов. Срочно — пишите в Telegram.</p>
+
+            <ul className="contacts-channels">
+              <li>
+                <a href="https://t.me/beltransit" className="contacts-channel contacts-channel-primary">
+                  <MessageCircle size={20} />
+                  <div>
+                    <strong>Telegram</strong>
+                    <span>@beltransit · быстрее всего</span>
+                  </div>
+                  <ArrowRight size={16} />
+                </a>
+              </li>
+              <li>
+                <a href="tel:+375000000000" className="contacts-channel">
+                  <Phone size={20} />
+                  <div>
+                    <strong>Телефон</strong>
+                    <span>+375 XX XXX XX XX</span>
+                  </div>
+                  <ArrowRight size={16} />
+                </a>
+              </li>
+              <li>
+                <a href="https://wa.me/375000000000" className="contacts-channel">
+                  <Smartphone size={20} />
+                  <div>
+                    <strong>WhatsApp</strong>
+                    <span>+375 XX XXX XX XX</span>
+                  </div>
+                  <ArrowRight size={16} />
+                </a>
+              </li>
+              <li>
+                <a href="mailto:info@beltransit.ru" className="contacts-channel">
+                  <Mail size={20} />
+                  <div>
+                    <strong>Email</strong>
+                    <span>info@beltransit.ru</span>
+                  </div>
+                  <ArrowRight size={16} />
+                </a>
+              </li>
+            </ul>
+
+            <div className="contacts-meta">
+              <span>пн–пт · 9:00–18:00 МСК</span>
+              <span>Вильнюс · Минск</span>
+            </div>
+          </div>
+
+          <div className="contacts-right">
+            <p className="contacts-form-label">Или оставьте заявку — перезвоним</p>
+            <form className="contacts-form" id="contact-request">
+              <label>
+                <span>Телефон / Telegram</span>
+                <input type="text" name="contact" placeholder="+7... или @username" />
+              </label>
+              <label>
+                <span>Что нужно привезти</span>
+                <input type="text" name="cargo" placeholder="Тип товара, страна" />
+              </label>
+              <label>
+                <span>Комментарий</span>
+                <textarea name="comment" rows="3" placeholder="Объём, сроки, вопрос" />
+              </label>
+              <button className="button button-primary" type="submit">
+                Отправить <Send size={17} />
+              </button>
+              <small>Ответим в течение 2 часов</small>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section className="contacts-footer-strip">
+        <div className="contacts-footer-shell">
+          <div className="contacts-offices">
+            {contactOffices.map((o) => (
+              <div className="contacts-office" key={o.title}>
+                <span className="contacts-office-country">{o.country}</span>
+                <strong>{o.title}</strong>
+                <span>{o.hours}</span>
+              </div>
+            ))}
+          </div>
+          <dl className="contacts-rekvizity">
+            {companyDetails.map(([label, value]) => (
+              <div key={label}>
+                <dt>{label}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+    </div>
   );
 }
 
