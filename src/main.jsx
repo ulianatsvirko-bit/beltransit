@@ -5315,12 +5315,16 @@ function AppliancesHero() {
             Рассчитать стоимость доставки <ArrowRight size={18} />
           </a>
         </div>
-        <div className="appliances-hero-visual" aria-hidden="true">
-          <div className="appliances-hero-grid">
-            {["🖥️", "📱", "🎮", "🌡️", "🍳", "🪥", "⚡", "📦"].map((icon) => (
-              <span key={icon} className="appliances-hero-icon">{icon}</span>
-            ))}
-          </div>
+        <div className="appliances-hero-visual">
+          <img
+            src="/appliances.png"
+            alt="Бытовая техника из Европы"
+            className="appliances-hero-img"
+            width="560"
+            height="560"
+            loading="eager"
+            fetchPriority="high"
+          />
         </div>
       </div>
     </section>
