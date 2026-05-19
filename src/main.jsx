@@ -4724,24 +4724,16 @@ function WashersHero() {
             Рассчитать стоимость доставки <ArrowRight size={18} />
           </a>
         </div>
-        <div className="washers-hero-board" aria-hidden="true">
-          <div className="washer-device">
-            <div className="washer-handle" />
-            <div className="washer-body">
-              <span>K</span>
-              <strong>PRO</strong>
-            </div>
-            <div className="washer-hose" />
-            <div className="washer-wheel washer-wheel-left" />
-            <div className="washer-wheel washer-wheel-right" />
-          </div>
-          <div className="washer-jet washer-jet-one" />
-          <div className="washer-jet washer-jet-two" />
-          <div className="washers-hero-meta">
-            <span>опт</span>
-            <span>выкуп</span>
-            <span>таможня</span>
-          </div>
+        <div className="washers-hero-visual">
+          <img
+            src="/karcher.png"
+            alt="Кёрхер — моющее оборудование из Европы"
+            className="washers-hero-img"
+            width="560"
+            height="560"
+            loading="eager"
+            fetchPriority="high"
+          />
         </div>
       </div>
     </section>
