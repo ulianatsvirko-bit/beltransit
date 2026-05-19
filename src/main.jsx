@@ -3496,15 +3496,13 @@ function CasesHero() {
   return (
     <section className="cases-hero section-ink">
       <div className="cases-hero-shell">
-        <div className="cases-hero-top">
-          <span className="eyebrow">Кейсы · реальные доставки</span>
-          <h1>Реальные доставки — без приукрас</h1>
-          <p>Не отзывы — конкретные истории. Что везли, откуда, как решили задачу клиента.</p>
-        </div>
+        <span className="eyebrow">Кейсы · реальные доставки</span>
+        <h1>Что говорят клиенты — и что за этим стоит</h1>
+        <p>Не отзывы. Конкретные ситуации: с чем пришли, что сделали, что получилось в цифрах.</p>
         <div className="cases-hero-nums">
-          <div className="cases-hero-num"><strong>6</strong><span>кейсов</span></div>
-          <div className="cases-hero-num"><strong>4</strong><span>категории</span></div>
+          <div className="cases-hero-num"><strong>6</strong><span>историй</span></div>
           <div className="cases-hero-num"><strong>0</strong><span>срывов дедлайна</span></div>
+          <div className="cases-hero-num"><strong>до 30%</strong><span>экономия на логистике</span></div>
         </div>
       </div>
     </section>
@@ -3537,36 +3535,32 @@ function CasesList({ activeFilter }) {
       : deliveryCases.filter((item) => item.category === activeFilter);
 
   return (
-    <section className="cases-list-section">
-      {filteredCases.map((item, index) => (
-        <article className="case-row" key={item.title}>
-          <div className="case-row-head">
-            <span className="case-row-num">{String(index + 1).padStart(2, "0")}</span>
-            <div className="case-row-meta">
-              <span className="case-row-cat">{item.category}</span>
-              <h2 className="case-row-title">{item.title}</h2>
-              <div className="case-row-facts">
-                {item.facts.map((fact) => <span key={fact}>{fact}</span>)}
+    <section className="cases-cards-section">
+      <div className="cases-masonry">
+        {filteredCases.map((item, index) => (
+          <article className="cs-card" key={item.title}>
+            <div className="cs-card-dark">
+              <div className="cs-card-top-row">
+                <span className="cs-cat-badge">{item.category}</span>
+                <span className="cs-num">{String(index + 1).padStart(2, "0")}</span>
+              </div>
+              <blockquote className="cs-quote">{item.quote}</blockquote>
+              <cite className="cs-client">— {item.client}</cite>
+              <div className="cs-facts">
+                {item.facts.map((fact) => (
+                  <span className="cs-fact" key={fact}>{fact}</span>
+                ))}
               </div>
             </div>
-          </div>
-          <div className="case-row-body">
-            <div className="case-row-step">
-              <span className="case-step-label">Задача</span>
-              <p>{item.task}</p>
+            <div className="cs-card-light">
+              <h2 className="cs-title">{item.title}</h2>
+              <p className="cs-story">
+                {item.task} {item.solution} <strong>{item.result}</strong>
+              </p>
             </div>
-            <div className="case-row-step">
-              <span className="case-step-label">Решение</span>
-              <p>{item.solution}</p>
-            </div>
-            <div className="case-row-step case-row-result">
-              <span className="case-step-label">Результат</span>
-              <p>{item.result}</p>
-            </div>
-          </div>
-          <blockquote className="case-row-quote">{item.quote}</blockquote>
-        </article>
-      ))}
+          </article>
+        ))}
+      </div>
     </section>
   );
 }
