@@ -4561,6 +4561,8 @@ h1 small {
 
 .tires-hero h1 {
   max-width: 17ch;
+  font-size: clamp(1.9rem, 5.2vw, 3.8rem);
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
 }
 
 .tires-hero-visual {
