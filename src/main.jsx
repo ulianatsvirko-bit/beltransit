@@ -2163,12 +2163,13 @@ const aboutReviews = [
 
 function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  const p = window.location.pathname;
-  const serviceRoutes = ["/sbornye-gruzy","/vykup-tovarov","/tamozhnoe-oformlenie","/chto-vezem","/sklad-vilnyus","/fury-konteynery","/kerhery","/zapchasti-i-shiny","/poisk-postavshchika","/kerhery-i-moyki","/shiny-i-avtozapchasti"];
+  const close = () => setIsMobileMenuOpen(false);
+  const path = window.location.pathname;
+  const serviceRoutes = ["/sbornye-gruzy","/vykup-tovarov","/tamozhnoe-oformlenie","/chto-vezem","/sklad-vilnyus","/fury-konteynery","/kerhery","/zapchasti-i-shiny","/poisk-postavshchika","/kerhery-i-moyki","/shiny-i-avtozapchasti","/bytovaya-tehnika"];
   const companyRoutes = ["/o-kompanii","/kak-my-rabotaem","/kejsy","/dlya-logistov","/faq","/blog"];
-  const isServicesActive = serviceRoutes.some((r) => p.startsWith(r));
-  const isCompanyActive = companyRoutes.some((r) => p.startsWith(r));
-  const isContactsActive = p.startsWith("/kontakty");
+  const isServicesActive = serviceRoutes.some((r) => path.startsWith(r));
+  const isCompanyActive = companyRoutes.some((r) => path.startsWith(r));
+  const isContactsActive = path.startsWith("/kontakty");
 
   return (
     <>
@@ -2184,13 +2185,19 @@ function Header() {
         </a>
         <nav className="main-nav" aria-label="Основная навигация">
           <div className="nav-service nav-mega">
-            <a href="/sbornye-gruzy/" className={isServicesActive ? "is-active" : ""}>Услуги</a>
+            <a href="/sbornye-gruzy/" className={isServicesActive ? "is-active" : ""}>
+              Услуги
+            </a>
             <div className="service-menu mega-menu">
               {megaMenuColumns.map((column) => (
                 <div className="mega-menu-column" key={column.title}>
                   <span>{column.title}</span>
                   {column.links.map(([label, href]) => (
-                    <a key={label} href={href}>
+                    <a
+                      key={label}
+                      href={href}
+                      aria-current={path === href || path === href.replace(/\/$/, "") ? "page" : undefined}
+                    >
                       {label}
                     </a>
                   ))}
@@ -2199,16 +2206,26 @@ function Header() {
             </div>
           </div>
           <div className="nav-service nav-simple">
-          <a href="/o-kompanii/" className={isCompanyActive ? "is-active" : ""}>О компании</a>
+            <a href="/o-kompanii/" className={isCompanyActive ? "is-active" : ""}>
+              О компании
+            </a>
             <div className="service-menu simple-menu">
               {companyMenu.map(([label, href]) => (
-                <a key={label} href={href}>
+                <a
+                  key={label}
+                  href={href}
+                  aria-current={path === href || path === href.replace(/\/$/, "") ? "page" : undefined}
+                >
                   {label}
                 </a>
               ))}
             </div>
           </div>
-          <a className={`nav-contact-link${isContactsActive ? " is-active" : ""}`} href="/kontakty/">
+          <a
+            className={`nav-contact-link${isContactsActive ? " is-active" : ""}`}
+            href="/kontakty/"
+            aria-current={isContactsActive ? "page" : undefined}
+          >
             Контакты
           </a>
         </nav>
@@ -2225,38 +2242,76 @@ function Header() {
           <Menu size={22} />
         </button>
       </header>
-      <div className={`mobile-nav-panel${isMobileMenuOpen ? " is-open" : ""}`}>
-        <details open>
-          <summary>Услуги</summary>
-          <div className="mobile-nav-groups">
-            {megaMenuColumns.map((column) => (
-              <div key={column.title}>
-                <span>{column.title}</span>
-                {column.links.map(([label, href]) => (
-                  <a key={label} href={href} onClick={() => setIsMobileMenuOpen(false)}>
-                    {label}
-                  </a>
-                ))}
-              </div>
-            ))}
-          </div>
-        </details>
-        <details>
-          <summary>О компании</summary>
-          <div className="mobile-nav-list">
-            {companyMenu.map(([label, href]) => (
-              <a key={label} href={href} onClick={() => setIsMobileMenuOpen(false)}>
-                {label}
-              </a>
-            ))}
-          </div>
-        </details>
-        <a className="mobile-nav-direct" href="/kontakty/" onClick={() => setIsMobileMenuOpen(false)}>
-          Контакты
-        </a>
-        <a className="button button-primary mobile-nav-cta" href="/kontakty/" onClick={() => setIsMobileMenuOpen(false)}>
-          Рассчитать стоимость
-        </a>
+
+      <div
+        className={`mobile-nav-overlay${isMobileMenuOpen ? " is-open" : ""}`}
+        onClick={close}
+        aria-hidden="true"
+      />
+
+      <div className={`mobile-nav-panel${isMobileMenuOpen ? " is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Меню">
+        <div className="mobile-nav-panel-header">
+          <a className="brand" href="/" onClick={close}>
+            <span className="brand-mark"><img src={logoMark} alt="" /></span>
+            <span><strong>BelTransit</strong><small>Логистика из Европы</small></span>
+          </a>
+          <button className="mobile-nav-close" type="button" onClick={close} aria-label="Закрыть меню">
+            <X size={20} />
+          </button>
+        </div>
+
+        <div className="mobile-nav-body">
+          <details open>
+            <summary>Услуги</summary>
+            <div className="mobile-nav-groups">
+              {megaMenuColumns.map((column) => (
+                <div key={column.title}>
+                  <span>{column.title}</span>
+                  {column.links.map(([label, href]) => (
+                    <a
+                      key={label}
+                      href={href}
+                      onClick={close}
+                      className={path === href || path === href.replace(/\/$/, "") ? "is-current" : ""}
+                    >
+                      {label}
+                    </a>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </details>
+
+          <details>
+            <summary>О компании</summary>
+            <div className="mobile-nav-list">
+              {companyMenu.map(([label, href]) => (
+                <a
+                  key={label}
+                  href={href}
+                  onClick={close}
+                  className={path === href || path === href.replace(/\/$/, "") ? "is-current" : ""}
+                >
+                  {label}
+                </a>
+              ))}
+            </div>
+          </details>
+
+          <a className="mobile-nav-direct" href="/kontakty/" onClick={close}>
+            Контакты
+          </a>
+        </div>
+
+        <div className="mobile-nav-actions">
+          <a className="button button-primary mobile-nav-cta" href="/kontakty/" onClick={close}>
+            Рассчитать стоимость
+          </a>
+          <a className="mobile-nav-telegram" href="https://t.me/beltransit" target="_blank" rel="noopener noreferrer" onClick={close}>
+            <MessageCircle size={17} />
+            Telegram — отвечаем быстро
+          </a>
+        </div>
       </div>
     </>
   );
