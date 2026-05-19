@@ -6438,8 +6438,13 @@ h1 small {
     linear-gradient(135deg, #111417, #22282d 55%, #101315);
 }
 
+.about-hero .page-hero-shell {
+  grid-template-columns: 1fr;
+}
+
 .about-hero h1 {
-  max-width: 18ch;
+  max-width: none;
+  font-size: clamp(2.5rem, 5.5vw, 5rem);
 }
 
 /* История */
