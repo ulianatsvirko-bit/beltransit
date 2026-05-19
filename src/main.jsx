@@ -5007,7 +5007,7 @@ function TiresStats() {
 
 function TiresCargo() {
   return (
-    <section className="section tires-cargo-section">
+    <section className="section section-ink tires-cargo-section">
       <div className="section-heading">
         <span className="eyebrow">Ассортимент</span>
         <h2>Что везём</h2>
@@ -5015,9 +5015,11 @@ function TiresCargo() {
       <div className="tire-cargo-grid">
         {tireCargoGroups.map((group) => (
           <article className="tire-cargo-card" key={group.title}>
-            <span>{group.icon}</span>
-            <h3>{group.title}</h3>
-            <ul>
+            <div className="tire-cargo-card-head">
+              <span className="tire-cargo-icon">{group.icon}</span>
+              <h3>{group.title}</h3>
+            </div>
+            <ul className="tire-cargo-list">
               {group.items.map((item) => (
                 <li key={item}>{item}</li>
               ))}
@@ -5036,12 +5038,14 @@ function TiresAudience() {
         <span className="eyebrow">Клиенты</span>
         <h2>Кому везём</h2>
       </div>
-      <div className="service-audience-grid">
-        {tireAudiences.map((item) => (
-          <article className="service-audience-card tires-audience-card" key={item.title}>
-            <span className="tires-emoji">{item.icon}</span>
-            <h3>{item.title}</h3>
-            <p>{item.text}</p>
+      <div className="tires-audience-list">
+        {tireAudiences.map((item, i) => (
+          <article className="tires-audience-row" key={item.title}>
+            <span className="tires-audience-num">{String(i + 1).padStart(2, "0")}</span>
+            <div className="tires-audience-body">
+              <h3>{item.icon} {item.title}</h3>
+              <p>{item.text}</p>
+            </div>
           </article>
         ))}
       </div>
