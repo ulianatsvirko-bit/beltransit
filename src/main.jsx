@@ -3440,38 +3440,38 @@ function CasesList({ activeFilter }) {
       : deliveryCases.filter((item) => item.category === activeFilter);
 
   return (
-    <section className="cases-list-section">
-      {filteredCases.map((item, index) => (
-        <article className={`case-panel${index % 2 === 1 ? " case-panel--alt" : ""}`} key={item.title}>
-          <div className="case-panel-inner">
-            <div className="case-panel-header">
-              <span className="case-panel-num">{String(index + 1).padStart(2, "0")}</span>
-              <span className="case-panel-cat">{item.category}</span>
-              <h2 className="case-panel-title">{item.title}</h2>
-              <div className="case-panel-facts">
-                {item.facts.map((fact) => <span key={fact}>{fact}</span>)}
-              </div>
+    <section className="cases-grid-section">
+      <div className="cases-cards-grid">
+        {filteredCases.map((item, index) => (
+          <article className="case-card" key={item.title}>
+            <div className="case-card-top">
+              <span className="case-card-num">{String(index + 1).padStart(2, "0")}</span>
+              <span className="case-card-cat">{item.category}</span>
             </div>
-            <div className="case-panel-body">
-              <div className="case-col">
-                <p className="case-col-label">Задача</p>
-                <p>{item.task}</p>
-              </div>
-              <div className="case-col">
-                <p className="case-col-label">Решение</p>
-                <p>{item.solution}</p>
-              </div>
-              <div className="case-col case-col--result">
-                <p className="case-col-label">Результат</p>
-                <p>{item.result}</p>
-              </div>
+            <h2 className="case-card-title">{item.title}</h2>
+            <div className="case-card-facts">
+              {item.facts.map((fact) => <span key={fact}>{fact}</span>)}
             </div>
-            <blockquote className="case-panel-quote">
+            <dl className="case-card-details">
+              <div>
+                <dt>Задача</dt>
+                <dd>{item.task}</dd>
+              </div>
+              <div>
+                <dt>Решение</dt>
+                <dd>{item.solution}</dd>
+              </div>
+              <div className="case-card-result">
+                <dt>Результат</dt>
+                <dd>{item.result}</dd>
+              </div>
+            </dl>
+            <blockquote className="case-card-quote">
               <span aria-hidden="true">"</span>{item.quote}
             </blockquote>
-          </div>
-        </article>
-      ))}
+          </article>
+        ))}
+      </div>
     </section>
   );
 }
