@@ -3488,19 +3488,17 @@ function CargoCatalogPage() {
 
 function CasesHero() {
   return (
-    <section className="page-hero cases-hero section-ink">
-      <div className="cases-hero-inner">
-        <div className="cases-hero-left">
+    <section className="cases-hero section-ink">
+      <div className="cases-hero-shell">
+        <div className="cases-hero-top">
           <span className="eyebrow">Кейсы · реальные доставки</span>
           <h1>Реальные доставки — без приукрас</h1>
-          <p>Не отзывы — конкретные истории. Что везли, откуда, как решили задачу.</p>
+          <p>Не отзывы — конкретные истории. Что везли, откуда, как решили задачу клиента.</p>
         </div>
-        <div className="cases-hero-steps" aria-hidden="true">
-          <div className="cases-step"><span>01</span><strong>Задача</strong></div>
-          <div className="cases-step-arrow">→</div>
-          <div className="cases-step"><span>02</span><strong>Решение</strong></div>
-          <div className="cases-step-arrow">→</div>
-          <div className="cases-step"><span>03</span><strong>Результат</strong></div>
+        <div className="cases-hero-nums">
+          <div className="cases-hero-num"><strong>6</strong><span>кейсов</span></div>
+          <div className="cases-hero-num"><strong>4</strong><span>категории</span></div>
+          <div className="cases-hero-num"><strong>0</strong><span>срывов дедлайна</span></div>
         </div>
       </div>
     </section>
@@ -3533,38 +3531,36 @@ function CasesList({ activeFilter }) {
       : deliveryCases.filter((item) => item.category === activeFilter);
 
   return (
-    <section className="cases-grid-section">
-      <div className="cases-cards-grid">
-        {filteredCases.map((item, index) => (
-          <article className="case-card" key={item.title}>
-            <div className="case-card-top">
-              <span className="case-card-num">{String(index + 1).padStart(2, "0")}</span>
-              <span className="case-card-cat">{item.category}</span>
+    <section className="cases-list-section">
+      {filteredCases.map((item, index) => (
+        <article className="case-row" key={item.title}>
+          <div className="case-row-head">
+            <span className="case-row-num">{String(index + 1).padStart(2, "0")}</span>
+            <div className="case-row-meta">
+              <span className="case-row-cat">{item.category}</span>
+              <h2 className="case-row-title">{item.title}</h2>
+              <div className="case-row-facts">
+                {item.facts.map((fact) => <span key={fact}>{fact}</span>)}
+              </div>
             </div>
-            <h2 className="case-card-title">{item.title}</h2>
-            <div className="case-card-facts">
-              {item.facts.map((fact) => <span key={fact}>{fact}</span>)}
+          </div>
+          <div className="case-row-body">
+            <div className="case-row-step">
+              <span className="case-step-label">Задача</span>
+              <p>{item.task}</p>
             </div>
-            <dl className="case-card-details">
-              <div>
-                <dt>Задача</dt>
-                <dd>{item.task}</dd>
-              </div>
-              <div>
-                <dt>Решение</dt>
-                <dd>{item.solution}</dd>
-              </div>
-              <div className="case-card-result">
-                <dt>Результат</dt>
-                <dd>{item.result}</dd>
-              </div>
-            </dl>
-            <blockquote className="case-card-quote">
-              <span aria-hidden="true">"</span>{item.quote}
-            </blockquote>
-          </article>
-        ))}
-      </div>
+            <div className="case-row-step">
+              <span className="case-step-label">Решение</span>
+              <p>{item.solution}</p>
+            </div>
+            <div className="case-row-step case-row-result">
+              <span className="case-step-label">Результат</span>
+              <p>{item.result}</p>
+            </div>
+          </div>
+          <blockquote className="case-row-quote">{item.quote}</blockquote>
+        </article>
+      ))}
     </section>
   );
 }
