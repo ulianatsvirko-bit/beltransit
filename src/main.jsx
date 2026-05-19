@@ -104,14 +104,14 @@ const megaMenuColumns = [
       ["Для логистов", "/dlya-logistov/"],
       ["Поиск поставщика", "/poisk-postavshchika/"],
       ["Как мы работаем", "/kak-my-rabotaem/"],
-      ["Кейсы", "/#cases"],
+      ["Кейсы", "/kejsy/"],
     ],
   },
 ];
 
 const companyMenu = [
   ["О компании", "/o-kompanii/"],
-  ["Кейсы", "/#cases"],
+  ["Кейсы", "/kejsy/"],
   ["Блог", "/blog/"],
   ["FAQ", "/faq/"],
 ];
