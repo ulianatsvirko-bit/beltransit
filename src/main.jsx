@@ -4639,20 +4639,29 @@ function AboutLicenses() {
   );
 }
 
-function AboutReviews() {
+function AboutCasesPreview() {
+  const featured = deliveryCases.slice(0, 3);
   return (
-    <section className="section about-reviews-section">
+    <section className="section about-cases-preview">
       <div className="section-heading">
-        <span className="eyebrow">Отзывы клиентов</span>
-        <h2>Что говорят клиенты которые с нами давно</h2>
+        <span className="eyebrow">Кейсы</span>
+        <h2>Реальные доставки — без приукрас</h2>
+        <p>Конкретные истории: что везли, откуда, как решили задачу.</p>
       </div>
-      <div className="partner-testimonial-grid">
-        {aboutReviews.map(({ text, author, since }) => (
-          <article className="partner-testimonial" key={author}>
-            <blockquote>"{text}"</blockquote>
-            <strong>{author} — {since}</strong>
+      <div className="about-cases-grid">
+        {featured.map((c) => (
+          <article className="about-case-card" key={c.title}>
+            <span className="about-case-category">{c.category}</span>
+            <h3>{c.title}</h3>
+            <p>{c.result}</p>
+            <div className="about-case-facts">
+              {c.facts.map((f) => <span key={f}>{f}</span>)}
+            </div>
           </article>
         ))}
+      </div>
+      <div className="about-cases-cta">
+        <a href="/kejsy/" className="button button-outline">Все кейсы →</a>
       </div>
     </section>
   );
@@ -4699,7 +4708,7 @@ function AboutPage() {
       <AboutTeam />
       <AboutValues />
       <AboutLicenses />
-      <AboutReviews />
+      <AboutCasesPreview />
       <AboutFinalCta />
     </>
   );
