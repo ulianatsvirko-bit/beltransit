@@ -2493,7 +2493,7 @@ function CaseStudies() {
           <span className="eyebrow">Практика, не обещания</span>
           <h2>Реальные доставки</h2>
         </div>
-        <a className="text-link" href="#cases">
+        <a className="text-link" href="/kejsy/">
           Смотреть все кейсы <ArrowRight size={17} />
         </a>
       </div>
