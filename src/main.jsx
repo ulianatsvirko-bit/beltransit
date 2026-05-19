@@ -4984,12 +4984,8 @@ function TiresHero() {
             Рассчитать стоимость доставки <ArrowRight size={18} />
           </a>
         </div>
-        <div className="tires-hero-board" aria-hidden="true">
-          <div className="tire-stack">
-            <div className="tire-ring tire-ring-one" />
-            <div className="tire-ring tire-ring-two" />
-            <div className="tire-ring tire-ring-three" />
-          </div>
+        <div className="tires-hero-visual" aria-hidden="true">
+          <img src="/tires.png" alt="" className="tires-hero-img" />
           <div className="parts-strip">
             <span>OEM</span>
             <span>R17-R22</span>
