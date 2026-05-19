@@ -6795,26 +6795,12 @@ h1 small {
   justify-content: center;
 }
 
-.appliances-hero-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.75rem;
-  padding: clamp(1rem, 3vw, 1.75rem);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--white-line);
-  border-radius: 1rem;
-}
-
-.appliances-hero-icon {
-  display: grid;
-  place-items: center;
-  width: 4rem;
-  height: 4rem;
-  font-size: 2rem;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--white-line);
-  border-radius: 0.75rem;
-  transition: background 200ms;
+.appliances-hero-img {
+  width: 100%;
+  max-width: 30rem;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2rem 5rem rgba(0, 0, 0, 0.7));
 }
 
 .appliances-cargo-section { background: var(--paper); }
