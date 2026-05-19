@@ -4980,11 +4980,6 @@ function TiresHero() {
         </div>
         <div className="tires-hero-visual" aria-hidden="true">
           <img src="/tires.png" alt="" className="tires-hero-img" />
-          <div className="parts-strip">
-            <span>OEM</span>
-            <span>R17-R22</span>
-            <span>EU</span>
-          </div>
         </div>
       </div>
     </section>
