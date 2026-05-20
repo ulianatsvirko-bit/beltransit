@@ -2451,7 +2451,7 @@ function AudienceSplit() {
     <section className="section split-section">
       <div className="section-heading">
         <span className="eyebrow">Выберите свой путь</span>
-        <h2>С чего вы начинаете?</h2>
+        <h2>Кто вы?</h2>
       </div>
       <div className="audience-paths">
         <article className="path-card path-card-buyer">
