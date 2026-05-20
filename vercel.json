@@ -1,8 +1,11 @@
 {
+  "redirects": [
+    { "source": "/kerhery", "destination": "/kerhery-i-moyki/", "permanent": true },
+    { "source": "/kerhery/", "destination": "/kerhery-i-moyki/", "permanent": true },
+    { "source": "/zapchasti-i-shiny", "destination": "/shiny-i-avtozapchasti/", "permanent": true },
+    { "source": "/zapchasti-i-shiny/", "destination": "/shiny-i-avtozapchasti/", "permanent": true }
+  ],
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
