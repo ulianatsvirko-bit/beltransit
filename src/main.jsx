@@ -8,6 +8,7 @@ import {
   Building2,
   Check,
   ClipboardCheck,
+  Copy,
   Container,
   CreditCard,
   Download,
@@ -1501,6 +1502,7 @@ const blogPosts = [
     title: "Как рассчитать таможенные платежи при ввозе товара из Европы в 2026",
     text: "Пошлины, НДС, сборы — разбираем по порядку: откуда берутся цифры, как их считать самостоятельно и где можно законно сэкономить.",
     time: "8 минут чтения",
+    date: "14 мая 2026",
     href: "/blog/kak-rasschitat-tamozhennye-platezhi/",
   },
   {
@@ -1508,6 +1510,7 @@ const blogPosts = [
     title: "Почему маршрут через Беларусь — самый выгодный для импорта из Европы",
     text: "Сравниваем маршруты, сроки и стоимость. Почему Вильнюс→Минск→Москва выигрывает.",
     time: "6 минут чтения",
+    date: "2 апреля 2026",
     href: "/blog/marshrut-cherez-belarus/",
   },
   {
@@ -1516,6 +1519,7 @@ const blogPosts = [
     title: "Как оплатить европейского поставщика из России в 2026 — рабочие схемы",
     text: "Что работает сейчас, что нет, и как организовать оплату легально.",
     time: "10 минут чтения",
+    date: "18 марта 2026",
     href: "/blog/oplata-postavshchika-iz-rossii/",
   },
   {
@@ -1523,6 +1527,7 @@ const blogPosts = [
     title: "Сборный груз или полная фура — когда что выгоднее",
     text: "Считаем на реальных примерах при каком объёме выгоднее переходить с LTL на FTL.",
     time: "5 минут чтения",
+    date: "5 февраля 2026",
     href: "/blog/sbornyy-gruz-ili-polnaya-fura/",
   },
   {
@@ -1530,6 +1535,7 @@ const blogPosts = [
     title: "Первый импорт из Европы — пошаговая инструкция для малого бизнеса",
     text: "С чего начать, какие документы нужны, как найти поставщика и не попасть на штрафы.",
     time: "12 минут чтения",
+    date: "20 января 2026",
     href: "/blog/pervyy-import-iz-evropy/",
   },
   {
@@ -1537,6 +1543,7 @@ const blogPosts = [
     title: "ТНВЭД коды — что это такое и почему неправильный код стоит денег",
     text: "Объясняем простым языком как работает классификация товаров и почему это важно.",
     time: "7 минут чтения",
+    date: "28 апреля 2026",
     href: "/blog/tnved-kody/",
   },
 ];
@@ -2446,24 +2453,38 @@ function AudienceSplit() {
   return (
     <section className="section split-section">
       <div className="section-heading">
-        <span className="eyebrow">Маршрут начинается с роли</span>
-        <h2>Кто вы?</h2>
+        <span className="eyebrow">Выберите свой путь</span>
+        <h2>С чего вы начинаете?</h2>
       </div>
-      <div className="audience-grid">
-        <article className="audience-card audience-card-primary">
-          <Package size={34} />
-          <h3>Я везу товар</h3>
-          <p>Малый и средний бизнес, рыночники, Wildberries-предприниматели.</p>
-          <a className="button button-dark" href="/sbornye-gruzy/">
-            Рассчитать сборный груз
+      <div className="audience-paths">
+        <article className="path-card path-card-buyer">
+          <div className="path-card-tag">Закупщик / импортёр</div>
+          <Package size={36} />
+          <h3>Хочу привезти товар из Европы</h3>
+          <p>Нашли поставщика или ещё ищете — возьмём доставку, выкуп и таможню под ключ.</p>
+          <ul className="path-services-list">
+            <li><Check size={14} /> Сборные грузы от 500 кг</li>
+            <li><Check size={14} /> Выкуп у поставщика от нашей компании</li>
+            <li><Check size={14} /> Полная фура и контейнеры</li>
+            <li><Check size={14} /> Таможенное оформление</li>
+          </ul>
+          <a className="button button-primary" href="/sbornye-gruzy/">
+            Рассчитать доставку <ArrowRight size={17} />
           </a>
         </article>
-        <article className="audience-card">
-          <Handshake size={34} />
-          <h3>Я логист / посредник</h3>
-          <p>Транспортные компании и экспедиторы из РФ, которым нужен партнёр в РБ/Литве.</p>
-          <a className="button button-plain" href="/dlya-logistov/">
-            Обсудить партнёрство
+        <article className="path-card path-card-logist">
+          <div className="path-card-tag">Логист / экспедитор</div>
+          <Handshake size={36} />
+          <h3>Ищу партнёра в Европе или Литве</h3>
+          <p>Транспортные компании и экспедиторы из РФ — работаем как ваш агент на месте.</p>
+          <ul className="path-services-list">
+            <li><Check size={14} /> Агентская схема через наш склад</li>
+            <li><Check size={14} /> White label — под вашим брендом</li>
+            <li><Check size={14} /> Полная отчётность и документы</li>
+            <li><Check size={14} /> Фиксированные тарифы</li>
+          </ul>
+          <a className="button button-dark" href="/dlya-logistov/">
+            Обсудить партнёрство <ArrowRight size={17} />
           </a>
         </article>
       </div>
@@ -2605,6 +2626,10 @@ function RequestForm() {
         <p>Укажите базовые данные по грузу. Менеджер проверит маршрут, вес, документы и вернётся с расчётом.</p>
       </div>
       <form className="request-form">
+        <div className="form-trust-anchor">
+          <Check size={15} />
+          Ответим с точным расчётом в течение 2 часов — бесплатно
+        </div>
         <label>
           <span>Откуда везём</span>
           <input type="text" name="from" placeholder="Страна / город" />
@@ -2624,7 +2649,7 @@ function RequestForm() {
         <button className="button button-primary" type="submit">
           Получить расчёт <Send size={18} />
         </button>
-        <small>Ответим в течение 2 часов в рабочее время</small>
+        <small>Без спама. Только расчёт по вашему грузу.</small>
       </form>
     </section>
   );
@@ -3343,15 +3368,78 @@ function CustomsFinalCta() {
   );
 }
 
+function CustomsCalcExample() {
+  return (
+    <section className="section customs-calc-section">
+      <div className="section-heading">
+        <span className="eyebrow">Реальный пример</span>
+        <h2>Из чего складывается таможня</h2>
+      </div>
+      <div className="customs-calc-card">
+        <div className="customs-calc-scenario">
+          Сценарий: автозапчасти из Германии, инвойс €8 000, фрахт €600
+        </div>
+        <div className="customs-calc-rows">
+          <div className="customs-calc-row">
+            <span>Таможенная стоимость (CIF)</span>
+            <strong>€8 600</strong>
+          </div>
+          <div className="customs-calc-row">
+            <span>Пошлина по ТНВЭД ~3%</span>
+            <strong>€258</strong>
+          </div>
+          <div className="customs-calc-row">
+            <span>НДС 20% от (стоимость + пошлина)</span>
+            <strong>€1 772</strong>
+          </div>
+          <div className="customs-calc-row">
+            <span>Таможенный сбор</span>
+            <strong>~8 530 ₽</strong>
+          </div>
+          <div className="customs-calc-row customs-calc-total">
+            <span>Итого таможенная нагрузка</span>
+            <strong>≈ €2 030 + 8 530 ₽</strong>
+          </div>
+        </div>
+        <p className="customs-calc-note">
+          Точные цифры зависят от кода ТНВЭД и условий поставки.{" "}
+          <a href="/blog/kak-rasschitat-tamozhennye-platezhi/">
+            Как считать самостоятельно →
+          </a>
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function CustomsBlogLink() {
+  return (
+    <section className="section customs-blog-link-section">
+      <div className="customs-blog-link-card">
+        <div className="customs-blog-link-text">
+          <span className="eyebrow">Полезно знать заранее</span>
+          <h3>Как рассчитать таможенные платежи самостоятельно</h3>
+          <p>Пошлины, НДС, сборы — объясняем из чего складываются цифры и где можно законно сэкономить.</p>
+        </div>
+        <a className="button button-plain" href="/blog/kak-rasschitat-tamozhennye-platezhi/">
+          Читать статью <ArrowRight size={17} />
+        </a>
+      </div>
+    </section>
+  );
+}
+
 function CustomsPage() {
   return (
     <>
       <CustomsHero />
       <CustomsStats />
       <CustomsProblem />
+      <CustomsCalcExample />
       <CustomsIncluded />
       <CustomsProcess />
       <CustomsAdvantages />
+      <CustomsBlogLink />
       <CustomsCargo />
       <CustomsCase />
       <CustomsFaq />
@@ -6180,6 +6268,7 @@ function BlogArticles() {
             <p>{post.text}</p>
             <span className="blog-card-footer">
               <strong>{post.time}</strong>
+              {post.date && <span className="blog-card-date">{post.date}</span>}
               <span className="blog-read-link">
                 Читать <ArrowRight size={17} />
               </span>
@@ -6295,6 +6384,28 @@ function ArticleCallout({ tone = "note", children }) {
   return <aside className={`article-callout article-callout-${tone}`}>{children}</aside>;
 }
 
+function ArticleShare() {
+  const [copied, setCopied] = React.useState(false);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(window.location.href).catch(() => {});
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  const tgUrl = `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}`;
+  return (
+    <div className="article-share">
+      <span>Поделиться:</span>
+      <a className="article-share-btn" href={tgUrl} target="_blank" rel="noopener noreferrer">
+        <MessageCircle size={15} /> Telegram
+      </a>
+      <button className="article-share-btn" type="button" onClick={handleCopy}>
+        {copied ? <Check size={15} /> : <Copy size={15} />}
+        {copied ? "Скопировано" : "Скопировать ссылку"}
+      </button>
+    </div>
+  );
+}
+
 function QuoteRequestModal({ isOpen, onClose }) {
   React.useEffect(() => {
     if (!isOpen) return;
@@ -6354,8 +6465,9 @@ function BlogArticlePage() {
           </p>
           <div className="article-meta-grid">
             <span>8 минут чтения</span>
-            <span>Обновлено: май 2026</span>
+            <span>14 мая 2026</span>
           </div>
+          <ArticleShare />
         </div>
       </section>
 
@@ -6515,9 +6627,14 @@ function BlogArticlePage() {
                 Посчитаем таможенные платежи бесплатно и подскажем оптимальный маршрут через Вильнюс.
               </p>
             </div>
-            <button className="button button-primary" onClick={() => setQuoteOpen(true)}>
-              Получить расчёт <ArrowRight size={18} />
-            </button>
+            <div className="article-final-cta-actions">
+              <button className="button button-primary" onClick={() => setQuoteOpen(true)}>
+                Получить расчёт <ArrowRight size={18} />
+              </button>
+              <a className="button button-plain" href="/tamozhnoe-oformlenie/">
+                Страница услуги <ArrowRight size={17} />
+              </a>
+            </div>
           </div>
         </article>
       </section>
@@ -6541,8 +6658,9 @@ function BelarusRouteArticlePage() {
           </p>
           <div className="article-meta-grid">
             <span>6 минут чтения</span>
-            <span>Май 2026</span>
+            <span>2 апреля 2026</span>
           </div>
+          <ArticleShare />
         </div>
       </section>
 
@@ -6714,9 +6832,14 @@ function BelarusRouteArticlePage() {
                 доставки через Вильнюс и Беларусь.
               </p>
             </div>
-            <button className="button button-primary" onClick={() => setQuoteOpen(true)}>
-              Получить расчёт <ArrowRight size={18} />
-            </button>
+            <div className="article-final-cta-actions">
+              <button className="button button-primary" onClick={() => setQuoteOpen(true)}>
+                Получить расчёт <ArrowRight size={18} />
+              </button>
+              <a className="button button-plain" href="/sbornye-gruzy/">
+                Сборные грузы <ArrowRight size={17} />
+              </a>
+            </div>
           </div>
         </article>
       </section>
@@ -6738,8 +6861,9 @@ function PaymentArticlePage() {
           <p>Что работает сейчас, что нет, и как организовать оплату легально.</p>
           <div className="article-meta-grid">
             <span>10 минут чтения</span>
-            <span>Май 2026</span>
+            <span>18 марта 2026</span>
           </div>
+          <ArticleShare />
         </div>
       </section>
 
@@ -6947,9 +7071,14 @@ function PaymentArticlePage() {
                 вашу ситуацию.
               </p>
             </div>
-            <button className="button button-primary" onClick={() => setQuoteOpen(true)}>
-              Получить схему оплаты <ArrowRight size={18} />
-            </button>
+            <div className="article-final-cta-actions">
+              <button className="button button-primary" onClick={() => setQuoteOpen(true)}>
+                Получить схему оплаты <ArrowRight size={18} />
+              </button>
+              <a className="button button-plain" href="/vykup-tovarov/">
+                Выкуп товаров <ArrowRight size={17} />
+              </a>
+            </div>
           </div>
         </article>
       </section>
@@ -6971,8 +7100,9 @@ function LtlFtlArticlePage() {
           <p>Считаем на реальных примерах, при каком объёме выгоднее переходить с LTL на FTL.</p>
           <div className="article-meta-grid">
             <span>5 минут чтения</span>
-            <span>Май 2026</span>
+            <span>5 февраля 2026</span>
           </div>
+          <ArticleShare />
         </div>
       </section>
 
@@ -7121,9 +7251,14 @@ function LtlFtlArticlePage() {
                 Скажите объём, вес и маршрут — сравним LTL, групповую фуру и FTL по реальным ставкам.
               </p>
             </div>
-            <button className="button button-primary" onClick={() => setQuoteOpen(true)}>
-              Рассчитать доставку <ArrowRight size={18} />
-            </button>
+            <div className="article-final-cta-actions">
+              <button className="button button-primary" onClick={() => setQuoteOpen(true)}>
+                Рассчитать доставку <ArrowRight size={18} />
+              </button>
+              <a className="button button-plain" href="/sbornye-gruzy/">
+                Сборные грузы <ArrowRight size={17} />
+              </a>
+            </div>
           </div>
         </article>
       </section>
@@ -7145,8 +7280,9 @@ function FirstImportArticlePage() {
           <p>С чего начать, какие документы нужны, как найти поставщика и не попасть на штрафы.</p>
           <div className="article-meta-grid">
             <span>12 минут чтения</span>
-            <span>Май 2026</span>
+            <span>20 января 2026</span>
           </div>
+          <ArticleShare />
         </div>
       </section>
 
@@ -7375,9 +7511,14 @@ function FirstImportArticlePage() {
                 Вильнюс.
               </p>
             </div>
-            <button className="button button-primary" onClick={() => setQuoteOpen(true)}>
-              Задать вопрос по товару <ArrowRight size={18} />
-            </button>
+            <div className="article-final-cta-actions">
+              <button className="button button-primary" onClick={() => setQuoteOpen(true)}>
+                Задать вопрос по товару <ArrowRight size={18} />
+              </button>
+              <a className="button button-plain" href="/sbornye-gruzy/">
+                Сборные грузы <ArrowRight size={17} />
+              </a>
+            </div>
           </div>
         </article>
       </section>
@@ -7402,8 +7543,9 @@ function TnvedArticlePage() {
           </p>
           <div className="article-meta-grid">
             <span>7 минут чтения</span>
-            <span>Обновлено: май 2026</span>
+            <span>28 апреля 2026</span>
           </div>
+          <ArticleShare />
         </div>
       </section>
 
@@ -7600,9 +7742,14 @@ function TnvedArticlePage() {
                 через Вильнюс под ключ.
               </p>
             </div>
-            <button className="button button-primary" onClick={() => setQuoteOpen(true)}>
-              Получить расчёт <ArrowRight size={18} />
-            </button>
+            <div className="article-final-cta-actions">
+              <button className="button button-primary" onClick={() => setQuoteOpen(true)}>
+                Получить расчёт <ArrowRight size={18} />
+              </button>
+              <a className="button button-plain" href="/tamozhnoe-oformlenie/">
+                Таможенное оформление <ArrowRight size={17} />
+              </a>
+            </div>
           </div>
         </article>
       </section>
