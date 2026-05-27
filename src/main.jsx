@@ -118,14 +118,14 @@ const companyMenu = [
 ];
 
 const cargo = [
-  ["Автозапчасти", Settings],
-  ["Велосипеды", Bike],
-  ["Бытовая техника", Zap],
-  ["Инструменты", Wrench],
-  ["Стройматериалы", Factory],
-  ["Сантехника", ShieldCheck],
-  ["Мебель", Sofa],
-  ["Другие товары", Package],
+  ["Автозапчасти", Settings, "/shiny-i-avtozapchasti/"],
+  ["Велосипеды", Bike, "/chto-vezem/"],
+  ["Бытовая техника", Zap, "/bytovaya-tehnika/"],
+  ["Инструменты", Wrench, "/chto-vezem/"],
+  ["Стройматериалы", Factory, "/chto-vezem/"],
+  ["Сантехника", ShieldCheck, "/chto-vezem/"],
+  ["Мебель", Sofa, "/chto-vezem/"],
+  ["Другие товары", Package, "/chto-vezem/"],
 ];
 
 const cases = [
@@ -2465,8 +2465,8 @@ function AudienceSplit() {
             <li><Check size={14} /> Полная фура и контейнеры</li>
             <li><Check size={14} /> Таможенное оформление</li>
           </ul>
-          <a className="button button-primary" href="/sbornye-gruzy/">
-            Рассчитать доставку <ArrowRight size={17} />
+          <a className="button button-primary" href="#request">
+            Получить расчёт <ArrowRight size={17} />
           </a>
         </article>
         <article className="path-card path-card-logist">
@@ -2497,7 +2497,7 @@ function Services() {
           <span className="eyebrow">Один контур ответственности</span>
           <h2>Что мы делаем</h2>
         </div>
-        <a className="text-link" href="/sbornye-gruzy/">
+        <a className="text-link" href="/chto-vezem/">
           Все услуги <ArrowRight size={17} />
         </a>
       </div>
@@ -2553,8 +2553,8 @@ function CargoGrid() {
         <h2>Везём всё что продаётся на рынках и Wildberries</h2>
       </div>
       <div className="cargo-grid">
-        {cargo.map(([name, Icon]) => (
-          <a className="cargo-tile" href="/chto-vezem/" key={name}>
+        {cargo.map(([name, Icon, href]) => (
+          <a className="cargo-tile" href={href} key={name}>
             <Icon size={25} />
             <span>{name}</span>
           </a>
@@ -2615,6 +2615,10 @@ function WhyUs() {
 }
 
 function RequestForm() {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    window.location.href = "/spasibo/";
+  };
   return (
     <section className="section request-section" id="request">
       <div className="request-copy">
@@ -2622,7 +2626,7 @@ function RequestForm() {
         <h2>Рассчитайте стоимость за 2 минуты</h2>
         <p>Укажите базовые данные по грузу. Менеджер проверит маршрут, вес, документы и вернётся с расчётом.</p>
       </div>
-      <form className="request-form">
+      <form className="request-form" onSubmit={handleSubmit}>
         <div className="form-trust-anchor">
           <Check size={15} />
           Ответим с точным расчётом в течение 2 часов — бесплатно
@@ -2655,6 +2659,7 @@ function RequestForm() {
 function ServicePageHero() {
   return (
     <section className="page-hero">
+      <Breadcrumbs items={[{ label: "Услуги", href: "/chto-vezem/" }, { label: "Сборные грузы" }]} />
       <div className="page-hero-shell">
         <div className="page-hero-inner">
           <span className="eyebrow">Сборные грузы · Европа → Вильнюс → Россия</span>
@@ -2778,8 +2783,8 @@ function FrequentCargo() {
         <h2>Что чаще всего везут наши клиенты</h2>
       </div>
       <div className="cargo-grid">
-        {cargo.map(([name, Icon]) => (
-          <a className="cargo-tile" href="/chto-vezem/" key={name}>
+        {cargo.map(([name, Icon, href]) => (
+          <a className="cargo-tile" href={href} key={name}>
             <Icon size={25} />
             <span>{name}</span>
           </a>
@@ -2840,6 +2845,7 @@ function GroupageFaq() {
 }
 
 function GroupageFinalCta() {
+  const handleSubmit = (e) => { e.preventDefault(); window.location.href = "/spasibo/"; };
   return (
     <section className="section request-section" id="groupage-request">
       <div className="request-copy">
@@ -2847,7 +2853,7 @@ function GroupageFinalCta() {
         <h2>Готовы везти ваш груз</h2>
         <p>Оставьте данные по партии. Мы проверим маршрут, вес, склад и документы, затем вернёмся с расчётом.</p>
       </div>
-      <form className="request-form">
+      <form className="request-form" onSubmit={handleSubmit}>
         <label>
           <span>Откуда везём</span>
           <input type="text" name="from" placeholder="Страна / город" />
@@ -3990,6 +3996,34 @@ function PartnerFinalCta() {
   );
 }
 
+function PartnerDocflow() {
+  const docs = [
+    ["CMR", "Международная товарно-транспортная накладная для каждой отправки"],
+    ["Инвойс", "Коммерческий инвойс от поставщика + наш инвойс для вашей отчётности"],
+    ["ТД / ДТ", "Таможенная декларация с отметкой о выпуске"],
+    ["Акты", "Закрывающие документы в день доставки"],
+    ["Статусы", "Обновления в режиме реального времени в мессенджерах"],
+    ["Договор", "Агентское соглашение с фиксированными условиями и SLA"],
+  ];
+  return (
+    <section className="section partner-docflow-section">
+      <div className="section-heading">
+        <span className="eyebrow">Документооборот</span>
+        <h2>Полный пакет документов для вашей бухгалтерии</h2>
+      </div>
+      <div className="partner-docflow-grid">
+        {docs.map(([title, text]) => (
+          <div className="partner-docflow-item" key={title}>
+            <strong>{title}</strong>
+            <span>{text}</span>
+          </div>
+        ))}
+      </div>
+      <p className="partner-docflow-note">Работаем по договору субподряда или агентскому соглашению — под вашу юридическую схему.</p>
+    </section>
+  );
+}
+
 function PartnersPage() {
   return (
     <>
@@ -3997,6 +4031,7 @@ function PartnersPage() {
       <PartnerStats />
       <PartnerAudience />
       <PartnerScheme />
+      <PartnerDocflow />
       <PartnerBenefits />
       <PartnerProcess />
       <PartnerWhy />
@@ -6164,7 +6199,7 @@ function ContactsPage() {
 
           <div className="contacts-right">
             <p className="contacts-form-label">Или оставьте заявку — перезвоним</p>
-            <form className="contacts-form" id="contact-request">
+            <form className="contacts-form" id="contact-request" onSubmit={(e) => { e.preventDefault(); window.location.href = "/spasibo/"; }}>
               <label>
                 <span>Телефон / Telegram</span>
                 <input type="text" name="contact" placeholder="+7... или @username" />
@@ -6448,6 +6483,84 @@ function ArticleInlineCta({ onOpen }) {
   );
 }
 
+function ScrollToTop() {
+  const [visible, setVisible] = React.useState(false);
+  React.useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 500);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  if (!visible) return null;
+  return (
+    <button
+      className="scroll-to-top"
+      type="button"
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      aria-label="Наверх"
+    >
+      ↑
+    </button>
+  );
+}
+
+function Breadcrumbs({ items }) {
+  return (
+    <nav className="breadcrumbs" aria-label="Навигация по сайту">
+      <a href="/">Главная</a>
+      {items.map(({ label, href }, index) => (
+        <React.Fragment key={label}>
+          <span aria-hidden="true">›</span>
+          {href && index < items.length - 1 ? (
+            <a href={href}>{label}</a>
+          ) : (
+            <span aria-current="page">{label}</span>
+          )}
+        </React.Fragment>
+      ))}
+    </nav>
+  );
+}
+
+function ThankYouPage() {
+  return (
+    <section className="thankyou-page">
+      <div className="thankyou-inner">
+        <div className="thankyou-icon">
+          <Check size={40} />
+        </div>
+        <span className="eyebrow">Заявка принята</span>
+        <h1>Спасибо — мы получили вашу заявку</h1>
+        <p>Менеджер свяжется с вами в течение <strong>2 часов</strong> в рабочее время и пришлёт точный расчёт.</p>
+        <div className="thankyou-next">
+          <h2>Пока вы ждёте — почитайте:</h2>
+          <div className="thankyou-links">
+            <a className="thankyou-article-link" href="/blog/kak-rasschitat-tamozhennye-platezhi/">
+              <strong>Как рассчитать таможенные платежи</strong>
+              <span>Откуда берутся 30–50% сверху к цене товара</span>
+            </a>
+            <a className="thankyou-article-link" href="/blog/marshrut-cherez-belarus/">
+              <strong>Маршрут через Беларусь</strong>
+              <span>Почему это быстрее и выгоднее альтернатив</span>
+            </a>
+            <a className="thankyou-article-link" href="/blog/pervyy-import-iz-evropy/">
+              <strong>Первый импорт из Европы</strong>
+              <span>Пошаговая инструкция без ошибок</span>
+            </a>
+          </div>
+        </div>
+        <div className="thankyou-actions">
+          <a className="button button-primary" href="https://t.me/beltransit">
+            Написать в Telegram <MessageCircle size={18} />
+          </a>
+          <a className="button button-secondary" href="/">
+            Вернуться на главную
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ArticleShare() {
   const [copied, setCopied] = React.useState(false);
   const handleCopy = () => {
@@ -6494,7 +6607,7 @@ function QuoteRequestModal({ isOpen, onClose }) {
           <span className="eyebrow">Бесплатный расчёт</span>
           <h2>Оставьте контакт — перезвоним</h2>
         </div>
-        <form className="request-form modal-form">
+        <form className="request-form modal-form" onSubmit={(e) => { e.preventDefault(); onClose(); window.location.href = "/spasibo/"; }}>
           <label>
             <span>Как вас зовут</span>
             <input type="text" name="name" placeholder="Имя" />
@@ -7901,11 +8014,18 @@ function Footer() {
         </span>
       </div>
       <div>
-        <h3>Документы</h3>
+        <h3>Полезное</h3>
+        <a href="/blog/kak-rasschitat-tamozhennye-platezhi/">Расчёт таможенных платежей</a>
+        <a href="/blog/marshrut-cherez-belarus/">Маршрут через Беларусь</a>
+        <a href="/blog/pervyy-import-iz-evropy/">Первый импорт из Европы</a>
+        <a href="/blog/">Все статьи</a>
+      </div>
+      <div>
+        <h3>Компания</h3>
         <a href="/o-kompanii/">О компании</a>
-        <a href="/blog/">Блог</a>
+        <a href="/kak-my-rabotaem/">Как мы работаем</a>
         <a href="/faq/">FAQ</a>
-        <a href="/kontakty/">Юридическая информация</a>
+        <a href="/kontakty/">Реквизиты</a>
         <span>© 2026 BelTransit</span>
       </div>
     </footer>
@@ -7953,6 +8073,7 @@ function App() {
     path === "/zapchasti-i-shiny" ||
     path === "/shiny-i-avtozapchasti/" ||
     path === "/shiny-i-avtozapchasti";
+  const isThankYouPage = path === "/spasibo/" || path === "/spasibo";
   const pageTitle = isGroupagePage
     ? "Сборные грузы из Европы — BelTransit"
     : isBuyoutPage
@@ -7999,7 +8120,9 @@ function App() {
                       ? "Поиск поставщика в Европе — BelTransit"
                       : isTiresPage
                         ? "Шины и автозапчасти из Европы — BelTransit"
-                        : "BelTransit — доставка и выкуп грузов из Европы";
+                        : isThankYouPage
+                          ? "Заявка принята — BelTransit"
+                          : "BelTransit — доставка и выкуп грузов из Европы";
 
   React.useEffect(() => {
     document.title = pageTitle;
@@ -8058,17 +8181,24 @@ function App() {
           <SupplierSearchPage />
         ) : isTiresPage ? (
           <TiresPage />
+        ) : isThankYouPage ? (
+          <ThankYouPage />
         ) : (
           <HomePage />
         )}
       </main>
-      <Footer />
-      <a className="floating-telegram" href="https://t.me/beltransit" aria-label="Написать в Telegram">
-        <Send size={22} />
-      </a>
-      <a className={`mobile-bottom-telegram${isBlogPage || isCustomsArticlePage || isBelarusRouteArticlePage || isPaymentArticlePage || isLtlFtlArticlePage || isFirstImportArticlePage || isTnvedArticlePage ? " blog-page-mobile-telegram" : ""}`} href="https://t.me/beltransit">
-        Написать в Telegram <Send size={18} />
-      </a>
+      {!isThankYouPage && <Footer />}
+      {!isThankYouPage && (
+        <a className="floating-telegram" href="https://t.me/beltransit" aria-label="Написать в Telegram">
+          <Send size={22} />
+        </a>
+      )}
+      {!isThankYouPage && (
+        <a className={`mobile-bottom-telegram${isBlogPage || isCustomsArticlePage || isBelarusRouteArticlePage || isPaymentArticlePage || isLtlFtlArticlePage || isFirstImportArticlePage || isTnvedArticlePage ? " blog-page-mobile-telegram" : ""}`} href="https://t.me/beltransit">
+          Написать в Telegram <Send size={18} />
+        </a>
+      )}
+      <ScrollToTop />
     </>
   );
 }
