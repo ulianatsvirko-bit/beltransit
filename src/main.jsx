@@ -81,13 +81,14 @@ const services = [
 
 const megaMenuColumns = [
   {
-    title: "Как везём",
+    title: "Наши услуги",
     links: [
       ["Сборные грузы", "/sbornye-gruzy/"],
       ["Выкуп товаров", "/vykup-tovarov/"],
       ["Фуры и контейнеры", "/fury-konteynery/"],
       ["Склад в Вильнюсе", "/sklad-vilnyus/"],
       ["Таможенное оформление", "/tamozhnoe-oformlenie/"],
+      ["Поиск поставщика", "/poisk-postavshchika/"],
     ],
   },
   {
@@ -103,9 +104,7 @@ const megaMenuColumns = [
     title: "Для кого",
     links: [
       ["Для логистов", "/dlya-logistov/"],
-      ["Поиск поставщика", "/poisk-postavshchika/"],
       ["Как мы работаем", "/kak-my-rabotaem/"],
-      ["Кейсы", "/kejsy/"],
     ],
   },
 ];
