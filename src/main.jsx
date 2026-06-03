@@ -2446,7 +2446,60 @@ function HeroTicker() {
     </div>
   );
 }
+function PartnerModal({ isOpen, onClose }) {
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e) => e.key === "Escape" && onClose();
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label="Обсудить партнёрство">
+      <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose} aria-label="Закрыть">
+          <X size={20} />
+        </button>
+        <div className="modal-header">
+          <span className="eyebrow">Партнёрство</span>
+          <h2>Расскажите о вашей компании</h2>
+        </div>
+        <form className="request-form modal-form" onSubmit={(e) => { e.preventDefault(); onClose(); window.location.href = "/spasibo/"; }}>
+          <label>
+            <span>Как вас зовут</span>
+            <input type="text" name="name" placeholder="Имя" />
+          </label>
+          <label>
+            <span>Компания</span>
+            <input type="text" name="company" placeholder="Название компании" />
+          </label>
+          <label>
+            <span>Телефон / Telegram</span>
+            <input type="text" name="contact" placeholder="+7... или @username" />
+          </label>
+          <label>
+            <span>Что хотите обсудить</span>
+            <textarea name="message" placeholder="Маршруты, объёмы, схема работы — любые детали" rows={3} />
+          </label>
+          <button className="button button-primary" type="submit">
+            Отправить <Send size={18} />
+          </button>
+          <small>Ответим в течение 2 часов</small>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 function AudienceSplit() {
+  const [partnerOpen, setPartnerOpen] = React.useState(false);
+
   return (
     <section className="section split-section">
       <div className="section-heading">
@@ -2465,9 +2518,14 @@ function AudienceSplit() {
             <li><Check size={14} /> Полная фура и контейнеры</li>
             <li><Check size={14} /> Таможенное оформление</li>
           </ul>
-          <a className="button button-primary" href="#request">
-            Получить расчёт <ArrowRight size={17} />
-          </a>
+          <div className="path-card-actions">
+            <a className="button button-primary" href="#request">
+              Получить расчёт <ArrowRight size={17} />
+            </a>
+            <a className="path-card-secondary" href="#services">
+              Подробнее про услуги <ArrowRight size={14} />
+            </a>
+          </div>
         </article>
         <article className="path-card path-card-logist">
           <div className="path-card-tag">Логист / экспедитор</div>
@@ -2480,18 +2538,24 @@ function AudienceSplit() {
             <li><Check size={14} /> Полная отчётность и документы</li>
             <li><Check size={14} /> Фиксированные тарифы</li>
           </ul>
-          <a className="button button-dark" href="/dlya-logistov/">
-            Обсудить партнёрство <ArrowRight size={17} />
-          </a>
+          <div className="path-card-actions">
+            <button className="button button-dark" onClick={() => setPartnerOpen(true)}>
+              Обсудить партнёрство <ArrowRight size={17} />
+            </button>
+            <a className="path-card-secondary" href="/dlya-logistov/">
+              Подробнее об условиях <ArrowRight size={14} />
+            </a>
+          </div>
         </article>
       </div>
+      <PartnerModal isOpen={partnerOpen} onClose={() => setPartnerOpen(false)} />
     </section>
   );
 }
 
 function Services() {
   return (
-    <section className="section section-ink">
+    <section className="section section-ink" id="services">
       <div className="section-heading section-heading-row">
         <div>
           <span className="eyebrow">Один контур ответственности</span>

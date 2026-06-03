@@ -3515,6 +3515,27 @@ h1 small {
 .path-card-buyer .path-services-list li svg { color: var(--orange); opacity: 1; }
 .path-card-logist .path-services-list li svg { color: var(--graphite); opacity: 0.6; }
 
+.path-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.path-card-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  opacity: 0.65;
+  transition: opacity 0.2s;
+}
+.path-card-secondary:hover { opacity: 1; }
+.path-card-buyer .path-card-secondary { color: rgba(255,255,255,0.9); }
+.path-card-logist .path-card-secondary { color: var(--graphite); }
+
 /* Form trust anchor */
 .form-trust-anchor {
   display: flex;
