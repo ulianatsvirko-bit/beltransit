@@ -2393,7 +2393,6 @@ function Hero() {
       <RouteMap showTruck />
       <div className="hero-inner">
         <div className="hero-copy">
-          <span className="eyebrow">Склад в Вильнюсе · выкуп · таможня · РФ</span>
           <h1>
             <span className="hero-title-accent">Доставка и выкуп грузов</span>
             <span>из Европы под ключ</span>
