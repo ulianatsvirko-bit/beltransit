@@ -1573,10 +1573,10 @@ const contactMethods = [
   {
     icon: Mail,
     title: "Email",
-    value: "info@beltransit.ru",
+    value: "beltransit2012@gmail.com",
     text: "Для официальной переписки и документов.",
     button: "Написать на email",
-    href: "mailto:info@beltransit.ru",
+    href: "mailto:beltransit2012@gmail.com",
   },
   {
     icon: Smartphone,
@@ -6639,11 +6639,11 @@ function ContactsPage() {
                 </a>
               </li>
               <li>
-                <a href="mailto:info@beltransit.ru" className="contacts-channel">
+                <a href="mailto:beltransit2012@gmail.com" className="contacts-channel">
                   <Mail size={20} />
                   <div>
                     <strong>Email</strong>
-                    <span>info@beltransit.ru</span>
+                    <span>beltransit2012@gmail.com</span>
                   </div>
                   <ArrowRight size={16} />
                 </a>
@@ -8475,7 +8475,7 @@ function Footer() {
         <a href="https://t.me/beltransit">
           <Send size={15} /> Telegram
         </a>
-        <a href="mailto:info@beltransit.by">info@beltransit.by</a>
+        <a href="mailto:beltransit2012@gmail.com">beltransit2012@gmail.com</a>
         <span>
           <MapPin size={15} /> Вильнюс · Минск · Москва
         </span>
