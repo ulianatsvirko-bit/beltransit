@@ -1,5 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
+import { createPortal } from "react-dom";
 import {
   ArrowLeft,
   ArrowRight,
@@ -2459,7 +2460,7 @@ function PartnerModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label="Обсудить партнёрство">
       <div className="modal-box" onClick={(e) => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose} aria-label="Закрыть">
@@ -2492,7 +2493,8 @@ function PartnerModal({ isOpen, onClose }) {
           <small>Ответим в течение 2 часов</small>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
@@ -6660,7 +6662,7 @@ function QuoteRequestModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label="Получить расчёт">
       <div className="modal-box" onClick={(e) => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose} aria-label="Закрыть">
@@ -6689,7 +6691,8 @@ function QuoteRequestModal({ isOpen, onClose }) {
           <small>Ответим в течение 2 часов</small>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 

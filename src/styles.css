@@ -6477,9 +6477,8 @@ h1 small {
   z-index: 1000;
   background: rgba(17, 20, 23, 0.6);
   backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   padding: 1rem;
   animation: modal-fade-in 180ms ease;
 }
@@ -6493,6 +6492,9 @@ h1 small {
   position: relative;
   width: 100%;
   max-width: 36rem;
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: var(--cream, #fffaf0);
   border: 1px solid var(--line);
   box-shadow: 0 2rem 5rem rgba(17, 20, 23, 0.28);
