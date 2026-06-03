@@ -3443,8 +3443,8 @@ h1 small {
 }
 
 .path-card {
-  display: grid;
-  align-content: start;
+  display: flex;
+  flex-direction: column;
   gap: 1.1rem;
   padding: clamp(1.5rem, 4vw, 2.2rem);
   border: 1px solid var(--line);
@@ -7135,6 +7135,24 @@ h1 small {
 
 .appliances-case-section { background: var(--paper-2); }
 
+.furniture-advantages-section { background: var(--paper); }
+
+.furniture-advantages-section h2 { color: var(--graphite); }
+
+.furniture-advantages-section .eyebrow { color: var(--orange); }
+
+.furniture-advantages-section .advantage-item {
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.furniture-advantages-section .advantage-item p { color: var(--graphite); }
+
+.furniture-advantages-section .advantage-item span {
+  background: #f0eaf8;
+  color: #7c5cbf;
+}
+
 .appliances-faq-section { background: var(--paper); }
 
 .appliances-request-section { background: var(--graphite); }
@@ -7209,9 +7227,11 @@ h1 small {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.25rem 0.4rem;
-  padding: 0.75rem clamp(1rem, 5vw, 4rem);
+  padding: 0.6rem clamp(1rem, 5vw, 4rem);
   font-size: 0.8rem;
   color: var(--muted);
+  background: #fff;
+  border-bottom: 1px solid var(--line);
 }
 .breadcrumbs a { color: var(--muted); text-decoration: none; }
 .breadcrumbs a:hover { color: var(--orange); }

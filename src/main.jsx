@@ -2499,7 +2499,7 @@ function RouteMap({ showTruck = false }) {
         </g>
         <g className="map-node node-vilnius" filter="url(#glow)">
           <circle cx="482" cy="128" r="10" />
-          <text x="434" y="100">Вильнюс</text>
+          <text x="434" y="100">Таможня</text>
         </g>
         <g className="map-node node-ru" filter="url(#glow)">
           <circle cx="638" cy="203" r="9" />
@@ -2849,10 +2849,9 @@ function RequestForm() {
 function ServicePageHero() {
   return (
     <section className="page-hero">
-      <Breadcrumbs items={[{ label: "Услуги", href: "/chto-vezem/" }, { label: "Сборные грузы" }]} />
       <div className="page-hero-shell">
         <div className="page-hero-inner">
-          <span className="eyebrow">Сборные грузы · Европа → Вильнюс → Россия</span>
+          <span className="eyebrow">Сборные грузы · Европа → Таможня → Россия</span>
           <h1>Сборные грузы из Европы в Россию — от 20 кг, склад в Вильнюсе</h1>
           <p>
             Собираем грузы от разных поставщиков на нашем складе в Вильнюсе и везём одной машиной.
@@ -3072,6 +3071,7 @@ function GroupageFinalCta() {
 function GroupagePage() {
   return (
     <>
+      <Breadcrumbs items={[{ label: "Услуги", href: "/chto-vezem/" }, { label: "Сборные грузы" }]} />
       <ServicePageHero />
       <ServiceStats />
       <GroupageExplainer />
@@ -3302,6 +3302,7 @@ function BuyoutFinalCta() {
 function BuyoutPage() {
   return (
     <>
+      <Breadcrumbs items={[{ label: "Услуги", href: "/chto-vezem/" }, { label: "Выкуп товаров" }]} />
       <BuyoutHero />
       <BuyoutStats />
       <BuyoutProblem />
@@ -3625,6 +3626,7 @@ function CustomsBlogLink() {
 function CustomsPage() {
   return (
     <>
+      <Breadcrumbs items={[{ label: "Услуги", href: "/chto-vezem/" }, { label: "Таможня" }]} />
       <CustomsHero />
       <CustomsStats />
       <CustomsProblem />
@@ -3821,6 +3823,7 @@ function CargoFinalCta() {
 function CargoCatalogPage() {
   return (
     <>
+      <Breadcrumbs items={[{ label: "Что везём" }]} />
       <CargoCatalogHero />
       <CargoDisclaimer />
       <CargoCatalogGrid />
@@ -3952,6 +3955,7 @@ function CasesPage() {
 
   return (
     <>
+      <Breadcrumbs items={[{ label: "Кейсы" }]} />
       <CasesHero />
       <CasesFilter activeFilter={activeFilter} onChange={setActiveFilter} />
       <CasesList activeFilter={activeFilter} />
@@ -4217,6 +4221,7 @@ function PartnerDocflow() {
 function PartnersPage() {
   return (
     <>
+      <Breadcrumbs items={[{ label: "Для логистов" }]} />
       <PartnerHero />
       <PartnerStats />
       <PartnerAudience />
@@ -4471,6 +4476,7 @@ function WarehouseFinalCta() {
 function WarehousePage() {
   return (
     <>
+      <Breadcrumbs items={[{ label: "Услуги", href: "/chto-vezem/" }, { label: "Склад в Вильнюсе" }]} />
       <WarehouseHero />
       <WarehouseStats />
       <WarehouseReasons />
@@ -4703,6 +4709,7 @@ function FullTruckFinalCta() {
 function FullTruckPage() {
   return (
     <>
+      <Breadcrumbs items={[{ label: "Услуги", href: "/chto-vezem/" }, { label: "Полная фура" }]} />
       <FullTruckHero />
       <FullTruckStats />
       <FullTruckTriggers />
@@ -5135,6 +5142,7 @@ function AboutFinalCta() {
 function AboutPage() {
   return (
     <>
+      <Breadcrumbs items={[{ label: "О компании" }]} />
       <AboutHero />
       <AboutHistory />
       <AboutStats />
@@ -5152,6 +5160,7 @@ function AboutPage() {
 function WorkPage() {
   return (
     <>
+      <Breadcrumbs items={[{ label: "О компании", href: "/o-kompanii/" }, { label: "Как мы работаем" }]} />
       <WorkHero />
       <WorkIntro />
       <WorkSteps />
@@ -5399,6 +5408,7 @@ function WashersFinalCta() {
 function WashersPage() {
   return (
     <>
+      <Breadcrumbs items={[{ label: "Что везём", href: "/chto-vezem/" }, { label: "Мойки и оборудование" }]} />
       <WashersHero />
       <WashersStats />
       <WashersCargo />
@@ -5645,6 +5655,7 @@ function TiresFinalCta() {
 function TiresPage() {
   return (
     <>
+      <Breadcrumbs items={[{ label: "Что везём", href: "/chto-vezem/" }, { label: "Шины и запчасти" }]} />
       <TiresHero />
       <TiresStats />
       <TiresCargo />
@@ -5892,6 +5903,7 @@ function AppliancesFinalCta() {
 function AppliancesPage() {
   return (
     <>
+      <Breadcrumbs items={[{ label: "Что везём", href: "/chto-vezem/" }, { label: "Бытовая техника" }]} />
       <AppliancesHero />
       <AppliancesStats />
       <AppliancesWhatWe />
@@ -6034,7 +6046,7 @@ function FurnitureProcess() {
 
 function FurnitureAdvantages() {
   return (
-    <section className="section why-section appliances-advantages-section">
+    <section className="section why-section furniture-advantages-section">
       <div className="section-heading">
         <span className="eyebrow">Контроль качества</span>
         <h2>Почему выбирают нас</h2>
@@ -6144,6 +6156,7 @@ function FurnitureFinalCta() {
 function FurniturePage() {
   return (
     <>
+      <Breadcrumbs items={[{ label: "Что везём", href: "/chto-vezem/" }, { label: "Мебель и интерьер" }]} />
       <FurnitureHero />
       <FurnitureStats />
       <FurnitureWhatWe />
@@ -6469,6 +6482,7 @@ function SupplierSearchFinalCta() {
 function SupplierSearchPage() {
   return (
     <>
+      <Breadcrumbs items={[{ label: "Услуги", href: "/chto-vezem/" }, { label: "Поиск поставщика" }]} />
       <SupplierSearchHero />
       <SupplierSearchStats />
       <SupplierSearchProblem />
@@ -6574,6 +6588,7 @@ function GeneralFaqContact() {
 function GeneralFaqPage() {
   return (
     <>
+      <Breadcrumbs items={[{ label: "FAQ" }]} />
       <GeneralFaqHero />
       <GeneralFaqCategories />
       <GeneralFaqContact />
@@ -6584,6 +6599,7 @@ function GeneralFaqPage() {
 function ContactsPage() {
   return (
     <div className="contacts-page">
+      <Breadcrumbs items={[{ label: "Контакты" }]} />
       <section className="contacts-main section-ink">
         <div className="contacts-main-shell">
           <div className="contacts-left">
@@ -7078,6 +7094,7 @@ function BlogArticlePage() {
   const [quoteOpen, setQuoteOpen] = React.useState(false);
   return (
     <>
+      <Breadcrumbs items={[{ label: "Блог", href: "/blog/" }, { label: "Таможенные платежи" }]} />
       <section className="article-hero">
         <div className="article-hero-inner">
           <a className="article-back-link" href="/blog/">
@@ -7274,6 +7291,7 @@ function BelarusRouteArticlePage() {
   const [quoteOpen, setQuoteOpen] = React.useState(false);
   return (
     <>
+      <Breadcrumbs items={[{ label: "Блог", href: "/blog/" }, { label: "Маршруты доставки" }]} />
       <section className="article-hero route-article-hero">
         <div className="article-hero-inner">
           <a className="article-back-link" href="/blog/">
@@ -7481,6 +7499,7 @@ function PaymentArticlePage() {
   const [quoteOpen, setQuoteOpen] = React.useState(false);
   return (
     <>
+      <Breadcrumbs items={[{ label: "Блог", href: "/blog/" }, { label: "Оплата из России" }]} />
       <section className="article-hero payment-article-hero">
         <div className="article-hero-inner">
           <a className="article-back-link" href="/blog/">
@@ -7722,6 +7741,7 @@ function LtlFtlArticlePage() {
   const [quoteOpen, setQuoteOpen] = React.useState(false);
   return (
     <>
+      <Breadcrumbs items={[{ label: "Блог", href: "/blog/" }, { label: "LTL vs FTL" }]} />
       <section className="article-hero ltl-ftl-article-hero">
         <div className="article-hero-inner">
           <a className="article-back-link" href="/blog/">
@@ -7904,6 +7924,7 @@ function FirstImportArticlePage() {
   const [quoteOpen, setQuoteOpen] = React.useState(false);
   return (
     <>
+      <Breadcrumbs items={[{ label: "Блог", href: "/blog/" }, { label: "Первая поставка" }]} />
       <section className="article-hero first-import-article-hero">
         <div className="article-hero-inner">
           <a className="article-back-link" href="/blog/">
@@ -8166,6 +8187,7 @@ function TnvedArticlePage() {
   const [quoteOpen, setQuoteOpen] = React.useState(false);
   return (
     <>
+      <Breadcrumbs items={[{ label: "Блог", href: "/blog/" }, { label: "Коды ТН ВЭД" }]} />
       <section className="article-hero">
         <div className="article-hero-inner">
           <a className="article-back-link" href="/blog/">
@@ -8398,6 +8420,7 @@ function TnvedArticlePage() {
 function BlogPage() {
   return (
     <>
+      <Breadcrumbs items={[{ label: "Блог" }]} />
       <BlogHero />
       <BlogArticles />
       <BlogWhyRead />
