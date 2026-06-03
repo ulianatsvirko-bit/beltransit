@@ -7347,6 +7347,54 @@ h1 small {
 .thankyou-article-link:hover { border-color: var(--orange); }
 .thankyou-article-link strong { font-size: 0.9rem; color: var(--graphite); }
 .thankyou-article-link span { font-size: 0.8rem; color: var(--muted); }
+/* ── Мебель и интерьер ─────────────────────────────────────────────────────── */
+
+.furniture-hero {
+  background:
+    radial-gradient(circle at 10% 25%, rgba(243, 107, 33, 0.15), transparent 20rem),
+    radial-gradient(circle at 75% 20%, rgba(90, 70, 110, 0.22), transparent 22rem),
+    linear-gradient(135deg, #0f1117, #1a1624 55%, #111318);
+}
+
+.furniture-hero h1 {
+  max-width: 20ch;
+  font-size: clamp(1.8rem, 4.8vw, 3.5rem);
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
+}
+
+.furniture-hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.furniture-hero-tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.furniture-tile {
+  width: 7rem;
+  height: 7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.8rem;
+  border-radius: 1.2rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(6px);
+}
+
+.furniture-tile-a { transform: rotate(-4deg); }
+.furniture-tile-b { transform: rotate(3deg) translateY(-0.5rem); }
+.furniture-tile-c { transform: rotate(5deg) translateY(0.3rem); }
+.furniture-tile-d { transform: rotate(-2deg); }
+
+/* ────────────────────────────────────────────────────────────────────────── */
+
 .thankyou-actions {
   display: flex;
   flex-wrap: wrap;

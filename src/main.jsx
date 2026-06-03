@@ -98,6 +98,7 @@ const megaMenuColumns = [
       ["Шины и автозапчасти", "/shiny-i-avtozapchasti/"],
       ["Бытовая техника", "/bytovaya-tehnika/"],
       ["Кёрхеры и мойки", "/kerhery-i-moyki/"],
+      ["Мебель и интерьер", "/mebel-iz-evropy/"],
       ["Что мы везём", "/chto-vezem/"],
     ],
   },
@@ -1313,6 +1314,109 @@ const supplierSearchFaq = [
   ],
 ];
 
+// ─── Мебель и интерьер ────────────────────────────────────────────────────────
+
+const furnitureStats = [
+  ["13 лет", "возим мебель и интерьер из Европы"],
+  ["от 20 кг", "минимальный объём"],
+  ["Италия · Польша · Германия", "основные направления"],
+  ["под ключ", "выкуп + доставка + таможня"],
+];
+
+const furnitureCargo = [
+  { icon: "🛋️", title: "Мягкая мебель", text: "Диваны, кресла, пуфы — Natuzzi, B&B Italia, Rolf Benz и другие итальянские и немецкие бренды" },
+  { icon: "🪑", title: "Корпусная мебель", text: "Шкафы, стеллажи, системы хранения — европейские производители" },
+  { icon: "🍽️", title: "Кухонные гарнитуры", text: "Немецкие и итальянские кухни — Häcker, Nolte, Schüller, Calligaris" },
+  { icon: "💡", title: "Светильники и освещение", text: "Люстры, бра, торшеры — итальянские Flos, Artemide, Axo Light" },
+  { icon: "🛁", title: "Мебель для ванной", text: "Тумбы, зеркала, аксессуары — немецкие и итальянские производители" },
+  { icon: "🖼️", title: "Декор и предметы интерьера", text: "Вазы, текстиль, ковры, картины — всё для интерьерных проектов" },
+  { icon: "🪞", title: "Итальянская мебель", text: "Calligaris, Poliform, Minotti, Natuzzi, Flexform — напрямую от дистрибьютора" },
+  { icon: "🏠", title: "Любая мебель под запрос", text: "Скажите бренд и модель — найдём поставщика в Европе и посчитаем доставку" },
+];
+
+const furnitureAudiences = [
+  {
+    icon: "🎨",
+    title: "Дизайн-студии и проектные бюро",
+    text: "Закупаете итальянскую и немецкую мебель для клиентских проектов. Мы забираем у поставщика, проверяем на складе и везём под ключ — вы не занимаетесь логистикой.",
+  },
+  {
+    icon: "🏪",
+    title: "Магазины мебели и шоурумы",
+    text: "Пополняете ассортимент европейскими брендами которых нет в России. Регулярные поставки раз в неделю — предсказуемый цикл закупки.",
+  },
+  {
+    icon: "🏗️",
+    title: "Застройщики и девелоперы",
+    text: "Меблируете квартиры в новостройках — нужны большие партии европейской мебели. Везём от нескольких поставщиков одной машиной.",
+  },
+];
+
+const furnitureReasons = [
+  {
+    icon: "💰",
+    title: "Экономия 30–50%",
+    text: "Итальянская и немецкая мебель у европейского дистрибьютора значительно дешевле чем в российских шоурумах. Плюс покупка без НДС (–20%) при экспорте.",
+  },
+  {
+    icon: "✅",
+    title: "Полный ассортимент",
+    text: "Модели и бренды которых нет в официальной российской дистрибуции. Любой цвет, ткань, конфигурация — напрямую с фабрики или от дистрибьютора.",
+  },
+  {
+    icon: "🔍",
+    title: "Проверка перед отправкой",
+    text: "Принимаем мебель на складе в Вильнюсе, проверяем комплектность и упаковку. Брак фиксируем с поставщиком пока товар ещё в Европе — не после.",
+  },
+];
+
+const furnitureSteps = [
+  ["1", "Вы говорите", "бренд, модель, объём"],
+  ["2", "Находим", "поставщика и считаем цену"],
+  ["3", "Выкупаем", "от своего европейского юрлица"],
+  ["4", "Склад", "Вильнюс — проверка и упаковка"],
+  ["5", "Доставка", "до двери в РФ + таможня"],
+];
+
+const furnitureAdvantages = [
+  "Знаем рынок европейской мебели — найдём любой бренд и дистрибьютора",
+  "Выкупаем от своего юрлица — платежи в Европе без проблем",
+  "Проверяем мебель на складе — брак не едет в Россию",
+  "Правильная упаковка — мебель доезжает без повреждений",
+  "Таможня включена — знаем коды ТНВЭД на мебель и предметы интерьера",
+  "Работаем с дизайн-студиями — понимаем требования к документам для клиентских проектов",
+  "Конфиденциально — ваш клиент не знает о нас, работаем под вашим брендом",
+];
+
+const furnitureFaq = [
+  [
+    "Везёте мебель от любых европейских брендов?",
+    "Да. Calligaris, Natuzzi, Poliform, Häcker, BoConcept, Flexform и другие — если поставщик легально отгружает и мебель можно оформить на таможне.",
+  ],
+  [
+    "Как защитить мебель при перевозке?",
+    "Проверяем упаковку на складе в Вильнюсе. При необходимости доупаковываем. Страхование включено в схему доставки.",
+  ],
+  [
+    "Какой минимальный объём для перевозки мебели?",
+    "Берём от 20 кг. Для небольших партий — сборный груз, объединяем с другими отправками. Машина уходит раз в неделю.",
+  ],
+  [
+    "Как растаможить мебель из Европы?",
+    "Мы являемся таможенным оператором — сами готовим документы, подбираем правильный код ТНВЭД, считаем пошлину и НДС заранее. Выпуск день в день.",
+  ],
+  [
+    "Работаете с дизайн-студиями на постоянной основе?",
+    "Да. Одна из наших ключевых аудиторий. Можем работать под вашим брендом — ваш клиент не знает о нас. Регулярные поставки, полный пакет документов.",
+  ],
+  [
+    "Везёте мебель уже выкупленную нами?",
+    "Да. Если вы уже оплатили мебель напрямую поставщику — просто доставим и растаможим. Вам не нужно разбираться в логистике.",
+  ],
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 const generalFaqCategories = [
   {
     icon: Package,
@@ -2193,7 +2297,7 @@ function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const close = () => setIsMobileMenuOpen(false);
   const path = window.location.pathname;
-  const serviceRoutes = ["/sbornye-gruzy","/vykup-tovarov","/tamozhnoe-oformlenie","/chto-vezem","/sklad-vilnyus","/fury-konteynery","/kerhery","/zapchasti-i-shiny","/poisk-postavshchika","/kerhery-i-moyki","/shiny-i-avtozapchasti","/bytovaya-tehnika"];
+  const serviceRoutes = ["/sbornye-gruzy","/vykup-tovarov","/tamozhnoe-oformlenie","/chto-vezem","/sklad-vilnyus","/fury-konteynery","/kerhery","/zapchasti-i-shiny","/poisk-postavshchika","/kerhery-i-moyki","/shiny-i-avtozapchasti","/bytovaya-tehnika","/mebel-iz-evropy"];
   const companyRoutes = ["/o-kompanii","/kak-my-rabotaem","/kejsy","/dlya-logistov","/faq","/blog"];
   const isServicesActive = serviceRoutes.some((r) => path.startsWith(r));
   const isCompanyActive = companyRoutes.some((r) => path.startsWith(r));
@@ -5802,6 +5906,260 @@ function AppliancesPage() {
   );
 }
 
+// ─── Мебель и интерьер — компоненты ─────────────────────────────────────────
+
+function FurnitureHero() {
+  return (
+    <section className="page-hero furniture-hero">
+      <div className="page-hero-shell">
+        <div className="page-hero-inner">
+          <span className="eyebrow">Мебель · интерьер · Европа → Россия</span>
+          <h1>
+            Мебель и предметы интерьера из Европы —{" "}
+            <span className="accent">для дизайн-студий, магазинов и девелоперов</span>
+          </h1>
+          <p>
+            Везём итальянскую, немецкую и польскую мебель напрямую от поставщика. Выкуп, склад
+            в Вильнюсе, таможня и доставка до двери — под ключ. От 20 кг.
+          </p>
+          <a className="button button-primary" href="#furniture-request">
+            Рассчитать стоимость доставки <ArrowRight size={18} />
+          </a>
+        </div>
+        <div className="furniture-hero-visual" aria-hidden="true">
+          <div className="furniture-hero-tiles">
+            <div className="furniture-tile furniture-tile-a">🛋️</div>
+            <div className="furniture-tile furniture-tile-b">💡</div>
+            <div className="furniture-tile furniture-tile-c">🪞</div>
+            <div className="furniture-tile furniture-tile-d">🍽️</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FurnitureStats() {
+  return (
+    <section className="service-stats furniture-stats" aria-label="Показатели доставки мебели">
+      {furnitureStats.map(([value, label]) => (
+        <div className="service-stat" key={value}>
+          <strong>{value}</strong>
+          <span>{label}</span>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function FurnitureWhatWe() {
+  return (
+    <section className="section appliances-cargo-section">
+      <div className="section-heading">
+        <span className="eyebrow">Ассортимент</span>
+        <h2>Какую мебель везём</h2>
+      </div>
+      <div className="appliances-cargo-grid">
+        {furnitureCargo.map((item) => (
+          <article className="appliances-cargo-card" key={item.title}>
+            <span className="appliances-cargo-icon">{item.icon}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function FurnitureForWho() {
+  return (
+    <section className="section section-ink appliances-audience-section">
+      <div className="section-heading">
+        <span className="eyebrow">Клиенты</span>
+        <h2>Кому везём мебель</h2>
+      </div>
+      <div className="service-audience-grid">
+        {furnitureAudiences.map((item) => (
+          <article className="service-audience-card appliances-audience-card" key={item.title}>
+            <span className="washers-emoji">{item.icon}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function FurnitureReasons() {
+  return (
+    <section className="section appliances-reasons-section">
+      <div className="section-heading">
+        <span className="eyebrow">Экономика закупки</span>
+        <h2>Зачем везти мебель из Европы</h2>
+      </div>
+      <div className="service-audience-grid appliances-reason-grid">
+        {furnitureReasons.map((item) => (
+          <article className="service-audience-card appliances-reason-card" key={item.title}>
+            <span className="washers-emoji">{item.icon}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function FurnitureProcess() {
+  return (
+    <section className="section process-section appliances-process-section">
+      <div className="section-heading">
+        <span className="eyebrow">Маршрут</span>
+        <h2>Как организуем доставку мебели</h2>
+      </div>
+      <div className="process-track process-track-five">
+        {furnitureSteps.map(([num, title, text]) => (
+          <article className="process-step" key={num}>
+            <span>{num}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function FurnitureAdvantages() {
+  return (
+    <section className="section why-section appliances-advantages-section">
+      <div className="section-heading">
+        <span className="eyebrow">Контроль качества</span>
+        <h2>Почему выбирают нас</h2>
+      </div>
+      <div className="advantage-list">
+        {furnitureAdvantages.map((item) => (
+          <div className="advantage-item" key={item}>
+            <span><Check size={18} /></span>
+            <p>{item}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function FurnitureCase() {
+  return (
+    <section className="section featured-case-section appliances-case-section">
+      <div className="section-heading">
+        <span className="eyebrow">Кейс</span>
+        <h2>Пример реальной поставки</h2>
+      </div>
+      <article className="featured-case">
+        <div className="featured-case-head">
+          <span className="case-number">01</span>
+          <h3>Итальянская мебель для дизайн-проекта, Москва</h3>
+          <div className="case-facts">
+            <span>Италия</span>
+            <span>4 поставщика</span>
+            <span>14 дней</span>
+            <span>сборный груз</span>
+          </div>
+        </div>
+        <div className="featured-case-body">
+          <p>
+            Дизайн-студия закупала мебель для жилого комплекса у четырёх итальянских
+            фабрик. Раньше работали через московских посредников — дорого и долго. Мы
+            приняли все партии на складе в Вильнюсе, проверили комплектность, собрали
+            в одну отправку и доставили в Москву за 14 дней. Студия не контактировала
+            с поставщиками напрямую — всё через нас.
+          </p>
+          <blockquote>Теперь берём мебель из Италии напрямую. Сэкономили почти 40% по сравнению с московским дилером — и это с учётом всей логистики.</blockquote>
+        </div>
+      </article>
+    </section>
+  );
+}
+
+function FurnitureFaq() {
+  return (
+    <section className="section faq-section appliances-faq-section">
+      <div className="section-heading">
+        <span className="eyebrow">FAQ</span>
+        <h2>Частые вопросы</h2>
+      </div>
+      <div className="faq-list">
+        {furnitureFaq.map(([question, answer], index) => (
+          <details className="faq-item" key={question} open={index === 0}>
+            <summary>{question}</summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function FurnitureFinalCta() {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    window.location.href = "/spasibo/";
+  };
+  return (
+    <section className="section request-section appliances-request-section" id="furniture-request">
+      <div className="request-copy">
+        <span className="eyebrow">Расчёт партии</span>
+        <h2>Нужна мебель из Европы?</h2>
+        <p>Опишите что везём, бренд или поставщика, объём. Посчитаем выкуп, доставку и таможню за 2 часа.</p>
+      </div>
+      <form className="request-form" onSubmit={handleSubmit}>
+        <label>
+          <span>Что нужно привезти</span>
+          <input type="text" name="cargo" placeholder="Диваны / кухня / светильники / мебель для ванной" />
+        </label>
+        <label>
+          <span>Бренд или страна поставщика</span>
+          <input type="text" name="country" placeholder="Natuzzi / Германия / не знаю" />
+        </label>
+        <label>
+          <span>Примерный объём</span>
+          <input type="text" name="volume" placeholder="кг / паллеты / количество позиций" />
+        </label>
+        <label>
+          <span>Телефон / Telegram</span>
+          <input type="text" name="contact" placeholder="+7... или @username" />
+        </label>
+        <button className="button button-primary" type="submit">
+          Получить расчёт <Send size={18} />
+        </button>
+        <small>Ответим в течение 2 часов</small>
+      </form>
+    </section>
+  );
+}
+
+function FurniturePage() {
+  return (
+    <>
+      <FurnitureHero />
+      <FurnitureStats />
+      <FurnitureWhatWe />
+      <FurnitureForWho />
+      <FurnitureReasons />
+      <FurnitureProcess />
+      <FurnitureAdvantages />
+      <FurnitureCase />
+      <FurnitureFaq />
+      <FurnitureFinalCta />
+    </>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 function SupplierSearchHero() {
   return (
     <section className="page-hero supplier-hero">
@@ -8160,6 +8518,7 @@ function App() {
     path === "/shiny-i-avtozapchasti/" ||
     path === "/shiny-i-avtozapchasti";
   const isThankYouPage = path === "/spasibo/" || path === "/spasibo";
+  const isFurniturePage = path === "/mebel-iz-evropy/" || path === "/mebel-iz-evropy";
   const pageTitle = isGroupagePage
     ? "Сборные грузы из Европы — BelTransit"
     : isBuyoutPage
@@ -8208,7 +8567,9 @@ function App() {
                         ? "Шины и автозапчасти из Европы — BelTransit"
                         : isThankYouPage
                           ? "Заявка принята — BelTransit"
-                          : "BelTransit — доставка и выкуп грузов из Европы";
+                          : isFurniturePage
+                            ? "Мебель и предметы интерьера из Европы — BelTransit"
+                            : "BelTransit — доставка и выкуп грузов из Европы";
 
   React.useEffect(() => {
     document.title = pageTitle;
@@ -8269,6 +8630,8 @@ function App() {
           <TiresPage />
         ) : isThankYouPage ? (
           <ThankYouPage />
+        ) : isFurniturePage ? (
+          <FurniturePage />
         ) : (
           <HomePage />
         )}
