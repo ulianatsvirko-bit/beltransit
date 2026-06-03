@@ -1565,10 +1565,10 @@ const contactMethods = [
   {
     icon: Phone,
     title: "Телефон",
-    value: "+375 XX XXX XX XX",
+    value: "+7 926 547-18-94",
     text: "Звоните в рабочее время.",
     button: "Позвонить",
-    href: "tel:+375000000000",
+    href: "tel:+79265471894",
   },
   {
     icon: Mail,
@@ -1581,10 +1581,10 @@ const contactMethods = [
   {
     icon: Smartphone,
     title: "WhatsApp",
-    value: "+375 XX XXX XX XX",
+    value: "+7 926 547-18-94",
     text: "Для тех кто привык к WhatsApp.",
     button: "Написать в WhatsApp",
-    href: "https://wa.me/375000000000",
+    href: "https://wa.me/79265471894",
   },
 ];
 
@@ -6573,7 +6573,7 @@ function GeneralFaqContact() {
           <a className="button button-primary" href="https://t.me/beltransit">
             Написать в Telegram <Send size={18} />
           </a>
-          <a className="button button-secondary" href="tel:+375000000000">
+          <a className="button button-secondary" href="tel:+79265471894">
             Позвонить <Phone size={18} />
           </a>
           <a className="button button-secondary" href="/kontakty/">
@@ -6619,21 +6619,21 @@ function ContactsPage() {
                 </a>
               </li>
               <li>
-                <a href="tel:+375000000000" className="contacts-channel">
+                <a href="tel:+79265471894" className="contacts-channel">
                   <Phone size={20} />
                   <div>
                     <strong>Телефон</strong>
-                    <span>+375 XX XXX XX XX</span>
+                    <span>+7 926 547-18-94</span>
                   </div>
                   <ArrowRight size={16} />
                 </a>
               </li>
               <li>
-                <a href="https://wa.me/375000000000" className="contacts-channel">
+                <a href="https://wa.me/79265471894" className="contacts-channel">
                   <Smartphone size={20} />
                   <div>
                     <strong>WhatsApp</strong>
-                    <span>+375 XX XXX XX XX</span>
+                    <span>+7 926 547-18-94</span>
                   </div>
                   <ArrowRight size={16} />
                 </a>
@@ -6832,7 +6832,7 @@ function BlogFinalCta() {
             <a className="button button-primary" href="https://t.me/beltransit">
               Написать в Telegram <Send size={18} />
             </a>
-            <a className="button button-secondary" href="tel:+375000000000">
+            <a className="button button-secondary" href="tel:+79265471894">
               Позвонить <Phone size={18} />
             </a>
             <button className="button button-secondary" onClick={() => setQuoteOpen(true)}>
@@ -8469,8 +8469,8 @@ function Footer() {
       </div>
       <div>
         <h3>Контакты</h3>
-        <a href="tel:+375000000000">
-          <Phone size={15} /> +375 00 000-00-00
+        <a href="tel:+79265471894">
+          <Phone size={15} /> +7 926 547-18-94
         </a>
         <a href="https://t.me/beltransit">
           <Send size={15} /> Telegram
