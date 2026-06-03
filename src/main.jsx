@@ -2510,7 +2510,7 @@ function AudienceSplit() {
         <article className="path-card path-card-buyer">
           <div className="path-card-tag">Закупщик / импортёр</div>
           <Package size={36} />
-          <h3>Хочу привезти товар из Европы</h3>
+          <h3>Хотите привезти товар из Европы</h3>
           <p>Нашли поставщика или ещё ищете — возьмём доставку, выкуп и таможню под ключ.</p>
           <ul className="path-services-list">
             <li><Check size={14} /> Сборные грузы от 20 кг</li>
@@ -2530,7 +2530,7 @@ function AudienceSplit() {
         <article className="path-card path-card-logist">
           <div className="path-card-tag">Логист / экспедитор</div>
           <Handshake size={36} />
-          <h3>Ищу партнёра в Европе или Литве</h3>
+          <h3>Ищете партнёра в Европе или Литве</h3>
           <p>Транспортные компании и экспедиторы из РФ — работаем как ваш агент на месте.</p>
           <ul className="path-services-list">
             <li><Check size={14} /> Агентская схема через наш склад</li>
