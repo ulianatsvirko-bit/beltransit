@@ -7223,20 +7223,32 @@ h1 small {
 
 /* ── Breadcrumbs ────────────────────────────────────────────── */
 .breadcrumbs {
+  position: sticky;
+  top: 4.75rem;
+  z-index: 9;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.25rem 0.4rem;
-  padding: 0.6rem clamp(1rem, 5vw, 4rem);
-  font-size: 0.8rem;
-  color: var(--muted);
-  background: #fff;
-  border-bottom: 1px solid var(--line);
+  gap: 0.25rem 0.5rem;
+  padding: 0.5rem clamp(1rem, 4vw, 3rem);
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
+  background: rgba(17, 20, 23, 0.9);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(0.75rem);
+  color: rgba(255, 255, 255, 0.45);
 }
-.breadcrumbs a { color: var(--muted); text-decoration: none; }
+.breadcrumbs a {
+  color: rgba(255, 255, 255, 0.45);
+  text-decoration: none;
+  transition: color var(--duration-fast);
+}
 .breadcrumbs a:hover { color: var(--orange); }
-.breadcrumbs span[aria-current="page"] { color: var(--graphite); font-weight: 600; }
-.breadcrumbs span[aria-hidden] { color: var(--muted); }
+.breadcrumbs span[aria-current="page"] {
+  color: var(--orange);
+  font-weight: 600;
+}
+.breadcrumbs span[aria-hidden] { color: rgba(255, 255, 255, 0.2); }
 
 /* ── Urgency Banner in form ─────────────────────────────────── */
 .form-urgency-banner {
