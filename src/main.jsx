@@ -3607,16 +3607,19 @@ function CustomsCalcExample() {
 function CustomsBlogLink() {
   return (
     <section className="section customs-blog-link-section">
-      <div className="customs-blog-link-card">
-        <div className="customs-blog-link-text">
-          <span className="eyebrow">Полезно знать заранее</span>
-          <h3>Как рассчитать таможенные платежи самостоятельно</h3>
-          <p>Пошлины, НДС, сборы — объясняем из чего складываются цифры и где можно законно сэкономить.</p>
+      <a className="customs-article-card" href="/blog/kak-rasschitat-tamozhennye-platezhi/">
+        <div className="customs-article-meta">
+          <span className="customs-article-tag">📖 Статья · 5 мин</span>
+          <span className="customs-article-tag">Таможня</span>
         </div>
-        <a className="button button-plain" href="/blog/kak-rasschitat-tamozhennye-platezhi/">
-          Читать статью <ArrowRight size={17} />
-        </a>
-      </div>
+        <h3 className="customs-article-title">Как рассчитать таможенные платежи самостоятельно</h3>
+        <p className="customs-article-desc">
+          Разбираем пошлины, НДС и сборы по порядку: откуда берутся цифры, как считать до отправки и где законно сэкономить до 40%.
+        </p>
+        <div className="customs-article-cta">
+          Читать статью <ArrowRight size={16} />
+        </div>
+      </a>
     </section>
   );
 }
