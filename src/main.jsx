@@ -3585,10 +3585,6 @@ function CustomsCalcExample() {
             <strong>€1 000</strong>
           </div>
           <div className="customs-calc-row">
-            <span>База для НДС (стоимость + пошлина)</span>
-            <strong>€11 000</strong>
-          </div>
-          <div className="customs-calc-row">
             <span>НДС 20%</span>
             <strong>€2 200</strong>
           </div>
