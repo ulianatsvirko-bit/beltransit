@@ -952,9 +952,18 @@ h1 small {
 }
 
 .page-hero h1 {
-  max-width: 15ch;
+  max-width: 18ch;
   margin: 0.9rem 0 1.15rem;
   font-size: clamp(2.15rem, 5vw, 4.25rem);
+}
+
+.hero-title-sub {
+  display: block;
+  font-size: 0.52em;
+  font-weight: 500;
+  color: var(--orange);
+  letter-spacing: 0.01em;
+  margin-top: 0.3em;
 }
 
 .page-hero p {
@@ -1342,7 +1351,7 @@ h1 small {
 }
 
 .customs-stats .service-stat strong {
-  color: var(--green);
+  color: var(--orange);
 }
 
 .customs-problem-section {

@@ -78,6 +78,12 @@ const services = [
     text: "Есть партнёры по технике, шинам и Керхер. По другим категориям — уточняйте.",
     href: "/poisk-postavshchika/",
   },
+  {
+    icon: ShieldCheck,
+    title: "Всё под ключ",
+    text: "Выкуп у поставщика + доставка + таможня + сертификация. Один договор — мы берём всё.",
+    href: "#request",
+  },
 ];
 
 const megaMenuColumns = [
@@ -248,7 +254,7 @@ const groupageSteps = [
   ["2", "Расчёт", "За 2 часа считаем цену"],
   ["3", "Забираем", "У поставщика в любой стране Европы"],
   ["4", "Склад", "Вильнюс — консолидация"],
-  ["5", "Доставка", "До двери в РФ + таможня"],
+  ["5", "Доставка", "До двери в РФ + таможня + сертификация"],
 ];
 
 const groupageAudiences = [
@@ -297,7 +303,7 @@ const groupageFaq = [
   ],
   [
     "Какие товары вы не везёте?",
-    "Не берём запрещённые к перевозке товары, опасные грузы без документов и позиции, которые нельзя легально оформить на таможне.",
+    "Не берём запрещённые к перевозке товары и позиции, которые нельзя легально оформить на таможне. Если документов нет — это не проблема: мы сами оформляем всё необходимое.",
   ],
 ];
 
@@ -329,9 +335,9 @@ const buyoutPainPoints = [
 const buyoutSteps = [
   ["1", "Контакт", "Вы даёте контакт поставщика"],
   ["2", "Проверка", "Мы проверяем поставщика и цену"],
-  ["3", "Оплата", "Платим поставщику от своего имени"],
+  ["3", "Оплата", "Платим поставщику от своего европейского юрлица"],
   ["4", "Забор", "Забираем товар со склада в Европе"],
-  ["5", "Россия", "Везём в Россию + таможня"],
+  ["5", "Россия", "Везём в Россию + таможня + сертификация"],
 ];
 
 const buyoutAudiences = [
@@ -380,7 +386,7 @@ const buyoutFaq = [
   ],
   [
     "Какие товары вы не выкупаете?",
-    "Не выкупаем запрещённые товары, позиции без документов, опасные грузы без оформления и всё, что нельзя легально провести через таможню.",
+    "Не выкупаем запрещённые к обороту товары и то, что нельзя легально провести через таможню. Если документов нет — это не проблема: мы оформляем всё необходимое сами.",
   ],
 ];
 
@@ -695,7 +701,7 @@ const partnerFaq = [
   ],
   [
     "Как происходит расчёт между нами?",
-    "Схему согласуем под ваш процесс: предоплата, оплата по этапам или регулярный закрывающий пакет по договору.",
+    "Вы платите по факту получения товара в России. Схему расчётов фиксируем в договоре заранее.",
   ],
 ];
 
@@ -757,11 +763,11 @@ const warehouseServices = [
 ];
 
 const warehouseSteps = [
-  ["1", "Вы даёте", "адрес склада поставщику"],
-  ["2", "Доставка в склад", "поставщик сам отправляет или мы забираем — как удобнее"],
+  ["1", "Вы связываете", "нас с поставщиком — сами контактируем напрямую"],
+  ["2", "Доставка в склад", "поставщик отправляет или мы забираем — как удобнее"],
   ["3", "Мы", "принимаем и проверяем"],
   ["4", "Машина", "раз в неделю уходит в РФ"],
-  ["5", "Доставка", "до двери в РФ + таможня"],
+  ["5", "Доставка", "до двери в РФ + таможня + сертификация"],
 ];
 
 const warehouseAudiences = [
@@ -1458,7 +1464,7 @@ const generalFaqCategories = [
       ],
       [
         "Как я буду уверен что вы не исчезнете с деньгами?",
-        "Работаем по договору. Оплата поэтапная — никогда не берём 100% предоплату. Плюс 13 лет на рынке — репутация дороже.",
+        "Работаем по договору. Вы платите по факту получения товара в России — никакой предоплаты. Плюс 13 лет на рынке — репутация дороже.",
       ],
     ],
   },
@@ -1512,7 +1518,7 @@ const generalFaqCategories = [
     questions: [
       [
         "Как происходит оплата?",
-        "Предоплата 50% после подписания договора. Остаток — после доставки. Никогда не берём 100% вперёд.",
+        "Вы платите по факту получения товара в России — никакой предоплаты. Всё фиксируем в договоре.",
       ],
       [
         "Какие документы вы передаёте по итогу?",
@@ -2134,7 +2140,7 @@ const workSteps = [
   {
     num: "4",
     title: "Оплата",
-    text: "Предоплата 50% после подписания договора. Остаток — после доставки. Никогда не берём 100% вперёд.",
+    text: "Вы платите по факту получения товара в России. Никакой предоплаты — условия фиксируем в договоре.",
   },
   {
     num: "5",
@@ -2162,7 +2168,7 @@ const workGuarantees = [
   {
     icon: CreditCard,
     title: "Поэтапная оплата",
-    text: "Никогда не берём 100% предоплату. Платите частями по мере выполнения работы.",
+    text: "Вы платите по факту получения товара в России. Никакой предоплаты — всё фиксируем в договоре.",
   },
   {
     icon: FileText,
@@ -2687,9 +2693,6 @@ function Services() {
           <span className="eyebrow">Один контур ответственности</span>
           <h2>Что мы делаем</h2>
         </div>
-        <a className="text-link" href="/chto-vezem/">
-          Все услуги <ArrowRight size={17} />
-        </a>
       </div>
       <div className="service-grid">
         {services.map(({ icon: Icon, title, text, href }) => (
@@ -2896,7 +2899,7 @@ function GroupageExplainer() {
         </p>
         <p>
           У нас есть склад в Вильнюсе где мы собираем грузы от разных поставщиков из разных стран
-          Европы. Когда машина заполнена — отправляем в Россию.
+          Европы. Фура уходит стабильно раз в неделю — вы всегда знаете максимальный срок ожидания.
         </p>
       </div>
     </section>
@@ -3071,7 +3074,7 @@ function GroupageFinalCta() {
 function GroupagePage() {
   return (
     <>
-      <Breadcrumbs items={[{ label: "Услуги", href: "/chto-vezem/" }, { label: "Сборные грузы" }]} />
+      <Breadcrumbs items={[{ label: "Услуги", href: "/#services" }, { label: "Сборные грузы" }]} />
       <ServicePageHero />
       <ServiceStats />
       <GroupageExplainer />
@@ -3092,10 +3095,10 @@ function BuyoutHero() {
       <div className="page-hero-shell">
         <div className="page-hero-inner">
           <span className="eyebrow">Выкуп товаров · Европа → Россия</span>
-          <h1>Выкуп товаров у европейских поставщиков — мы платим вместо вас</h1>
+          <h1>Выкуп товаров у европейских поставщиков — платим от нашего европейского юрлица</h1>
           <p>
-            Не можете оплатить поставщику из России? Мы выкупаем товар в Европе от вашего имени и
-            доставляем в Россию под ключ.
+            Не можете оплатить поставщику из России? Мы выкупаем товар в Европе от нашего европейского
+            юрлица и доставляем в Россию под ключ.
           </p>
           <a className="button button-primary" href="#buyout-request">
             Обсудить выкуп <ArrowRight size={18} />
@@ -3302,7 +3305,7 @@ function BuyoutFinalCta() {
 function BuyoutPage() {
   return (
     <>
-      <Breadcrumbs items={[{ label: "Услуги", href: "/chto-vezem/" }, { label: "Выкуп товаров" }]} />
+      <Breadcrumbs items={[{ label: "Услуги", href: "/#services" }, { label: "Выкуп товаров" }]} />
       <BuyoutHero />
       <BuyoutStats />
       <BuyoutProblem />
@@ -3321,8 +3324,7 @@ function CustomsHero() {
     <section className="page-hero customs-hero">
       <div className="page-hero-shell">
         <div className="page-hero-inner">
-          <span className="eyebrow">Таможенное оформление · Европа → Россия</span>
-          <h1>Таможенное оформление грузов из Европы — без задержек и сюрпризов</h1>
+          <h1>Таможенное оформление грузов из Европы <span className="hero-title-sub">— день в день, без сюрпризов</span></h1>
           <p>
             Берём таможню на себя. Вы получаете товар уже растаможенным — без очередей, штрафов и
             непонятных доплат.
@@ -3571,28 +3573,28 @@ function CustomsCalcExample() {
       </div>
       <div className="customs-calc-card">
         <div className="customs-calc-scenario">
-          Сценарий: автозапчасти из Германии, инвойс €8 000, фрахт €600
+          Пример: товар из Европы, стоимость €10 000, пошлина по ТНВЭД 10%
         </div>
         <div className="customs-calc-rows">
           <div className="customs-calc-row">
-            <span>Таможенная стоимость (CIF)</span>
-            <strong>€8 600</strong>
+            <span>Таможенная стоимость</span>
+            <strong>€10 000</strong>
           </div>
           <div className="customs-calc-row">
-            <span>Пошлина по ТНВЭД ~3%</span>
-            <strong>€258</strong>
+            <span>Пошлина 10% по ТНВЭД</span>
+            <strong>€1 000</strong>
           </div>
           <div className="customs-calc-row">
-            <span>НДС 20% от (стоимость + пошлина)</span>
-            <strong>€1 772</strong>
+            <span>База для НДС (стоимость + пошлина)</span>
+            <strong>€11 000</strong>
           </div>
           <div className="customs-calc-row">
-            <span>Таможенный сбор</span>
-            <strong>~8 530 ₽</strong>
+            <span>НДС 20%</span>
+            <strong>€2 200</strong>
           </div>
           <div className="customs-calc-row customs-calc-total">
             <span>Итого таможенная нагрузка</span>
-            <strong>≈ €2 030 + 8 530 ₽</strong>
+            <strong>€3 200</strong>
           </div>
         </div>
         <p className="customs-calc-note">
@@ -3626,7 +3628,7 @@ function CustomsBlogLink() {
 function CustomsPage() {
   return (
     <>
-      <Breadcrumbs items={[{ label: "Услуги", href: "/chto-vezem/" }, { label: "Таможня" }]} />
+      <Breadcrumbs items={[{ label: "Услуги", href: "/#services" }, { label: "Таможня" }]} />
       <CustomsHero />
       <CustomsStats />
       <CustomsProblem />
@@ -4476,7 +4478,7 @@ function WarehouseFinalCta() {
 function WarehousePage() {
   return (
     <>
-      <Breadcrumbs items={[{ label: "Услуги", href: "/chto-vezem/" }, { label: "Склад в Вильнюсе" }]} />
+      <Breadcrumbs items={[{ label: "Услуги", href: "/#services" }, { label: "Склад в Вильнюсе" }]} />
       <WarehouseHero />
       <WarehouseStats />
       <WarehouseReasons />
@@ -4709,7 +4711,7 @@ function FullTruckFinalCta() {
 function FullTruckPage() {
   return (
     <>
-      <Breadcrumbs items={[{ label: "Услуги", href: "/chto-vezem/" }, { label: "Полная фура" }]} />
+      <Breadcrumbs items={[{ label: "Услуги", href: "/#services" }, { label: "Полная фура" }]} />
       <FullTruckHero />
       <FullTruckStats />
       <FullTruckTriggers />
@@ -6482,7 +6484,7 @@ function SupplierSearchFinalCta() {
 function SupplierSearchPage() {
   return (
     <>
-      <Breadcrumbs items={[{ label: "Услуги", href: "/chto-vezem/" }, { label: "Поиск поставщика" }]} />
+      <Breadcrumbs items={[{ label: "Услуги", href: "/#services" }, { label: "Поиск поставщика" }]} />
       <SupplierSearchHero />
       <SupplierSearchStats />
       <SupplierSearchProblem />
