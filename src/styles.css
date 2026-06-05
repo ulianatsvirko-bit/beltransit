@@ -3831,6 +3831,29 @@ h1 small {
   font-weight: 900;
 }
 
+.service-card-featured {
+  background: linear-gradient(135deg, rgba(243, 107, 33, 0.18), rgba(243, 107, 33, 0.06));
+  border-color: rgba(243, 107, 33, 0.5);
+}
+
+.service-card-featured span {
+  color: var(--orange);
+  font-size: 1.05em;
+}
+
+@media (min-width: 900px) {
+  .service-card-featured {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: 8rem;
+  }
+  .service-card-featured h3 { margin: 0; }
+  .service-card-featured p { margin: 0; }
+}
+
 .process-section {
   text-align: center;
 }
@@ -7292,6 +7315,32 @@ h1 small {
   font-weight: 600;
 }
 .breadcrumbs span[aria-hidden] { color: rgba(255, 255, 255, 0.2); }
+
+.breadcrumb-back {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.55rem;
+  background: rgba(243, 107, 33, 0.15);
+  border: 1px solid rgba(243, 107, 33, 0.35);
+  color: var(--orange) !important;
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  transition: background var(--duration-fast);
+}
+.breadcrumb-back:hover {
+  background: rgba(243, 107, 33, 0.28) !important;
+  color: var(--orange) !important;
+}
+
+.breadcrumb-divider {
+  display: inline-block;
+  width: 1px;
+  height: 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 0 0.25rem;
+}
 
 /* ── Urgency Banner in form ─────────────────────────────────── */
 .form-urgency-banner {
