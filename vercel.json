@@ -6,6 +6,7 @@
     { "source": "/zapchasti-i-shiny/", "destination": "/shiny-i-avtozapchasti/", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
