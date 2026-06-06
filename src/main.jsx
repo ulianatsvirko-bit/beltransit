@@ -41,6 +41,27 @@ import {
 import logoMark from "./assets/beltransit-logo-orange.png";
 import "./styles.css";
 
+// ── Shared form submission utility ────────────────────────────────────────────
+// Collects FormData, POSTs to /api/contact, then redirects to /spasibo/.
+// Pass an optional `callback` (e.g. modal onClose) that fires before redirect.
+async function submitForm(e, source, callback) {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target));
+  data.source = source;
+  try {
+    await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+  } catch (_) {
+    // Silent — we redirect regardless so the user experience is uninterrupted
+  }
+  if (callback) callback();
+  window.location.href = "/spasibo/";
+}
+// ──────────────────────────────────────────────────────────────────────────────
+
 const services = [
   {
     icon: Package,
@@ -2601,7 +2622,7 @@ function PartnerModal({ isOpen, onClose }) {
           <span className="eyebrow">Партнёрство</span>
           <h2>Расскажите о вашей компании</h2>
         </div>
-        <form className="request-form modal-form" onSubmit={(e) => { e.preventDefault(); onClose(); window.location.href = "/spasibo/"; }}>
+        <form className="request-form modal-form" onSubmit={(e) => submitForm(e, "Партнёрство (модалка)", onClose)}>
           <label>
             <span>Как вас зовут</span>
             <input type="text" name="name" placeholder="Имя" />
@@ -2832,10 +2853,7 @@ function WhyUs() {
 }
 
 function RequestForm() {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    window.location.href = "/spasibo/";
-  };
+  const handleSubmit = (e) => submitForm(e, "Расчёт — Главная");
   return (
     <section className="section request-section" id="request">
       <div className="request-copy">
@@ -3061,7 +3079,7 @@ function GroupageFaq() {
 }
 
 function GroupageFinalCta() {
-  const handleSubmit = (e) => { e.preventDefault(); window.location.href = "/spasibo/"; };
+  const handleSubmit = (e) => submitForm(e, "Сборные грузы");
   return (
     <section className="section request-section" id="groupage-request">
       <div className="request-copy">
@@ -3300,7 +3318,7 @@ function BuyoutFinalCta() {
         <h2>Есть поставщик в Европе? Давайте обсудим</h2>
         <p>Расскажите, где находится поставщик, что покупаете и на какую сумму. Мы оценим схему выкупа и доставки.</p>
       </div>
-      <form className="request-form">
+      <form className="request-form" onSubmit={(e) => submitForm(e, "Выкуп товаров")}>
         <label>
           <span>Страна поставщика</span>
           <input type="text" name="supplier-country" placeholder="Германия / Польша / Италия" />
@@ -3562,7 +3580,7 @@ function CustomsFinalCta() {
           обязательные платежи.
         </p>
       </div>
-      <form className="request-form">
+      <form className="request-form" onSubmit={(e) => submitForm(e, "Таможенное оформление")}>
         <label>
           <span>Тип товара</span>
           <input type="text" name="cargo-type" placeholder="Оборудование / запчасти / продукты" />
@@ -3819,7 +3837,7 @@ function CargoFinalCta() {
         <h2>Не нашли свой товар?</h2>
         <p>Напишите нам — скажем можем ли везти и какая схема оптимальна.</p>
       </div>
-      <form className="request-form">
+      <form className="request-form" onSubmit={(e) => submitForm(e, "Что везём")}>
         <label>
           <span>Что хотите привезти</span>
           <input type="text" name="cargo" placeholder="Товар / категория" />
@@ -3953,7 +3971,7 @@ function CasesFinalCta() {
         <h2>Хотите такой же результат?</h2>
         <p>Расскажите о вашем грузе — предложим оптимальную схему.</p>
       </div>
-      <form className="request-form">
+      <form className="request-form" onSubmit={(e) => submitForm(e, "Кейсы")}>
         <label>
           <span>Что хотите привезти</span>
           <input type="text" name="cargo" placeholder="Товар / категория" />
@@ -4189,7 +4207,7 @@ function PartnerFinalCta() {
         <h2>Давайте познакомимся — 15 минут созвона</h2>
         <p>Расскажите про поток грузов и текущие маршруты. Мы покажем, где можем закрыть склад, выкуп, таможню и доставку.</p>
       </div>
-      <form className="request-form">
+      <form className="request-form" onSubmit={(e) => submitForm(e, "Партнёрам (логисты)")}>
         <label>
           <span>Ваша компания и роль</span>
           <input type="text" name="company-role" placeholder="Компания / должность" />
@@ -4472,7 +4490,7 @@ function WarehouseFinalCta() {
         <h2>Хотите использовать наш склад в Вильнюсе?</h2>
         <p>Опишите поставщиков, объём и частоту отправки. Мы предложим условия хранения, консолидации и рейса в РФ.</p>
       </div>
-      <form className="request-form">
+      <form className="request-form" onSubmit={(e) => submitForm(e, "Склад в Вильнюсе")}>
         <label>
           <span>Из каких стран ваши поставщики</span>
           <input type="text" name="supplier-countries" placeholder="Германия / Польша / Италия" />
@@ -4705,7 +4723,7 @@ function FullTruckFinalCta() {
         <h2>Нужна фура из Европы?</h2>
         <p>Укажите маршрут, товар, вес и объём. Мы проверим доступные машины, таможню и вернёмся со ставкой.</p>
       </div>
-      <form className="request-form">
+      <form className="request-form" onSubmit={(e) => submitForm(e, "Фуры и контейнеры")}>
         <label>
           <span>Откуда забираем</span>
           <input type="text" name="pickup" placeholder="Страна / город / адрес поставщика" />
@@ -4899,7 +4917,7 @@ function WorkFinalCta() {
         <h2>Готовы попробовать?</h2>
         <p>Начнём с одного груза — убедитесь сами.</p>
       </div>
-      <form className="request-form">
+      <form className="request-form" onSubmit={(e) => submitForm(e, "Как мы работаем")}>
         <label>
           <span>Что хотите привезти</span>
           <input type="text" name="cargo" placeholder="Тип товара" />
@@ -5142,7 +5160,7 @@ function AboutFinalCta() {
         <h2>Хотите стать нашим клиентом?</h2>
         <p>Начнём с одного груза. Убедитесь что мы те о ком говорят клиенты выше.</p>
       </div>
-      <form className="request-form">
+      <form className="request-form" onSubmit={(e) => submitForm(e, "О компании")}>
         <label>
           <span>Что хотите привезти</span>
           <input type="text" name="cargo" placeholder="Тип товара" />
@@ -5404,7 +5422,7 @@ function WashersFinalCta() {
         <h2>Нужны Кёрхеры или моющее оборудование из Европы?</h2>
         <p>Опишите технику, объём и поставщика. Мы проверим выкуп, доставку, склад и таможню.</p>
       </div>
-      <form className="request-form">
+      <form className="request-form" onSubmit={(e) => submitForm(e, "Кёрхеры и мойки")}>
         <label>
           <span>Что нужно привезти</span>
           <input type="text" name="cargo" placeholder="Мойки / пылесосы / запчасти" />
@@ -5651,7 +5669,7 @@ function TiresFinalCta() {
         <h2>Нужны шины или запчасти из Европы?</h2>
         <p>Опишите список позиций, объём и поставщика. Мы посчитаем выкуп, доставку, склад и таможню.</p>
       </div>
-      <form className="request-form">
+      <form className="request-form" onSubmit={(e) => submitForm(e, "Шины и запчасти")}>
         <label>
           <span>Что нужно привезти</span>
           <input type="text" name="cargo" placeholder="Шины / запчасти / расходники" />
@@ -5899,7 +5917,7 @@ function AppliancesFinalCta() {
         <h2>Нужна техника из Европы?</h2>
         <p>Опишите технику, объём и поставщика. Мы проверим выкуп, доставку, склад и таможню.</p>
       </div>
-      <form className="request-form">
+      <form className="request-form" onSubmit={(e) => submitForm(e, "Бытовая техника")}>
         <label>
           <span>Что нужно привезти</span>
           <input type="text" name="cargo" placeholder="Холодильники / кофемашины / телевизоры" />
@@ -6141,10 +6159,7 @@ function FurnitureFaq() {
 }
 
 function FurnitureFinalCta() {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    window.location.href = "/spasibo/";
-  };
+  const handleSubmit = (e) => submitForm(e, "Мебель из Европы");
   return (
     <section className="section request-section appliances-request-section" id="furniture-request">
       <div className="request-copy">
@@ -6367,7 +6382,7 @@ function SupplierRequestModal({ isOpen, onClose }) {
           <span className="eyebrow">Заявка на поиск</span>
           <h2>Опишите что ищете</h2>
         </div>
-        <form className="request-form modal-form">
+        <form className="request-form modal-form" onSubmit={(e) => submitForm(e, "Поиск поставщика (модалка)", onClose)}>
           <label>
             <span>Какой товар ищете</span>
             <input type="text" name="product" placeholder="Категория / бренд / артикул" />
@@ -6478,7 +6493,7 @@ function SupplierSearchFinalCta() {
         <h2>Опишите что ищете — найдём за 5-7 дней</h2>
         <p>Ответим в течение 2 часов — обсудим товар, страны, объём и формат отчёта.</p>
       </div>
-      <form className="request-form">
+      <form className="request-form" onSubmit={(e) => submitForm(e, "Поиск поставщика")}>
         <label>
           <span>Какой товар ищете</span>
           <input type="text" name="product" placeholder="Категория / бренд / артикул" />
@@ -6683,7 +6698,7 @@ function ContactsPage() {
 
           <div className="contacts-right">
             <p className="contacts-form-label">Или оставьте заявку — перезвоним</p>
-            <form className="contacts-form" id="contact-request" onSubmit={(e) => { e.preventDefault(); window.location.href = "/spasibo/"; }}>
+            <form className="contacts-form" id="contact-request" onSubmit={(e) => submitForm(e, "Контакты")}>
               <label>
                 <span>Телефон / Telegram</span>
                 <input type="text" name="contact" placeholder="+7... или @username" />
@@ -7100,7 +7115,7 @@ function QuoteRequestModal({ isOpen, onClose }) {
           <span className="eyebrow">Бесплатный расчёт</span>
           <h2>Оставьте контакт — перезвоним</h2>
         </div>
-        <form className="request-form modal-form" onSubmit={(e) => { e.preventDefault(); onClose(); window.location.href = "/spasibo/"; }}>
+        <form className="request-form modal-form" onSubmit={(e) => submitForm(e, "Расчёт (модалка)", onClose)}>
           <label>
             <span>Как вас зовут</span>
             <input type="text" name="name" placeholder="Имя" />
