@@ -7861,12 +7861,12 @@ h1 small {
     background:
       linear-gradient(
         to bottom,
-        rgba(14, 17, 20, 0.55) 0%,
-        rgba(14, 17, 20, 0.72) 45%,
-        rgba(14, 17, 20, 0.92) 80%,
-        rgba(14, 17, 20, 0.98) 100%
+        rgba(14, 17, 20, 0.38) 0%,
+        rgba(14, 17, 20, 0.62) 40%,
+        rgba(14, 17, 20, 0.90) 75%,
+        rgba(14, 17, 20, 0.97) 100%
       ),
-      url('/hero-truck.jpg') center 35% / cover no-repeat;
+      url('/hero-truck.jpg') center 55% / cover no-repeat;
     min-height: 88svh;
   }
 
