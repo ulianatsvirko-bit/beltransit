@@ -7047,6 +7047,7 @@ function ThankYouPage() {
 
       {/* ── Articles ── */}
       <section className="thankyou-articles">
+        <a className="button button-secondary thankyou-home-btn" href="/">На главную</a>
         <p className="thankyou-articles-label">Пока ждёте — почитайте</p>
         <div className="thankyou-articles-grid">
           {[
@@ -7064,15 +7065,6 @@ function ThankYouPage() {
         </div>
       </section>
 
-      {/* ── Actions ── */}
-      <div className="thankyou-actions">
-        <a className="button button-primary" href="https://t.me/beltransit">
-          Написать в Telegram <MessageCircle size={18} />
-        </a>
-        <a className="button button-secondary" href="/">
-          На главную
-        </a>
-      </div>
 
     </div>
   );
