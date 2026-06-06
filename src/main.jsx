@@ -8609,6 +8609,23 @@ function App() {
     document.title = pageTitle;
   }, [pageTitle]);
 
+  // Scroll to hash anchor after SPA navigation (e.g. /#services from breadcrumbs)
+  React.useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) return;
+    // Give React one tick to finish rendering the target page
+    const id = hash.replace("#", "");
+    const attempt = (tries) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else if (tries > 0) {
+        setTimeout(() => attempt(tries - 1), 80);
+      }
+    };
+    attempt(10);
+  }, []);
+
   const isArticlePage = isCustomsArticlePage || isBelarusRouteArticlePage || isPaymentArticlePage || isLtlFtlArticlePage || isFirstImportArticlePage || isTnvedArticlePage;
 
   return (
