@@ -7031,41 +7031,70 @@ function Breadcrumbs({ items }) {
 
 function ThankYouPage() {
   return (
-    <section className="thankyou-page">
-      <div className="thankyou-inner">
-        <div className="thankyou-icon">
-          <Check size={40} />
+    <div className="thankyou-page">
+
+      {/* ── Hero ── */}
+      <section className="thankyou-hero">
+        <div className="thankyou-glow" aria-hidden="true" />
+        <div className="thankyou-check" aria-hidden="true">
+          <div className="thankyou-check-ring" />
+          <Check size={38} strokeWidth={2.5} />
         </div>
         <span className="eyebrow">Заявка принята</span>
-        <h1>Спасибо — мы получили вашу заявку</h1>
-        <p>Менеджер свяжется с вами в течение <strong>2 часов</strong> в рабочее время и пришлёт точный расчёт.</p>
-        <div className="thankyou-next">
-          <h2>Пока вы ждёте — почитайте:</h2>
-          <div className="thankyou-links">
-            <a className="thankyou-article-link" href="/blog/kak-rasschitat-tamozhennye-platezhi/">
-              <strong>Как рассчитать таможенные платежи</strong>
-              <span>Откуда берутся 30–50% сверху к цене товара</span>
-            </a>
-            <a className="thankyou-article-link" href="/blog/marshrut-cherez-belarus/">
-              <strong>Маршрут через Беларусь</strong>
-              <span>Почему это быстрее и выгоднее альтернатив</span>
-            </a>
-            <a className="thankyou-article-link" href="/blog/pervyy-import-iz-evropy/">
-              <strong>Первый импорт из Европы</strong>
-              <span>Пошаговая инструкция без ошибок</span>
-            </a>
-          </div>
+        <h1>Спасибо —<br />мы получили вашу заявку</h1>
+        <p>Менеджер изучит запрос и свяжется с вами в течение <strong>2&nbsp;часов</strong> в рабочее время.</p>
+      </section>
+
+      {/* ── What happens next ── */}
+      <section className="thankyou-steps">
+        <div className="thankyou-steps-inner">
+          {[
+            { n: "1", title: "Заявка получена", sub: "Уже в нашей CRM" },
+            { n: "2", title: "Менеджер изучает", sub: "Маршрут, груз, документы" },
+            { n: "3", title: "Расчёт за 2 часа", sub: "Пришлём в Telegram или по телефону" },
+          ].map(({ n, title, sub }, i, arr) => (
+            <React.Fragment key={n}>
+              <div className="thankyou-step">
+                <span className="thankyou-step-num">{n}</span>
+                <strong>{title}</strong>
+                <span>{sub}</span>
+              </div>
+              {i < arr.length - 1 && <div className="thankyou-step-arrow" aria-hidden="true">→</div>}
+            </React.Fragment>
+          ))}
         </div>
-        <div className="thankyou-actions">
-          <a className="button button-primary" href="https://t.me/beltransit">
-            Написать в Telegram <MessageCircle size={18} />
-          </a>
-          <a className="button button-secondary" href="/">
-            Вернуться на главную
-          </a>
+      </section>
+
+      {/* ── Articles ── */}
+      <section className="thankyou-articles">
+        <p className="thankyou-articles-label">Пока ждёте — почитайте</p>
+        <div className="thankyou-articles-grid">
+          {[
+            { href: "/blog/kak-rasschitat-tamozhennye-platezhi/", tag: "Таможня", title: "Как рассчитать таможенные платежи", sub: "Откуда берутся 30–50% сверху к цене товара" },
+            { href: "/blog/marshrut-cherez-belarus/", tag: "Маршрут", title: "Маршрут через Беларусь", sub: "Почему это быстрее и выгоднее альтернатив" },
+            { href: "/blog/pervyy-import-iz-evropy/", tag: "Гайд", title: "Первый импорт из Европы", sub: "Пошаговая инструкция без ошибок" },
+          ].map(({ href, tag, title, sub }) => (
+            <a className="thankyou-article-card" href={href} key={href}>
+              <span className="thankyou-article-tag">{tag}</span>
+              <strong>{title}</strong>
+              <span>{sub}</span>
+              <span className="thankyou-article-arrow">Читать →</span>
+            </a>
+          ))}
         </div>
+      </section>
+
+      {/* ── Actions ── */}
+      <div className="thankyou-actions">
+        <a className="button button-primary" href="https://t.me/beltransit">
+          Написать в Telegram <MessageCircle size={18} />
+        </a>
+        <a className="button button-secondary" href="/">
+          На главную
+        </a>
       </div>
-    </section>
+
+    </div>
   );
 }
 
