@@ -2696,14 +2696,37 @@ function Services() {
         </div>
       </div>
       <div className="service-grid">
-        {services.map(({ icon: Icon, title, text, href, featured }) => (
-          <a className={`service-card${featured ? " service-card-featured" : ""}`} href={href} key={title}>
-            <Icon size={featured ? 32 : 28} />
-            <h3>{title}</h3>
-            <p>{text}</p>
-            <span>{featured ? "Рассчитать стоимость →" : "Подробнее"}</span>
-          </a>
-        ))}
+        {services.map(({ icon: Icon, title, text, href, featured }) =>
+          featured ? (
+            <a className="service-card service-card-featured" href={href} key={title}>
+              <div className="featured-card-identity">
+                <div className="featured-card-title-row">
+                  <Icon size={26} />
+                  <h3>{title}</h3>
+                </div>
+                <p>Один договор — мы берём всё на себя</p>
+              </div>
+              <div className="featured-card-chain">
+                {["Выкуп", "Доставка", "Таможня", "Сертификация"].map((step, i, arr) => (
+                  <React.Fragment key={step}>
+                    <span className="featured-chain-step">{step}</span>
+                    {i < arr.length - 1 && <span className="featured-chain-arrow" aria-hidden="true">→</span>}
+                  </React.Fragment>
+                ))}
+              </div>
+              <div className="featured-card-action">
+                <span className="featured-card-cta">Рассчитать стоимость →</span>
+              </div>
+            </a>
+          ) : (
+            <a className="service-card" href={href} key={title}>
+              <Icon size={28} />
+              <h3>{title}</h3>
+              <p>{text}</p>
+              <span>Подробнее</span>
+            </a>
+          )
+        )}
       </div>
     </section>
   );
