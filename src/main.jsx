@@ -7045,26 +7045,6 @@ function ThankYouPage() {
         <p>Менеджер изучит запрос и свяжется с вами в течение <strong>2&nbsp;часов</strong> в рабочее время.</p>
       </section>
 
-      {/* ── What happens next ── */}
-      <section className="thankyou-steps">
-        <div className="thankyou-steps-inner">
-          {[
-            { n: "1", title: "Заявка получена", sub: "Уже в нашей CRM" },
-            { n: "2", title: "Менеджер изучает", sub: "Маршрут, груз, документы" },
-            { n: "3", title: "Расчёт за 2 часа", sub: "Пришлём в Telegram или по телефону" },
-          ].map(({ n, title, sub }, i, arr) => (
-            <React.Fragment key={n}>
-              <div className="thankyou-step">
-                <span className="thankyou-step-num">{n}</span>
-                <strong>{title}</strong>
-                <span>{sub}</span>
-              </div>
-              {i < arr.length - 1 && <div className="thankyou-step-arrow" aria-hidden="true">→</div>}
-            </React.Fragment>
-          ))}
-        </div>
-      </section>
-
       {/* ── Articles ── */}
       <section className="thankyou-articles">
         <p className="thankyou-articles-label">Пока ждёте — почитайте</p>
