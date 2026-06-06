@@ -157,24 +157,6 @@ const cargo = [
   ["Другие товары", Package, "/chto-vezem/"],
 ];
 
-const cases = [
-  {
-    title: "Автозапчасти из Германии, 2 тонны",
-    meta: "12 дней",
-    text: "Выкуп + доставка + растаможка. Работаем с клиентом уже 3 года, ни разу не подвели.",
-  },
-  {
-    title: "Велосипеды из Польши, 800 кг",
-    meta: "Сборный груз",
-    text: "Забрали у поставщика, приняли на склад в Вильнюсе и доставили в Москву.",
-  },
-  {
-    title: "Бытовая техника из Италии, 1.5 тонны",
-    meta: "14 дней",
-    text: "Выкупили у поставщика, собрали документы и довезли до двери получателя.",
-  },
-];
-
 const caseFilters = ["Все", "Сборные грузы", "Выкуп", "Полная фура", "Сложные грузы"];
 
 const deliveryCases = [
@@ -247,6 +229,46 @@ const deliveryCases = [
     result: "Клиент получил товар без необходимости разбираться в логистике и таможне.",
     quote: "Я просто сказал — вот груз, вот адрес в Москве. Всё остальное сделали они.",
     facts: ["4 паллеты", "выкуп — свой", "доставка под ключ"],
+  },
+  {
+    category: "Таможня",
+    title: "Промышленный холодильник из Германии — таможня за 2 дня",
+    client: "Ресторанная сеть, Москва",
+    task: "Впервые ввозили коммерческое оборудование — боялись ошибиться с кодами ТН ВЭД и получить штраф.",
+    solution: "Рассчитали таможенные платежи заранее, подготовили весь пакет документов, подали декларацию в день прибытия.",
+    result: "Выпуск получен за 2 дня, без штрафов и корректировок стоимости.",
+    quote: "Думал таможня займёт недели — уложились в два дня, всё чисто.",
+    facts: ["2 дня", "€80,000", "без корректировок"],
+  },
+  {
+    category: "Выкуп",
+    title: "Кёрхеры профессиональная серия из Германии, 1.8 тонны",
+    client: "Дистрибьютор моющего оборудования, Москва",
+    task: "Закупал профессиональные мойки у немецкого дилера — оплата перестала проходить после 2022 года.",
+    solution: "Выкупили партию от имени нашей литовской компании, проверили на складе в Вильнюсе и доставили за 11 дней.",
+    result: "Маржа выросла на 30% — теперь возят регулярно каждый месяц.",
+    quote: "Маржа выросла на 30% — теперь работаем только через них.",
+    facts: ["11 дней", "1.8 тонны", "+30% маржа"],
+  },
+  {
+    category: "Выкуп",
+    title: "Шины из Германии и Польши, 2.5 тонны",
+    client: "Владелец сети шиномонтажей, Москва",
+    task: "Хотел возить шины напрямую из Европы, но не знал как организовать оплату европейскому поставщику.",
+    solution: "Выкупили партию от своего имени, собрали на складе в Вильнюсе и доставили за 10 дней.",
+    result: "Себестоимость шин упала на 25% — поставки идут каждые две недели.",
+    quote: "Себестоимость шин упала на 25% — теперь возим каждые две недели.",
+    facts: ["10 дней", "2.5 тонны", "-25% цена"],
+  },
+  {
+    category: "Сборные грузы",
+    title: "Итальянская мебель для дизайн-проекта — 4 поставщика, одна доставка",
+    client: "Дизайн-студия, Москва",
+    task: "Закупала мебель у четырёх итальянских фабрик — раньше каждая отправка была отдельным проектом.",
+    solution: "Все четыре поставщика отгрузили на наш склад в Вильнюсе. Проверили комплектность, собрали в одну фуру.",
+    result: "Доставка в Москву за 14 дней. Студия не контактировала с поставщиками напрямую — всё через нас.",
+    quote: "Теперь у нас один контакт в логистике — экономим и деньги, и нервы.",
+    facts: ["14 дней", "4 поставщика", "Италия"],
   },
 ];
 
@@ -2818,12 +2840,12 @@ function CaseStudies() {
         </a>
       </div>
       <div className="case-grid">
-        {cases.map((item, index) => (
+        {deliveryCases.slice(0, 3).map((item, index) => (
           <article className="case-card" key={item.title}>
             <span className="case-number">0{index + 1}</span>
             <h3>{item.title}</h3>
-            <strong>{item.meta}</strong>
-            <p>{item.text}</p>
+            <strong>{item.facts[0]}</strong>
+            <p>{item.result}</p>
           </article>
         ))}
       </div>
@@ -3028,35 +3050,32 @@ function FrequentCargo() {
   );
 }
 
-function GroupageCase() {
+function FeaturedCaseBlock({ item, heading, sectionClass }) {
   return (
-    <section className="section featured-case-section">
+    <section className={`section featured-case-section${sectionClass ? " " + sectionClass : ""}`}>
       <div className="section-heading">
         <span className="eyebrow">Кейс</span>
-        <h2>Пример реальной доставки</h2>
+        <h2>{heading}</h2>
       </div>
       <article className="featured-case">
         <div className="featured-case-head">
           <span className="case-number">01</span>
-          <h3>Автозапчасти из Германии, 1.8 тонны</h3>
+          <h3>{item.title}</h3>
           <div className="case-facts">
-            <span>Германия</span>
-            <span>1.8 тонны</span>
-            <span>11 дней</span>
-            <span>Москва</span>
+            {item.facts.map((f) => <span key={f}>{f}</span>)}
           </div>
         </div>
         <div className="featured-case-body">
-          <p>
-            Клиент — оптовик из Москвы. Нашёл поставщика в Германии, но не знал как привезти. Мы
-            выкупили товар, собрали на складе в Вильнюсе вместе с другими грузами, растаможили и
-            доставили за 11 дней.
-          </p>
-          <blockquote>Думал это будет сложно — оказалось проще чем заказать на Авито</blockquote>
+          <p>{item.result}</p>
+          <blockquote>{item.quote}</blockquote>
         </div>
       </article>
     </section>
   );
+}
+
+function GroupageCase() {
+  return <FeaturedCaseBlock item={deliveryCases[0]} heading="Пример реальной доставки" />;
 }
 
 function GroupageFaq() {
@@ -3261,34 +3280,7 @@ function BuyoutSafety() {
 }
 
 function BuyoutCase() {
-  return (
-    <section className="section featured-case-section buyout-case-section">
-      <div className="section-heading">
-        <span className="eyebrow">Кейс</span>
-        <h2>Пример реального выкупа</h2>
-      </div>
-      <article className="featured-case">
-        <div className="featured-case-head">
-          <span className="case-number">01</span>
-          <h3>Бытовая техника из Германии, €45,000</h3>
-          <div className="case-facts">
-            <span>Германия</span>
-            <span>€45,000</span>
-            <span>14 дней</span>
-            <span>Москва</span>
-          </div>
-        </div>
-        <div className="featured-case-body">
-          <p>
-            Клиент работал с немецким поставщиком 5 лет. После 2022 года платежи перестали
-            проходить. Мы выкупили партию от своего имени, доставили на склад в Вильнюсе,
-            растаможили и довезли в Москву за 14 дней.
-          </p>
-          <blockquote>Думали что потеряли поставщика навсегда — оказалось всё решаемо</blockquote>
-        </div>
-      </article>
-    </section>
-  );
+  return <FeaturedCaseBlock item={deliveryCases[1]} heading="Пример реального выкупа" sectionClass="buyout-case-section" />;
 }
 
 function BuyoutFaq() {
@@ -3520,34 +3512,7 @@ function CustomsCargo() {
 }
 
 function CustomsCase() {
-  return (
-    <section className="section featured-case-section customs-case-section">
-      <div className="section-heading">
-        <span className="eyebrow">Кейс</span>
-        <h2>Пример таможенного оформления</h2>
-      </div>
-      <article className="featured-case">
-        <div className="featured-case-head">
-          <span className="case-number">01</span>
-          <h3>Оборудование из Германии, €120,000</h3>
-          <div className="case-facts">
-            <span>Германия</span>
-            <span>€120,000</span>
-            <span>2 дня</span>
-            <span>Выпуск</span>
-          </div>
-        </div>
-        <div className="featured-case-body">
-          <p>
-            Клиент впервые ввозил промышленное оборудование. Боялся ошибиться с документами и
-            получить штраф. Мы рассчитали платежи заранее, подготовили весь пакет документов,
-            подали декларацию и получили выпуск за 2 дня.
-          </p>
-          <blockquote>Думал таможня займёт недели — уложились в два дня</blockquote>
-        </div>
-      </article>
-    </section>
-  );
+  return <FeaturedCaseBlock item={deliveryCases[7]} heading="Пример таможенного оформления" sectionClass="customs-case-section" />;
 }
 
 function CustomsFaq() {
@@ -4433,34 +4398,7 @@ function WarehouseAdvantages() {
 }
 
 function WarehouseCase() {
-  return (
-    <section className="section featured-case-section warehouse-case-section">
-      <div className="section-heading">
-        <span className="eyebrow">Кейс</span>
-        <h2>Пример работы через склад</h2>
-      </div>
-      <article className="featured-case">
-        <div className="featured-case-head">
-          <span className="case-number">01</span>
-          <h3>Стройматериалы из Польши и Германии, 3 поставщика</h3>
-          <div className="case-facts">
-            <span>Польша</span>
-            <span>Германия</span>
-            <span>3 поставщика</span>
-            <span>Москва</span>
-          </div>
-        </div>
-        <div className="featured-case-body">
-          <p>
-            Клиент закупался у трёх разных поставщиков в Европе. Раньше организовывал три
-            отдельные отправки — дорого и долго. Теперь все три поставщика отгружают на наш склад
-            в Вильнюсе. Раз в две недели одна фура едет в Москву.
-          </p>
-          <blockquote>Логистические расходы упали на 30% в первый же месяц</blockquote>
-        </div>
-      </article>
-    </section>
-  );
+  return <FeaturedCaseBlock item={deliveryCases[5]} heading="Пример работы через склад" sectionClass="warehouse-case-section" />;
 }
 
 function WarehouseFaq() {
@@ -4664,36 +4602,7 @@ function FullTruckAdvantages() {
 }
 
 function FullTruckCase() {
-  return (
-    <section className="section featured-case-section fulltruck-case-section">
-      <div className="section-heading">
-        <span className="eyebrow">Кейс</span>
-        <h2>Пример перевозки полной фуры</h2>
-      </div>
-      <article className="featured-case">
-        <div className="featured-case-head">
-          <span className="case-number">01</span>
-          <h3>Промышленное оборудование из Германии, 5 негабаритных фур</h3>
-          <div className="case-facts">
-            <span>Германия</span>
-            <span>100+ тонн</span>
-            <span>5 фур</span>
-            <span>негабарит</span>
-          </div>
-        </div>
-        <div className="featured-case-body">
-          <p>
-            Клиент закупил производственную линию у немецкого производителя. Оборудование весило
-            более 100 тонн. Организовали специальный транспорт, все разрешения на негабаритный
-            груз, таможенное оформление и доставку до производства.
-          </p>
-          <blockquote>
-            Такой груз с улицы никому не доверишь — нас порекомендовали партнёры и мы не пожалели
-          </blockquote>
-        </div>
-      </article>
-    </section>
-  );
+  return <FeaturedCaseBlock item={deliveryCases[3]} heading="Пример перевозки полной фуры" sectionClass="fulltruck-case-section" />;
 }
 
 function FullTruckFaq() {
@@ -5365,34 +5274,7 @@ function WashersAdvantages() {
 }
 
 function WashersCase() {
-  return (
-    <section className="section featured-case-section washers-case-section">
-      <div className="section-heading">
-        <span className="eyebrow">Кейс</span>
-        <h2>Пример реальной поставки</h2>
-      </div>
-      <article className="featured-case">
-        <div className="featured-case-head">
-          <span className="case-number">01</span>
-          <h3>Кёрхеры профессиональная серия из Германии, 1.8 тонны</h3>
-          <div className="case-facts">
-            <span>Германия</span>
-            <span>1.8 тонны</span>
-            <span>11 дней</span>
-            <span>выкуп</span>
-          </div>
-        </div>
-        <div className="featured-case-body">
-          <p>
-            Дистрибьютор моющего оборудования из Москвы хотел закупать напрямую у немецкого
-            производителя, но оплата из России не проходила. Выкупили партию от имени нашей
-            литовской компании, проверили на складе в Вильнюсе и доставили за 11 дней.
-          </p>
-          <blockquote>Маржа выросла на 30% — теперь работаем только через них</blockquote>
-        </div>
-      </article>
-    </section>
-  );
+  return <FeaturedCaseBlock item={deliveryCases[8]} heading="Пример реальной поставки" sectionClass="washers-case-section" />;
 }
 
 function WashersFaq() {
@@ -5612,34 +5494,7 @@ function TiresAdvantages() {
 }
 
 function TiresCase() {
-  return (
-    <section className="section featured-case-section tires-case-section">
-      <div className="section-heading">
-        <span className="eyebrow">Кейс</span>
-        <h2>Пример реальной поставки</h2>
-      </div>
-      <article className="featured-case">
-        <div className="featured-case-head">
-          <span className="case-number">01</span>
-          <h3>Шины из Германии и Польши, 2.5 тонны</h3>
-          <div className="case-facts">
-            <span>Германия + Польша</span>
-            <span>2.5 тонны</span>
-            <span>10 дней</span>
-            <span>выкуп</span>
-          </div>
-        </div>
-        <div className="featured-case-body">
-          <p>
-            Владелец сети шиномонтажей в Москве хотел возить напрямую из Европы, но не знал как
-            организовать оплату поставщику. Мы выкупили партию от своего имени, собрали на складе
-            в Вильнюсе и доставили за 10 дней.
-          </p>
-          <blockquote>Себестоимость шин упала на 25% — теперь возим каждые две недели</blockquote>
-        </div>
-      </article>
-    </section>
-  );
+  return <FeaturedCaseBlock item={deliveryCases[9]} heading="Пример реальной поставки" sectionClass="tires-case-section" />;
 }
 
 function TiresFaq() {
@@ -5860,34 +5715,7 @@ function AppliancesAdvantages() {
 }
 
 function AppliancesCase() {
-  return (
-    <section className="section featured-case-section appliances-case-section">
-      <div className="section-heading">
-        <span className="eyebrow">Кейс</span>
-        <h2>Пример реальной поставки</h2>
-      </div>
-      <article className="featured-case">
-        <div className="featured-case-head">
-          <span className="case-number">01</span>
-          <h3>Кофемашины и мелкая техника из Германии, 1.2 тонны</h3>
-          <div className="case-facts">
-            <span>Германия</span>
-            <span>1.2 тонны</span>
-            <span>12 дней</span>
-            <span>выкуп</span>
-          </div>
-        </div>
-        <div className="featured-case-body">
-          <p>
-            Продавец на Wildberries закупал технику у немецкого дистрибьютора. После 2022 года
-            оплата перестала проходить. Мы выкупили партию от своего имени, проверили на складе
-            в Вильнюсе, упаковали и доставили в Москву за 12 дней.
-          </p>
-          <blockquote>Поставки восстановили за две недели — думал это вообще невозможно теперь</blockquote>
-        </div>
-      </article>
-    </section>
-  );
+  return <FeaturedCaseBlock item={deliveryCases[1]} heading="Пример реальной поставки" sectionClass="appliances-case-section" />;
 }
 
 function AppliancesFaq() {
@@ -6107,36 +5935,7 @@ function FurnitureAdvantages() {
 }
 
 function FurnitureCase() {
-  return (
-    <section className="section featured-case-section appliances-case-section">
-      <div className="section-heading">
-        <span className="eyebrow">Кейс</span>
-        <h2>Пример реальной поставки</h2>
-      </div>
-      <article className="featured-case">
-        <div className="featured-case-head">
-          <span className="case-number">01</span>
-          <h3>Итальянская мебель для дизайн-проекта, Москва</h3>
-          <div className="case-facts">
-            <span>Италия</span>
-            <span>4 поставщика</span>
-            <span>14 дней</span>
-            <span>сборный груз</span>
-          </div>
-        </div>
-        <div className="featured-case-body">
-          <p>
-            Дизайн-студия закупала мебель для жилого комплекса у четырёх итальянских
-            фабрик. Раньше работали через московских посредников — дорого и долго. Мы
-            приняли все партии на складе в Вильнюсе, проверили комплектность, собрали
-            в одну отправку и доставили в Москву за 14 дней. Студия не контактировала
-            с поставщиками напрямую — всё через нас.
-          </p>
-          <blockquote>Теперь берём мебель из Италии напрямую. Сэкономили почти 40% по сравнению с московским дилером — и это с учётом всей логистики.</blockquote>
-        </div>
-      </article>
-    </section>
-  );
+  return <FeaturedCaseBlock item={deliveryCases[10]} heading="Пример реальной поставки" sectionClass="appliances-case-section" />;
 }
 
 function FurnitureFaq() {
@@ -6436,34 +6235,7 @@ function SupplierSearchPricing() {
 }
 
 function SupplierSearchCase() {
-  return (
-    <section className="section featured-case-section supplier-case-section">
-      <div className="section-heading">
-        <span className="eyebrow">Кейс</span>
-        <h2>Пример реального поиска</h2>
-      </div>
-      <article className="featured-case">
-        <div className="featured-case-head">
-          <span className="case-number">01</span>
-          <h3>Поиск поставщика инструментов в Германии</h3>
-          <div className="case-facts">
-            <span>Германия</span>
-            <span>3 производителя</span>
-            <span>7 дней</span>
-            <span>Wildberries</span>
-          </div>
-        </div>
-        <div className="featured-case-body">
-          <p>
-            Клиент продаёт инструменты на Wildberries. Хотел найти немецкого производителя напрямую
-            — без российских дистрибьюторов. Нашли трёх производителей, проверили, запросили
-            прайсы. Клиент выбрал одного — сразу организовали первую поставку.
-          </p>
-          <blockquote>За неделю получил то что сам искал бы месяц</blockquote>
-        </div>
-      </article>
-    </section>
-  );
+  return <FeaturedCaseBlock item={deliveryCases[4]} heading="Пример реального поиска" sectionClass="supplier-case-section" />;
 }
 
 function SupplierSearchFaq() {
