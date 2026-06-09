@@ -62,6 +62,364 @@ async function submitForm(e, source, callback) {
 }
 // ──────────────────────────────────────────────────────────────────────────────
 
+// ── SEO: per-page meta + JSON-LD ───────────────────────────────────────────────
+const BASE_URL = "https://beltransit.ru";
+
+const _ORG = {
+  "@type": "Organization",
+  "@id": `${BASE_URL}/#org`,
+  name: "BelTransit",
+  url: `${BASE_URL}/`,
+  telephone: "+79265471894",
+  email: "beltransit2012@gmail.com",
+  logo: { "@type": "ImageObject", url: `${BASE_URL}/og-image.png` },
+};
+
+function _breadcrumbs(items) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map(([name, url], i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name,
+      item: url,
+    })),
+  };
+}
+
+function _article(title, desc, url, date) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title,
+    description: desc,
+    url,
+    datePublished: date,
+    publisher: { "@type": "Organization", name: "BelTransit", url: `${BASE_URL}/` },
+  };
+}
+
+const SEO_DATA = {
+  "/": {
+    title: "BelTransit — доставка и выкуп грузов из Европы",
+    description:
+      "Сборные грузы от 20 кг, выкуп у европейских поставщиков, таможня, склад в Вильнюсе. Работаем с 2013 года. Срок от 11 дней. Рассчитаем стоимость за 2 часа.",
+    jsonld: {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "LocalBusiness",
+          "@id": `${BASE_URL}/#business`,
+          name: "BelTransit",
+          description: "Доставка, выкуп и таможенное оформление грузов из Европы",
+          url: `${BASE_URL}/`,
+          telephone: "+79265471894",
+          email: "beltransit2012@gmail.com",
+          address: { "@type": "PostalAddress", addressLocality: "Вильнюс", addressCountry: "LT" },
+          foundingDate: "2013",
+          sameAs: ["https://t.me/beltransit"],
+          logo: { "@type": "ImageObject", url: `${BASE_URL}/og-image.png` },
+        },
+        { "@type": "WebSite", "@id": `${BASE_URL}/#website`, url: `${BASE_URL}/`, name: "BelTransit" },
+      ],
+    },
+  },
+  "/sbornye-gruzy/": {
+    title: "Сборные грузы из Европы — доставка в Россию | BelTransit",
+    description:
+      "Сборные грузы из Европы в Россию от 20 кг. Консолидация на складе в Вильнюсе, фура раз в неделю. Срок 11–14 дней. Рассчитаем за 2 часа.",
+    jsonld: _breadcrumbs([
+      ["Главная", `${BASE_URL}/`],
+      ["Услуги", `${BASE_URL}/#services`],
+      ["Сборные грузы", `${BASE_URL}/sbornye-gruzy/`],
+    ]),
+  },
+  "/vykup-tovarov/": {
+    title: "Выкуп товаров в Европе для российских компаний | BelTransit",
+    description:
+      "Выкупаем товары у европейских поставщиков от имени литовской компании. Решаем проблему платежей после 2022. Доставка в Россию за 12–16 дней.",
+    jsonld: _breadcrumbs([
+      ["Главная", `${BASE_URL}/`],
+      ["Услуги", `${BASE_URL}/#services`],
+      ["Выкуп товаров", `${BASE_URL}/vykup-tovarov/`],
+    ]),
+  },
+  "/tamozhnoe-oformlenie/": {
+    title: "Таможенное оформление грузов из Европы под ключ | BelTransit",
+    description:
+      "Таможенное оформление грузов из Европы: расчёт платежей, декларация, выпуск за 2–3 дня. Работаем с любыми ТН ВЭД кодами.",
+    jsonld: _breadcrumbs([
+      ["Главная", `${BASE_URL}/`],
+      ["Услуги", `${BASE_URL}/#services`],
+      ["Таможенное оформление", `${BASE_URL}/tamozhnoe-oformlenie/`],
+    ]),
+  },
+  "/sklad-vilnyus/": {
+    title: "Склад в Вильнюсе — консолидация грузов из Европы | BelTransit",
+    description:
+      "Склад в Вильнюсе для консолидации грузов из Европы. Принимаем от любых поставщиков, проверяем, маркируем. Фура в Россию раз в неделю.",
+    jsonld: _breadcrumbs([
+      ["Главная", `${BASE_URL}/`],
+      ["Услуги", `${BASE_URL}/#services`],
+      ["Склад в Вильнюсе", `${BASE_URL}/sklad-vilnyus/`],
+    ]),
+  },
+  "/fury-konteynery/": {
+    title: "Перевозка полных фур и контейнеров из Европы | BelTransit",
+    description:
+      "Полные фуры и контейнеры из Европы в Россию. Любые грузы от 10 тонн, негабарит, специальный транспорт. Срок от 8 дней.",
+    jsonld: _breadcrumbs([
+      ["Главная", `${BASE_URL}/`],
+      ["Услуги", `${BASE_URL}/#services`],
+      ["Фуры и контейнеры", `${BASE_URL}/fury-konteynery/`],
+    ]),
+  },
+  "/chto-vezem/": {
+    title: "Что мы везём из Европы — каталог грузов | BelTransit",
+    description:
+      "Везём автозапчасти, технику, шины, инструменты, стройматериалы и другие товары из Европы. Узнайте условия на вашу категорию.",
+    jsonld: _breadcrumbs([
+      ["Главная", `${BASE_URL}/`],
+      ["Что мы везём", `${BASE_URL}/chto-vezem/`],
+    ]),
+  },
+  "/kerhery-i-moyki/": {
+    title: "Кёрхеры и моющее оборудование из Германии | BelTransit",
+    description:
+      "Доставка Kärcher и профессионального моющего оборудования из Германии. Выкуп у дилера, доставка в Россию за 11–14 дней. Экономия до 30%.",
+    jsonld: _breadcrumbs([
+      ["Главная", `${BASE_URL}/`],
+      ["Что мы везём", `${BASE_URL}/chto-vezem/`],
+      ["Кёрхеры", `${BASE_URL}/kerhery-i-moyki/`],
+    ]),
+  },
+  "/shiny-i-avtozapchasti/": {
+    title: "Шины и автозапчасти из Европы — выкуп и доставка | BelTransit",
+    description:
+      "Выкуп и доставка шин, автозапчастей из Германии, Польши, Чехии в Россию. Экономия до 25% от российских цен. Срок 10–14 дней.",
+    jsonld: _breadcrumbs([
+      ["Главная", `${BASE_URL}/`],
+      ["Что мы везём", `${BASE_URL}/chto-vezem/`],
+      ["Шины и автозапчасти", `${BASE_URL}/shiny-i-avtozapchasti/`],
+    ]),
+  },
+  "/bytovaya-tehnika/": {
+    title: "Бытовая техника из Европы — выкуп у поставщика | BelTransit",
+    description:
+      "Бытовая техника из Германии, Австрии, Италии напрямую от производителей. Выкуп от имени литовской компании, доставка в Россию за 12–15 дней.",
+    jsonld: _breadcrumbs([
+      ["Главная", `${BASE_URL}/`],
+      ["Что мы везём", `${BASE_URL}/chto-vezem/`],
+      ["Бытовая техника", `${BASE_URL}/bytovaya-tehnika/`],
+    ]),
+  },
+  "/mebel-iz-evropy/": {
+    title: "Мебель из Европы — доставка из Италии, Германии, Польши | BelTransit",
+    description:
+      "Доставка мебели из Италии, Германии, Польши в Россию. Консолидация на складе в Вильнюсе, несколько поставщиков — одна отправка.",
+    jsonld: _breadcrumbs([
+      ["Главная", `${BASE_URL}/`],
+      ["Что мы везём", `${BASE_URL}/chto-vezem/`],
+      ["Мебель из Европы", `${BASE_URL}/mebel-iz-evropy/`],
+    ]),
+  },
+  "/poisk-postavshchika/": {
+    title: "Поиск поставщика в Европе — находим за 5–7 дней | BelTransit",
+    description:
+      "Найдём европейского производителя за 5–7 дней. Проверяем производителей, запрашиваем прайсы, организуем первую поставку.",
+    jsonld: _breadcrumbs([
+      ["Главная", `${BASE_URL}/`],
+      ["Услуги", `${BASE_URL}/#services`],
+      ["Поиск поставщика", `${BASE_URL}/poisk-postavshchika/`],
+    ]),
+  },
+  "/dlya-logistov/": {
+    title: "Субподряд для логистов и экспедиторов | BelTransit",
+    description:
+      "Субподряд для российских логистических компаний: склад в Вильнюсе, таможенное оформление, плечо Европа–Россия. Работаем B2B.",
+    jsonld: _breadcrumbs([
+      ["Главная", `${BASE_URL}/`],
+      ["Для логистов", `${BASE_URL}/dlya-logistov/`],
+    ]),
+  },
+  "/kak-my-rabotaem/": {
+    title: "Как работает доставка из Европы — процесс | BelTransit",
+    description:
+      "Подробно о процессе доставки: от заявки до получения груза. 4 шага, прозрачное ценообразование, один менеджер на всём маршруте.",
+    jsonld: _breadcrumbs([
+      ["Главная", `${BASE_URL}/`],
+      ["Как мы работаем", `${BASE_URL}/kak-my-rabotaem/`],
+    ]),
+  },
+  "/o-kompanii/": {
+    title: "О компании — BelTransit с 2013 года | BelTransit",
+    description:
+      "БелТранзит — логистическая компания с 2013 года. Склад в Вильнюсе, офисы в России и Литве. Более 10 000 доставленных грузов.",
+    jsonld: _breadcrumbs([
+      ["Главная", `${BASE_URL}/`],
+      ["О компании", `${BASE_URL}/o-kompanii/`],
+    ]),
+  },
+  "/kejsy/": {
+    title: "Кейсы доставок из Европы — реальные истории | BelTransit",
+    description:
+      "Реальные примеры доставок из Европы: автозапчасти, оборудование, велосипеды, стройматериалы. Результаты, сроки, сэкономленные деньги.",
+    jsonld: _breadcrumbs([
+      ["Главная", `${BASE_URL}/`],
+      ["Кейсы", `${BASE_URL}/kejsy/`],
+    ]),
+  },
+  "/faq/": {
+    title: "Частые вопросы о доставке грузов из Европы | BelTransit",
+    description:
+      "Ответы на вопросы о доставке грузов из Европы: сроки, стоимость, таможня, выкуп, минимальные объёмы. Свяжитесь если не нашли ответ.",
+    jsonld: _breadcrumbs([
+      ["Главная", `${BASE_URL}/`],
+      ["FAQ", `${BASE_URL}/faq/`],
+    ]),
+  },
+  "/kontakty/": {
+    title: "Контакты BelTransit — телефон, Telegram, email",
+    description:
+      "Контакты BelTransit: +7 926 547-18-94, Telegram, beltransit2012@gmail.com. Офис в Вильнюсе. Работаем 6 дней в неделю.",
+    jsonld: _breadcrumbs([
+      ["Главная", `${BASE_URL}/`],
+      ["Контакты", `${BASE_URL}/kontakty/`],
+    ]),
+  },
+  "/blog/": {
+    title: "Блог о доставке грузов из Европы | BelTransit",
+    description:
+      "Статьи о логистике, таможне, маршрутах и поставщиках. Практические гиды для тех, кто везёт товар из Европы в Россию.",
+    jsonld: _breadcrumbs([
+      ["Главная", `${BASE_URL}/`],
+      ["Блог", `${BASE_URL}/blog/`],
+    ]),
+  },
+  "/blog/kak-rasschitat-tamozhennye-platezhi/": {
+    title: "Как рассчитать таможенные платежи в 2025 году | BelTransit",
+    description:
+      "Пошаговый расчёт: ввозная пошлина, НДС, таможенные сборы. Примеры для разных категорий товаров. Актуально в 2025 году.",
+    jsonld: _article(
+      "Как рассчитать таможенные платежи в 2025 году",
+      "Пошаговый расчёт таможенных платежей: пошлина, НДС, сборы. Примеры для разных товаров.",
+      `${BASE_URL}/blog/kak-rasschitat-tamozhennye-platezhi/`,
+      "2025-01-15",
+    ),
+  },
+  "/blog/marshrut-cherez-belarus/": {
+    title: "Маршрут через Беларусь для доставки из Европы | BelTransit",
+    description:
+      "Маршрут Европа–Беларусь–Россия: особенности, документы, стоимость. Сравнение с маршрутом через страны Балтии.",
+    jsonld: _article(
+      "Маршрут через Беларусь для доставки из Европы",
+      "Особенности, документы и стоимость маршрута через Беларусь.",
+      `${BASE_URL}/blog/marshrut-cherez-belarus/`,
+      "2025-02-10",
+    ),
+  },
+  "/blog/oplata-postavshchika-iz-rossii/": {
+    title: "Как оплатить европейского поставщика из России в 2025 | BelTransit",
+    description:
+      "Рабочие способы оплаты европейским поставщикам из России в 2025: через Литву, Армению, SWIFT, платёжные агенты.",
+    jsonld: _article(
+      "Как оплатить европейского поставщика из России в 2025",
+      "Рабочие способы оплаты поставщикам из Европы.",
+      `${BASE_URL}/blog/oplata-postavshchika-iz-rossii/`,
+      "2025-03-05",
+    ),
+  },
+  "/blog/sbornyy-gruz-ili-polnaya-fura/": {
+    title: "Сборный груз или полная фура — что выбрать | BelTransit",
+    description:
+      "Сравниваем сборные грузы и полные фуры: цена, сроки, минимальный объём, риски. Как выбрать тип перевозки.",
+    jsonld: _article(
+      "Сборный груз или полная фура — что выбрать",
+      "Сравнение LTL и FTL: цена, сроки, риски.",
+      `${BASE_URL}/blog/sbornyy-gruz-ili-polnaya-fura/`,
+      "2025-03-20",
+    ),
+  },
+  "/blog/pervyy-import-iz-evropy/": {
+    title: "Первый импорт из Европы — пошаговое руководство | BelTransit",
+    description:
+      "Как организовать первую поставку из Европы в Россию: поиск поставщика, оплата, таможня, документы. Пошаговый гид.",
+    jsonld: _article(
+      "Первый импорт из Европы — пошаговое руководство",
+      "Пошаговый гид по организации первой поставки из Европы.",
+      `${BASE_URL}/blog/pervyy-import-iz-evropy/`,
+      "2025-04-01",
+    ),
+  },
+  "/blog/tnved-kody/": {
+    title: "ТН ВЭД коды — что это и как найти нужный | BelTransit",
+    description:
+      "Что такое ТН ВЭД коды, зачем нужны при импорте, как найти правильный код для товара. Примеры и советы.",
+    jsonld: _article(
+      "ТН ВЭД коды — что это и как найти нужный",
+      "Объяснение ТН ВЭД кодов и советы по классификации товаров.",
+      `${BASE_URL}/blog/tnved-kody/`,
+      "2025-04-15",
+    ),
+  },
+};
+
+// ── useSEO: динамически обновляет head при смене страницы ─────────────────────
+function useSEO(path) {
+  React.useEffect(() => {
+    const normalised = path.endsWith("/") ? path : path + "/";
+    const data = SEO_DATA[normalised] || SEO_DATA["/"];
+    const canonical = `${BASE_URL}${normalised}`;
+
+    // Title
+    document.title = data.title;
+
+    // Helper: get-or-create head element
+    const meta = (sel, attrs) => {
+      let el = document.querySelector(sel);
+      if (!el) {
+        el = document.createElement("meta");
+        Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
+        document.head.appendChild(el);
+      }
+      return el;
+    };
+
+    // Description
+    meta('meta[name="description"]', { name: "description" }).setAttribute(
+      "content", data.description,
+    );
+
+    // Canonical
+    let link = document.querySelector('link[rel="canonical"]');
+    if (!link) {
+      link = document.createElement("link");
+      link.rel = "canonical";
+      document.head.appendChild(link);
+    }
+    link.href = canonical;
+
+    // Open Graph
+    const og = (prop, val) =>
+      meta(`meta[property="${prop}"]`, { property: prop }).setAttribute("content", val);
+    og("og:title", data.title);
+    og("og:description", data.description);
+    og("og:url", canonical);
+
+    // JSON-LD
+    let jsonLdEl = document.getElementById("seo-jsonld");
+    if (!jsonLdEl) {
+      jsonLdEl = document.createElement("script");
+      jsonLdEl.type = "application/ld+json";
+      jsonLdEl.id = "seo-jsonld";
+      document.head.appendChild(jsonLdEl);
+    }
+    jsonLdEl.textContent = JSON.stringify(data.jsonld || {});
+  }, [path]);
+}
+// ──────────────────────────────────────────────────────────────────────────────
+
 const services = [
   {
     icon: Package,
@@ -8364,61 +8722,26 @@ function App() {
     path === "/shiny-i-avtozapchasti";
   const isThankYouPage = path === "/spasibo/" || path === "/spasibo";
   const isFurniturePage = path === "/mebel-iz-evropy/" || path === "/mebel-iz-evropy";
-  const pageTitle = isGroupagePage
-    ? "Сборные грузы из Европы — BelTransit"
-    : isBuyoutPage
-      ? "Выкуп товаров в Европе — BelTransit"
-      : isCustomsPage
-        ? "Таможенное оформление грузов — BelTransit"
-        : isCargoCatalogPage
-          ? "Что мы везём из Европы — BelTransit"
-          : isCasesPage
-            ? "Кейсы доставок из Европы — BelTransit"
-            : isPartnersPage
-              ? "Партнёрство для логистов — BelTransit"
-              : isWarehousePage
-          ? "Склад в Вильнюсе — BelTransit"
-          : isFullTruckPage
-            ? "Фуры и контейнеры из Европы — BelTransit"
-            : isWorkPage
-              ? "Как мы работаем — BelTransit"
-              : isAboutPage
-                ? "О компании — БелТранзит"
-              : isGeneralFaqPage
-                ? "FAQ по доставке грузов из Европы — BelTransit"
-                : isContactsPage
-                  ? "Контакты — BelTransit"
-                  : isBlogPage
-                    ? "Блог о доставке грузов из Европы — BelTransit"
-                    : isCustomsArticlePage
-                      ? "Как рассчитать таможенные платежи в 2026 — BelTransit"
-                      : isBelarusRouteArticlePage
-                        ? "Маршрут через Беларусь для импорта из Европы — BelTransit"
-                        : isPaymentArticlePage
-                          ? "Как оплатить европейского поставщика из России в 2026 — BelTransit"
-                          : isLtlFtlArticlePage
-                            ? "Сборный груз или полная фура — BelTransit"
-                            : isFirstImportArticlePage
-                              ? "Первый импорт из Европы — BelTransit"
-                              : isTnvedArticlePage
-                                ? "ТН ВЭД коды — что это и почему важно — BelTransit"
-                  : isAppliancesPage
-                    ? "Бытовая техника из Европы — BelTransit"
-                    : isWashersPage
-                    ? "Кёрхеры и моющие аппараты из Европы — BelTransit"
-                    : isSupplierSearchPage
-                      ? "Поиск поставщика в Европе — BelTransit"
-                      : isTiresPage
-                        ? "Шины и автозапчасти из Европы — BelTransit"
-                        : isThankYouPage
-                          ? "Заявка принята — BelTransit"
-                          : isFurniturePage
-                            ? "Мебель и предметы интерьера из Европы — BelTransit"
-                            : "BelTransit — доставка и выкуп грузов из Европы";
+  useSEO(path);
 
+  // Scroll to hash anchor after SPA navigation (e.g. /#services from breadcrumbs)
   React.useEffect(() => {
-    document.title = pageTitle;
-  }, [pageTitle]);
+    const hash = window.location.hash;
+    if (!hash) return;
+    // Give React one tick to finish rendering the target page
+    const id = hash.replace("#", "");
+    const attempt = (tries) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else if (tries > 0) {
+        setTimeout(() => attempt(tries - 1), 80);
+      }
+    };
+    attempt(10);
+  }, []);
+
+  const isArticlePage = isCustomsArticlePage || isBelarusRouteArticlePage || isPaymentArticlePage || isLtlFtlArticlePage || isFirstImportArticlePage || isTnvedArticlePage;
 
   // Scroll to hash anchor after SPA navigation (e.g. /#services from breadcrumbs)
   React.useEffect(() => {
