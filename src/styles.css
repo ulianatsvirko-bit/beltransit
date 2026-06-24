@@ -2386,6 +2386,10 @@ h1 small {
   aspect-ratio: 4 / 3;
 }
 
+.warehouse-photo-stack {
+  display: none;
+}
+
 .warehouse-hero h1 {
   max-width: 16ch;
 }
@@ -7878,26 +7882,56 @@ h1 small {
 
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   DESKTOP — warehouse gallery compact override
+   DESKTOP — warehouse reasons two-column layout + photo stack
    ══════════════════════════════════════════════════════════════════════════════ */
 @media (min-width: 768px) {
-  .warehouse-photo-gallery {
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: auto;
-    max-width: 58rem;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-    gap: 0.5rem;
+  .warehouse-reasons-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3.5rem;
+    align-items: center;
   }
 
-  .warehouse-photo-gallery img:first-child {
-    grid-column: 1;
-    aspect-ratio: 4 / 3;
-    object-position: center 45%;
+  .warehouse-reasons .service-audience-grid {
+    grid-template-columns: 1fr;
   }
 
-  .warehouse-photo-gallery img:not(:first-child) {
-    aspect-ratio: 4 / 3;
+  .warehouse-photo-stack {
+    display: block;
+    position: relative;
+    height: 22rem;
+    overflow: visible;
+  }
+
+  .warehouse-stack-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s;
+  }
+
+  .warehouse-stack-img--0 {
+    z-index: 3;
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  }
+
+  .warehouse-stack-img--1 {
+    z-index: 2;
+    transform: translate(0.7rem, 1rem) scale(0.95);
+    opacity: 0.72;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  }
+
+  .warehouse-stack-img--2 {
+    z-index: 1;
+    transform: translate(1.4rem, 2rem) scale(0.9);
+    opacity: 0.5;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
   }
 }
 

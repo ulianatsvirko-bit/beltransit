@@ -4644,21 +4644,57 @@ function WarehouseStats() {
   );
 }
 
+const warehousePhotos = [
+  { src: '/warehouse-photo.jpg', alt: 'Склад БелТранзит в Вильнюсе' },
+  { src: '/warehouse-photo-2.jpg', alt: 'Грузы на складе в Вильнюсе' },
+  { src: '/warehouse-photo-3.jpg', alt: 'Отправка груза со склада' },
+];
+
+function WarehousePhotoStack() {
+  const [active, setActive] = React.useState(0);
+  React.useEffect(() => {
+    const id = setInterval(() => setActive(a => (a + 1) % 3), 2000);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <div className="warehouse-photo-stack" aria-hidden="true">
+      {warehousePhotos.map((photo, i) => {
+        const slot = (i - active + 3) % 3;
+        return (
+          <img
+            key={photo.src}
+            src={photo.src}
+            alt={photo.alt}
+            className={`warehouse-stack-img warehouse-stack-img--${slot}`}
+            width="800"
+            height="600"
+          />
+        );
+      })}
+    </div>
+  );
+}
+
 function WarehouseReasons() {
   return (
     <section className="section warehouse-reasons">
-      <div className="section-heading">
-        <span className="eyebrow">Локация решает</span>
-        <h2>Почему именно Вильнюс — это важно</h2>
-      </div>
-      <div className="service-audience-grid">
-        {warehouseReasons.map(({ icon: Icon, title, text }) => (
-          <article className="service-audience-card" key={title}>
-            <Icon size={30} />
-            <h3>{title}</h3>
-            <p>{text}</p>
-          </article>
-        ))}
+      <div className="warehouse-reasons-layout">
+        <div className="warehouse-reasons-content">
+          <div className="section-heading">
+            <span className="eyebrow">Локация решает</span>
+            <h2>Почему именно Вильнюс — это важно</h2>
+          </div>
+          <div className="service-audience-grid">
+            {warehouseReasons.map(({ icon: Icon, title, text }) => (
+              <article className="service-audience-card" key={title}>
+                <Icon size={30} />
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+        <WarehousePhotoStack />
       </div>
     </section>
   );
@@ -4809,11 +4845,6 @@ function WarehousePage() {
       <WarehouseHero />
       <WarehouseStats />
       <WarehouseReasons />
-      <div className="warehouse-photo-gallery">
-        <img src="/warehouse-photo.jpg" alt="Склад БелТранзит в Вильнюсе" width="1400" height="788" loading="lazy" />
-        <img src="/warehouse-photo-2.jpg" alt="Грузы на складе в Вильнюсе" width="800" height="600" loading="lazy" />
-        <img src="/warehouse-photo-3.jpg" alt="Паллеты на складе БелТранзит" width="800" height="600" loading="lazy" />
-      </div>
       <WarehouseOperations />
       <WarehouseProcess />
       <WarehouseAudience />
