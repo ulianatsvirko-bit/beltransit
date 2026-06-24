@@ -4071,8 +4071,8 @@ h1 small {
   width: 2.35rem;
   height: 2.35rem;
   place-items: center;
-  color: var(--graphite);
-  background: var(--green);
+  color: #fff;
+  background: var(--graphite);
 }
 
 .advantage-item p {
