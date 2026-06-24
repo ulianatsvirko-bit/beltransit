@@ -7929,6 +7929,15 @@ h1 small {
     max-width: 100%;
   }
 
+  .warehouse-hero h1 {
+    max-width: 100%;
+  }
+
+  .page-hero .eyebrow {
+    white-space: normal;
+    max-width: 100%;
+  }
+
   /* ── 5. Service cards — 2-col compact grid on mobile ───────────────────── */
   .service-grid {
     grid-template-columns: repeat(2, 1fr);
