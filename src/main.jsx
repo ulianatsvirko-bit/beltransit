@@ -4809,6 +4809,9 @@ function WarehousePage() {
       <WarehouseHero />
       <WarehouseStats />
       <WarehouseReasons />
+      <div className="warehouse-photo-strip">
+        <img src="/warehouse-photo.jpg" alt="Склад БелТранзит в Вильнюсе" width="1400" height="788" loading="lazy" />
+      </div>
       <WarehouseOperations />
       <WarehouseProcess />
       <WarehouseAudience />
