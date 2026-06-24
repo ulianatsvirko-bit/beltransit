@@ -7937,6 +7937,10 @@ h1 small {
     display: none;
   }
 
+  .warehouse-stats {
+    display: none;
+  }
+
   .page-hero .eyebrow {
     white-space: normal;
     max-width: 100%;
