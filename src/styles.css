@@ -7856,7 +7856,7 @@ h1 small {
    ══════════════════════════════════════════════════════════════════════════════ */
 @media (max-width: 767px) {
 
-  /* ── 0. Hero — photo background on mobile ───────────────────────────────── */
+  /* ── 0. Hero — full viewport height minus header, photo background ─────── */
   .hero {
     background:
       linear-gradient(
@@ -7867,7 +7867,7 @@ h1 small {
         rgba(14, 17, 20, 0.97) 100%
       ),
       url('/hero-truck.jpg') center 30% / cover no-repeat;
-    min-height: 88svh;
+    min-height: calc(100svh - 4.75rem);
   }
 
   .hero::before {
