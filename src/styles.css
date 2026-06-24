@@ -7971,12 +7971,21 @@ h1 small {
   }
 
   .featured-card-chain {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 0.4rem;
   }
 
+  .featured-card-chain .featured-chain-arrow {
+    display: none !important;
+    width: 0;
+    overflow: hidden;
+  }
+
   .featured-chain-step {
-    font-size: 0.75rem;
-    padding: 0.25rem 0.6rem;
+    font-size: 0.78rem;
+    padding: 0.3rem 0.5rem;
+    text-align: center;
   }
 
   /* ── 5b. Cargo tiles — 2-col compact grid ──────────────────────────────── */
