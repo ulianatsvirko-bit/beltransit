@@ -3732,11 +3732,6 @@ function CustomsHero() {
               <i />
             </div>
           </div>
-          <div className="customs-border">
-            <span>Европа</span>
-            <strong>ТАМ.</strong>
-            <strong>Россия</strong>
-          </div>
         </div>
       </div>
     </section>
