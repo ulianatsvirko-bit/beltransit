@@ -8221,4 +8221,29 @@ h1 small {
     gap: 1.5rem;
   }
 
+  /* ── 15. Audience cards — compact on mobile ──────────────────────────────── */
+  .service-audience-card {
+    min-height: 0;
+    padding: 0.85rem 1rem;
+  }
+
+  .service-audience-card svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .service-audience-card h3 {
+    margin: 0.5rem 0 0.3rem;
+    font-size: 1rem;
+  }
+
+  .service-audience-card p {
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+
+  .service-audience-grid {
+    gap: 0.5rem;
+  }
+
 }
