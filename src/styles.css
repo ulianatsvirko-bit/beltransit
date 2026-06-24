@@ -8437,6 +8437,50 @@ h1 small {
     line-height: 1.4;
   }
 
+  /* customs hero visual — hide on mobile */
+  .customs-visual {
+    display: none;
+  }
+
+  /* customs pain cards — dark style matching Состав услуги */
+  .customs-problem-section {
+    background: var(--graphite);
+    color: #fff;
+  }
+
+  .customs-pain-grid {
+    gap: 0.5rem;
+  }
+
+  .customs-pain-card,
+  .customs-pain-card:nth-child(1) {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    min-height: 0;
+    padding: 0.9rem 1rem;
+  }
+
+  .customs-pain-card h3 {
+    color: #fff;
+    font-size: 0.85rem;
+  }
+
+  .customs-pain-card p {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.8rem;
+  }
+
+  .customs-pain-card svg {
+    color: var(--orange);
+  }
+
+  .customs-result {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+
   /* page-specific cards */
   .customs-pain-card,
   .customs-service-card,
