@@ -8138,7 +8138,15 @@ h1 small {
     font-size: 0.8rem;
   }
 
-  /* ── 8. Stats ticker — smaller ──────────────────────────────────────────── */
+  /* ── 8. Stats ticker — sticky to bottom of viewport on mobile ───────────── */
+  .hero-ticker {
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    width: 100vw;
+    margin-left: calc(-1 * clamp(1rem, 4vw, 3rem));
+  }
+
   .ticker-item {
     min-height: 3rem;
     padding: 0 0.85rem;
