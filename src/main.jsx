@@ -8747,7 +8747,6 @@ function App() {
   React.useEffect(() => {
     const hash = window.location.hash;
     if (!hash) return;
-    // Give React one tick to finish rendering the target page
     const id = hash.replace("#", "");
     const attempt = (tries) => {
       const el = document.getElementById(id);
@@ -8759,8 +8758,6 @@ function App() {
     };
     attempt(10);
   }, []);
-
-  const isArticlePage = isCustomsArticlePage || isBelarusRouteArticlePage || isPaymentArticlePage || isLtlFtlArticlePage || isFirstImportArticlePage || isTnvedArticlePage;
 
   return (
     <>
