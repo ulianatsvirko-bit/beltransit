@@ -4876,9 +4876,7 @@ function FullTruckHero() {
               <strong>20 т</strong>
               <small>82 куба</small>
             </div>
-            <div className="fulltruck-cab">
-              <Truck size={38} />
-            </div>
+            <div className="fulltruck-cab" />
             <div className="fulltruck-wheel fulltruck-wheel-one" />
             <div className="fulltruck-wheel fulltruck-wheel-two" />
             <div className="fulltruck-wheel fulltruck-wheel-three" />
