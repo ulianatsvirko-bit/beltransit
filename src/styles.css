@@ -7856,24 +7856,6 @@ h1 small {
    ══════════════════════════════════════════════════════════════════════════════ */
 @media (max-width: 767px) {
 
-  /* ── 0. Hero — photo background on mobile ───────────────────────────────── */
-  .hero {
-    background:
-      linear-gradient(
-        to bottom,
-        rgba(14, 17, 20, 0.30) 0%,
-        rgba(14, 17, 20, 0.55) 40%,
-        rgba(14, 17, 20, 0.88) 75%,
-        rgba(14, 17, 20, 0.97) 100%
-      ),
-      url('/hero-truck.jpg') center 40% / cover no-repeat;
-    min-height: 88svh;
-  }
-
-  .hero::before {
-    display: none;
-  }
-
   /* ── 1. Telegram CTA: compact floating pill bottom-right ───────────────── */
   .mobile-bottom-telegram {
     /* override full-width: become a compact pill at bottom-right */
