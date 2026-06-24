@@ -3242,10 +3242,7 @@ function RequestForm() {
         <p>Укажите базовые данные по грузу. Менеджер проверит маршрут, вес, документы и вернётся с расчётом.</p>
       </div>
       <form className="request-form" onSubmit={handleSubmit}>
-        <div className="form-trust-anchor">
-          <Check size={15} />
-          Ответим с точным расчётом в течение 2 часов — бесплатно
-        </div>
+
         <label>
           <span>Откуда везём</span>
           <input type="text" name="from" placeholder="Страна / город" />
