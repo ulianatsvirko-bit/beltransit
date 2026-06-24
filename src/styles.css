@@ -7885,6 +7885,10 @@ h1 small {
    DESKTOP — warehouse reasons two-column layout + photo stack
    ══════════════════════════════════════════════════════════════════════════════ */
 @media (min-width: 768px) {
+  .warehouse-photo-gallery {
+    display: none;
+  }
+
   .warehouse-reasons-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -8021,6 +8025,12 @@ h1 small {
   .page-hero h1 {
     font-size: clamp(1.7rem, 6.5vw, 3rem);
     max-width: 100%;
+  }
+
+  .warehouse-hero {
+    background:
+      radial-gradient(circle at 18% 20%, rgba(243, 107, 33, 0.2), transparent 23rem),
+      linear-gradient(135deg, #111417, #252a2f 54%, #101315);
   }
 
   .warehouse-hero h1 {

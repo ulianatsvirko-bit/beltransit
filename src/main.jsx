@@ -4843,6 +4843,11 @@ function WarehousePage() {
       <WarehouseHero />
       <WarehouseStats />
       <WarehouseReasons />
+      <div className="warehouse-photo-gallery">
+        <img src="/warehouse-photo.jpg" alt="Склад БелТранзит в Вильнюсе" width="1400" height="788" loading="lazy" />
+        <img src="/warehouse-photo-2.jpg" alt="Грузы на складе в Вильнюсе" width="800" height="600" loading="lazy" />
+        <img src="/warehouse-photo-3.jpg" alt="Паллеты на складе БелТранзит" width="800" height="600" loading="lazy" />
+      </div>
       <WarehouseOperations />
       <WarehouseProcess />
       <WarehouseAudience />
