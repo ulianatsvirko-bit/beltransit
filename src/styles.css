@@ -7889,7 +7889,7 @@ h1 small {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2.5rem;
-    align-items: stretch;
+    align-items: center;
     margin-top: 2rem;
   }
 
