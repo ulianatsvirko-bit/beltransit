@@ -2358,8 +2358,8 @@ h1 small {
 
 .warehouse-hero {
   background:
-    radial-gradient(circle at 18% 20%, rgba(243, 107, 33, 0.2), transparent 23rem),
-    linear-gradient(135deg, #111417, #252a2f 54%, #101315);
+    linear-gradient(to right, rgba(17, 20, 23, 0.88) 40%, rgba(17, 20, 23, 0.5) 100%),
+    url('/warehouse-photo.jpg') center 42% / cover no-repeat;
 }
 
 .warehouse-photo-gallery {
@@ -2391,8 +2391,8 @@ h1 small {
 }
 
 .warehouse-hero-board {
+  display: none;
   position: relative;
-  display: grid;
   gap: 0.85rem;
   align-content: center;
   min-height: 21rem;
@@ -7876,6 +7876,30 @@ h1 small {
   margin-top: 1.5rem;
 }
 
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   DESKTOP — warehouse gallery compact override
+   ══════════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+  .warehouse-photo-gallery {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    max-width: 58rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    gap: 0.5rem;
+  }
+
+  .warehouse-photo-gallery img:first-child {
+    grid-column: 1;
+    aspect-ratio: 4 / 3;
+    object-position: center 45%;
+  }
+
+  .warehouse-photo-gallery img:not(:first-child) {
+    aspect-ratio: 4 / 3;
+  }
+}
 
 /* ══════════════════════════════════════════════════════════════════════════════
    MOBILE — comprehensive fixes (max-width: 767px)
