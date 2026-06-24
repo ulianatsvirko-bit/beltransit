@@ -8437,8 +8437,9 @@ h1 small {
     line-height: 1.4;
   }
 
-  /* customs hero visual — hide on mobile */
-  .customs-visual {
+  /* customs hero visual and stats — hide on mobile */
+  .customs-visual,
+  .customs-stats {
     display: none;
   }
 
