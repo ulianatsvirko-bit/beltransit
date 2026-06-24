@@ -4678,21 +4678,19 @@ function WarehousePhotoStack() {
 function WarehouseReasons() {
   return (
     <section className="section warehouse-reasons">
+      <div className="section-heading">
+        <span className="eyebrow">Локация решает</span>
+        <h2>Почему именно Вильнюс — это важно</h2>
+      </div>
       <div className="warehouse-reasons-layout">
-        <div className="warehouse-reasons-content">
-          <div className="section-heading">
-            <span className="eyebrow">Локация решает</span>
-            <h2>Почему именно Вильнюс — это важно</h2>
-          </div>
-          <div className="service-audience-grid">
-            {warehouseReasons.map(({ icon: Icon, title, text }) => (
-              <article className="service-audience-card" key={title}>
-                <Icon size={30} />
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </article>
-            ))}
-          </div>
+        <div className="service-audience-grid">
+          {warehouseReasons.map(({ icon: Icon, title, text }) => (
+            <article className="service-audience-card" key={title}>
+              <Icon size={30} />
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </article>
+          ))}
         </div>
         <WarehousePhotoStack />
       </div>
