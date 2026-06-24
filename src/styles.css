@@ -7933,6 +7933,10 @@ h1 small {
     max-width: 100%;
   }
 
+  .warehouse-hero-board {
+    display: none;
+  }
+
   .page-hero .eyebrow {
     white-space: normal;
     max-width: 100%;
