@@ -8221,29 +8221,105 @@ h1 small {
     gap: 1.5rem;
   }
 
-  /* ── 15. Audience cards — compact on mobile ──────────────────────────────── */
+  /* ── 15. All large cards — compact on mobile ─────────────────────────────── */
+
+  /* service-audience-card (Для кого) */
   .service-audience-card {
     min-height: 0;
     padding: 0.85rem 1rem;
   }
-
   .service-audience-card svg {
     width: 1.5rem;
     height: 1.5rem;
   }
-
   .service-audience-card h3 {
     margin: 0.5rem 0 0.3rem;
     font-size: 1rem;
   }
-
   .service-audience-card p {
     font-size: 0.85rem;
     line-height: 1.45;
   }
-
   .service-audience-grid {
     gap: 0.5rem;
+  }
+
+  /* audience-card (главная / услуги) */
+  .audience-card {
+    min-height: 0;
+    padding: 0.9rem 1rem;
+  }
+  .audience-card h3 {
+    margin: 0.5rem 0 0.3rem;
+    font-size: 1.1rem;
+  }
+  .audience-card p {
+    min-height: 0;
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+
+  /* service-card (список услуг) */
+  .service-card {
+    min-height: 0;
+    padding: 0.85rem 1rem;
+  }
+  .service-card h3 {
+    font-size: 1rem;
+  }
+
+  /* blog-card */
+  .blog-card {
+    min-height: 0;
+  }
+  .blog-card h3 {
+    font-size: 1rem;
+  }
+
+  /* process-step (шаги процесса) */
+  .process-step {
+    min-height: 0;
+    padding: 0.85rem 1rem;
+  }
+  .process-step span {
+    width: 2.2rem;
+    height: 2.2rem;
+    margin-bottom: 0.6rem;
+  }
+  .process-step h3 {
+    font-size: 0.95rem;
+  }
+
+  /* page-specific cards */
+  .customs-pain-card,
+  .customs-service-card,
+  .cargo-disclaimer-card,
+  .cargo-catalog-card,
+  .partner-benefit-card,
+  .partner-testimonial,
+  .warehouse-service-card,
+  .work-guarantee-card,
+  .washers-card,
+  .supplier-service-card,
+  .supplier-pricing-card,
+  .blog-reason-card {
+    min-height: 0;
+  }
+
+  .fulltruck-types .service-audience-card {
+    min-height: 0;
+  }
+
+  .warehouse-process-track .process-step,
+  .fulltruck-process-track .process-step,
+  .washers-process-track .process-step,
+  .tires-process-track .process-step {
+    min-height: 0;
+  }
+
+  /* ── 16. Footer — stack tighter ─────────────────────────────────────────── */
+  .footer-cols {
+    gap: 1.5rem;
   }
 
 }
