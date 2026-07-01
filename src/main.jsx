@@ -41,7 +41,7 @@ import {
 import logoMark from "./assets/beltransit-logo-orange.png";
 import "./styles.css";
 import { AdminPanel, saveLead } from "./admin.jsx";
-import { getCmsCases, getCmsFaq } from "./cms.js";
+import { getCmsCases, getCmsFaq, getCmsBlogPosts, getCmsArticleBody, getCmsNewArticles } from "./cms.js";
 
 // ── Shared form submission utility ────────────────────────────────────────────
 // Collects FormData, POSTs to /api/contact, saves lead to localStorage,
@@ -6925,10 +6925,14 @@ function BlogHero() {
 function BlogArticles() {
   const [activeCategory, setActiveCategory] = React.useState("Все статьи");
   const [visibleCount, setVisibleCount] = React.useState(6);
+  const allPosts = [
+    ...(getCmsBlogPosts(blogPosts) || blogPosts),
+    ...getCmsNewArticles().filter(a => !a.draft),
+  ];
   const filteredPosts =
     activeCategory === "Все статьи"
-      ? blogPosts
-      : blogPosts.filter((post) => (post.filterCategory ?? post.category) === activeCategory);
+      ? allPosts
+      : allPosts.filter((post) => (post.filterCategory ?? post.category) === activeCategory);
   const visiblePosts = filteredPosts.slice(0, visibleCount);
   const hasMorePosts = visibleCount < filteredPosts.length;
 
@@ -7300,8 +7304,49 @@ function QuoteRequestModal({ isOpen, onClose }) {
   );
 }
 
+// Renders a CMS-authored article body in place of hardcoded JSX
+function CmsArticleBody({ html }) {
+  return (
+    <article
+      className="article-content"
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
+}
+
+// Renders a fully CMS-managed article page (new articles created in admin)
+function CmsArticlePage({ post }) {
+  const body = getCmsArticleBody(post.href) || '';
+  return (
+    <>
+      <Breadcrumbs items={[{ label: "Блог", href: "/blog/" }, { label: post.title }]} />
+      <section className="article-hero">
+        <div className="article-hero-inner">
+          <a className="article-back-link" href="/blog/">
+            <ArrowLeft size={16} /> Назад в блог
+          </a>
+          <h1>{post.title}</h1>
+          <p>{post.text}</p>
+          <div className="article-meta-grid">
+            <span>{post.time}</span>
+            <span>{post.date}</span>
+          </div>
+          <ArticleShare />
+        </div>
+      </section>
+      <section className="article-shell">
+        <article className="article-content"
+          dangerouslySetInnerHTML={{ __html: body || '<p>Содержимое статьи пока не добавлено. Откройте редактор в Контент → Блог.</p>' }}
+        />
+      </section>
+    </>
+  );
+}
+
 function BlogArticlePage() {
   const [quoteOpen, setQuoteOpen] = React.useState(false);
+  const cmsBody = getCmsArticleBody('/blog/kak-rasschitat-tamozhennye-platezhi/');
+  const cmsMeta = (getCmsBlogPosts(blogPosts) || blogPosts).find(p => p.href?.includes('kak-rasschitat'));
   return (
     <>
       <Breadcrumbs items={[{ label: "Блог", href: "/blog/" }, { label: "Таможенные платежи" }]} />
@@ -7310,30 +7355,27 @@ function BlogArticlePage() {
           <a className="article-back-link" href="/blog/">
             <ArrowLeft size={16} /> Назад в блог
           </a>
-          <h1>Как рассчитать таможенные платежи при ввозе товара из Европы в 2026</h1>
-          <p>
-            Пошлины, НДС, сборы — разбираем по порядку: откуда берутся цифры, как их считать
-            самостоятельно и где можно законно сэкономить.
-          </p>
+          <h1>{cmsMeta?.title ?? "Как рассчитать таможенные платежи при ввозе товара из Европы в 2026"}</h1>
+          <p>{cmsMeta?.text ?? "Пошлины, НДС, сборы — разбираем по порядку: откуда берутся цифры, как их считать самостоятельно и где можно законно сэкономить."}</p>
           <div className="article-meta-grid">
-            <span>8 минут чтения</span>
-            <span>14 мая 2026</span>
+            <span>{cmsMeta?.time ?? "8 минут чтения"}</span>
+            <span>{cmsMeta?.date ?? "14 мая 2026"}</span>
           </div>
           <ArticleShare />
         </div>
       </section>
 
       <section className="article-shell">
-        <aside className="article-toc">
+        {!cmsBody && <aside className="article-toc">
           <h2>Содержание</h2>
           {customsArticleToc.map((item, index) => (
             <a href={`#article-section-${index + 1}`} key={item}>
               {item}
             </a>
           ))}
-        </aside>
+        </aside>}
 
-        <article className="article-content">
+        {cmsBody ? <CmsArticleBody html={cmsBody} /> : <article className="article-content">
           <p className="article-lead">
             Вы нашли поставщика в Европе, договорились о цене, и тут начинается самое интересное:
             к цене товара нужно добавить таможню — а это легко ещё 30–50% сверху. Причём ошибиться
@@ -7490,7 +7532,7 @@ function BlogArticlePage() {
               </a>
             </div>
           </div>
-        </article>
+        </article>}
       </section>
       <QuoteRequestModal isOpen={quoteOpen} onClose={() => setQuoteOpen(false)} />
     </>
@@ -7499,6 +7541,8 @@ function BlogArticlePage() {
 
 function BelarusRouteArticlePage() {
   const [quoteOpen, setQuoteOpen] = React.useState(false);
+  const cmsBody = getCmsArticleBody('/blog/marshrut-cherez-belarus/');
+  const cmsMeta = (getCmsBlogPosts(blogPosts) || blogPosts).find(p => p.href?.includes('marshrut'));
   return (
     <>
       <Breadcrumbs items={[{ label: "Блог", href: "/blog/" }, { label: "Маршруты доставки" }]} />
@@ -7507,29 +7551,27 @@ function BelarusRouteArticlePage() {
           <a className="article-back-link" href="/blog/">
             <ArrowLeft size={16} /> Назад в блог
           </a>
-          <h1>Почему маршрут через Беларусь — самый выгодный для импорта из Европы</h1>
-          <p>
-            Сравниваем маршруты, сроки и стоимость. Почему Вильнюс → Минск → Москва выигрывает.
-          </p>
+          <h1>{cmsMeta?.title ?? "Почему маршрут через Беларусь — самый выгодный для импорта из Европы"}</h1>
+          <p>{cmsMeta?.text ?? "Сравниваем маршруты, сроки и стоимость. Почему Вильнюс → Минск → Москва выигрывает."}</p>
           <div className="article-meta-grid">
-            <span>6 минут чтения</span>
-            <span>2 апреля 2026</span>
+            <span>{cmsMeta?.time ?? "6 минут чтения"}</span>
+            <span>{cmsMeta?.date ?? "2 апреля 2026"}</span>
           </div>
           <ArticleShare />
         </div>
       </section>
 
       <section className="article-shell">
-        <aside className="article-toc">
+        {!cmsBody && <aside className="article-toc">
           <h2>Содержание</h2>
           {belarusRouteToc.map((item, index) => (
             <a href={`#route-section-${index + 1}`} key={item}>
               {item}
             </a>
           ))}
-        </aside>
+        </aside>}
 
-        <article className="article-content">
+        {cmsBody ? <CmsArticleBody html={cmsBody} /> : <article className="article-content">
           <p className="article-lead">
             Когда речь заходит о ввозе грузов из Европы в Россию, большинство компаний по привычке
             называют один маршрут — «через Финляндию» или «через Прибалтику напрямую». Это работало
@@ -7698,7 +7740,7 @@ function BelarusRouteArticlePage() {
               </a>
             </div>
           </div>
-        </article>
+        </article>}
       </section>
       <QuoteRequestModal isOpen={quoteOpen} onClose={() => setQuoteOpen(false)} />
     </>
@@ -7707,6 +7749,8 @@ function BelarusRouteArticlePage() {
 
 function PaymentArticlePage() {
   const [quoteOpen, setQuoteOpen] = React.useState(false);
+  const cmsBody = getCmsArticleBody('/blog/oplata-postavshchika-iz-rossii/');
+  const cmsMeta = (getCmsBlogPosts(blogPosts) || blogPosts).find(p => p.href?.includes('oplata'));
   return (
     <>
       <Breadcrumbs items={[{ label: "Блог", href: "/blog/" }, { label: "Оплата из России" }]} />
@@ -7715,27 +7759,27 @@ function PaymentArticlePage() {
           <a className="article-back-link" href="/blog/">
             <ArrowLeft size={16} /> Назад в блог
           </a>
-          <h1>Как оплатить европейского поставщика из России в 2026 — рабочие схемы</h1>
-          <p>Что работает сейчас, что нет, и как организовать оплату легально.</p>
+          <h1>{cmsMeta?.title ?? "Как оплатить европейского поставщика из России в 2026 — рабочие схемы"}</h1>
+          <p>{cmsMeta?.text ?? "Что работает сейчас, что нет, и как организовать оплату легально."}</p>
           <div className="article-meta-grid">
-            <span>10 минут чтения</span>
-            <span>18 марта 2026</span>
+            <span>{cmsMeta?.time ?? "10 минут чтения"}</span>
+            <span>{cmsMeta?.date ?? "18 марта 2026"}</span>
           </div>
           <ArticleShare />
         </div>
       </section>
 
       <section className="article-shell">
-        <aside className="article-toc">
+        {!cmsBody && <aside className="article-toc">
           <h2>Содержание</h2>
           {paymentArticleToc.map((item, index) => (
             <a href={`#payment-section-${index + 1}`} key={item}>
               {item}
             </a>
           ))}
-        </aside>
+        </aside>}
 
-        <article className="article-content">
+        {cmsBody ? <CmsArticleBody html={cmsBody} /> : <article className="article-content">
           <p className="article-lead">
             Это, пожалуй, самый болезненный вопрос в российском импорте последних трёх лет. Товар
             есть, поставщик готов работать, договор подписан — и всё упирается в одно: как перевести
@@ -7940,7 +7984,7 @@ function PaymentArticlePage() {
               </a>
             </div>
           </div>
-        </article>
+        </article>}
       </section>
       <QuoteRequestModal isOpen={quoteOpen} onClose={() => setQuoteOpen(false)} />
     </>
@@ -7949,35 +7993,37 @@ function PaymentArticlePage() {
 
 function LtlFtlArticlePage() {
   const [quoteOpen, setQuoteOpen] = React.useState(false);
+  const cmsBody = getCmsArticleBody('/blog/sbornyy-gruz-ili-polnaya-fura/');
+  const cmsMeta = (getCmsBlogPosts(blogPosts) || blogPosts).find(p => p.href?.includes('sbornyy-gruz'));
   return (
-    <>
+<>
       <Breadcrumbs items={[{ label: "Блог", href: "/blog/" }, { label: "LTL vs FTL" }]} />
       <section className="article-hero ltl-ftl-article-hero">
         <div className="article-hero-inner">
           <a className="article-back-link" href="/blog/">
             <ArrowLeft size={16} /> Назад в блог
           </a>
-          <h1>Сборный груз или полная фура — когда что выгоднее</h1>
-          <p>Считаем на реальных примерах, при каком объёме выгоднее переходить с LTL на FTL.</p>
+          <h1>{cmsMeta?.title ?? "Сборный груз или полная фура — когда что выгоднее"}</h1>
+          <p>{cmsMeta?.text ?? "Считаем на реальных примерах, при каком объёме выгоднее переходить с LTL на FTL."}</p>
           <div className="article-meta-grid">
-            <span>5 минут чтения</span>
-            <span>5 февраля 2026</span>
+            <span>{cmsMeta?.time ?? "5 минут чтения"}</span>
+            <span>{cmsMeta?.date ?? "5 февраля 2026"}</span>
           </div>
           <ArticleShare />
         </div>
       </section>
 
       <section className="article-shell">
-        <aside className="article-toc">
+        {!cmsBody && <aside className="article-toc">
           <h2>Содержание</h2>
           {ltlFtlArticleToc.map((item, index) => (
             <a href={`#ltl-ftl-section-${index + 1}`} key={item}>
               {item}
             </a>
           ))}
-        </aside>
+        </aside>}
 
-        <article className="article-content">
+        {cmsBody ? <CmsArticleBody html={cmsBody} /> : <article className="article-content">
           <p className="article-lead">
             Этот вопрос возникает у каждого импортёра, который начинал с небольших партий и
             постепенно наращивал объём. В какой-то момент менеджер по логистике говорит: «Слушай, мы
@@ -8123,7 +8169,7 @@ function LtlFtlArticlePage() {
               </a>
             </div>
           </div>
-        </article>
+        </article>}
       </section>
       <QuoteRequestModal isOpen={quoteOpen} onClose={() => setQuoteOpen(false)} />
     </>
@@ -8132,6 +8178,8 @@ function LtlFtlArticlePage() {
 
 function FirstImportArticlePage() {
   const [quoteOpen, setQuoteOpen] = React.useState(false);
+  const cmsBody = getCmsArticleBody('/blog/pervyy-import-iz-evropy/');
+  const cmsMeta = (getCmsBlogPosts(blogPosts) || blogPosts).find(p => p.href?.includes('pervyy'));
   return (
     <>
       <Breadcrumbs items={[{ label: "Блог", href: "/blog/" }, { label: "Первая поставка" }]} />
@@ -8140,27 +8188,27 @@ function FirstImportArticlePage() {
           <a className="article-back-link" href="/blog/">
             <ArrowLeft size={16} /> Назад в блог
           </a>
-          <h1>Первый импорт из Европы — пошаговая инструкция для малого бизнеса</h1>
-          <p>С чего начать, какие документы нужны, как найти поставщика и не попасть на штрафы.</p>
+          <h1>{cmsMeta?.title ?? "Первый импорт из Европы — пошаговая инструкция для малого бизнеса"}</h1>
+          <p>{cmsMeta?.text ?? "С чего начать, какие документы нужны, как найти поставщика и не попасть на штрафы."}</p>
           <div className="article-meta-grid">
-            <span>12 минут чтения</span>
-            <span>20 января 2026</span>
+            <span>{cmsMeta?.time ?? "12 минут чтения"}</span>
+            <span>{cmsMeta?.date ?? "20 января 2026"}</span>
           </div>
           <ArticleShare />
         </div>
       </section>
 
       <section className="article-shell">
-        <aside className="article-toc">
+        {!cmsBody && <aside className="article-toc">
           <h2>Содержание</h2>
           {firstImportToc.map((item, index) => (
             <a href={`#first-import-section-${index + 1}`} key={item}>
               {item}
             </a>
           ))}
-        </aside>
+        </aside>}
 
-        <article className="article-content">
+        {cmsBody ? <CmsArticleBody html={cmsBody} /> : <article className="article-content">
           <p className="article-lead">
             Большинство предпринимателей, которые впервые задумываются об импорте из Европы,
             останавливаются на этапе «надо разобраться». Таможня, валютный контроль, сертификаты,
@@ -8386,7 +8434,7 @@ function FirstImportArticlePage() {
               </a>
             </div>
           </div>
-        </article>
+        </article>}
       </section>
       <QuoteRequestModal isOpen={quoteOpen} onClose={() => setQuoteOpen(false)} />
     </>
@@ -8395,6 +8443,8 @@ function FirstImportArticlePage() {
 
 function TnvedArticlePage() {
   const [quoteOpen, setQuoteOpen] = React.useState(false);
+  const cmsBody = getCmsArticleBody('/blog/tnved-kody/');
+  const cmsMeta = (getCmsBlogPosts(blogPosts) || blogPosts).find(p => p.href?.includes('tnved'));
   return (
     <>
       <Breadcrumbs items={[{ label: "Блог", href: "/blog/" }, { label: "Коды ТН ВЭД" }]} />
@@ -8403,30 +8453,27 @@ function TnvedArticlePage() {
           <a className="article-back-link" href="/blog/">
             <ArrowLeft size={16} /> Назад в блог
           </a>
-          <h1>ТН ВЭД коды — что это такое и почему неправильный код стоит денег</h1>
-          <p>
-            Объясняем простым языком, как работает классификация товаров, что зависит от 10 цифр
-            кода и как не попасть на штраф и доначисление.
-          </p>
+          <h1>{cmsMeta?.title ?? "ТН ВЭД коды — что это такое и почему неправильный код стоит денег"}</h1>
+          <p>{cmsMeta?.text ?? "Объясняем простым языком, как работает классификация товаров, что зависит от 10 цифр кода и как не попасть на штраф и доначисление."}</p>
           <div className="article-meta-grid">
-            <span>7 минут чтения</span>
-            <span>28 апреля 2026</span>
+            <span>{cmsMeta?.time ?? "7 минут чтения"}</span>
+            <span>{cmsMeta?.date ?? "28 апреля 2026"}</span>
           </div>
           <ArticleShare />
         </div>
       </section>
 
       <section className="article-shell">
-        <aside className="article-toc">
+        {!cmsBody && <aside className="article-toc">
           <h2>Содержание</h2>
           {tnvedToc.map((item, index) => (
             <a href={`#article-section-${index + 1}`} key={item}>
               {item}
             </a>
           ))}
-        </aside>
+        </aside>}
 
-        <article className="article-content">
+        {cmsBody ? <CmsArticleBody html={cmsBody} /> : <article className="article-content">
           <p className="article-lead">
             Представьте: вы везёте партию насосов из Германии. Указываете код ТН ВЭД — и вместо
             пошлины 5% таможня начисляет 12%. Разница на партии за €50 000 — это €3 500, которых
@@ -8620,7 +8667,7 @@ function TnvedArticlePage() {
               </a>
             </div>
           </div>
-        </article>
+        </article>}
       </section>
       <QuoteRequestModal isOpen={quoteOpen} onClose={() => setQuoteOpen(false)} />
     </>
@@ -8714,7 +8761,7 @@ function App() {
   const path = window.location.pathname;
 
   if (path === "/admin/" || path === "/admin") {
-    return <AdminPanel defaultCases={deliveryCases} defaultFaq={generalFaqCategories.map(({ title, questions }) => ({ title, questions }))} />;
+    return <AdminPanel defaultCases={deliveryCases} defaultFaq={generalFaqCategories.map(({ title, questions }) => ({ title, questions }))} defaultPosts={blogPosts} />;
   }
 
   const isGroupagePage = path === "/sbornye-gruzy/" || path === "/sbornye-gruzy";
@@ -8776,7 +8823,11 @@ function App() {
     attempt(10);
   }, []);
 
-  const isArticlePage = isCustomsArticlePage || isBelarusRouteArticlePage || isPaymentArticlePage || isLtlFtlArticlePage || isFirstImportArticlePage || isTnvedArticlePage;
+  const cmsNewArticles = getCmsNewArticles();
+  const cmsNewArticleMatch = cmsNewArticles.find(a => !a.draft && (a.href === path || a.href === path.replace(/\/$/, '') || (a.href + '/') === path));
+  const isCmsNewArticlePage = !!cmsNewArticleMatch;
+
+  const isArticlePage = isCustomsArticlePage || isBelarusRouteArticlePage || isPaymentArticlePage || isLtlFtlArticlePage || isFirstImportArticlePage || isTnvedArticlePage || isCmsNewArticlePage;
 
   // Scroll to hash anchor after SPA navigation (e.g. /#services from breadcrumbs)
   React.useEffect(() => {
@@ -8849,6 +8900,8 @@ function App() {
           <ThankYouPage />
         ) : isFurniturePage ? (
           <FurniturePage />
+        ) : isCmsNewArticlePage ? (
+          <CmsArticlePage post={cmsNewArticleMatch} />
         ) : (
           <HomePage />
         )}

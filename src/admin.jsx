@@ -1,8 +1,11 @@
 import React from 'react';
 import {
-  getCmsCases, saveCmsCases, resetCmsCases,
-  getCmsFaq,   saveCmsFaq,   resetCmsFaq,
+  getCmsCases,    saveCmsCases,    resetCmsCases,
+  getCmsFaq,      saveCmsFaq,      resetCmsFaq,
   getCmsContacts, saveCmsContacts, resetCmsContacts,
+  getCmsBlogPosts, saveCmsBlogPosts, resetCmsBlogPosts,
+  getCmsArticleBody, saveCmsArticleBody,
+  getCmsNewArticles, saveCmsNewArticles,
 } from './cms.js';
 
 // ── Storage helpers ────────────────────────────────────────────────────────────
@@ -1455,11 +1458,349 @@ function ContactsEditor() {
   );
 }
 
+// ── Blog editor ────────────────────────────────────────────────────────────────
+const BLOG_CATEGORIES = ['Таможня', 'Маршруты', 'Платежи и выкуп', 'Сборные грузы', 'ВЭД для новичков', 'Другое'];
+
+const EMPTY_POST = {
+  category: 'Другое', title: '', text: '', time: '5 минут чтения',
+  date: '', href: '', isNew: true, draft: false,
+};
+
+function BlogPostForm({ value, onChange, onSave, onCancel, saved, isNew }) {
+  const update = (f, v) => onChange({ ...value, [f]: v });
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+      <div style={{ gridColumn: 'span 2' }}>
+        <Field label="Заголовок статьи">
+          <input style={s.input} value={value.title}
+            onChange={e => update('title', e.target.value)}
+            placeholder="Как рассчитать таможенные платежи в 2026" />
+        </Field>
+      </div>
+      <div style={{ gridColumn: 'span 2' }}>
+        <Field label="Описание (анонс на странице блога)">
+          <Textarea rows={2} value={value.text}
+            onChange={e => update('text', e.target.value)}
+            placeholder="Пошлины, НДС, сборы — разбираем по порядку..." />
+        </Field>
+      </div>
+      <Field label="Категория">
+        <select style={s.input} value={value.category} onChange={e => update('category', e.target.value)}>
+          {BLOG_CATEGORIES.map(c => <option key={c}>{c}</option>)}
+        </select>
+      </Field>
+      <Field label="Время чтения">
+        <input style={s.input} value={value.time}
+          onChange={e => update('time', e.target.value)} placeholder="8 минут чтения" />
+      </Field>
+      <Field label="Дата публикации">
+        <input style={s.input} value={value.date}
+          onChange={e => update('date', e.target.value)} placeholder="14 мая 2026" />
+      </Field>
+      <Field label={isNew ? 'URL-slug (напр. moya-statya)' : 'URL статьи'}>
+        {isNew ? (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ fontSize: 12, color: C.muted, whiteSpace: 'nowrap' }}>/blog/</span>
+            <input style={{ ...s.input, flex: 1 }} value={(value.href || '').replace('/blog/', '').replace(/\/$/, '')}
+              onChange={e => update('href', `/blog/${e.target.value.replace(/^\/|\/$/g, '')}/`)}
+              placeholder="url-stati" />
+          </div>
+        ) : (
+          <input style={{ ...s.input, color: C.muted }} value={value.href} readOnly />
+        )}
+      </Field>
+      {isNew && (
+        <div style={{ gridColumn: 'span 2' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+            <input type="checkbox" checked={!!value.draft} onChange={e => update('draft', e.target.checked)} />
+            <span style={{ fontSize: 13, color: C.muted }}>Черновик (не показывать в блоге)</span>
+          </label>
+        </div>
+      )}
+      <div style={{ gridColumn: 'span 2', display: 'flex', gap: 10, alignItems: 'center', marginTop: 4 }}>
+        <button onClick={onSave} style={{ ...s.btn('primary'), padding: '8px 20px' }}>
+          <Icon d={Icons.check} size={14} color="#fff" /> Сохранить
+        </button>
+        <button onClick={onCancel} style={s.btn()}>Отмена</button>
+        <SaveBanner saved={saved} />
+      </div>
+    </div>
+  );
+}
+
+function ArticleBodyEditor({ slug, title }) {
+  const [html, setHtml] = React.useState(() => getCmsArticleBody(slug) || '');
+  const [saved, setSaved] = React.useState(false);
+  const [preview, setPreview] = React.useState(false);
+
+  const handleSave = () => {
+    saveCmsArticleBody(slug, html);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2500);
+  };
+
+  const handleClear = () => {
+    if (!confirm('Сбросить кастомный текст? Статья вернётся к исходному содержимому.')) return;
+    saveCmsArticleBody(slug, '');
+    setHtml('');
+  };
+
+  const toolbarBtns = [
+    { label: 'H2', action: () => setHtml(h => h + '\n<h2>Заголовок раздела</h2>\n') },
+    { label: 'H3', action: () => setHtml(h => h + '\n<h3>Подзаголовок</h3>\n') },
+    { label: 'P',  action: () => setHtml(h => h + '\n<p>Текст абзаца</p>\n') },
+    { label: 'B',  action: () => setHtml(h => h + '<strong>жирный</strong>') },
+    { label: 'UL', action: () => setHtml(h => h + '\n<ul>\n  <li>Пункт 1</li>\n  <li>Пункт 2</li>\n</ul>\n') },
+    { label: 'OL', action: () => setHtml(h => h + '\n<ol>\n  <li>Пункт 1</li>\n  <li>Пункт 2</li>\n</ol>\n') },
+    { label: '💡', action: () => setHtml(h => h + '\n<div class="article-callout"><strong>Важно:</strong> текст подсказки</div>\n') },
+    { label: 'HR', action: () => setHtml(h => h + '\n<hr>\n') },
+  ];
+
+  return (
+    <div style={{ marginTop: 20 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+        <h4 style={{ fontSize: 13, fontWeight: 700, color: C.text, margin: 0 }}>Тело статьи (HTML)</h4>
+        {html ? (
+          <span style={s.badge(C.orange)}>Кастомный контент</span>
+        ) : (
+          <span style={s.badge(C.muted)}>Исходный код сайта</span>
+        )}
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
+          <button onClick={() => setPreview(p => !p)} style={{ ...s.btn(), padding: '4px 12px', fontSize: 12 }}>
+            {preview ? 'Код' : 'Предпросмотр'}
+          </button>
+          {slug && (
+            <a href={`/blog/${slug.replace('/blog/', '').replace(/\/$/, '')}/`} target="_blank"
+              rel="noopener noreferrer"
+              style={{ ...s.btn(), padding: '4px 12px', fontSize: 12, textDecoration: 'none' }}>
+              ↗ Открыть
+            </a>
+          )}
+        </div>
+      </div>
+
+      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
+        {toolbarBtns.map(({ label, action }) => (
+          <button key={label} onClick={action}
+            style={{ ...s.btn(), padding: '3px 10px', fontSize: 12, fontFamily: F.mono }}>
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {preview ? (
+        <div
+          style={{
+            minHeight: 300, background: '#fff', borderRadius: 8, padding: '24px 28px',
+            border: `1px solid ${C.border}`, color: '#111',
+            fontSize: 15, lineHeight: 1.7,
+          }}
+          dangerouslySetInnerHTML={{ __html: html || '<p style="color:#999">Нет контента — статья показывает исходный текст</p>' }}
+        />
+      ) : (
+        <textarea
+          value={html}
+          onChange={e => setHtml(e.target.value)}
+          placeholder={'<p>Введите HTML-содержимое статьи...</p>\n<h2>Раздел 1</h2>\n<p>Текст...</p>'}
+          rows={18}
+          style={{
+            ...s.input, resize: 'vertical', fontFamily: F.mono,
+            fontSize: 12, lineHeight: 1.6,
+          }}
+        />
+      )}
+
+      <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginTop: 10 }}>
+        <button onClick={handleSave} style={{ ...s.btn('primary'), padding: '8px 20px' }}>
+          <Icon d={Icons.check} size={14} color="#fff" /> Сохранить
+        </button>
+        {html && (
+          <button onClick={handleClear} style={{ ...s.btn('danger'), padding: '7px 14px', fontSize: 13 }}>
+            Сбросить к оригиналу
+          </button>
+        )}
+        <SaveBanner saved={saved} />
+      </div>
+      <p style={{ fontSize: 11, color: C.muted, marginTop: 8 }}>
+        Если поле пустое — статья отображает оригинальный текст из кода сайта. Кастомный HTML полностью заменяет тело статьи.
+      </p>
+    </div>
+  );
+}
+
+function BlogEditor({ defaultPosts }) {
+  const [posts, setPosts] = React.useState(() => getCmsBlogPosts(defaultPosts) || defaultPosts);
+  const [newArticles, setNewArticles] = React.useState(getCmsNewArticles);
+  const [editing, setEditing] = React.useState(null);
+  const [editDraft, setEditDraft] = React.useState(null);
+  const [editSaved, setEditSaved] = React.useState(false);
+  const [adding, setAdding] = React.useState(false);
+  const [newDraft, setNewDraft] = React.useState(null);
+  const [bodySlug, setBodySlug] = React.useState(null);
+
+  const persistPosts = (updated) => {
+    setPosts(updated);
+    saveCmsBlogPosts(updated);
+  };
+
+  const persistNew = (updated) => {
+    setNewArticles(updated);
+    saveCmsNewArticles(updated);
+  };
+
+  const startEdit = (idx, isNew) => {
+    if (isNew) {
+      setEditing({ idx, isNew: true });
+      setEditDraft({ ...newArticles[idx] });
+    } else {
+      setEditing({ idx, isNew: false });
+      setEditDraft({ ...posts[idx] });
+    }
+    setBodySlug(null);
+    setAdding(false);
+  };
+
+  const commitEdit = () => {
+    if (editing.isNew) {
+      const updated = newArticles.map((p, i) => i === editing.idx ? editDraft : p);
+      persistNew(updated);
+    } else {
+      const updated = posts.map((p, i) => i === editing.idx ? editDraft : p);
+      persistPosts(updated);
+    }
+    setEditSaved(true);
+    setTimeout(() => setEditSaved(false), 2500);
+    setEditing(null);
+  };
+
+  const deletePost = (idx, isNew) => {
+    if (!confirm('Удалить статью?')) return;
+    if (isNew) {
+      persistNew(newArticles.filter((_, i) => i !== idx));
+    } else {
+      persistPosts(posts.filter((_, i) => i !== idx));
+    }
+    setEditing(null);
+  };
+
+  const startAdd = () => {
+    setAdding(true);
+    setNewDraft({ ...EMPTY_POST, date: new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }) });
+    setEditing(null);
+    setBodySlug(null);
+  };
+
+  const commitAdd = () => {
+    if (!newDraft.title.trim()) return alert('Введите заголовок');
+    if (!newDraft.href.trim()) return alert('Введите URL статьи');
+    const article = { ...newDraft, id: Date.now().toString(36) };
+    persistNew([...newArticles, article]);
+    setAdding(false);
+  };
+
+  const toggleBodyEditor = (slug) => {
+    setBodySlug(bodySlug === slug ? null : slug);
+    setEditing(null);
+    setAdding(false);
+  };
+
+  const allPosts = [
+    ...posts.map((p, i) => ({ ...p, _idx: i, _isNew: false })),
+    ...newArticles.map((p, i) => ({ ...p, _idx: i, _isNew: true })),
+  ];
+
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: 10, marginBottom: 16, alignItems: 'center' }}>
+        <button onClick={startAdd} style={{ ...s.btn('primary'), padding: '7px 16px' }}>
+          + Новая статья
+        </button>
+        <span style={{ fontSize: 12, color: C.muted }}>{allPosts.length} статей</span>
+        <button onClick={() => { if (!confirm('Сбросить метаданные к исходным?')) return; resetCmsBlogPosts(); setPosts(defaultPosts); }}
+          style={{ ...s.btn('danger'), padding: '5px 12px', fontSize: 12, marginLeft: 'auto' }}>
+          Сбросить метаданные
+        </button>
+      </div>
+
+      {adding && (
+        <div style={{ ...s.card, marginBottom: 14, borderColor: C.orange + '66' }}>
+          <h4 style={{ fontSize: 13, fontWeight: 700, color: C.orange, margin: '0 0 16px' }}>Новая статья</h4>
+          <BlogPostForm value={newDraft} onChange={setNewDraft}
+            onSave={commitAdd} onCancel={() => setAdding(false)} saved={false} isNew />
+        </div>
+      )}
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {allPosts.map((post) => {
+          const isEditingThis = editing && editing.idx === post._idx && editing.isNew === post._isNew;
+          const isBodyOpen = bodySlug === post.href;
+          const hasCustomBody = !!getCmsArticleBody(post.href);
+
+          return (
+            <div key={post.href || post._idx} style={{
+              ...s.card,
+              borderColor: isEditingThis || isBodyOpen ? C.orange + '88' : C.border,
+            }}>
+              {isEditingThis ? (
+                <>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 14 }}>
+                    <h4 style={{ fontSize: 13, fontWeight: 700, color: C.orange, margin: 0 }}>
+                      Редактирование статьи
+                    </h4>
+                    <button onClick={() => deletePost(post._idx, post._isNew)}
+                      style={{ ...s.btn('danger'), padding: '3px 10px', fontSize: 11 }}>
+                      <Icon d={Icons.trash} size={12} /> Удалить
+                    </button>
+                  </div>
+                  <BlogPostForm value={editDraft} onChange={setEditDraft}
+                    onSave={commitEdit} onCancel={() => setEditing(null)} saved={editSaved} isNew={post._isNew} />
+                </>
+              ) : (
+                <>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 5 }}>
+                        <span style={s.badge(C.orange)}>{post.category}</span>
+                        {post._isNew && <span style={s.badge(C.green)}>Новая</span>}
+                        {post.draft && <span style={s.badge(C.muted)}>Черновик</span>}
+                        {hasCustomBody && <span style={s.badge(C.blue)}>Кастомный текст</span>}
+                      </div>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: C.text, marginBottom: 2 }}>
+                        {post.title || <span style={{ color: C.muted }}>Без заголовка</span>}
+                      </div>
+                      <div style={{ fontSize: 12, color: C.muted }}>{post.date} · {post.time}</div>
+                    </div>
+                    <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
+                      <button onClick={() => toggleBodyEditor(post.href)}
+                        style={{ ...s.btn(), padding: '5px 12px', fontSize: 12 }}>
+                        {isBodyOpen ? 'Свернуть' : 'Текст'}
+                      </button>
+                      <button onClick={() => startEdit(post._idx, post._isNew)}
+                        style={{ ...s.btn(), padding: '5px 12px', fontSize: 12 }}>
+                        Инфо
+                      </button>
+                    </div>
+                  </div>
+
+                  {isBodyOpen && (
+                    <ArticleBodyEditor slug={post.href} title={post.title} />
+                  )}
+                </>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 // ── Content page (wrapper with sub-tabs) ──────────────────────────────────────
-function ContentPage({ defaultCases, defaultFaq }) {
-  const [tab, setTab] = React.useState('cases');
+function ContentPage({ defaultCases, defaultFaq, defaultPosts }) {
+  const [tab, setTab] = React.useState('blog');
 
   const tabs = [
+    { id: 'blog',     label: 'Блог' },
     { id: 'cases',    label: 'Кейсы' },
     { id: 'faq',      label: 'FAQ' },
     { id: 'contacts', label: 'Контакты' },
@@ -1469,7 +1810,7 @@ function ContentPage({ defaultCases, defaultFaq }) {
     <>
       <div style={s.header}>
         <h1 style={s.pageTitle}>Контент</h1>
-        <p style={s.pageDesc}>Редактирование кейсов, FAQ и контактной информации</p>
+        <p style={s.pageDesc}>Редактирование статей блога, кейсов, FAQ и контактов</p>
       </div>
       <div style={s.main}>
         <div style={{ ...s.pillTabs, marginBottom: 20 }}>
@@ -1483,6 +1824,7 @@ function ContentPage({ defaultCases, defaultFaq }) {
           ))}
         </div>
 
+        {tab === 'blog'     && <BlogEditor defaultPosts={defaultPosts} />}
         {tab === 'cases'    && <CasesEditor defaultCases={defaultCases} />}
         {tab === 'faq'      && <FaqEditor defaultFaq={defaultFaq} />}
         {tab === 'contacts' && <ContactsEditor />}
@@ -1492,7 +1834,7 @@ function ContentPage({ defaultCases, defaultFaq }) {
 }
 
 // ── Main admin app ─────────────────────────────────────────────────────────────
-export function AdminPanel({ defaultCases = [], defaultFaq = [] }) {
+export function AdminPanel({ defaultCases = [], defaultFaq = [], defaultPosts = [] }) {
   const [authed, setAuthed] = React.useState(isAuthenticated);
   const [page, setPage] = React.useState('dashboard');
 
@@ -1547,7 +1889,7 @@ export function AdminPanel({ defaultCases = [], defaultFaq = [] }) {
       <div style={s.content}>
         {page === 'dashboard' && <DashboardPage />}
         {page === 'leads'     && <LeadsPage />}
-        {page === 'content'   && <ContentPage defaultCases={defaultCases} defaultFaq={defaultFaq} />}
+        {page === 'content'   && <ContentPage defaultCases={defaultCases} defaultFaq={defaultFaq} defaultPosts={defaultPosts} />}
         {page === 'settings'  && <SettingsPage />}
       </div>
     </div>
