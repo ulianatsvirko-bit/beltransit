@@ -40,14 +40,16 @@ import {
 } from "lucide-react";
 import logoMark from "./assets/beltransit-logo-orange.png";
 import "./styles.css";
+import { AdminPanel, saveLead } from "./admin.jsx";
 
 // ── Shared form submission utility ────────────────────────────────────────────
-// Collects FormData, POSTs to /api/contact, then redirects to /spasibo/.
-// Pass an optional `callback` (e.g. modal onClose) that fires before redirect.
+// Collects FormData, POSTs to /api/contact, saves lead to localStorage,
+// then redirects to /spasibo/.
 async function submitForm(e, source, callback) {
   e.preventDefault();
   const data = Object.fromEntries(new FormData(e.target));
   data.source = source;
+  saveLead(data);
   try {
     await fetch("/api/contact", {
       method: "POST",
@@ -8704,6 +8706,11 @@ function Footer() {
 function App() {
   useScrollReveal();
   const path = window.location.pathname;
+
+  if (path === "/admin/" || path === "/admin") {
+    return <AdminPanel />;
+  }
+
   const isGroupagePage = path === "/sbornye-gruzy/" || path === "/sbornye-gruzy";
   const isBuyoutPage = path === "/vykup-tovarov/" || path === "/vykup-tovarov";
   const isCustomsPage =
