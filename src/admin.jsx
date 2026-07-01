@@ -39,26 +39,62 @@ function logout() {
   sessionStorage.removeItem(KEYS.session);
 }
 
-export function getLeads() {
-  try { return JSON.parse(localStorage.getItem(KEYS.leads) || '[]'); }
-  catch { return []; }
-}
+// ── API helpers ────────────────────────────────────────────────────────────────
 
-function saveLeads(leads) {
-  localStorage.setItem(KEYS.leads, JSON.stringify(leads));
-}
-
-export function saveLead(data) {
+export async function saveLead(data) {
   try {
-    const leads = getLeads();
-    leads.unshift({
-      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-      ts: new Date().toISOString(),
-      status: 'new',
-      ...data,
+    await fetch('/api/leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
     });
-    saveLeads(leads);
   } catch (_) {}
+}
+
+async function apiGetLeads(password) {
+  try {
+    const r = await fetch('/api/leads', { headers: { 'x-admin-password': password } });
+    return r.ok ? (await r.json()) : [];
+  } catch { return []; }
+}
+
+async function apiSaveLeads(leads, password) {
+  try {
+    await fetch('/api/leads', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
+      body: JSON.stringify(leads),
+    });
+  } catch (_) {}
+}
+
+async function apiClearLeads(password) {
+  try {
+    await fetch('/api/leads', { method: 'DELETE', headers: { 'x-admin-password': password } });
+  } catch (_) {}
+}
+
+function apiSaveCmsSection(section, data, key) {
+  const password = getPassword();
+  fetch('/api/cms', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
+    body: JSON.stringify({ section, data, key }),
+  }).catch(() => {});
+}
+
+function hydrateCmsLocalStorage(data) {
+  if (!data) return;
+  if (data.cases)       saveCmsCases(data.cases);
+  if (data.faq)         saveCmsFaq(data.faq);
+  if (data.contacts)    saveCmsContacts(data.contacts);
+  if (data.blogPosts)   saveCmsBlogPosts(data.blogPosts);
+  if (data.newArticles) saveCmsNewArticles(data.newArticles);
+  if (data.articleBodies) {
+    Object.entries(data.articleBodies).forEach(([slug, html]) => {
+      saveCmsArticleBody(slug, html || '');
+    });
+  }
 }
 
 // ── Design tokens (inline — fully isolated from site CSS) ─────────────────────
@@ -566,8 +602,7 @@ function LeadModal({ lead, onClose, onStatusChange, onDelete }) {
 }
 
 // ── Dashboard page ─────────────────────────────────────────────────────────────
-function DashboardPage() {
-  const leads = getLeads();
+function DashboardPage({ leads }) {
   const now = new Date();
   const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
   const weekStart = todayStart - 6 * 24 * 60 * 60 * 1000;
@@ -701,13 +736,18 @@ function DashboardPage() {
 }
 
 // ── Leads page ─────────────────────────────────────────────────────────────────
-function LeadsPage() {
-  const [leads, setLeads] = React.useState(getLeads);
+function LeadsPage({ leads, setLeads, password }) {
   const [search, setSearch] = React.useState('');
   const [statusFilter, setStatusFilter] = React.useState('all');
   const [selectedLead, setSelectedLead] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
 
-  const refresh = () => setLeads(getLeads());
+  const refresh = async () => {
+    setLoading(true);
+    const fresh = await apiGetLeads(password);
+    setLeads(fresh);
+    setLoading(false);
+  };
 
   const filtered = leads.filter(l => {
     const matchStatus = statusFilter === 'all' || (l.status || 'new') === statusFilter;
@@ -721,25 +761,25 @@ function LeadsPage() {
     return matchStatus && matchSearch;
   });
 
-  const updateStatus = (id, status) => {
+  const updateStatus = async (id, status) => {
     const updated = leads.map(l => l.id === id ? { ...l, status } : l);
-    saveLeads(updated);
     setLeads(updated);
     if (selectedLead?.id === id) setSelectedLead({ ...selectedLead, status });
+    await apiSaveLeads(updated, password);
   };
 
-  const deleteLead = (id) => {
+  const deleteLead = async (id) => {
     if (!confirm('Удалить эту заявку?')) return;
     const updated = leads.filter(l => l.id !== id);
-    saveLeads(updated);
     setLeads(updated);
     setSelectedLead(null);
+    await apiSaveLeads(updated, password);
   };
 
-  const deleteAll = () => {
+  const deleteAll = async () => {
     if (!confirm('Удалить все заявки? Это действие необратимо.')) return;
-    saveLeads([]);
     setLeads([]);
+    await apiClearLeads(password);
   };
 
   return (
@@ -773,7 +813,7 @@ function LeadsPage() {
               </button>
             ))}
           </div>
-          <button onClick={refresh} style={{ ...s.btn(), padding: '8px 10px' }} title="Обновить">
+          <button onClick={refresh} disabled={loading} style={{ ...s.btn(), padding: '8px 10px', opacity: loading ? 0.5 : 1 }} title="Обновить">
             <Icon d={Icons.refresh} size={15} color={C.muted} />
           </button>
         </div>
@@ -1116,6 +1156,7 @@ function CasesEditor({ defaultCases }) {
   const save = (updated) => {
     setCases(updated);
     saveCmsCases(updated);
+    apiSaveCmsSection('cases', updated);
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
   };
@@ -1153,6 +1194,7 @@ function CasesEditor({ defaultCases }) {
     if (!confirm('Сбросить все кейсы к исходным?')) return;
     resetCmsCases();
     setCases(defaultCases);
+    apiSaveCmsSection('cases', defaultCases);
   };
 
   return (
@@ -1232,6 +1274,7 @@ function FaqEditor({ defaultFaq }) {
   const persist = (updated) => {
     setCats(updated);
     saveCmsFaq(updated);
+    apiSaveCmsSection('faq', updated);
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
   };
@@ -1274,7 +1317,7 @@ function FaqEditor({ defaultFaq }) {
     <div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
         <SaveBanner saved={saved} />
-        <button onClick={() => { if (!confirm('Сбросить FAQ к исходному?')) return; resetCmsFaq(); setCats(defaultFaq); }}
+        <button onClick={() => { if (!confirm('Сбросить FAQ к исходному?')) return; resetCmsFaq(); setCats(defaultFaq); apiSaveCmsSection('faq', defaultFaq); }}
           style={{ ...s.btn('danger'), padding: '5px 12px', fontSize: 12, marginLeft: 'auto' }}>
           Сбросить к исходному
         </button>
@@ -1392,6 +1435,7 @@ function ContactsEditor() {
 
   const handleSave = () => {
     saveCmsContacts(form);
+    apiSaveCmsSection('contacts', form);
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
   };
@@ -1400,18 +1444,11 @@ function ContactsEditor() {
     if (!confirm('Сбросить контакты к исходным?')) return;
     resetCmsContacts();
     setForm(DEFAULT_CONTACTS);
+    apiSaveCmsSection('contacts', DEFAULT_CONTACTS);
   };
 
   return (
     <div>
-      <div style={{
-        background: C.raised, border: `1px solid ${C.yellow}44`,
-        borderRadius: 8, padding: '10px 14px', marginBottom: 18, fontSize: 12, color: C.yellow,
-      }}>
-        ℹ️ Изменения контактов вступают в силу после перезагрузки страницы сайта в этом браузере.
-        Для обновления на всех устройствах — передайте данные разработчику.
-      </div>
-
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
         <Field label="Telegram (без @)">
           <input style={s.input} value={form.telegram}
@@ -1535,6 +1572,7 @@ function ArticleBodyEditor({ slug, title }) {
 
   const handleSave = () => {
     saveCmsArticleBody(slug, html);
+    apiSaveCmsSection('articleBody', html, slug);
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
   };
@@ -1542,6 +1580,7 @@ function ArticleBodyEditor({ slug, title }) {
   const handleClear = () => {
     if (!confirm('Сбросить кастомный текст? Статья вернётся к исходному содержимому.')) return;
     saveCmsArticleBody(slug, '');
+    apiSaveCmsSection('articleBody', '', slug);
     setHtml('');
   };
 
@@ -1641,11 +1680,13 @@ function BlogEditor({ defaultPosts }) {
   const persistPosts = (updated) => {
     setPosts(updated);
     saveCmsBlogPosts(updated);
+    apiSaveCmsSection('blogPosts', updated);
   };
 
   const persistNew = (updated) => {
     setNewArticles(updated);
     saveCmsNewArticles(updated);
+    apiSaveCmsSection('newArticles', updated);
   };
 
   const startEdit = (idx, isNew) => {
@@ -1716,7 +1757,7 @@ function BlogEditor({ defaultPosts }) {
           + Новая статья
         </button>
         <span style={{ fontSize: 12, color: C.muted }}>{allPosts.length} статей</span>
-        <button onClick={() => { if (!confirm('Сбросить метаданные к исходным?')) return; resetCmsBlogPosts(); setPosts(defaultPosts); }}
+        <button onClick={() => { if (!confirm('Сбросить метаданные к исходным?')) return; resetCmsBlogPosts(); setPosts(defaultPosts); apiSaveCmsSection('blogPosts', defaultPosts); }}
           style={{ ...s.btn('danger'), padding: '5px 12px', fontSize: 12, marginLeft: 'auto' }}>
           Сбросить метаданные
         </button>
@@ -1837,6 +1878,22 @@ function ContentPage({ defaultCases, defaultFaq, defaultPosts }) {
 export function AdminPanel({ defaultCases = [], defaultFaq = [], defaultPosts = [] }) {
   const [authed, setAuthed] = React.useState(isAuthenticated);
   const [page, setPage] = React.useState('dashboard');
+  const [leads, setLeads] = React.useState([]);
+  const [cmsKey, setCmsKey] = React.useState(0);
+
+  // On login: load leads from API + hydrate CMS from API into localStorage
+  React.useEffect(() => {
+    if (!authed) return;
+    const pw = getPassword();
+    apiGetLeads(pw).then(data => setLeads(data || []));
+    fetch('/api/cms')
+      .then(r => r.ok ? r.json() : {})
+      .then(data => {
+        hydrateCmsLocalStorage(data);
+        setCmsKey(k => k + 1); // re-mount content editors with fresh data
+      })
+      .catch(() => {});
+  }, [authed]);
 
   const handleLogout = () => {
     logout();
@@ -1847,7 +1904,7 @@ export function AdminPanel({ defaultCases = [], defaultFaq = [], defaultPosts = 
     return <AdminLogin onLogin={() => setAuthed(true)} />;
   }
 
-  const newLeadsCount = getLeads().filter(l => (l.status || 'new') === 'new').length;
+  const newLeadsCount = leads.filter(l => (l.status || 'new') === 'new').length;
 
   const navItems = [
     { id: 'dashboard', label: 'Дашборд',  icon: Icons.dashboard },
@@ -1887,9 +1944,9 @@ export function AdminPanel({ defaultCases = [], defaultFaq = [], defaultPosts = 
       </nav>
 
       <div style={s.content}>
-        {page === 'dashboard' && <DashboardPage />}
-        {page === 'leads'     && <LeadsPage />}
-        {page === 'content'   && <ContentPage defaultCases={defaultCases} defaultFaq={defaultFaq} defaultPosts={defaultPosts} />}
+        {page === 'dashboard' && <DashboardPage leads={leads} />}
+        {page === 'leads'     && <LeadsPage leads={leads} setLeads={setLeads} password={getPassword()} />}
+        {page === 'content'   && <ContentPage key={cmsKey} defaultCases={defaultCases} defaultFaq={defaultFaq} defaultPosts={defaultPosts} />}
         {page === 'settings'  && <SettingsPage />}
       </div>
     </div>

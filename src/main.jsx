@@ -50,7 +50,8 @@ async function submitForm(e, source, callback) {
   e.preventDefault();
   const data = Object.fromEntries(new FormData(e.target));
   data.source = source;
-  saveLead(data);
+  // Fire both in parallel — lead stored in KV, notification sent to Telegram
+  saveLead(data); // async, no await — redirect should not wait on this
   try {
     await fetch("/api/contact", {
       method: "POST",
@@ -8758,6 +8759,32 @@ function Footer() {
 
 function App() {
   useScrollReveal();
+
+  // Sync CMS from server so all visitors see admin-saved content
+  const [, cmsForceUpdate] = React.useReducer(x => x + 1, 0);
+  React.useEffect(() => {
+    fetch('/api/cms')
+      .then(r => r.ok ? r.json() : {})
+      .then(data => {
+        if (!data || !Object.keys(data).length) return;
+        const { cases, faq, contacts, blogPosts: bp, newArticles, articleBodies } = data;
+        let changed = false;
+        if (cases)       { localStorage.setItem('bt_cms_cases',       JSON.stringify(cases));       changed = true; }
+        if (faq)         { localStorage.setItem('bt_cms_faq',         JSON.stringify(faq));         changed = true; }
+        if (contacts)    { localStorage.setItem('bt_cms_contacts',    JSON.stringify(contacts));    changed = true; }
+        if (bp)          { localStorage.setItem('bt_cms_blog_posts',  JSON.stringify(bp));          changed = true; }
+        if (newArticles) { localStorage.setItem('bt_cms_new_articles',JSON.stringify(newArticles)); changed = true; }
+        if (articleBodies) {
+          Object.entries(articleBodies).forEach(([slug, html]) => {
+            if (html) localStorage.setItem(`bt_cms_body_${slug}`, html);
+          });
+          if (Object.keys(articleBodies).length) changed = true;
+        }
+        if (changed) cmsForceUpdate();
+      })
+      .catch(() => {});
+  }, []);
+
   const path = window.location.pathname;
 
   if (path === "/admin/" || path === "/admin") {
