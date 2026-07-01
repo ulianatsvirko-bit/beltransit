@@ -41,6 +41,7 @@ import {
 import logoMark from "./assets/beltransit-logo-orange.png";
 import "./styles.css";
 import { AdminPanel, saveLead } from "./admin.jsx";
+import { getCmsCases, getCmsFaq } from "./cms.js";
 
 // ── Shared form submission utility ────────────────────────────────────────────
 // Collects FormData, POSTs to /api/contact, saves lead to localStorage,
@@ -4224,10 +4225,11 @@ function CasesFilter({ activeFilter, onChange }) {
 }
 
 function CasesList({ activeFilter }) {
+  const allCases = getCmsCases(deliveryCases);
   const filteredCases =
     activeFilter === "Все"
-      ? deliveryCases
-      : deliveryCases.filter((item) => item.category === activeFilter);
+      ? allCases
+      : allCases.filter((item) => item.category === activeFilter);
 
   return (
     <section className="cases-cards-section">
@@ -6710,6 +6712,10 @@ function GeneralFaqHero() {
 
 function GeneralFaqCategories() {
   const [activeCategory, setActiveCategory] = React.useState(0);
+  const faqData = getCmsFaq(generalFaqCategories).map((cat, i) => ({
+    ...cat,
+    icon: generalFaqCategories[i]?.icon,
+  }));
 
   return (
     <section className="section general-faq-section">
@@ -6719,7 +6725,7 @@ function GeneralFaqCategories() {
           <h2>Найдите ответ по теме</h2>
         </div>
         <div className="general-faq-categories">
-          {generalFaqCategories.map(({ icon: Icon, title, questions }, categoryIndex) => (
+          {faqData.map(({ icon: Icon, title, questions }, categoryIndex) => (
             <details
               className="general-faq-category"
               id={`faq-${title.toLowerCase().replaceAll(" ", "-")}`}
@@ -8708,7 +8714,7 @@ function App() {
   const path = window.location.pathname;
 
   if (path === "/admin/" || path === "/admin") {
-    return <AdminPanel />;
+    return <AdminPanel defaultCases={deliveryCases} defaultFaq={generalFaqCategories.map(({ title, questions }) => ({ title, questions }))} />;
   }
 
   const isGroupagePage = path === "/sbornye-gruzy/" || path === "/sbornye-gruzy";

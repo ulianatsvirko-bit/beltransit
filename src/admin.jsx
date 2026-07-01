@@ -1,4 +1,9 @@
 import React from 'react';
+import {
+  getCmsCases, saveCmsCases, resetCmsCases,
+  getCmsFaq,   saveCmsFaq,   resetCmsFaq,
+  getCmsContacts, saveCmsContacts, resetCmsContacts,
+} from './cms.js';
 
 // ── Storage helpers ────────────────────────────────────────────────────────────
 const KEYS = {
@@ -338,6 +343,7 @@ const Icon = ({ d, size = 16, color = 'currentColor' }) => (
 const Icons = {
   dashboard: 'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10',
   leads:     'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75',
+  content:   'M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7 M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z',
   settings:  'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z',
   logout:    'M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4 M16 17l5-5-5-5 M21 12H9',
   trash:     'M3 6h18 M8 6V4h8v2 M19 6l-1 14H6L5 6',
@@ -973,8 +979,520 @@ function SettingsPage() {
   );
 }
 
+// ── Shared field components ────────────────────────────────────────────────────
+function Field({ label, children }) {
+  return (
+    <div style={s.formGroup}>
+      <label style={s.label}>{label}</label>
+      {children}
+    </div>
+  );
+}
+
+function Textarea({ value, onChange, rows = 3, placeholder }) {
+  return (
+    <textarea
+      value={value}
+      onChange={onChange}
+      rows={rows}
+      placeholder={placeholder}
+      style={{ ...s.input, resize: 'vertical', lineHeight: 1.5 }}
+    />
+  );
+}
+
+function SaveBanner({ saved }) {
+  if (!saved) return null;
+  return (
+    <div style={{
+      display: 'inline-flex', alignItems: 'center', gap: 6,
+      padding: '6px 14px', borderRadius: 20,
+      background: C.green + '22', color: C.green,
+      border: `1px solid ${C.green}44`, fontSize: 12, fontWeight: 600,
+    }}>
+      <Icon d={Icons.check} size={13} /> Сохранено
+    </div>
+  );
+}
+
+// ── Cases editor ───────────────────────────────────────────────────────────────
+const CASE_CATEGORIES = [
+  'Сборные грузы', 'Выкуп', 'Полная фура', 'Сложные грузы', 'Таможня',
+];
+
+const EMPTY_CASE = {
+  category: 'Сборные грузы',
+  title: '', client: '', task: '', solution: '', result: '', quote: '',
+  facts: ['', '', ''],
+};
+
+function CaseForm({ value, onChange, onSave, onCancel, saved }) {
+  const update = (field, v) => onChange({ ...value, [field]: v });
+  const updateFact = (i, v) => {
+    const facts = [...value.facts];
+    facts[i] = v;
+    onChange({ ...value, facts });
+  };
+
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+      <div style={{ gridColumn: 'span 2' }}>
+        <Field label="Категория">
+          <select
+            value={value.category}
+            onChange={e => update('category', e.target.value)}
+            style={{ ...s.input }}
+          >
+            {CASE_CATEGORIES.map(c => <option key={c}>{c}</option>)}
+          </select>
+        </Field>
+      </div>
+      <div style={{ gridColumn: 'span 2' }}>
+        <Field label="Заголовок кейса">
+          <input style={s.input} value={value.title}
+            onChange={e => update('title', e.target.value)}
+            placeholder="Автозапчасти из Германии — два поставщика, одна доставка" />
+        </Field>
+      </div>
+      <Field label="Клиент">
+        <input style={s.input} value={value.client}
+          onChange={e => update('client', e.target.value)}
+          placeholder="Владелец магазина, Москва" />
+      </Field>
+      <Field label="Цитата клиента">
+        <Textarea value={value.quote} rows={2}
+          onChange={e => update('quote', e.target.value)}
+          placeholder="Раньше платил двум перевозчикам..." />
+      </Field>
+      <Field label="Задача">
+        <Textarea value={value.task}
+          onChange={e => update('task', e.target.value)}
+          placeholder="Что нужно было сделать" />
+      </Field>
+      <Field label="Решение">
+        <Textarea value={value.solution}
+          onChange={e => update('solution', e.target.value)}
+          placeholder="Что мы сделали" />
+      </Field>
+      <div style={{ gridColumn: 'span 2' }}>
+        <Field label="Результат">
+          <Textarea value={value.result} rows={2}
+            onChange={e => update('result', e.target.value)}
+            placeholder="Срок, экономия, итог" />
+        </Field>
+      </div>
+      <div style={{ gridColumn: 'span 2' }}>
+        <label style={s.label}>Факты (3 числа/тезиса)</label>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
+          {[0, 1, 2].map(i => (
+            <input key={i} style={s.input} value={value.facts[i] || ''}
+              onChange={e => updateFact(i, e.target.value)}
+              placeholder={['11 дней', '-25%', '2 поставщика'][i]} />
+          ))}
+        </div>
+      </div>
+      <div style={{ gridColumn: 'span 2', display: 'flex', gap: 10, alignItems: 'center', marginTop: 4 }}>
+        <button onClick={onSave} style={{ ...s.btn('primary'), padding: '8px 20px' }}>
+          <Icon d={Icons.check} size={14} color="#fff" /> Сохранить
+        </button>
+        <button onClick={onCancel} style={s.btn()}>Отмена</button>
+        <SaveBanner saved={saved} />
+      </div>
+    </div>
+  );
+}
+
+function CasesEditor({ defaultCases }) {
+  const [cases, setCases] = React.useState(() => getCmsCases(defaultCases) || defaultCases);
+  const [editing, setEditing] = React.useState(null);
+  const [draft, setDraft] = React.useState(null);
+  const [saved, setSaved] = React.useState(false);
+  const [adding, setAdding] = React.useState(false);
+  const [newDraft, setNewDraft] = React.useState(null);
+
+  const save = (updated) => {
+    setCases(updated);
+    saveCmsCases(updated);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2500);
+  };
+
+  const startEdit = (idx) => {
+    setEditing(idx);
+    setDraft({ ...cases[idx], facts: [...(cases[idx].facts || ['', '', ''])] });
+    setAdding(false);
+  };
+
+  const commitEdit = () => {
+    const updated = cases.map((c, i) => i === editing ? draft : c);
+    save(updated);
+    setEditing(null);
+  };
+
+  const deleteCase = (idx) => {
+    if (!confirm('Удалить этот кейс?')) return;
+    save(cases.filter((_, i) => i !== idx));
+    setEditing(null);
+  };
+
+  const startAdd = () => {
+    setAdding(true);
+    setNewDraft({ ...EMPTY_CASE, facts: ['', '', ''] });
+    setEditing(null);
+  };
+
+  const commitAdd = () => {
+    save([...cases, newDraft]);
+    setAdding(false);
+  };
+
+  const resetAll = () => {
+    if (!confirm('Сбросить все кейсы к исходным?')) return;
+    resetCmsCases();
+    setCases(defaultCases);
+  };
+
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: 10, marginBottom: 16, alignItems: 'center' }}>
+        <button onClick={startAdd} style={{ ...s.btn('primary'), padding: '7px 16px' }}>
+          + Добавить кейс
+        </button>
+        <span style={{ fontSize: 12, color: C.muted }}>{cases.length} кейсов</span>
+        <div style={{ marginLeft: 'auto' }}>
+          <button onClick={resetAll} style={{ ...s.btn('danger'), padding: '5px 12px', fontSize: 12 }}>
+            Сбросить к исходным
+          </button>
+        </div>
+      </div>
+
+      {adding && (
+        <div style={{ ...s.card, marginBottom: 16, borderColor: C.orange + '66' }}>
+          <h4 style={{ fontSize: 13, fontWeight: 700, color: C.orange, margin: '0 0 16px' }}>Новый кейс</h4>
+          <CaseForm value={newDraft} onChange={setNewDraft} onSave={commitAdd}
+            onCancel={() => setAdding(false)} saved={false} />
+        </div>
+      )}
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {cases.map((c, idx) => (
+          <div key={idx} style={{
+            ...s.card,
+            borderColor: editing === idx ? C.orange + '88' : C.border,
+          }}>
+            {editing === idx ? (
+              <>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 14 }}>
+                  <h4 style={{ fontSize: 13, fontWeight: 700, color: C.orange, margin: 0 }}>
+                    Редактирование кейса #{idx + 1}
+                  </h4>
+                  <button onClick={() => deleteCase(idx)}
+                    style={{ ...s.btn('danger'), padding: '3px 10px', fontSize: 11 }}>
+                    <Icon d={Icons.trash} size={12} /> Удалить кейс
+                  </button>
+                </div>
+                <CaseForm value={draft} onChange={setDraft}
+                  onSave={commitEdit} onCancel={() => setEditing(null)} saved={saved} />
+              </>
+            ) : (
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 4 }}>
+                    <span style={s.badge(C.orange)}>{c.category}</span>
+                    <span style={{ fontSize: 11, color: C.muted }}>#{idx + 1}</span>
+                  </div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: C.text, marginBottom: 2 }}>{c.title}</div>
+                  <div style={{ fontSize: 12, color: C.muted }}>{c.client}</div>
+                </div>
+                <button onClick={() => startEdit(idx)} style={{ ...s.btn(), padding: '5px 12px', fontSize: 12, flexShrink: 0 }}>
+                  Редактировать
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── FAQ editor ─────────────────────────────────────────────────────────────────
+function FaqEditor({ defaultFaq }) {
+  const [cats, setCats] = React.useState(() => getCmsFaq(defaultFaq) || defaultFaq);
+  const [saved, setSaved] = React.useState(false);
+  const [openCat, setOpenCat] = React.useState(0);
+  const [editingQ, setEditingQ] = React.useState(null);
+  const [draft, setDraft] = React.useState(['', '']);
+  const [addingCat, setAddingCat] = React.useState(null);
+  const [newQ, setNewQ] = React.useState(['', '']);
+
+  const persist = (updated) => {
+    setCats(updated);
+    saveCmsFaq(updated);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2500);
+  };
+
+  const startEdit = (catIdx, qIdx) => {
+    setEditingQ({ catIdx, qIdx });
+    setDraft([...cats[catIdx].questions[qIdx]]);
+  };
+
+  const commitEdit = () => {
+    const updated = cats.map((cat, ci) =>
+      ci === editingQ.catIdx
+        ? { ...cat, questions: cat.questions.map((q, qi) => qi === editingQ.qIdx ? draft : q) }
+        : cat
+    );
+    persist(updated);
+    setEditingQ(null);
+  };
+
+  const deleteQ = (catIdx, qIdx) => {
+    if (!confirm('Удалить вопрос?')) return;
+    const updated = cats.map((cat, ci) =>
+      ci === catIdx ? { ...cat, questions: cat.questions.filter((_, qi) => qi !== qIdx) } : cat
+    );
+    persist(updated);
+    setEditingQ(null);
+  };
+
+  const commitAdd = (catIdx) => {
+    if (!newQ[0].trim()) return;
+    const updated = cats.map((cat, ci) =>
+      ci === catIdx ? { ...cat, questions: [...cat.questions, [...newQ]] } : cat
+    );
+    persist(updated);
+    setAddingCat(null);
+    setNewQ(['', '']);
+  };
+
+  return (
+    <div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+        <SaveBanner saved={saved} />
+        <button onClick={() => { if (!confirm('Сбросить FAQ к исходному?')) return; resetCmsFaq(); setCats(defaultFaq); }}
+          style={{ ...s.btn('danger'), padding: '5px 12px', fontSize: 12, marginLeft: 'auto' }}>
+          Сбросить к исходному
+        </button>
+      </div>
+
+      {cats.map((cat, catIdx) => (
+        <div key={catIdx} style={{ ...s.card, marginBottom: 10 }}>
+          <button
+            onClick={() => setOpenCat(openCat === catIdx ? -1 : catIdx)}
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              width: '100%', background: 'none', border: 'none', cursor: 'pointer',
+              padding: 0, color: C.text,
+            }}
+          >
+            <span style={{ fontSize: 13, fontWeight: 700 }}>{cat.title}</span>
+            <span style={{ fontSize: 12, color: C.muted }}>
+              {cat.questions.length} вопр. {openCat === catIdx ? '▲' : '▼'}
+            </span>
+          </button>
+
+          {openCat === catIdx && (
+            <div style={{ marginTop: 14 }}>
+              {cat.questions.map(([q, a], qIdx) => (
+                <div key={qIdx} style={{
+                  background: C.raised, borderRadius: 8, padding: '10px 14px', marginBottom: 8,
+                  border: (editingQ?.catIdx === catIdx && editingQ?.qIdx === qIdx) ? `1px solid ${C.orange}66` : `1px solid transparent`,
+                }}>
+                  {editingQ?.catIdx === catIdx && editingQ?.qIdx === qIdx ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                      <Field label="Вопрос">
+                        <input style={s.input} value={draft[0]} onChange={e => setDraft([e.target.value, draft[1]])} />
+                      </Field>
+                      <Field label="Ответ">
+                        <Textarea rows={3} value={draft[1]} onChange={e => setDraft([draft[0], e.target.value])} />
+                      </Field>
+                      <div style={{ display: 'flex', gap: 8 }}>
+                        <button onClick={commitEdit} style={{ ...s.btn('primary'), padding: '5px 14px', fontSize: 12 }}>
+                          <Icon d={Icons.check} size={12} color="#fff" /> Сохранить
+                        </button>
+                        <button onClick={() => setEditingQ(null)} style={{ ...s.btn(), padding: '5px 12px', fontSize: 12 }}>
+                          Отмена
+                        </button>
+                        <button onClick={() => deleteQ(catIdx, qIdx)}
+                          style={{ ...s.btn('danger'), padding: '5px 10px', fontSize: 12, marginLeft: 'auto' }}>
+                          <Icon d={Icons.trash} size={12} />
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: C.text, marginBottom: 3 }}>{q}</div>
+                        <div style={{ fontSize: 12, color: C.muted, lineHeight: 1.5 }}>{a}</div>
+                      </div>
+                      <button onClick={() => startEdit(catIdx, qIdx)}
+                        style={{ ...s.btn(), padding: '4px 10px', fontSize: 11, flexShrink: 0 }}>
+                        Изменить
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {addingCat === catIdx ? (
+                <div style={{ background: C.raised, borderRadius: 8, padding: '12px 14px', border: `1px solid ${C.orange}44` }}>
+                  <Field label="Вопрос">
+                    <input style={s.input} value={newQ[0]} onChange={e => setNewQ([e.target.value, newQ[1]])}
+                      placeholder="Новый вопрос..." autoFocus />
+                  </Field>
+                  <Field label="Ответ">
+                    <Textarea rows={3} value={newQ[1]} onChange={e => setNewQ([newQ[0], e.target.value])}
+                      placeholder="Ответ..." />
+                  </Field>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <button onClick={() => commitAdd(catIdx)} style={{ ...s.btn('primary'), padding: '5px 14px', fontSize: 12 }}>
+                      Добавить
+                    </button>
+                    <button onClick={() => { setAddingCat(null); setNewQ(['', '']); }}
+                      style={{ ...s.btn(), padding: '5px 12px', fontSize: 12 }}>
+                      Отмена
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button onClick={() => { setAddingCat(catIdx); setEditingQ(null); setNewQ(['', '']); }}
+                  style={{ ...s.btn(), padding: '5px 14px', fontSize: 12, marginTop: 4 }}>
+                  + Добавить вопрос
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── Contacts editor ────────────────────────────────────────────────────────────
+const DEFAULT_CONTACTS = {
+  telegram: 'beltransit',
+  phone: '+7 926 547-18-94',
+  phoneRaw: '+79265471894',
+  email: 'beltransit2012@gmail.com',
+  whatsapp: '79265471894',
+  hours: 'Пн–Сб, 9:00–20:00 МСК',
+  address: 'Вильнюс, Литва',
+};
+
+function ContactsEditor() {
+  const [form, setForm] = React.useState(() => getCmsContacts() || DEFAULT_CONTACTS);
+  const [saved, setSaved] = React.useState(false);
+
+  const update = (field, v) => setForm(f => ({ ...f, [field]: v }));
+
+  const handleSave = () => {
+    saveCmsContacts(form);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2500);
+  };
+
+  const handleReset = () => {
+    if (!confirm('Сбросить контакты к исходным?')) return;
+    resetCmsContacts();
+    setForm(DEFAULT_CONTACTS);
+  };
+
+  return (
+    <div>
+      <div style={{
+        background: C.raised, border: `1px solid ${C.yellow}44`,
+        borderRadius: 8, padding: '10px 14px', marginBottom: 18, fontSize: 12, color: C.yellow,
+      }}>
+        ℹ️ Изменения контактов вступают в силу после перезагрузки страницы сайта в этом браузере.
+        Для обновления на всех устройствах — передайте данные разработчику.
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+        <Field label="Telegram (без @)">
+          <input style={s.input} value={form.telegram}
+            onChange={e => update('telegram', e.target.value)} placeholder="beltransit" />
+        </Field>
+        <Field label="WhatsApp (только цифры)">
+          <input style={s.input} value={form.whatsapp}
+            onChange={e => update('whatsapp', e.target.value)} placeholder="79265471894" />
+        </Field>
+        <Field label="Телефон (для отображения)">
+          <input style={s.input} value={form.phone}
+            onChange={e => update('phone', e.target.value)} placeholder="+7 926 547-18-94" />
+        </Field>
+        <Field label="Телефон (для ссылки tel:)">
+          <input style={s.input} value={form.phoneRaw}
+            onChange={e => update('phoneRaw', e.target.value)} placeholder="+79265471894" />
+        </Field>
+        <div style={{ gridColumn: 'span 2' }}>
+          <Field label="Email">
+            <input style={s.input} value={form.email}
+              onChange={e => update('email', e.target.value)} placeholder="beltransit2012@gmail.com" />
+          </Field>
+        </div>
+        <Field label="Часы работы">
+          <input style={s.input} value={form.hours}
+            onChange={e => update('hours', e.target.value)} placeholder="Пн–Сб, 9:00–20:00 МСК" />
+        </Field>
+        <Field label="Адрес">
+          <input style={s.input} value={form.address}
+            onChange={e => update('address', e.target.value)} placeholder="Вильнюс, Литва" />
+        </Field>
+      </div>
+
+      <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginTop: 8 }}>
+        <button onClick={handleSave} style={{ ...s.btn('primary'), padding: '8px 20px' }}>
+          <Icon d={Icons.check} size={14} color="#fff" /> Сохранить
+        </button>
+        <button onClick={handleReset} style={{ ...s.btn('danger'), padding: '7px 14px', fontSize: 13 }}>
+          Сбросить
+        </button>
+        <SaveBanner saved={saved} />
+      </div>
+    </div>
+  );
+}
+
+// ── Content page (wrapper with sub-tabs) ──────────────────────────────────────
+function ContentPage({ defaultCases, defaultFaq }) {
+  const [tab, setTab] = React.useState('cases');
+
+  const tabs = [
+    { id: 'cases',    label: 'Кейсы' },
+    { id: 'faq',      label: 'FAQ' },
+    { id: 'contacts', label: 'Контакты' },
+  ];
+
+  return (
+    <>
+      <div style={s.header}>
+        <h1 style={s.pageTitle}>Контент</h1>
+        <p style={s.pageDesc}>Редактирование кейсов, FAQ и контактной информации</p>
+      </div>
+      <div style={s.main}>
+        <div style={{ ...s.pillTabs, marginBottom: 20 }}>
+          {tabs.map(({ id, label }) => (
+            <button key={id} onClick={() => setTab(id)} style={{
+              ...s.pill(tab === id),
+              padding: '6px 18px', fontSize: 13,
+            }}>
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {tab === 'cases'    && <CasesEditor defaultCases={defaultCases} />}
+        {tab === 'faq'      && <FaqEditor defaultFaq={defaultFaq} />}
+        {tab === 'contacts' && <ContactsEditor />}
+      </div>
+    </>
+  );
+}
+
 // ── Main admin app ─────────────────────────────────────────────────────────────
-export function AdminPanel() {
+export function AdminPanel({ defaultCases = [], defaultFaq = [] }) {
   const [authed, setAuthed] = React.useState(isAuthenticated);
   const [page, setPage] = React.useState('dashboard');
 
@@ -990,8 +1508,9 @@ export function AdminPanel() {
   const newLeadsCount = getLeads().filter(l => (l.status || 'new') === 'new').length;
 
   const navItems = [
-    { id: 'dashboard', label: 'Дашборд', icon: Icons.dashboard },
+    { id: 'dashboard', label: 'Дашборд',  icon: Icons.dashboard },
     { id: 'leads',     label: `Заявки${newLeadsCount > 0 ? ` (${newLeadsCount})` : ''}`, icon: Icons.leads },
+    { id: 'content',   label: 'Контент',   icon: Icons.content },
     { id: 'settings',  label: 'Настройки', icon: Icons.settings },
   ];
 
@@ -1014,10 +1533,7 @@ export function AdminPanel() {
         </div>
 
         <div style={s.sidebarFooter}>
-          <a
-            href="/"
-            style={{ ...s.logoutBtn, textDecoration: 'none', marginBottom: 4 }}
-          >
+          <a href="/" style={{ ...s.logoutBtn, textDecoration: 'none', marginBottom: 4 }}>
             <Icon d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" size={15} color={C.muted} />
             На сайт
           </a>
@@ -1031,6 +1547,7 @@ export function AdminPanel() {
       <div style={s.content}>
         {page === 'dashboard' && <DashboardPage />}
         {page === 'leads'     && <LeadsPage />}
+        {page === 'content'   && <ContentPage defaultCases={defaultCases} defaultFaq={defaultFaq} />}
         {page === 'settings'  && <SettingsPage />}
       </div>
     </div>
