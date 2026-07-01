@@ -155,6 +155,7 @@ const ASSET_RE =
   /^\/(_vercel|api|assets)\//i;
 const FILE_RE =
   /\.(js|css|json|ico|png|jpg|jpeg|webp|avif|svg|woff2?|ttf|otf|txt|xml|map)(\?.*)?$/i;
+const ADMIN_RE = /^\/admin(\/.*)?$/i;
 
 export const config = {
   matcher: ["/((?!_vercel|api).*)"],
@@ -167,8 +168,8 @@ export default async function middleware(request) {
   const url = new URL(request.url);
   const rawPath = url.pathname;
 
-  // Pass through static assets
-  if (ASSET_RE.test(rawPath) || FILE_RE.test(rawPath)) return;
+  // Pass through static assets and admin panel (no SEO injection needed)
+  if (ASSET_RE.test(rawPath) || FILE_RE.test(rawPath) || ADMIN_RE.test(rawPath)) return;
 
   // Normalise trailing slash
   const path = rawPath.endsWith("/") ? rawPath : rawPath + "/";
