@@ -1,34 +1,12 @@
-// Leads API — backed by Vercel KV (Upstash Redis)
+// Leads API — proxies to VPS Express server for persistent storage
 // GET    /api/leads  → list all leads (admin auth)
 // POST   /api/leads  → add one lead (public — from contact forms)
 // PUT    /api/leads  → replace all leads (admin auth — for status updates)
 // DELETE /api/leads  → clear all leads (admin auth)
 
-const KV_URL   = process.env.KV_REST_API_URL;
-const KV_TOKEN = process.env.KV_REST_API_TOKEN;
+const VPS_API  = process.env.VPS_API_URL  || 'http://109.199.105.77';
+const VPS_SEC  = process.env.VPS_SECRET   || 'bt_vps_internal_2024';
 const ADMIN_PW = process.env.ADMIN_PASSWORD || 'Beltransit2024!';
-const KV_KEY   = 'bt_leads';
-
-async function kvGet(key) {
-  if (!KV_URL || !KV_TOKEN) return null;
-  try {
-    const r = await fetch(`${KV_URL}/get/${encodeURIComponent(key)}`, {
-      headers: { Authorization: `Bearer ${KV_TOKEN}` },
-    });
-    const json = await r.json();
-    if (!json.result) return null;
-    return JSON.parse(json.result);
-  } catch { return null; }
-}
-
-async function kvSet(key, value) {
-  if (!KV_URL || !KV_TOKEN) return;
-  await fetch(`${KV_URL}/pipeline`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${KV_TOKEN}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify([['SET', key, JSON.stringify(value)]]),
-  });
-}
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -40,35 +18,54 @@ export default async function handler(req, res) {
 
   if (req.method === 'GET') {
     if (!authed) return res.status(401).json({ error: 'Unauthorized' });
-    const leads = await kvGet(KV_KEY) || [];
-    return res.status(200).json(leads);
+    try {
+      const r = await fetch(`${VPS_API}/leads`, {
+        headers: { 'x-vps-secret': VPS_SEC },
+      });
+      return res.status(200).json(await r.json());
+    } catch {
+      return res.status(200).json([]);
+    }
   }
 
   if (req.method === 'POST') {
-    // Public endpoint — called from contact forms on the site
-    const leads = await kvGet(KV_KEY) || [];
-    const lead = {
-      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-      ts: new Date().toISOString(),
-      status: 'new',
-      ...(req.body || {}),
-    };
-    leads.unshift(lead);
-    await kvSet(KV_KEY, leads);
-    return res.status(200).json({ ok: true });
+    try {
+      const r = await fetch(`${VPS_API}/leads`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(req.body || {}),
+      });
+      return res.status(200).json(await r.json());
+    } catch (e) {
+      return res.status(500).json({ error: String(e) });
+    }
   }
 
   if (req.method === 'PUT') {
-    // Admin: replace full leads array (used when updating statuses)
     if (!authed) return res.status(401).json({ error: 'Unauthorized' });
-    await kvSet(KV_KEY, req.body || []);
-    return res.status(200).json({ ok: true });
+    try {
+      const r = await fetch(`${VPS_API}/leads`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'x-vps-secret': VPS_SEC },
+        body: JSON.stringify(req.body || []),
+      });
+      return res.status(200).json(await r.json());
+    } catch (e) {
+      return res.status(500).json({ error: String(e) });
+    }
   }
 
   if (req.method === 'DELETE') {
     if (!authed) return res.status(401).json({ error: 'Unauthorized' });
-    await kvSet(KV_KEY, []);
-    return res.status(200).json({ ok: true });
+    try {
+      const r = await fetch(`${VPS_API}/leads`, {
+        method: 'DELETE',
+        headers: { 'x-vps-secret': VPS_SEC },
+      });
+      return res.status(200).json(await r.json());
+    } catch (e) {
+      return res.status(500).json({ error: String(e) });
+    }
   }
 
   return res.status(405).json({ error: 'Method not allowed' });
