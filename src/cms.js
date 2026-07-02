@@ -50,7 +50,12 @@ export function resetCmsBlogPosts()    { localStorage.removeItem(K.blogPosts); }
 
 // Article body HTML overrides (keyed by slug)
 export function getCmsArticleBody(slug) {
-  try { return localStorage.getItem(articleBodyKey(slug)) || null; }
+  try {
+    // ?bt_original=1 — служебный флаг админки: страница рендерит исходный
+    // текст из кода, игнорируя CMS-версию (нужно для загрузки оригинала в редактор)
+    if (typeof window !== 'undefined' && window.location.search.includes('bt_original')) return null;
+    return localStorage.getItem(articleBodyKey(slug)) || null;
+  }
   catch { return null; }
 }
 export function saveCmsArticleBody(slug, html) {

@@ -9,6 +9,7 @@ import {
   Building2,
   Check,
   ClipboardCheck,
+  Clock,
   Copy,
   Container,
   CreditCard,
@@ -24,6 +25,7 @@ import {
   Package,
   Phone,
   RefreshCcw,
+  Route,
   Search,
   Send,
   Settings,
@@ -7197,40 +7199,81 @@ function Breadcrumbs({ items }) {
 function ThankYouPage() {
   return (
     <div className="thankyou-page">
-
-      {/* ── Hero ── */}
       <section className="thankyou-hero">
-        <div className="thankyou-glow" aria-hidden="true" />
-        <div className="thankyou-check" aria-hidden="true">
-          <div className="thankyou-check-ring" />
-          <Check size={38} strokeWidth={2.5} />
+
+        {/* ── Route map ── */}
+        <div className="thankyou-map" aria-hidden="true">
+          <svg viewBox="0 0 420 500" xmlns="http://www.w3.org/2000/svg">
+            <path
+              className="thankyou-map-route"
+              d="M85 415 C 60 320, 110 255, 150 220 C 190 185, 180 145, 205 115 C 235 80, 320 105, 360 180 C 375 208, 380 235, 380 265"
+              fill="none"
+            />
+            {[
+              { x: 85, y: 415, label: "Европа", lx: 85, ly: 452 },
+              { x: 205, y: 115, label: "Таможня", lx: 205, ly: 88 },
+              { x: 380, y: 265, label: "Россия", lx: 380, ly: 302 },
+            ].map(({ x, y, label, lx, ly }) => (
+              <g key={label}>
+                <circle className="thankyou-map-dot-glow" cx={x} cy={y} r="14" />
+                <circle className="thankyou-map-dot" cx={x} cy={y} r="7" />
+                <text className="thankyou-map-label" x={lx} y={ly} textAnchor="middle">{label}</text>
+              </g>
+            ))}
+          </svg>
+          <span className="thankyou-map-truck"><Truck size={30} /></span>
         </div>
-        <span className="eyebrow">Заявка принята</span>
-        <h1>Спасибо —<br />мы получили вашу заявку</h1>
-        <p>Менеджер изучит запрос и свяжется с вами в течение <strong>2&nbsp;часов</strong> в рабочее время.</p>
+
+        {/* ── Content ── */}
+        <div className="thankyou-hero-content">
+          <h1 className="thankyou-title">Спасибо!</h1>
+          <p className="thankyou-stamp">
+            <span>Заявка</span>
+            <span>отправлена</span>
+          </p>
+          <p className="thankyou-lead">
+            Мы получили ваш запрос. Менеджер свяжется с вами в ближайшее время,
+            уточнит детали груза и подготовит расчёт стоимости доставки.
+          </p>
+
+          <h2 className="thankyou-next-title">Что дальше?</h2>
+          <ol className="thankyou-steps">
+            {[
+              { icon: ClipboardCheck, num: "01", text: "Проверим маршрут и параметры груза" },
+              { icon: Route, num: "02", text: "Подберём оптимальный вариант доставки" },
+              { icon: FileText, num: "03", text: "Отправим расчёт стоимости и сроки" },
+            ].map(({ icon: Icon, num, text }) => (
+              <li className="thankyou-step" key={num}>
+                <span className="thankyou-step-icon"><Icon size={22} /></span>
+                <span className="thankyou-step-num">{num}</span>
+                <span className="thankyou-step-text">{text}</span>
+              </li>
+            ))}
+          </ol>
+
+          <div className="thankyou-actions">
+            <a className="button button-primary" href="/">На главную <ArrowRight size={17} /></a>
+            <a className="button button-secondary" href="/#services">Посмотреть услуги</a>
+          </div>
+        </div>
       </section>
 
-      {/* ── Articles ── */}
-      <section className="thankyou-articles">
-        <a className="button button-secondary thankyou-home-btn" href="/">На главную</a>
-        <p className="thankyou-articles-label">Пока ждёте — почитайте</p>
-        <div className="thankyou-articles-grid">
+      {/* ── Trust bar ── */}
+      <section className="thankyou-trustbar">
+        <div className="thankyou-trustbar-inner">
           {[
-            { href: "/blog/kak-rasschitat-tamozhennye-platezhi/", tag: "Таможня", title: "Как рассчитать таможенные платежи", sub: "Откуда берутся 30–50% сверху к цене товара" },
-            { href: "/blog/marshrut-cherez-belarus/", tag: "Маршрут", title: "Маршрут через Беларусь", sub: "Почему это быстрее и выгоднее альтернатив" },
-            { href: "/blog/pervyy-import-iz-evropy/", tag: "Гайд", title: "Первый импорт из Европы", sub: "Пошаговая инструкция без ошибок" },
-          ].map(({ href, tag, title, sub }) => (
-            <a className="thankyou-article-card" href={href} key={href}>
-              <span className="thankyou-article-tag">{tag}</span>
-              <strong>{title}</strong>
-              <span>{sub}</span>
-              <span className="thankyou-article-arrow">Читать →</span>
-            </a>
+            { icon: ShieldCheck, text: "Надёжная логистика" },
+            { icon: Clock, text: "Доставка в срок" },
+            { icon: Package, text: "Работаем с грузами от 20 кг" },
+            { icon: FileText, text: "Полное сопровождение на всех этапах" },
+          ].map(({ icon: Icon, text }) => (
+            <div className="thankyou-trust-item" key={text}>
+              <Icon size={20} />
+              <span>{text}</span>
+            </div>
           ))}
         </div>
       </section>
-
-
     </div>
   );
 }
@@ -7305,11 +7348,21 @@ function QuoteRequestModal({ isOpen, onClose }) {
   );
 }
 
-// Renders a CMS-authored article body in place of hardcoded JSX
-function CmsArticleBody({ html }) {
+// Renders a CMS-authored article body in place of hardcoded JSX.
+// CTA-кнопки внутри сохранённого HTML теряют React-обработчики,
+// поэтому клики по ним перехватываем делегированием и открываем форму расчёта.
+function CmsArticleBody({ html, onCta }) {
+  const handleClick = (event) => {
+    if (!onCta) return;
+    if (event.target.closest("button")) {
+      event.preventDefault();
+      onCta();
+    }
+  };
   return (
     <article
       className="article-content"
+      onClick={handleClick}
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );
@@ -7384,8 +7437,9 @@ function CmsArticlePage({ post }) {
         {hasTemplate ? (
           <ArticleTemplate post={post} onConsult={() => setQuoteOpen(true)} />
         ) : (
-          <article className="article-content"
-            dangerouslySetInnerHTML={{ __html: body || '<p>Содержимое статьи пока не добавлено. Откройте редактор в Контент → Блог.</p>' }}
+          <CmsArticleBody
+            html={body || '<p>Содержимое статьи пока не добавлено. Откройте редактор в Контент → Блог.</p>'}
+            onCta={() => setQuoteOpen(true)}
           />
         )}
       </section>
@@ -7426,7 +7480,7 @@ function BlogArticlePage() {
           ))}
         </aside>}
 
-        {cmsBody ? <CmsArticleBody html={cmsBody} /> : <article className="article-content">
+        {cmsBody ? <CmsArticleBody html={cmsBody} onCta={() => setQuoteOpen(true)} /> : <article className="article-content">
           <p className="article-lead">
             Вы нашли поставщика в Европе, договорились о цене, и тут начинается самое интересное:
             к цене товара нужно добавить таможню — а это легко ещё 30–50% сверху. Причём ошибиться
@@ -7622,7 +7676,7 @@ function BelarusRouteArticlePage() {
           ))}
         </aside>}
 
-        {cmsBody ? <CmsArticleBody html={cmsBody} /> : <article className="article-content">
+        {cmsBody ? <CmsArticleBody html={cmsBody} onCta={() => setQuoteOpen(true)} /> : <article className="article-content">
           <p className="article-lead">
             Когда речь заходит о ввозе грузов из Европы в Россию, большинство компаний по привычке
             называют один маршрут — «через Финляндию» или «через Прибалтику напрямую». Это работало
@@ -7830,7 +7884,7 @@ function PaymentArticlePage() {
           ))}
         </aside>}
 
-        {cmsBody ? <CmsArticleBody html={cmsBody} /> : <article className="article-content">
+        {cmsBody ? <CmsArticleBody html={cmsBody} onCta={() => setQuoteOpen(true)} /> : <article className="article-content">
           <p className="article-lead">
             Это, пожалуй, самый болезненный вопрос в российском импорте последних трёх лет. Товар
             есть, поставщик готов работать, договор подписан — и всё упирается в одно: как перевести
@@ -8074,7 +8128,7 @@ function LtlFtlArticlePage() {
           ))}
         </aside>}
 
-        {cmsBody ? <CmsArticleBody html={cmsBody} /> : <article className="article-content">
+        {cmsBody ? <CmsArticleBody html={cmsBody} onCta={() => setQuoteOpen(true)} /> : <article className="article-content">
           <p className="article-lead">
             Этот вопрос возникает у каждого импортёра, который начинал с небольших партий и
             постепенно наращивал объём. В какой-то момент менеджер по логистике говорит: «Слушай, мы
@@ -8259,7 +8313,7 @@ function FirstImportArticlePage() {
           ))}
         </aside>}
 
-        {cmsBody ? <CmsArticleBody html={cmsBody} /> : <article className="article-content">
+        {cmsBody ? <CmsArticleBody html={cmsBody} onCta={() => setQuoteOpen(true)} /> : <article className="article-content">
           <p className="article-lead">
             Большинство предпринимателей, которые впервые задумываются об импорте из Европы,
             останавливаются на этапе «надо разобраться». Таможня, валютный контроль, сертификаты,
@@ -8524,7 +8578,7 @@ function TnvedArticlePage() {
           ))}
         </aside>}
 
-        {cmsBody ? <CmsArticleBody html={cmsBody} /> : <article className="article-content">
+        {cmsBody ? <CmsArticleBody html={cmsBody} onCta={() => setQuoteOpen(true)} /> : <article className="article-content">
           <p className="article-lead">
             Представьте: вы везёте партию насосов из Германии. Указываете код ТН ВЭД — и вместо
             пошлины 5% таможня начисляет 12%. Разница на партии за €50 000 — это €3 500, которых

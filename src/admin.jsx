@@ -1746,48 +1746,142 @@ function BlogPostForm({ value, onChange, onSave, onCancel, saved, isNew }) {
   );
 }
 
-function ArticleBodyEditor({ slug, title }) {
+// Загружает исходный (захардкоженный) текст статьи: рендерит страницу статьи
+// в скрытом iframe с флагом ?bt_original=1 и забирает HTML из .article-content
+function fetchOriginalArticleHtml(href) {
+  return new Promise((resolve) => {
+    const url = `${href.replace(/\/$/, '')}/?bt_original=1`;
+    const iframe = document.createElement('iframe');
+    iframe.style.cssText = 'position:absolute;left:-99999px;top:0;width:1200px;height:900px;visibility:hidden;';
+    iframe.src = url;
+    let done = false;
+    const finish = (html) => {
+      if (done) return;
+      done = true;
+      clearInterval(poll);
+      clearTimeout(kill);
+      iframe.remove();
+      resolve(html);
+    };
+    const poll = setInterval(() => {
+      try {
+        const el = iframe.contentDocument?.querySelector('.article-content');
+        if (el && el.innerHTML.trim().length > 100) finish(el.innerHTML);
+      } catch (_) {}
+    }, 250);
+    const kill = setTimeout(() => finish(''), 15000);
+    document.body.appendChild(iframe);
+  });
+}
+
+const EDITOR_TIP =
+  'Редактируйте текст прямо в поле — как в обычном документе. «Сохранить» публикует вашу версию, «Сбросить» возвращает исходный текст статьи.';
+
+function ArticleBodyEditor({ slug, title, isNew }) {
+  const editorRef = React.useRef(null);
   const [html, setHtml] = React.useState(() => getCmsArticleBody(slug) || '');
+  const [hasOverride, setHasOverride] = React.useState(() => !!getCmsArticleBody(slug));
+  const [mode, setMode] = React.useState('visual'); // 'visual' | 'html'
+  const [loading, setLoading] = React.useState(false);
   const [saved, setSaved] = React.useState(false);
-  const [preview, setPreview] = React.useState(false);
+
+  const setEditorHtml = (value) => {
+    setHtml(value);
+    if (editorRef.current) editorRef.current.innerHTML = value;
+  };
+
+  // Для существующих статей без кастомной версии — подтягиваем исходный текст с сайта
+  React.useEffect(() => {
+    if (html || isNew || !slug) return;
+    let cancelled = false;
+    setLoading(true);
+    fetchOriginalArticleHtml(slug).then((original) => {
+      if (cancelled) return;
+      setLoading(false);
+      if (original) setEditorHtml(original);
+    });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug]);
+
+  // contentEditable держим неуправляемым (иначе прыгает курсор):
+  // innerHTML выставляется при монтировании и смене режима
+  React.useEffect(() => {
+    if (mode === 'visual' && editorRef.current) editorRef.current.innerHTML = html;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, loading]);
+
+  const currentHtml = () =>
+    mode === 'visual' && editorRef.current ? editorRef.current.innerHTML : html;
+
+  const switchMode = (next) => {
+    if (next === mode) return;
+    setHtml(currentHtml());
+    setMode(next);
+  };
 
   const handleSave = () => {
-    saveCmsArticleBody(slug, html);
-    apiSaveCmsSection('articleBody', html, slug);
+    const value = currentHtml();
+    setHtml(value);
+    saveCmsArticleBody(slug, value);
+    apiSaveCmsSection('articleBody', value, slug);
+    setHasOverride(!!value.trim());
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
   };
 
-  const handleClear = () => {
-    if (!confirm('Сбросить кастомный текст? Статья вернётся к исходному содержимому.')) return;
+  const handleReset = () => {
+    if (!confirm('Сбросить изменения? Статья вернётся к исходному тексту с сайта.')) return;
     saveCmsArticleBody(slug, '');
     apiSaveCmsSection('articleBody', '', slug);
-    setHtml('');
+    setHasOverride(false);
+    setEditorHtml('');
+    if (!isNew) {
+      setLoading(true);
+      fetchOriginalArticleHtml(slug).then((original) => {
+        setLoading(false);
+        if (original) setEditorHtml(original);
+      });
+    }
   };
 
-  const toolbarBtns = [
-    { label: 'H2', action: () => setHtml(h => h + '\n<h2>Заголовок раздела</h2>\n') },
-    { label: 'H3', action: () => setHtml(h => h + '\n<h3>Подзаголовок</h3>\n') },
-    { label: 'P',  action: () => setHtml(h => h + '\n<p>Текст абзаца</p>\n') },
-    { label: 'B',  action: () => setHtml(h => h + '<strong>жирный</strong>') },
-    { label: 'UL', action: () => setHtml(h => h + '\n<ul>\n  <li>Пункт 1</li>\n  <li>Пункт 2</li>\n</ul>\n') },
-    { label: 'OL', action: () => setHtml(h => h + '\n<ol>\n  <li>Пункт 1</li>\n  <li>Пункт 2</li>\n</ol>\n') },
-    { label: '💡', action: () => setHtml(h => h + '\n<div class="article-callout"><strong>Важно:</strong> текст подсказки</div>\n') },
-    { label: 'HR', action: () => setHtml(h => h + '\n<hr>\n') },
+  // exec сохраняет выделение: кнопки тулбара гасят mousedown, чтобы не терять фокус
+  const exec = (command, arg = null) => {
+    editorRef.current?.focus();
+    document.execCommand(command, false, arg);
+  };
+
+  const visualToolbar = [
+    { label: 'B', title: 'Жирный', style: { fontWeight: 700 }, action: () => exec('bold') },
+    { label: 'I', title: 'Курсив', style: { fontStyle: 'italic' }, action: () => exec('italic') },
+    { label: 'H2', title: 'Заголовок раздела', action: () => exec('formatBlock', 'h2') },
+    { label: 'H3', title: 'Подзаголовок', action: () => exec('formatBlock', 'h3') },
+    { label: '¶', title: 'Обычный абзац', action: () => exec('formatBlock', 'p') },
+    { label: '• Список', title: 'Маркированный список', action: () => exec('insertUnorderedList') },
+    { label: '1. Список', title: 'Нумерованный список', action: () => exec('insertOrderedList') },
+    { label: '🔗', title: 'Ссылка', action: () => {
+      const url = prompt('Адрес ссылки (URL):', 'https://');
+      if (url && url !== 'https://') exec('createLink', url);
+    } },
+    { label: '💡', title: 'Блок «Важно»', action: () =>
+      exec('insertHTML', '<div class="article-callout"><strong>Важно:</strong> текст подсказки</div><p><br></p>') },
+    { label: '—', title: 'Разделитель', action: () => exec('insertHorizontalRule') },
+    { label: '✕ формат', title: 'Убрать форматирование', action: () => exec('removeFormat') },
   ];
 
   return (
     <div style={{ marginTop: 20 }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-        <h4 style={{ fontSize: 13, fontWeight: 700, color: C.text, margin: 0 }}>Тело статьи (HTML)</h4>
-        {html ? (
-          <span style={s.badge(C.orange)}>Кастомный контент</span>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10, flexWrap: 'wrap' }}>
+        <h4 style={{ fontSize: 13, fontWeight: 700, color: C.text, margin: 0 }}>Текст статьи</h4>
+        {hasOverride ? (
+          <span style={s.badge(C.orange)}>Изменённая версия</span>
         ) : (
-          <span style={s.badge(C.muted)}>Исходный код сайта</span>
+          <span style={s.badge(C.muted)}>Исходный текст</span>
         )}
         <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
-          <button onClick={() => setPreview(p => !p)} style={{ ...s.btn(), padding: '4px 12px', fontSize: 12 }}>
-            {preview ? 'Код' : 'Предпросмотр'}
+          <button onClick={() => switchMode(mode === 'visual' ? 'html' : 'visual')}
+            style={{ ...s.btn(), padding: '4px 12px', fontSize: 12 }}>
+            {mode === 'visual' ? '< > HTML' : 'Обычный текст'}
           </button>
           {slug && (
             <a href={`/blog/${slug.replace('/blog/', '').replace(/\/$/, '')}/`} target="_blank"
@@ -1799,29 +1893,43 @@ function ArticleBodyEditor({ slug, title }) {
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
-        {toolbarBtns.map(({ label, action }) => (
-          <button key={label} onClick={action}
-            style={{ ...s.btn(), padding: '3px 10px', fontSize: 12, fontFamily: F.mono }}>
-            {label}
-          </button>
-        ))}
-      </div>
-
-      {preview ? (
-        <div
-          style={{
-            minHeight: 300, background: '#fff', borderRadius: 8, padding: '24px 28px',
-            border: `1px solid ${C.border}`, color: '#111',
-            fontSize: 15, lineHeight: 1.7,
-          }}
-          dangerouslySetInnerHTML={{ __html: html || '<p style="color:#999">Нет контента — статья показывает исходный текст</p>' }}
-        />
+      {loading ? (
+        <div style={{
+          minHeight: 200, display: 'flex', alignItems: 'center', justifyContent: 'center',
+          background: C.raised, borderRadius: 8, border: `1px solid ${C.border}`,
+          color: C.muted, fontSize: 13,
+        }}>
+          Загружаем текст статьи…
+        </div>
+      ) : mode === 'visual' ? (
+        <>
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
+            {visualToolbar.map(({ label, title: t, action, style }) => (
+              <button key={label} title={t}
+                onMouseDown={e => e.preventDefault()}
+                onClick={action}
+                style={{ ...s.btn(), padding: '3px 10px', fontSize: 12, ...style }}>
+                {label}
+              </button>
+            ))}
+          </div>
+          <div style={{ maxHeight: 620, overflow: 'auto', borderRadius: 8, border: `1px solid ${C.border}` }}>
+            <style>{'.bt-body-editor:empty::before{content:attr(data-placeholder);color:#a09a8e;}'}</style>
+            <article
+              ref={editorRef}
+              className="article-content bt-body-editor"
+              contentEditable
+              suppressContentEditableWarning
+              data-placeholder="Введите текст статьи..."
+              style={{ minHeight: 300, outline: 'none', boxShadow: 'none', background: '#fffaf0' }}
+            />
+          </div>
+        </>
       ) : (
         <textarea
           value={html}
           onChange={e => setHtml(e.target.value)}
-          placeholder={'<p>Введите HTML-содержимое статьи...</p>\n<h2>Раздел 1</h2>\n<p>Текст...</p>'}
+          placeholder={'<p>HTML-содержимое статьи...</p>'}
           rows={18}
           style={{
             ...s.input, resize: 'vertical', fontFamily: F.mono,
@@ -1831,19 +1939,18 @@ function ArticleBodyEditor({ slug, title }) {
       )}
 
       <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginTop: 10 }}>
-        <button onClick={handleSave} style={{ ...s.btn('primary'), padding: '8px 20px' }}>
+        <button onClick={handleSave} disabled={loading}
+          style={{ ...s.btn('primary'), padding: '8px 20px', opacity: loading ? 0.5 : 1 }}>
           <Icon d={Icons.check} size={14} color="#fff" /> Сохранить
         </button>
-        {html && (
-          <button onClick={handleClear} style={{ ...s.btn('danger'), padding: '7px 14px', fontSize: 13 }}>
+        {hasOverride && (
+          <button onClick={handleReset} style={{ ...s.btn('danger'), padding: '7px 14px', fontSize: 13 }}>
             Сбросить к оригиналу
           </button>
         )}
         <SaveBanner saved={saved} />
       </div>
-      <p style={{ fontSize: 11, color: C.muted, marginTop: 8 }}>
-        Если поле пустое — статья отображает оригинальный текст из кода сайта. Кастомный HTML полностью заменяет тело статьи.
-      </p>
+      <p style={{ fontSize: 11, color: C.muted, marginTop: 8 }}>{EDITOR_TIP}</p>
     </div>
   );
 }
@@ -2033,7 +2140,7 @@ function BlogEditor({ defaultPosts }) {
                     </div>
                   )}
                   {isBodyOpen && !post._isNew && (
-                    <ArticleBodyEditor slug={post.href} title={post.title} />
+                    <ArticleBodyEditor slug={post.href} title={post.title} isNew={false} />
                   )}
                 </>
               )}
