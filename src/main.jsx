@@ -24,11 +24,13 @@ import {
   Menu,
   Package,
   Phone,
+  Plane,
   RefreshCcw,
   Route,
   Search,
   Send,
   Settings,
+  Ship,
   ShieldCheck,
   ShoppingCart,
   Sofa,
@@ -171,14 +173,14 @@ const SEO_DATA = {
       ["Склад в Вильнюсе", `${BASE_URL}/sklad-vilnyus/`],
     ]),
   },
-  "/fury-konteynery/": {
-    title: "Перевозка полных фур и контейнеров из Европы | BelTransit",
+  "/sankcionnye-gruzy/": {
+    title: "Доставка санкционных грузов из Европы в Россию | BelTransit",
     description:
-      "Полные фуры и контейнеры из Европы в Россию. Любые грузы от 10 тонн, негабарит, специальный транспорт. Срок от 8 дней.",
+      "Выкуп и доставка санкционных грузов из Европы в Россию. Переговоры от лица европейского юрлица без российского следа, выкуп с 0% НДС, оплата в рублях, таможня под ключ.",
     jsonld: _breadcrumbs([
       ["Главная", `${BASE_URL}/`],
       ["Услуги", `${BASE_URL}/#services`],
-      ["Фуры и контейнеры", `${BASE_URL}/fury-konteynery/`],
+      ["Санкционные грузы", `${BASE_URL}/sankcionnye-gruzy/`],
     ]),
   },
   "/chto-vezem/": {
@@ -452,10 +454,10 @@ const services = [
     href: "/tamozhnoe-oformlenie/",
   },
   {
-    icon: Truck,
-    title: "Фуры и контейнеры",
-    text: "Полная фура или контейнер под ключ — для крупных партий от 10 тонн.",
-    href: "/fury-konteynery/",
+    icon: ShieldCheck,
+    title: "Санкционные грузы",
+    text: "Выкуп и доставка санкционных товаров из Европы — без российского следа, легально.",
+    href: "/sankcionnye-gruzy/",
   },
   {
     icon: Search,
@@ -478,7 +480,7 @@ const megaMenuColumns = [
     links: [
       ["Сборные грузы", "/sbornye-gruzy/"],
       ["Выкуп товаров", "/vykup-tovarov/"],
-      ["Фуры и контейнеры", "/fury-konteynery/"],
+      ["Санкционные грузы", "/sankcionnye-gruzy/"],
       ["Склад в Вильнюсе", "/sklad-vilnyus/"],
       ["Таможенное оформление", "/tamozhnoe-oformlenie/"],
       ["Поиск поставщика", "/poisk-postavshchika/"],
@@ -1223,85 +1225,105 @@ const warehouseFaq = [
   ],
 ];
 
-const fullTruckStats = [
-  ["20 тонн", "грузоподъёмность фуры"],
-  ["любая страна ЕС", "откуда везём"],
-  ["под ключ", "таможня включена"],
+const sanctionsStats = [
+  ["13 лет", "работаем с Европой"],
+  ["0% НДС", "при выкупе товара"],
+  ["под ключ", "выкуп + доставка + таможня"],
 ];
 
-const fullTruckTriggers = [
+const sanctionsTriggers = [
   {
-    icon: Package,
-    title: "Большой объём",
-    text: "У вас больше 10 тонн товара — сборный груз уже невыгоден. Полная фура дешевле на единицу веса.",
-  },
-  {
-    icon: Zap,
-    title: "Срочная доставка",
-    text: "Сборный груз ждёт пока машина заполнится. Полная фура едет сразу как только загружена.",
-  },
-  {
-    icon: Factory,
-    title: "Крупная закупка",
-    text: "Разовая большая партия товара — оборудование, сезонный товар, новая коллекция.",
-  },
-];
-
-const fullTruckCargoTypes = [
-  {
-    icon: Truck,
-    title: "Стандартная фура",
-    text: "До 20 тонн, 82 куба. Любые товары народного потребления, стройматериалы, оборудование.",
+    icon: Globe2,
+    title: "Поставщик не продаёт в РФ",
+    text: "Европейская компания отказывается работать с российским покупателем напрямую.",
   },
   {
     icon: ShieldCheck,
-    title: "Рефрижератор",
-    text: "Температурный режим от -20 до +12. Продукты питания, косметика, фармацевтика.",
+    title: "Экспорт ограничен",
+    text: "Товар нельзя вывезти в Россию напрямую из-за санкционных ограничений.",
+  },
+  {
+    icon: CreditCard,
+    title: "Платёж не проходит",
+    text: "Покупатель не может оплатить из России, а поставщик — принять оплату напрямую.",
+  },
+];
+
+const sanctionsCargoTypes = [
+  {
+    icon: Package,
+    title: "Что ввозить можно",
+    text: "Продукты, средства гигиены, текстиль, бумага, медикаменты, бытовая техника, одежда, косметика, удобрения.",
   },
   {
     icon: Wrench,
-    title: "Негабарит",
-    text: "Станки, промышленное оборудование, крупногабаритные грузы. Специальный транспорт.",
+    title: "Оборудование и станки",
+    text: "Станки, промышленные линии, оборудование для пищевой промышленности, инструменты общего назначения.",
+  },
+  {
+    icon: FileText,
+    title: "Товары двойного назначения",
+    text: "Высокотехнологичное оборудование и компоненты — прорабатываем документы и маршрут индивидуально.",
   },
 ];
 
-const fullTruckSteps = [
-  ["1", "Заявка", "говорите откуда и что"],
-  ["2", "Расчёт", "за 2 часа считаем цену"],
-  ["3", "Машина", "подаётся к поставщику"],
-  ["4", "Загрузка", "у поставщика в Европе"],
-  ["5", "Доставка", "Москва — до двери; другие города РФ — до склада в Москве"],
+const sanctionsSteps = [
+  ["1", "Переговоры", "Свяжемся с поставщиком от лица европейской компании и договоримся о выкупе без российского следа"],
+  ["2", "Выкуп", "Выкупаем товар на иностранное юрлицо с 0% НДС. Вы платите в рублях на наш счёт в российском банке"],
+  ["3", "Доставка", "Отвезём груз в любой город России — до склада временного хранения или до двери"],
 ];
 
-const fullTruckAdvantages = [
-  "Своя сеть перевозчиков в Европе — не ищем машину неделями",
-  "Таможня включена — никаких доплат на границе",
-  "Являемся таможенным оператором — льготные ставки и выпуск день в день",
-  "Страхование — груз застрахован на весь маршрут",
-  "Опыт с негабаритом — везли станки весом 100+ тонн",
-  "Принимаем груз который вы уже выкупили — только доставим и растаможим",
+const sanctionsRoutes = [
+  {
+    icon: Truck,
+    title: "Автомобильные перевозки",
+    text: "Через третьи страны — надёжный и гибкий путь для санкционных товаров.",
+  },
+  {
+    icon: Ship,
+    title: "Морские перевозки",
+    text: "Через порты Турции — для крупных партий и оборудования по конкурентной ставке.",
+  },
+  {
+    icon: Plane,
+    title: "Авиаперевозки",
+    text: "Для срочных и небольших партий, когда важно минимальное время в пути.",
+  },
 ];
 
-const fullTruckFaq = [
+const sanctionsAdvantages = [
+  "Свои юрлица в Европе — ведём переговоры от лица иностранных представительств, без российского следа",
+  "Выкуп с 0% НДС — вы платите в рублях на наш счёт в российском банке",
+  "13 лет работаем с европейскими поставщиками — знаем рынок и ограничения",
+  "Все документы и договоры на сделку передаём вам — прозрачная схема",
+  "Свой склад в Вильнюсе и таможенное оформление под ключ",
+  "Каждый груз прорабатываем индивидуально — легально и без задержек",
+];
+
+const sanctionsFaq = [
   [
-    "Сколько стоит перевезти полную фуру из Европы?",
-    "Цена зависит от страны забора, маршрута, веса, объёма, типа машины, документов и таможенного оформления. Первичный расчёт готовим за 2 часа.",
+    "Как определить, санкционный груз или нет?",
+    "Смотрим на код ТН ВЭД, страну происхождения и назначение товара. По каждой позиции проверяем ограничения на вывоз из ЕС и на ввоз в Россию и подбираем легальную схему поставки.",
   ],
   [
-    "Как быстро подадите машину к поставщику?",
-    "По стандартным направлениям обычно подбираем машину быстро. Точный срок зависит от страны, даты загрузки, типа кузова и требований к грузу.",
+    "Как вы оплачиваете европейскому поставщику?",
+    "Выкупаем товар на наше иностранное юрлицо (ЕС, ОАЭ, Сингапур) с 0% НДС. Вы платите в рублях на наш счёт в российском банке, поставщик получает оплату без российского следа.",
   ],
   [
-    "Что если поставщик в труднодоступном месте?",
-    "Проверим адрес, подъезд, ограничения по транспорту и подберём машину под точку загрузки. При необходимости согласуем отдельный забор до магистрального маршрута.",
+    "Поставщик отказывается работать с российскими компаниями — что делать?",
+    "Ведём переговоры и оформляем сделку от лица нашей европейской компании. Для поставщика покупателем выступает иностранное юрлицо — российский след в сделке исключён.",
   ],
   [
-    "Можно ли перевезти негабаритный груз?",
-    "Да. Организуем спецтранспорт, разрешения, маршрут, сопровождение, таможенное оформление и доставку до площадки получателя.",
+    "Ваши платёжные агенты связаны с Россией?",
+    "Нет. Расчёты с поставщиком идут через наши иностранные представительства, поэтому в глазах поставщика сделка полностью европейская.",
   ],
   [
-    "Как застраховать груз при перевозке?",
-    "Страхование включаем в схему перевозки по стоимости груза и маршруту. Условия фиксируем до подачи машины.",
+    "Что влияет на стоимость доставки санкционного груза?",
+    "Категория товара, страна забора, маршрут (авто, море, авиа), вес и объём, документы и таможенное оформление. Первичный расчёт готовим за 2 часа.",
+  ],
+  [
+    "Это легально?",
+    "Да. Мы анализируем каждую задачу индивидуально и выстраиваем схему так, чтобы поставка была законной и с полным пакетом документов на груз.",
   ],
 ];
 
@@ -2693,7 +2715,7 @@ function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const close = () => setIsMobileMenuOpen(false);
   const path = window.location.pathname;
-  const serviceRoutes = ["/sbornye-gruzy","/vykup-tovarov","/tamozhnoe-oformlenie","/chto-vezem","/sklad-vilnyus","/fury-konteynery","/kerhery","/zapchasti-i-shiny","/poisk-postavshchika","/kerhery-i-moyki","/shiny-i-avtozapchasti","/bytovaya-tehnika","/mebel-iz-evropy"];
+  const serviceRoutes = ["/sbornye-gruzy","/vykup-tovarov","/tamozhnoe-oformlenie","/chto-vezem","/sklad-vilnyus","/sankcionnye-gruzy","/kerhery","/zapchasti-i-shiny","/poisk-postavshchika","/kerhery-i-moyki","/shiny-i-avtozapchasti","/bytovaya-tehnika","/mebel-iz-evropy"];
   const companyRoutes = ["/o-kompanii","/kak-my-rabotaem","/kejsy","/dlya-logistov","/faq","/blog"];
   const isServicesActive = serviceRoutes.some((r) => path.startsWith(r));
   const isCompanyActive = companyRoutes.some((r) => path.startsWith(r));
@@ -4832,27 +4854,28 @@ function WarehousePage() {
   );
 }
 
-function FullTruckHero() {
+function SanctionsHero() {
   return (
     <section className="page-hero fulltruck-hero">
       <div className="page-hero-shell">
         <div className="page-hero-inner">
-          <span className="eyebrow">Полная фура · контейнеры · Европа → Россия</span>
-          <h1>Полные фуры и контейнеры из Европы в Россию — когда объём большой</h1>
+          <span className="eyebrow">Санкционные грузы · Европа → Россия</span>
+          <h1>Доставка санкционных грузов из Европы в Россию</h1>
           <p>
-            Организуем перевозку полной фуры или контейнера от поставщика в Европе до двери в
-            России. Таможня, документы, страховка — всё включено.
+            Выкупаем и доставляем товары у компаний, которые не работают с РФ. Ведём переговоры от
+            лица европейского юрлица, платим поставщику без российского следа и везём груз в Россию —
+            легально и без задержек.
           </p>
-          <a className="button button-primary" href="#fulltruck-request">
-            Рассчитать стоимость фуры <ArrowRight size={18} />
+          <a className="button button-primary" href="#sanctions-request">
+            Рассчитать доставку <ArrowRight size={18} />
           </a>
         </div>
         <div className="fulltruck-hero-board" aria-hidden="true">
           <div className="fulltruck-vehicle">
             <div className="fulltruck-trailer">
-              <span>ФУРА</span>
-              <strong>20 т</strong>
-              <small>82 куба</small>
+              <span>ГРУЗ</span>
+              <strong>0% НДС</strong>
+              <small>Европа → РФ</small>
             </div>
             <div className="fulltruck-cab" />
             <div className="fulltruck-wheel fulltruck-wheel-one" />
@@ -4865,10 +4888,10 @@ function FullTruckHero() {
   );
 }
 
-function FullTruckStats() {
+function SanctionsStats() {
   return (
-    <section className="service-stats fulltruck-stats" aria-label="Показатели перевозки фур и контейнеров">
-      {fullTruckStats.map(([value, label]) => (
+    <section className="service-stats fulltruck-stats" aria-label="Показатели доставки санкционных грузов">
+      {sanctionsStats.map(([value, label]) => (
         <div className="service-stat" key={value}>
           <strong>{value}</strong>
           <span>{label}</span>
@@ -4878,15 +4901,15 @@ function FullTruckStats() {
   );
 }
 
-function FullTruckTriggers() {
+function SanctionsTriggers() {
   return (
     <section className="section fulltruck-triggers">
       <div className="section-heading">
-        <span className="eyebrow">Порог объёма</span>
-        <h2>Когда сборный груз уже не подходит</h2>
+        <span className="eyebrow">Когда это нужно</span>
+        <h2>В каких случаях нужна альтернативная доставка</h2>
       </div>
       <div className="service-audience-grid">
-        {fullTruckTriggers.map(({ icon: Icon, title, text }) => (
+        {sanctionsTriggers.map(({ icon: Icon, title, text }) => (
           <article className="service-audience-card" key={title}>
             <Icon size={30} />
             <h3>{title}</h3>
@@ -4898,15 +4921,15 @@ function FullTruckTriggers() {
   );
 }
 
-function FullTruckCargoTypes() {
+function SanctionsCargoTypes() {
   return (
     <section className="section section-ink fulltruck-types">
       <div className="section-heading">
-        <span className="eyebrow">Тип транспорта</span>
-        <h2>Типы грузов</h2>
+        <span className="eyebrow">Виды грузов</span>
+        <h2>Какие санкционные грузы мы возим</h2>
       </div>
       <div className="service-audience-grid fulltruck-type-grid">
-        {fullTruckCargoTypes.map(({ icon: Icon, title, text }) => (
+        {sanctionsCargoTypes.map(({ icon: Icon, title, text }) => (
           <article className="service-audience-card fulltruck-type-card" key={title}>
             <Icon size={32} />
             <h3>{title}</h3>
@@ -4918,15 +4941,15 @@ function FullTruckCargoTypes() {
   );
 }
 
-function FullTruckProcess() {
+function SanctionsProcess() {
   return (
     <section className="section process-section fulltruck-process">
       <div className="section-heading">
-        <span className="eyebrow">Подача машины</span>
-        <h2>Как организуем перевозку</h2>
+        <span className="eyebrow">Возьмём на себя всё</span>
+        <h2>Как проходит сделка</h2>
       </div>
-      <div className="process-track process-track-five fulltruck-process-track">
-        {fullTruckSteps.map(([num, title, text]) => (
+      <div className="process-track process-track-three fulltruck-process-track">
+        {sanctionsSteps.map(([num, title, text]) => (
           <article className="process-step" key={num}>
             <span>{num}</span>
             <h3>{title}</h3>
@@ -4938,15 +4961,35 @@ function FullTruckProcess() {
   );
 }
 
-function FullTruckAdvantages() {
+function SanctionsRoutes() {
+  return (
+    <section className="section fulltruck-triggers">
+      <div className="section-heading">
+        <span className="eyebrow">Маршруты</span>
+        <h2>Как доставляем санкционные грузы из Европы</h2>
+      </div>
+      <div className="service-audience-grid">
+        {sanctionsRoutes.map(({ icon: Icon, title, text }) => (
+          <article className="service-audience-card" key={title}>
+            <Icon size={30} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function SanctionsAdvantages() {
   return (
     <section className="section why-section groupage-why fulltruck-advantages">
       <div className="section-heading">
-        <span className="eyebrow">Контроль рейса</span>
+        <span className="eyebrow">Почему мы</span>
         <h2>Почему через нас</h2>
       </div>
       <div className="advantage-list">
-        {fullTruckAdvantages.map((item) => (
+        {sanctionsAdvantages.map((item) => (
           <div className="advantage-item" key={item}>
             <span>
               <Check size={18} />
@@ -4959,11 +5002,11 @@ function FullTruckAdvantages() {
   );
 }
 
-function FullTruckCase() {
-  return <FeaturedCaseBlock item={deliveryCases[3]} heading="Пример перевозки полной фуры" sectionClass="fulltruck-case-section" />;
+function SanctionsCase() {
+  return <FeaturedCaseBlock item={deliveryCases[1]} heading="Пример доставки санкционного груза" sectionClass="fulltruck-case-section" />;
 }
 
-function FullTruckFaq() {
+function SanctionsFaq() {
   return (
     <section className="section faq-section fulltruck-faq">
       <div className="section-heading">
@@ -4971,7 +5014,7 @@ function FullTruckFaq() {
         <h2>Частые вопросы</h2>
       </div>
       <div className="faq-list">
-        {fullTruckFaq.map(([question, answer], index) => (
+        {sanctionsFaq.map(([question, answer], index) => (
           <details className="faq-item" key={question} open={index === 0}>
             <summary>{question}</summary>
             <p>{answer}</p>
@@ -4982,18 +5025,18 @@ function FullTruckFaq() {
   );
 }
 
-function FullTruckFinalCta() {
+function SanctionsFinalCta() {
   return (
-    <section className="section request-section fulltruck-request-section" id="fulltruck-request">
+    <section className="section request-section fulltruck-request-section" id="sanctions-request">
       <div className="request-copy">
         <span className="eyebrow">Расчёт стоимости</span>
-        <h2>Нужна фура из Европы?</h2>
-        <p>Укажите маршрут, товар, вес и объём. Мы проверим доступные машины, таможню и вернёмся со ставкой.</p>
+        <h2>Нужно доставить санкционный груз?</h2>
+        <p>Опишите товар, поставщика и маршрут. Мы проверим ограничения, схему оплаты и вернёмся с расчётом.</p>
       </div>
-      <form className="request-form" onSubmit={(e) => submitForm(e, "Фуры и контейнеры")}>
+      <form className="request-form" onSubmit={(e) => submitForm(e, "Санкционные грузы")}>
         <label>
           <span>Откуда забираем</span>
-          <input type="text" name="pickup" placeholder="Страна / город / адрес поставщика" />
+          <input type="text" name="pickup" placeholder="Страна / город / поставщик" />
         </label>
         <label>
           <span>Что везём</span>
@@ -5016,19 +5059,20 @@ function FullTruckFinalCta() {
   );
 }
 
-function FullTruckPage() {
+function SanctionsPage() {
   return (
     <>
-      <Breadcrumbs items={[{ label: "Услуги", href: "/#services" }, { label: "Полная фура" }]} />
-      <FullTruckHero />
-      <FullTruckStats />
-      <FullTruckTriggers />
-      <FullTruckCargoTypes />
-      <FullTruckProcess />
-      <FullTruckAdvantages />
-      <FullTruckCase />
-      <FullTruckFaq />
-      <FullTruckFinalCta />
+      <Breadcrumbs items={[{ label: "Услуги", href: "/#services" }, { label: "Санкционные грузы" }]} />
+      <SanctionsHero />
+      <SanctionsStats />
+      <SanctionsTriggers />
+      <SanctionsCargoTypes />
+      <SanctionsProcess />
+      <SanctionsRoutes />
+      <SanctionsAdvantages />
+      <SanctionsCase />
+      <SanctionsFaq />
+      <SanctionsFinalCta />
     </>
   );
 }
@@ -8761,7 +8805,7 @@ function Footer() {
         <a href="/vykup-tovarov/">Выкуп товаров</a>
         <a href="/tamozhnoe-oformlenie/">Таможенное оформление</a>
         <a href="/sklad-vilnyus/">Склад в Вильнюсе</a>
-        <a href="/fury-konteynery/">Фуры и контейнеры</a>
+        <a href="/sankcionnye-gruzy/">Санкционные грузы</a>
       </div>
       <div>
         <h3>Контакты</h3>
@@ -8837,7 +8881,7 @@ function App() {
   const isCasesPage = path === "/kejsy/" || path === "/kejsy";
   const isPartnersPage = path === "/dlya-logistov/" || path === "/dlya-logistov";
   const isWarehousePage = path === "/sklad-vilnyus/" || path === "/sklad-vilnyus";
-  const isFullTruckPage = path === "/fury-konteynery/" || path === "/fury-konteynery";
+  const isSanctionsPage = path === "/sankcionnye-gruzy/" || path === "/sankcionnye-gruzy";
   const isWorkPage = path === "/kak-my-rabotaem/" || path === "/kak-my-rabotaem";
   const isAboutPage = path === "/o-kompanii/" || path === "/o-kompanii";
   const isGeneralFaqPage = path === "/faq/" || path === "/faq";
@@ -8929,8 +8973,8 @@ function App() {
           <PartnersPage />
         ) : isWarehousePage ? (
           <WarehousePage />
-        ) : isFullTruckPage ? (
-          <FullTruckPage />
+        ) : isSanctionsPage ? (
+          <SanctionsPage />
         ) : isWorkPage ? (
           <WorkPage />
         ) : isAboutPage ? (

@@ -3133,6 +3133,7 @@ h1 small {
   margin-left: auto;
 }
 
+.process-track-three,
 .process-track-five,
 .process-track-six {
   grid-template-columns: 1fr;
@@ -4520,6 +4521,10 @@ h1 small {
 
   .process-track-six {
     grid-template-columns: repeat(6, 1fr);
+  }
+
+  .process-track-three {
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .process-step::after {
