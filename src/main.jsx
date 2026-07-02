@@ -2603,27 +2603,6 @@ const workContacts = [
   },
 ];
 
-const workTeam = [
-  {
-    initials: "Р",
-    name: "Роман",
-    role: "основатель",
-    text: "13 лет в логистике. Лично контролирует сложные грузы и новых клиентов.",
-  },
-  {
-    initials: "М",
-    name: "Менеджер по работе с клиентами",
-    role: "ваша точка контакта",
-    text: "Ваша точка контакта от заявки до доставки. Один человек — никакого телефона доверия.",
-  },
-  {
-    initials: "Т",
-    name: "Таможенный специалист",
-    role: "документы и ТНВЭД",
-    text: "Знает каждый код ТНВЭД. Ни одного груза не задержано по вине документов.",
-  },
-];
-
 const workTrustStats = [
   ["13 лет", "на рынке"],
   ["10 000+", "доставленных грузов"],
@@ -4044,7 +4023,7 @@ function CargoDisclaimer() {
     <section className="section cargo-disclaimer-section">
       <div className="section-heading">
         <span className="eyebrow">Важное</span>
-        <h2>Что мы везём — и что не везём</h2>
+        <h2>Что мы везём</h2>
       </div>
       <div className="cargo-disclaimer-grid">
         <article className="cargo-disclaimer-card cargo-disclaimer-yes">
@@ -4055,14 +4034,6 @@ function CargoDisclaimer() {
           <p>
             Любые легальные товары народного потребления, промышленное оборудование, стройматериалы,
             продукты питания, автозапчасти и всё что можно официально растаможить.
-          </p>
-        </article>
-        <article className="cargo-disclaimer-card cargo-disclaimer-no">
-          <span>×</span>
-          <h3>Не везём</h3>
-          <p>
-            Одежду и обувь в больших объёмах, санкционные товары, грузы вне маршрута Европа → РФ.
-            Если есть сомнения — проверим товар до расчёта.
           </p>
         </article>
       </div>
@@ -5161,31 +5132,6 @@ function WorkContacts() {
   );
 }
 
-function WorkTeam() {
-  return (
-    <section className="section work-team-section">
-      <div className="section-heading">
-        <span className="eyebrow">Команда</span>
-        <h2>Люди которые везут ваш груз</h2>
-      </div>
-      <div className="work-team-grid">
-        {workTeam.map((member) => (
-          <article className="work-team-card" key={member.name}>
-            <div className="work-team-photo" aria-label={`Фото: ${member.name}`}>
-              <span>{member.initials}</span>
-            </div>
-            <div className="work-team-copy">
-              <small>{member.role}</small>
-              <h3>{member.name}</h3>
-              <p>{member.text}</p>
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function WorkTrustStats() {
   return (
     <section className="section work-stats-section">
@@ -5354,31 +5300,6 @@ function AboutGeography() {
   );
 }
 
-function AboutTeam() {
-  return (
-    <section className="section work-team-section about-team-section">
-      <div className="section-heading">
-        <span className="eyebrow">Команда</span>
-        <h2>Люди которые везут ваш груз</h2>
-      </div>
-      <div className="work-team-grid">
-        {workTeam.map((member) => (
-          <article className="work-team-card" key={member.name}>
-            <div className="work-team-photo" aria-label={`Фото: ${member.name}`}>
-              <span>{member.initials}</span>
-            </div>
-            <div className="work-team-copy">
-              <small>{member.role}</small>
-              <h3>{member.name}</h3>
-              <p>{member.text}</p>
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function AboutValues() {
   return (
     <section className="section-ink about-values-section">
@@ -5487,7 +5408,6 @@ function AboutPage() {
       <AboutStats />
       <AboutDifferentiators />
       <AboutGeography />
-      <AboutTeam />
       <AboutValues />
       <AboutLicenses />
       <AboutCasesPreview />
@@ -5505,7 +5425,6 @@ function WorkPage() {
       <WorkSteps />
       <WorkGuarantees />
       <WorkContacts />
-      <WorkTeam />
       <WorkTrustStats />
       <WorkFinalCta />
     </>
