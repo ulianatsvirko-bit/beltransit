@@ -1503,6 +1503,187 @@ const EMPTY_POST = {
   date: '', href: '', isNew: true, draft: false,
 };
 
+const EMPTY_TEMPLATE = () => ({
+  intro: '',
+  sections: [],
+  summary: [],
+  cta: { eyebrow: '', heading: '', description: '', btnText: 'Получить консультацию' },
+});
+
+const EMPTY_SECTION = () => ({ heading: '', paragraphs: [''], callout: '', list: [] });
+
+function TemplateEditor({ value, onChange }) {
+  const tmpl = value || EMPTY_TEMPLATE();
+  const { intro = '', sections = [], summary = [], cta = {} } = tmpl;
+
+  const set = (field, v) => onChange({ ...tmpl, [field]: v });
+
+  const addSection = () => set('sections', [...sections, EMPTY_SECTION()]);
+  const removeSection = (i) => set('sections', sections.filter((_, j) => j !== i));
+  const moveUp = (i) => {
+    if (i === 0) return;
+    const arr = [...sections];
+    [arr[i - 1], arr[i]] = [arr[i], arr[i - 1]];
+    set('sections', arr);
+  };
+  const moveDown = (i) => {
+    if (i === sections.length - 1) return;
+    const arr = [...sections];
+    [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+    set('sections', arr);
+  };
+  const updateSec = (i, field, v) =>
+    set('sections', sections.map((s, j) => j === i ? { ...s, [field]: v } : s));
+
+  const setPara = (si, pi, v) =>
+    updateSec(si, 'paragraphs', (sections[si].paragraphs || []).map((p, j) => j === pi ? v : p));
+  const addPara = (si) =>
+    updateSec(si, 'paragraphs', [...(sections[si].paragraphs || ['']), '']);
+  const removePara = (si, pi) =>
+    updateSec(si, 'paragraphs', (sections[si].paragraphs || []).filter((_, j) => j !== pi));
+
+  const setListItem = (si, li, v) =>
+    updateSec(si, 'list', (sections[si].list || []).map((x, j) => j === li ? v : x));
+  const addListItem = (si) =>
+    updateSec(si, 'list', [...(sections[si].list || []), '']);
+  const removeListItem = (si, li) =>
+    updateSec(si, 'list', (sections[si].list || []).filter((_, j) => j !== li));
+
+  const setSummaryItem = (i, v) => set('summary', summary.map((x, j) => j === i ? v : x));
+  const addSummary = () => set('summary', [...summary, '']);
+  const removeSummaryItem = (i) => set('summary', summary.filter((_, j) => j !== i));
+
+  const setCta = (field, v) => set('cta', { ...cta, [field]: v });
+
+  const blockLabel = { fontSize: 11, fontWeight: 700, color: C.muted, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10, display: 'block' };
+  const row = { display: 'flex', gap: 8, marginBottom: 8 };
+
+  return (
+    <div style={{ marginTop: 20 }}>
+      <div style={{ ...s.card, marginBottom: 12 }}>
+        <span style={blockLabel}>Вступление</span>
+        <Textarea rows={3} value={intro}
+          onChange={e => set('intro', e.target.value)}
+          placeholder="Первый абзац статьи — краткое введение в тему..." />
+      </div>
+
+      <span style={{ ...blockLabel, marginTop: 16, marginBottom: 8 }}>Разделы статьи</span>
+      {sections.map((sec, si) => (
+        <div key={si} style={{ ...s.card, marginBottom: 10, borderColor: C.orange + '44' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: C.orange }}>Раздел {si + 1}</span>
+            <button onClick={() => moveUp(si)} disabled={si === 0}
+              style={{ ...s.btn(), padding: '2px 8px', fontSize: 11 }}>↑</button>
+            <button onClick={() => moveDown(si)} disabled={si === sections.length - 1}
+              style={{ ...s.btn(), padding: '2px 8px', fontSize: 11 }}>↓</button>
+            <button onClick={() => removeSection(si)}
+              style={{ ...s.btn('danger'), padding: '2px 10px', fontSize: 11, marginLeft: 'auto' }}>
+              ✕ Удалить раздел
+            </button>
+          </div>
+
+          <Field label="Заголовок раздела (H2, необязательно)">
+            <input style={s.input} value={sec.heading || ''}
+              onChange={e => updateSec(si, 'heading', e.target.value)}
+              placeholder="Как это работает на практике" />
+          </Field>
+
+          <div style={{ marginTop: 12 }}>
+            <span style={blockLabel}>Абзацы</span>
+            {(sec.paragraphs || ['']).map((para, pi) => (
+              <div key={pi} style={row}>
+                <Textarea rows={3} value={para}
+                  onChange={e => setPara(si, pi, e.target.value)}
+                  placeholder={`Текст абзаца ${pi + 1}...`}
+                  style={{ flex: 1 }} />
+                {(sec.paragraphs || []).length > 1 && (
+                  <button onClick={() => removePara(si, pi)}
+                    style={{ ...s.btn('danger'), padding: '4px 8px', alignSelf: 'flex-start' }}>✕</button>
+                )}
+              </div>
+            ))}
+            <button onClick={() => addPara(si)}
+              style={{ ...s.btn(), padding: '4px 12px', fontSize: 12 }}>+ Абзац</button>
+          </div>
+
+          <div style={{ marginTop: 12 }}>
+            <span style={blockLabel}>Список (необязательно)</span>
+            {(sec.list || []).map((item, li) => (
+              <div key={li} style={row}>
+                <input style={{ ...s.input, flex: 1 }} value={item}
+                  onChange={e => setListItem(si, li, e.target.value)}
+                  placeholder={`Пункт ${li + 1}`} />
+                <button onClick={() => removeListItem(si, li)}
+                  style={{ ...s.btn('danger'), padding: '4px 8px' }}>✕</button>
+              </div>
+            ))}
+            <button onClick={() => addListItem(si)}
+              style={{ ...s.btn(), padding: '4px 12px', fontSize: 12 }}>+ Пункт</button>
+          </div>
+
+          <div style={{ marginTop: 12 }}>
+            <Field label="Врезка / выделение (необязательно)">
+              <Textarea rows={2} value={sec.callout || ''}
+                onChange={e => updateSec(si, 'callout', e.target.value)}
+                placeholder="Важный момент, который нужно выделить..." />
+            </Field>
+          </div>
+        </div>
+      ))}
+
+      <button onClick={addSection}
+        style={{ ...s.btn('primary'), padding: '8px 18px', marginBottom: 20 }}>
+        + Добавить раздел
+      </button>
+
+      <div style={{ ...s.card, marginBottom: 12 }}>
+        <span style={blockLabel}>«Коротко о главном» — ключевые тезисы</span>
+        {summary.map((item, i) => (
+          <div key={i} style={row}>
+            <input style={{ ...s.input, flex: 1 }} value={item}
+              onChange={e => setSummaryItem(i, e.target.value)}
+              placeholder={`Тезис ${i + 1}`} />
+            <button onClick={() => removeSummaryItem(i)}
+              style={{ ...s.btn('danger'), padding: '4px 8px' }}>✕</button>
+          </div>
+        ))}
+        <button onClick={addSummary}
+          style={{ ...s.btn(), padding: '4px 12px', fontSize: 12, marginTop: 4 }}>+ Тезис</button>
+      </div>
+
+      <div style={s.card}>
+        <span style={blockLabel}>Призыв к действию (в конце статьи)</span>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+          <Field label="Надпись над заголовком">
+            <input style={s.input} value={cta.eyebrow || ''}
+              onChange={e => setCta('eyebrow', e.target.value)}
+              placeholder="Нужна помощь?" />
+          </Field>
+          <Field label="Текст кнопки">
+            <input style={s.input} value={cta.btnText || ''}
+              onChange={e => setCta('btnText', e.target.value)}
+              placeholder="Получить консультацию" />
+          </Field>
+          <div style={{ gridColumn: 'span 2' }}>
+            <Field label="Заголовок">
+              <input style={s.input} value={cta.heading || ''}
+                onChange={e => setCta('heading', e.target.value)}
+                placeholder="Рассчитаем стоимость вашей доставки" />
+            </Field>
+          </div>
+          <div style={{ gridColumn: 'span 2' }}>
+            <Field label="Описание">
+              <Textarea rows={2} value={cta.description || ''}
+                onChange={e => setCta('description', e.target.value)}
+                placeholder="Кратко о том, что получит клиент..." />
+            </Field>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function BlogPostForm({ value, onChange, onSave, onCancel, saved, isNew }) {
   const update = (f, v) => onChange({ ...value, [f]: v });
   return (
@@ -1676,6 +1857,8 @@ function BlogEditor({ defaultPosts }) {
   const [adding, setAdding] = React.useState(false);
   const [newDraft, setNewDraft] = React.useState(null);
   const [bodySlug, setBodySlug] = React.useState(null);
+  const [templateDraft, setTemplateDraft] = React.useState(null);
+  const [templateSaved, setTemplateSaved] = React.useState(false);
 
   const persistPosts = (updated) => {
     setPosts(updated);
@@ -1734,15 +1917,29 @@ function BlogEditor({ defaultPosts }) {
   const commitAdd = () => {
     if (!newDraft.title.trim()) return alert('Введите заголовок');
     if (!newDraft.href.trim()) return alert('Введите URL статьи');
-    const article = { ...newDraft, id: Date.now().toString(36) };
+    const article = { ...newDraft, id: Date.now().toString(36), template: EMPTY_TEMPLATE() };
     persistNew([...newArticles, article]);
     setAdding(false);
   };
 
-  const toggleBodyEditor = (slug) => {
-    setBodySlug(bodySlug === slug ? null : slug);
-    setEditing(null);
-    setAdding(false);
+  const toggleBodyEditor = (post) => {
+    const slug = typeof post === 'string' ? post : post.href;
+    if (bodySlug === slug) {
+      setBodySlug(null);
+      setTemplateDraft(null);
+    } else {
+      setBodySlug(slug);
+      if (post._isNew) setTemplateDraft(post.template || EMPTY_TEMPLATE());
+      setEditing(null);
+      setAdding(false);
+    }
+  };
+
+  const saveTemplate = (post) => {
+    const updated = newArticles.map(a => a.href === post.href ? { ...a, template: templateDraft } : a);
+    persistNew(updated);
+    setTemplateSaved(true);
+    setTimeout(() => setTemplateSaved(false), 2500);
   };
 
   const allPosts = [
@@ -1812,9 +2009,9 @@ function BlogEditor({ defaultPosts }) {
                       <div style={{ fontSize: 12, color: C.muted }}>{post.date} · {post.time}</div>
                     </div>
                     <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
-                      <button onClick={() => toggleBodyEditor(post.href)}
+                      <button onClick={() => toggleBodyEditor(post)}
                         style={{ ...s.btn(), padding: '5px 12px', fontSize: 12 }}>
-                        {isBodyOpen ? 'Свернуть' : 'Текст'}
+                        {isBodyOpen ? 'Свернуть' : (post._isNew ? 'Содержание' : 'Текст')}
                       </button>
                       <button onClick={() => startEdit(post._idx, post._isNew)}
                         style={{ ...s.btn(), padding: '5px 12px', fontSize: 12 }}>
@@ -1823,7 +2020,19 @@ function BlogEditor({ defaultPosts }) {
                     </div>
                   </div>
 
-                  {isBodyOpen && (
+                  {isBodyOpen && post._isNew && (
+                    <div>
+                      <TemplateEditor value={templateDraft} onChange={setTemplateDraft} />
+                      <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginTop: 12 }}>
+                        <button onClick={() => saveTemplate(post)}
+                          style={{ ...s.btn('primary'), padding: '8px 20px' }}>
+                          <Icon d={Icons.check} size={14} color="#fff" /> Сохранить
+                        </button>
+                        <SaveBanner saved={templateSaved} />
+                      </div>
+                    </div>
+                  )}
+                  {isBodyOpen && !post._isNew && (
                     <ArticleBodyEditor slug={post.href} title={post.title} />
                   )}
                 </>

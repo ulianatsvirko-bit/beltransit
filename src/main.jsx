@@ -7315,9 +7315,54 @@ function CmsArticleBody({ html }) {
   );
 }
 
+// Renders structured article data created via TemplateEditor in admin
+function ArticleTemplate({ post, onConsult }) {
+  const { intro = '', sections = [], summary = [], cta = {} } = post.template || {};
+  return (
+    <article className="article-content">
+      {intro && <p className="article-lead">{intro}</p>}
+      {sections.map((sec, i) => (
+        <React.Fragment key={i}>
+          {sec.heading && <h2>{sec.heading}</h2>}
+          {(sec.paragraphs || []).filter(Boolean).map((p, j) => <p key={j}>{p}</p>)}
+          {(sec.list || []).filter(Boolean).length > 0 && (
+            <ul>{(sec.list || []).filter(Boolean).map((item, j) => <li key={j}>{item}</li>)}</ul>
+          )}
+          {sec.callout && (
+            <ArticleCallout><strong>Важно:</strong> {sec.callout}</ArticleCallout>
+          )}
+        </React.Fragment>
+      ))}
+      {(summary || []).filter(Boolean).length > 0 && (
+        <div className="article-summary">
+          <h2>Коротко о главном</h2>
+          <ul>{summary.filter(Boolean).map((item, i) => <li key={i}>{item}</li>)}</ul>
+        </div>
+      )}
+      {cta && cta.heading && (
+        <div className="article-final-cta">
+          <div>
+            {cta.eyebrow && <span className="eyebrow">{cta.eyebrow}</span>}
+            <h2>{cta.heading}</h2>
+            {cta.description && <p>{cta.description}</p>}
+          </div>
+          <div className="article-final-cta-actions">
+            <button className="button button-primary" onClick={onConsult}>
+              {cta.btnText || 'Получить консультацию'} <ArrowRight size={18} />
+            </button>
+          </div>
+        </div>
+      )}
+    </article>
+  );
+}
+
 // Renders a fully CMS-managed article page (new articles created in admin)
 function CmsArticlePage({ post }) {
-  const body = getCmsArticleBody(post.href) || '';
+  const [quoteOpen, setQuoteOpen] = React.useState(false);
+  const tmpl = post.template || {};
+  const hasTemplate = tmpl.intro || (tmpl.sections || []).length > 0 || (tmpl.summary || []).filter(Boolean).length > 0;
+  const body = hasTemplate ? '' : (getCmsArticleBody(post.href) || '');
   return (
     <>
       <Breadcrumbs items={[{ label: "Блог", href: "/blog/" }, { label: post.title }]} />
@@ -7336,10 +7381,15 @@ function CmsArticlePage({ post }) {
         </div>
       </section>
       <section className="article-shell">
-        <article className="article-content"
-          dangerouslySetInnerHTML={{ __html: body || '<p>Содержимое статьи пока не добавлено. Откройте редактор в Контент → Блог.</p>' }}
-        />
+        {hasTemplate ? (
+          <ArticleTemplate post={post} onConsult={() => setQuoteOpen(true)} />
+        ) : (
+          <article className="article-content"
+            dangerouslySetInnerHTML={{ __html: body || '<p>Содержимое статьи пока не добавлено. Откройте редактор в Контент → Блог.</p>' }}
+          />
+        )}
       </section>
+      <QuoteRequestModal isOpen={quoteOpen} onClose={() => setQuoteOpen(false)} />
     </>
   );
 }
