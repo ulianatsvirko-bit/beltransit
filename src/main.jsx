@@ -741,11 +741,12 @@ const buyoutPainPoints = [
 ];
 
 const buyoutSteps = [
-  ["1", "Контакт", "Вы даёте контакт поставщика"],
-  ["2", "Проверка", "Мы проверяем поставщика и цену"],
-  ["3", "Оплата", "Платим поставщику от своего европейского юрлица"],
-  ["4", "Забор", "Забираем товар со склада в Европе"],
-  ["5", "Россия", "Везём в Россию + таможня + сертификация"],
+  ["1", "Реквизиты", "Вы даёте реквизиты поставщика"],
+  ["2", "Юрлицо", "Согласовываем подходящее юрлицо для оплаты поставщику"],
+  ["3", "Проверка", "Мы проверяем поставщика и цену"],
+  ["4", "Оплата", "Платим поставщику от своего европейского юрлица"],
+  ["5", "Забор", "Забираем товар со склада в Европе"],
+  ["6", "Россия", "Везём в Россию + таможня + сертификация"],
 ];
 
 const buyoutAudiences = [
@@ -2015,10 +2016,15 @@ const contactOffices = [
 ];
 
 const companyDetails = [
-  ["Полное название компании", "ООО «БелТранзит»"],
-  ["УНП / ИНН", "000000000"],
-  ["Юридический адрес", "Республика Беларусь, г. Минск, адрес компании"],
-  ["Банковские реквизиты", "Расчётный счёт, банк, SWIFT — по запросу"],
+  ["Полное наименование", "ООО «ИМПОРТ СЕРВИС»"],
+  ["ИНН / КПП", "7710912050 / 771301001"],
+  ["ОГРН", "1127746340182"],
+  ["Юридический адрес", "125412, г. Москва, Коровинское шоссе, д. 20, корп. 1, помещение 6Н"],
+  ["Генеральный директор", "Симакова Т. А."],
+  ["Банк", "Ф-л ПАО «Банк «Санкт-Петербург» в г. Москве"],
+  ["Расчётный счёт", "40702810377000006563"],
+  ["Корр. счёт", "30101810045250000142"],
+  ["БИК", "044525142"],
 ];
 
 const blogCategories = [
@@ -2657,10 +2663,12 @@ const aboutValues = [
   },
 ];
 
+// href — ссылка на файл в public/docs/ (открывается/скачивается). Без href — просто текстовая карточка.
 const aboutLicenses = [
-  "Свидетельство о регистрации компании",
-  "Лицензия таможенного представителя",
-  "Членство в ассоциации экспедиторов",
+  { title: "Карточка предприятия с реквизитами", href: "/docs/kartochka-predpriyatiya.pdf" },
+  { title: "Свидетельство о госрегистрации (ОГРН)", href: "/docs/svidetelstvo-ogrn.pdf" },
+  { title: "Свидетельство о постановке на учёт (ИНН)", href: "/docs/svidetelstvo-inn.pdf" },
+  { title: "Устав компании", href: "/docs/ustav-2022.pdf" },
 ];
 
 const aboutReviews = [
@@ -3556,9 +3564,9 @@ function BuyoutProcess() {
     <section className="section process-section buyout-process">
       <div className="section-heading">
         <span className="eyebrow">Схема сделки</span>
-        <h2>Как мы выкупаем — 5 шагов</h2>
+        <h2>Как мы выкупаем — 6 шагов</h2>
       </div>
-      <div className="process-track process-track-five">
+      <div className="process-track process-track-six">
         {buyoutSteps.map(([num, title, text]) => (
           <article className="process-step" key={num}>
             <span>{num}</span>
@@ -5322,12 +5330,23 @@ function AboutLicenses() {
         <h2>Документы и лицензии</h2>
       </div>
       <div className="about-licenses-grid">
-        {aboutLicenses.map((doc, i) => (
-          <article className="about-license-card" key={i}>
-            <FileText size={28} />
-            <span>{doc}</span>
-          </article>
-        ))}
+        {aboutLicenses.map((doc, i) => {
+          const inner = (
+            <>
+              <FileText size={28} />
+              <span>{doc.title}</span>
+              {doc.href && <em className="about-license-open">Открыть →</em>}
+            </>
+          );
+          return doc.href ? (
+            <a className="about-license-card is-link" href={doc.href}
+              target="_blank" rel="noopener noreferrer" key={i}>
+              {inner}
+            </a>
+          ) : (
+            <article className="about-license-card" key={i}>{inner}</article>
+          );
+        })}
       </div>
     </section>
   );
@@ -6812,6 +6831,10 @@ function ContactsPage() {
                 <dd>{value}</dd>
               </div>
             ))}
+            <a className="contacts-rekvizity-download" href="/docs/kartochka-predpriyatiya.pdf"
+              target="_blank" rel="noopener noreferrer">
+              <FileText size={17} /> Скачать карточку предприятия (PDF)
+            </a>
           </dl>
         </div>
       </section>
