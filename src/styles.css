@@ -6668,6 +6668,12 @@ h1 small {
     align-items: start;
   }
 
+  /* Статьи без оглавления (кастомный текст из CMS, шаблонные статьи) —
+     контент занимает всю ширину, а не узкую колонку под TOC */
+  .article-shell:not(:has(.article-toc)) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .article-toc {
     position: sticky;
     top: 6rem;
