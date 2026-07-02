@@ -1587,61 +1587,12 @@ h1 small {
   gap: 1.5rem;
 }
 
-.cargo-disclaimer-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-}
-
-.cargo-disclaimer-card {
-  position: relative;
-  min-height: 17rem;
-  padding: clamp(1.2rem, 3vw, 1.7rem);
-  overflow: hidden;
-  background: rgba(255, 250, 240, 0.78);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
-}
-
-.cargo-disclaimer-card > span {
-  display: grid;
-  width: 3.1rem;
-  height: 3.1rem;
-  place-items: center;
-  margin-bottom: 1.2rem;
-  color: var(--graphite);
-  font-size: 2.3rem;
-  font-weight: 900;
-  background: var(--green);
-}
-
-.cargo-disclaimer-card h3 {
-  margin: 0 0 0.75rem;
-  font-family: "Unbounded", sans-serif;
-  font-size: clamp(1.7rem, 4vw, 3rem);
-}
-
-.cargo-disclaimer-card p {
+.cargo-disclaimer-text {
   max-width: 42rem;
   margin: 0;
   color: rgba(17, 20, 23, 0.72);
+  font-size: 1.1rem;
   line-height: 1.7;
-}
-
-.cargo-disclaimer-no {
-  color: #fff;
-  background:
-    linear-gradient(135deg, rgba(243, 107, 33, 0.16), transparent),
-    var(--graphite);
-}
-
-.cargo-disclaimer-no > span {
-  color: #fff;
-  background: var(--orange);
-}
-
-.cargo-disclaimer-no p {
-  color: rgba(255, 255, 255, 0.68);
 }
 
 .cargo-catalog-section {
@@ -4672,10 +4623,6 @@ h1 small {
   .customs-pain-card h3,
   .customs-pain-card p {
     grid-column: auto;
-  }
-
-  .cargo-disclaimer-grid {
-    grid-template-columns: 1fr 1fr;
   }
 
   .cargo-catalog-grid {
@@ -8456,7 +8403,6 @@ h1 small {
   /* page-specific cards */
   .customs-pain-card,
   .customs-service-card,
-  .cargo-disclaimer-card,
   .cargo-catalog-card,
   .partner-benefit-card,
   .partner-testimonial,

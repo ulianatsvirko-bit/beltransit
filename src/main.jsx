@@ -4025,18 +4025,10 @@ function CargoDisclaimer() {
         <span className="eyebrow">Важное</span>
         <h2>Что мы везём</h2>
       </div>
-      <div className="cargo-disclaimer-grid">
-        <article className="cargo-disclaimer-card cargo-disclaimer-yes">
-          <span>
-            <Check size={24} />
-          </span>
-          <h3>Везём</h3>
-          <p>
-            Любые легальные товары народного потребления, промышленное оборудование, стройматериалы,
-            продукты питания, автозапчасти и всё что можно официально растаможить.
-          </p>
-        </article>
-      </div>
+      <p className="cargo-disclaimer-text">
+        Любые легальные товары народного потребления, промышленное оборудование, стройматериалы,
+        продукты питания, автозапчасти и всё что можно официально растаможить.
+      </p>
     </section>
   );
 }
