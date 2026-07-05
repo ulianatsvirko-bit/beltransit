@@ -24,13 +24,11 @@ import {
   Menu,
   Package,
   Phone,
-  Plane,
   RefreshCcw,
   Route,
   Search,
   Send,
   Settings,
-  Ship,
   ShieldCheck,
   ShoppingCart,
   Sofa,
@@ -1271,24 +1269,6 @@ const sanctionsSteps = [
   ["1", "Переговоры", "Свяжемся с поставщиком от лица европейской компании и договоримся о выкупе без российского следа"],
   ["2", "Выкуп", "Выкупаем товар на иностранное юрлицо с 0% НДС. Вы платите в рублях на наш счёт в российском банке"],
   ["3", "Доставка", "Отвезём груз в любой город России — до склада временного хранения или до двери"],
-];
-
-const sanctionsRoutes = [
-  {
-    icon: Truck,
-    title: "Автомобильные перевозки",
-    text: "Через третьи страны — надёжный и гибкий путь для санкционных товаров.",
-  },
-  {
-    icon: Ship,
-    title: "Морские перевозки",
-    text: "Через порты Турции — для крупных партий и оборудования по конкурентной ставке.",
-  },
-  {
-    icon: Plane,
-    title: "Авиаперевозки",
-    text: "Для срочных и небольших партий, когда важно минимальное время в пути.",
-  },
 ];
 
 const sanctionsAdvantages = [
@@ -4961,26 +4941,6 @@ function SanctionsProcess() {
   );
 }
 
-function SanctionsRoutes() {
-  return (
-    <section className="section fulltruck-triggers">
-      <div className="section-heading">
-        <span className="eyebrow">Маршруты</span>
-        <h2>Как доставляем санкционные грузы из Европы</h2>
-      </div>
-      <div className="service-audience-grid">
-        {sanctionsRoutes.map(({ icon: Icon, title, text }) => (
-          <article className="service-audience-card" key={title}>
-            <Icon size={30} />
-            <h3>{title}</h3>
-            <p>{text}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function SanctionsAdvantages() {
   return (
     <section className="section why-section groupage-why fulltruck-advantages">
@@ -5068,7 +5028,6 @@ function SanctionsPage() {
       <SanctionsTriggers />
       <SanctionsCargoTypes />
       <SanctionsProcess />
-      <SanctionsRoutes />
       <SanctionsAdvantages />
       <SanctionsCase />
       <SanctionsFaq />
