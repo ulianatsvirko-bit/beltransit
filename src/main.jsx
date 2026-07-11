@@ -1252,7 +1252,21 @@ const warehouseAdvantages = [
   "Фура каждую неделю — не ждёте накопления месяцами",
 ];
 
+const warehouseCountries = [
+  "Германия",
+  "Италия",
+  "Польша",
+  "Франция",
+  "Чехия",
+  "Нидерланды",
+  "Австрия",
+];
+
 const warehouseFaq = [
+  [
+    "От поставщиков из каких стран вы принимаете грузы на склад?",
+    "От поставщиков из любой страны ЕС. Чаще всего склад принимает грузы из Германии, Италии, Польши, Франции, Чехии, Нидерландов и Австрии.",
+  ],
   [
     "Сколько стоит хранение на складе в Вильнюсе?",
     "Стоимость зависит от объёма, веса, срока хранения и операций на складе: приёмка, проверка, маркировка, консолидация. Посчитаем условия после описания груза.",
@@ -1346,7 +1360,21 @@ const sanctionsCase = {
   facts: ["0% НДС", "24 дня", "Италия → РФ"],
 };
 
+const sanctionsCountries = [
+  "Германия",
+  "Италия",
+  "Польша",
+  "Франция",
+  "Чехия",
+  "Нидерланды",
+  "Австрия",
+];
+
 const sanctionsFaq = [
+  [
+    "Из каких стран Европы вы выкупаете санкционные грузы?",
+    "Из любой страны ЕС. Чаще всего это Германия, Италия, Польша, Франция, Чехия, Нидерланды и Австрия — схема выкупа одинаковая независимо от страны поставщика.",
+  ],
   [
     "Как определить, санкционный груз или нет?",
     "Смотрим на код ТН ВЭД, страну происхождения и назначение товара. По каждой позиции проверяем ограничения на вывоз из ЕС и на ввоз в Россию и подбираем легальную схему поставки.",
@@ -1570,7 +1598,13 @@ const tireAdvantages = [
   "Таможня включена — знаем коды ТНВЭД на шины и запчасти",
 ];
 
+const tireCountries = ["Германия", "Польша", "Чехия"];
+
 const tireFaq = [
+  [
+    "Из каких стран везёте шины и автозапчасти?",
+    "Чаще всего из Германии, Польши и Чехии — у официальных дистрибьюторов. При необходимости проверим наличие и у поставщиков в других странах ЕС.",
+  ],
   [
     "Какие бренды шин везёте из Европы?",
     "Везём европейские и международные бренды у официальных дистрибьюторов: премиальные, коммерческие и специализированные линейки под заказ.",
@@ -1663,7 +1697,13 @@ const applianceAdvantages = [
   "Сборный груз от 20 кг — не нужна полная фура",
 ];
 
+const applianceCountries = ["Германия", "Австрия", "Италия"];
+
 const applianceFaq = [
+  [
+    "Из каких стран везёте бытовую технику?",
+    "Чаще всего из Германии, Австрии и Италии — напрямую от производителей и официальных дистрибьюторов.",
+  ],
   [
     "Как растаможить бытовую технику из Европы?",
     "Проверяем коды ТНВЭД, стоимость партии и документы заранее. Таможенное оформление включено в схему под ключ — вы получаете товар уже растаможенным.",
@@ -1769,7 +1809,21 @@ const supplierSearchPricing = [
   },
 ];
 
+const supplierSearchCountries = [
+  "Германия",
+  "Италия",
+  "Польша",
+  "Франция",
+  "Чехия",
+  "Нидерланды",
+  "Австрия",
+];
+
 const supplierSearchFaq = [
+  [
+    "В каких странах Европы ищете поставщиков?",
+    "В любой стране ЕС. Чаще всего находим поставщиков в Германии, Италии, Польше, Франции, Чехии, Нидерландах и Австрии.",
+  ],
   [
     "Сколько стоит поиск поставщика в Европе?",
     "Стоимость зависит от товара, страны, глубины проверки и формата отчёта. Если дальше ведём выкуп и доставку, стоимость поиска можем включить в логистику.",
@@ -1866,7 +1920,13 @@ const furnitureAdvantages = [
   "Конфиденциально — ваш клиент не знает о нас, работаем под вашим брендом",
 ];
 
+const furnitureCountries = ["Италия", "Германия", "Польша"];
+
 const furnitureFaq = [
+  [
+    "Из каких стран везёте мебель?",
+    "Чаще всего из Италии, Германии и Польши — от фабрик и официальных дистрибьюторов. Можем собрать заказ от нескольких поставщиков в одну отправку.",
+  ],
   [
     "Везёте мебель от любых европейских брендов?",
     "Да. Calligaris, Natuzzi, Poliform, Häcker, BoConcept, Flexform и другие — если поставщик легально отгружает и мебель можно оформить на таможне.",
@@ -4819,6 +4879,25 @@ function WarehouseOperations() {
   );
 }
 
+function WarehouseCountries() {
+  return (
+    <section className="section cargo-section">
+      <div className="section-heading">
+        <span className="eyebrow">География</span>
+        <h2>Из каких стран Европы принимаем грузы на склад</h2>
+      </div>
+      <div className="cargo-grid">
+        {warehouseCountries.map((name) => (
+          <div className="cargo-tile" key={name}>
+            <Globe2 size={25} />
+            <span>{name}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function WarehouseProcess() {
   return (
     <section className="section process-section warehouse-process">
@@ -4950,6 +5029,7 @@ function WarehousePage() {
         <img src="/warehouse-photo-3.jpg" alt="Паллеты на складе БелТранзит" width="800" height="600" loading="lazy" />
       </div>
       <WarehouseOperations />
+      <WarehouseCountries />
       <WarehouseProcess />
       <WarehouseAudience />
       <WarehouseAdvantages />
@@ -5145,6 +5225,25 @@ function SanctionsFinalCta() {
   );
 }
 
+function SanctionsCountries() {
+  return (
+    <section className="section cargo-section">
+      <div className="section-heading">
+        <span className="eyebrow">География</span>
+        <h2>Из каких стран Европы выкупаем санкционные грузы</h2>
+      </div>
+      <div className="cargo-grid">
+        {sanctionsCountries.map((name) => (
+          <div className="cargo-tile" key={name}>
+            <Globe2 size={25} />
+            <span>{name}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function SanctionsPage() {
   return (
     <>
@@ -5152,6 +5251,7 @@ function SanctionsPage() {
       <SanctionsHero />
       <SanctionsStats />
       <SanctionsTriggers />
+      <SanctionsCountries />
       <SanctionsCargoTypes />
       <SanctionsProcess />
       <SanctionsAdvantages />
@@ -6060,6 +6160,25 @@ function TiresCargo() {
   );
 }
 
+function TiresCountries() {
+  return (
+    <section className="section cargo-section">
+      <div className="section-heading">
+        <span className="eyebrow">География</span>
+        <h2>Из каких стран везём шины и автозапчасти</h2>
+      </div>
+      <div className="cargo-grid">
+        {tireCountries.map((name) => (
+          <div className="cargo-tile" key={name}>
+            <Globe2 size={25} />
+            <span>{name}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function TiresAudience() {
   return (
     <section className="section tires-audience-section">
@@ -6207,6 +6326,7 @@ function TiresPage() {
       <TiresHero />
       <TiresStats />
       <TiresCargo />
+      <TiresCountries />
       <TiresAudience />
       <TiresReasons />
       <TiresProcess />
@@ -6279,6 +6399,25 @@ function AppliancesWhatWe() {
             <h3>{item.title}</h3>
             <p>{item.text}</p>
           </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AppliancesCountries() {
+  return (
+    <section className="section cargo-section">
+      <div className="section-heading">
+        <span className="eyebrow">География</span>
+        <h2>Из каких стран везём бытовую технику</h2>
+      </div>
+      <div className="cargo-grid">
+        {applianceCountries.map((name) => (
+          <div className="cargo-tile" key={name}>
+            <Globe2 size={25} />
+            <span>{name}</span>
+          </div>
         ))}
       </div>
     </section>
@@ -6428,6 +6567,7 @@ function AppliancesPage() {
       <AppliancesHero />
       <AppliancesStats />
       <AppliancesWhatWe />
+      <AppliancesCountries />
       <AppliancesForWho />
       <AppliancesReasons />
       <AppliancesProcess />
@@ -6499,6 +6639,25 @@ function FurnitureWhatWe() {
             <h3>{item.title}</h3>
             <p>{item.text}</p>
           </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function FurnitureCountries() {
+  return (
+    <section className="section cargo-section">
+      <div className="section-heading">
+        <span className="eyebrow">География</span>
+        <h2>Из каких стран везём мебель</h2>
+      </div>
+      <div className="cargo-grid">
+        {furnitureCountries.map((name) => (
+          <div className="cargo-tile" key={name}>
+            <Globe2 size={25} />
+            <span>{name}</span>
+          </div>
         ))}
       </div>
     </section>
@@ -6649,6 +6808,7 @@ function FurniturePage() {
       <FurnitureHero />
       <FurnitureStats />
       <FurnitureWhatWe />
+      <FurnitureCountries />
       <FurnitureForWho />
       <FurnitureReasons />
       <FurnitureProcess />
@@ -6721,6 +6881,25 @@ function SupplierSearchProblem() {
       </div>
       <div className="supplier-problem-result">
         Мы знаем европейский рынок изнутри. Найдём, проверим, договоримся.
+      </div>
+    </section>
+  );
+}
+
+function SupplierSearchCountries() {
+  return (
+    <section className="section cargo-section">
+      <div className="section-heading">
+        <span className="eyebrow">География</span>
+        <h2>В каких странах Европы ищем поставщиков</h2>
+      </div>
+      <div className="cargo-grid">
+        {supplierSearchCountries.map((name) => (
+          <div className="cargo-tile" key={name}>
+            <Globe2 size={25} />
+            <span>{name}</span>
+          </div>
+        ))}
       </div>
     </section>
   );
@@ -6948,6 +7127,7 @@ function SupplierSearchPage() {
       <SupplierSearchHero />
       <SupplierSearchStats />
       <SupplierSearchProblem />
+      <SupplierSearchCountries />
       <SupplierSearchIncluded />
       <SupplierSearchProcess />
       <SupplierSearchAudience />
