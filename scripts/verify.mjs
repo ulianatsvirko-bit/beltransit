@@ -102,6 +102,11 @@ assert.match(sitemapResponse.body, /https:\/\/www\.beltransit\.ru\/blog\/novaya-
 assert.doesNotMatch(sitemapResponse.body, /<loc>https:\/\/beltransit\.ru/);
 
 const vercel = JSON.parse(await readFile(path.join(root, "vercel.json"), "utf8"));
+assert.equal(
+  vercel.rewrites.some((rewrite) => rewrite.source === "/(.*)"),
+  false,
+  "A catch-all SPA rewrite would turn missing assets into cacheable HTML responses",
+);
 const allHeaders = vercel.headers.flatMap((rule) => rule.headers).map((header) => header.key);
 for (const required of ["X-Content-Type-Options", "Referrer-Policy", "Permissions-Policy", "Strict-Transport-Security"]) {
   assert.ok(allHeaders.includes(required), `${required} header is required`);
