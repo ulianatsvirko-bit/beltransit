@@ -702,7 +702,21 @@ const groupageAdvantages = [
   "Сертификация товаров — полный комплект документов",
 ];
 
+const groupageCountries = [
+  "Германия",
+  "Италия",
+  "Польша",
+  "Франция",
+  "Чехия",
+  "Нидерланды",
+  "Австрия",
+];
+
 const groupageFaq = [
+  [
+    "Из каких стран Европы можно заказать сборный груз?",
+    "Из любой страны ЕС. Чаще всего клиенты возят из Германии, Италии, Польши, Франции, Чехии, Нидерландов и Австрии — собираем на складе в Вильнюсе и отправляем одной фурой.",
+  ],
   [
     "Какой минимальный вес для сборного груза?",
     "Берём от 20 кг. Платите только за свою часть фуры — минимального тоннажа нет.",
@@ -3337,6 +3351,25 @@ function GroupageExplainer() {
   );
 }
 
+function GroupageCountries() {
+  return (
+    <section className="section cargo-section">
+      <div className="section-heading">
+        <span className="eyebrow">География</span>
+        <h2>Из каких стран Европы собираем сборные грузы</h2>
+      </div>
+      <div className="cargo-grid">
+        {groupageCountries.map((name) => (
+          <div className="cargo-tile" key={name}>
+            <Globe2 size={25} />
+            <span>{name}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function GroupageProcess() {
   return (
     <section className="section process-section groupage-process">
@@ -3506,6 +3539,7 @@ function GroupagePage() {
       <ServicePageHero />
       <ServiceStats />
       <GroupageExplainer />
+      <GroupageCountries />
       <GroupageProcess />
       <GroupageAudience />
       <GroupageWhy />
