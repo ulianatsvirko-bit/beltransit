@@ -271,7 +271,7 @@ const SKIP_HEADER = "x-bt-mw-skip";
 const ASSET_RE =
   /^\/(_vercel|api|assets)\//i;
 const FILE_RE =
-  /\.(js|css|json|ico|png|jpg|jpeg|webp|avif|svg|woff2?|ttf|otf|txt|xml|map)(\?.*)?$/i;
+  /\.(js|css|json|ico|png|jpg|jpeg|webp|avif|svg|woff2?|ttf|otf|txt|xml|map|pdf|doc|docx|zip)(\?.*)?$/i;
 const ADMIN_RE = /^\/admin(\/.*)?$/i;
 
 export const config = {
