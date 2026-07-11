@@ -23,6 +23,102 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* 404 — mobile-first */
+.not-found-page {
+  min-height: min(76vh, 48rem);
+  display: grid;
+  place-items: center;
+  padding: 5rem 1rem 3rem;
+  background: var(--paper);
+}
+
+.admin-loading {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  color: #e6edf3;
+  background: #0f1115;
+  font: 600 1rem/1.5 "Manrope", sans-serif;
+}
+
+.dynamic-article-shell {
+  width: min(100% - 2rem, 54rem);
+  min-height: 60vh;
+  margin: 0 auto;
+  padding: 7rem 0 4rem;
+}
+
+.dynamic-article-shell h1 {
+  max-width: 20ch;
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 7vw, 4rem);
+  line-height: 1.1;
+}
+
+.dynamic-article-shell > p:last-child {
+  max-width: 65ch;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.not-found-card {
+  width: 100%;
+  max-width: 48rem;
+  padding: 2rem 1.25rem;
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--white);
+  box-shadow: 0 1.5rem 4rem rgba(23, 31, 43, 0.08);
+}
+
+.not-found-code {
+  display: block;
+  color: var(--orange);
+  font-size: clamp(4.5rem, 22vw, 8rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+}
+
+.not-found-card h1 {
+  max-width: 18ch;
+  margin: 0.75rem auto 1rem;
+  font-size: clamp(1.75rem, 7vw, 3rem);
+  line-height: 1.12;
+}
+
+.not-found-card > p:not(.eyebrow) {
+  max-width: 60ch;
+  margin: 0 auto;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.not-found-actions {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.not-found-actions .button {
+  width: 100%;
+  min-height: 44px;
+}
+
+@media (min-width: 768px) {
+  .not-found-page { padding: 7rem 2rem 5rem; }
+  .not-found-card { padding: 3.5rem; }
+  .not-found-actions {
+    display: flex;
+    justify-content: center;
+  }
+  .not-found-actions .button { width: auto; }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -381,6 +477,11 @@ textarea {
   pointer-events: auto;
 }
 
+.mobile-nav-overlay[hidden],
+.mobile-nav-panel[hidden] {
+  display: none;
+}
+
 .mobile-nav-panel {
   position: fixed;
   top: 0;
@@ -415,8 +516,8 @@ textarea {
 
 .mobile-nav-close {
   display: grid;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   place-items: center;
   color: rgba(255, 255, 255, 0.65);
   background: rgba(255, 255, 255, 0.08);
@@ -979,7 +1080,7 @@ h1 small {
 .page-route-card {
   position: relative;
   min-height: 17rem;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .page-route-card .route-map {
@@ -4027,6 +4128,15 @@ h1 small {
   color: var(--steel);
 }
 
+.cargo-section-note {
+  width: fit-content;
+  max-width: 40rem;
+  margin: 1.25rem auto 0;
+  color: var(--muted);
+  text-align: center;
+  font-size: 0.95rem;
+}
+
 .case-number {
   color: var(--orange);
   font-family: "Unbounded", sans-serif;
@@ -4707,6 +4817,10 @@ h1 small {
   .page-hero-shell {
     grid-template-columns: minmax(0, 1.05fr) minmax(21rem, 0.72fr);
     align-items: center;
+  }
+
+  .page-route-card {
+    overflow: visible;
   }
 
   .cases-masonry {
@@ -7921,6 +8035,15 @@ h1 small {
    ══════════════════════════════════════════════════════════════════════════════ */
 @media (max-width: 767px) {
 
+  .page-route-card .route-map {
+    inset: 0;
+  }
+
+  .page-route-card .route-map svg {
+    right: 0;
+    width: 100%;
+  }
+
   /* ── 0. Hero — full viewport height minus header, photo background ─────── */
   .hero {
     background:
@@ -7931,7 +8054,7 @@ h1 small {
         rgba(14, 17, 20, 0.88) 75%,
         rgba(14, 17, 20, 0.97) 100%
       ),
-      url('/hero-truck.jpg') center 30% / cover no-repeat;
+      url('/hero-truck.webp') center 30% / cover no-repeat;
     min-height: calc(100svh - 4.75rem);
   }
 

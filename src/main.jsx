@@ -13,7 +13,6 @@ import {
   Copy,
   Container,
   CreditCard,
-  Download,
   Factory,
   FileText,
   Globe2,
@@ -40,10 +39,16 @@ import {
   X,
   Zap,
 } from "lucide-react";
-import logoMark from "./assets/beltransit-logo-orange.png";
+import logoMark from "./assets/beltransit-logo-orange.webp";
 import "./styles.css";
-import { AdminPanel, saveLead } from "./admin.jsx";
-import { getCmsCases, getCmsFaq, getCmsBlogPosts, getCmsArticleBody, getCmsNewArticles } from "./cms.js";
+import { saveLead } from "./leads.js";
+import { getCmsCases, getCmsFaq, getCmsBlogPosts, getCmsArticleBody, getCmsNewArticles, hydrateCmsStorage } from "./cms.js";
+import { INDEXABLE_ROUTES, SITE_URL as BASE_URL } from "../lib/site-routes.js";
+
+const AdminPanel = React.lazy(() =>
+  import("./admin.jsx").then((module) => ({ default: module.AdminPanel })),
+);
+const INDEXABLE_PATHS = new Set(INDEXABLE_ROUTES.map(([path]) => path));
 
 // ── Shared form submission utility ────────────────────────────────────────────
 // Collects FormData, POSTs to /api/contact, saves lead to localStorage,
@@ -68,373 +73,7 @@ async function submitForm(e, source, callback) {
 }
 // ──────────────────────────────────────────────────────────────────────────────
 
-// ── SEO: per-page meta + JSON-LD ───────────────────────────────────────────────
-const BASE_URL = "https://beltransit.ru";
-
-const _ORG = {
-  "@type": "Organization",
-  "@id": `${BASE_URL}/#org`,
-  name: "BelTransit",
-  url: `${BASE_URL}/`,
-  telephone: "+79265471894",
-  email: "beltransit2012@gmail.com",
-  logo: { "@type": "ImageObject", url: `${BASE_URL}/og-image.png` },
-};
-
-function _breadcrumbs(items) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: items.map(([name, url], i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      name,
-      item: url,
-    })),
-  };
-}
-
-function _article(title, desc, url, date) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: title,
-    description: desc,
-    url,
-    datePublished: date,
-    publisher: { "@type": "Organization", name: "BelTransit", url: `${BASE_URL}/` },
-  };
-}
-
-const SEO_DATA = {
-  "/": {
-    title: "Доставка и выкуп грузов из Европы в Россию — BelTransit",
-    description:
-      "Сборные грузы от 20 кг, выкуп у европейских поставщиков, таможня, склад в Вильнюсе. Работаем с 2013 года. Срок от 11 дней. Рассчитаем стоимость за 2 часа.",
-    jsonld: {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "LocalBusiness",
-          "@id": `${BASE_URL}/#business`,
-          name: "BelTransit",
-          description: "Доставка, выкуп и таможенное оформление грузов из Европы",
-          url: `${BASE_URL}/`,
-          telephone: "+79265471894",
-          email: "beltransit2012@gmail.com",
-          address: { "@type": "PostalAddress", addressLocality: "Вильнюс", addressCountry: "LT" },
-          foundingDate: "2013",
-          sameAs: ["https://t.me/beltransit"],
-          logo: { "@type": "ImageObject", url: `${BASE_URL}/og-image.png` },
-        },
-        { "@type": "WebSite", "@id": `${BASE_URL}/#website`, url: `${BASE_URL}/`, name: "BelTransit" },
-      ],
-    },
-  },
-  "/sbornye-gruzy/": {
-    title: "Сборные грузы из Европы — доставка в Россию | BelTransit",
-    description:
-      "Сборные грузы из Европы в Россию от 20 кг. Консолидация на складе в Вильнюсе, фура раз в неделю. Срок 11–14 дней. Рассчитаем за 2 часа.",
-    jsonld: _breadcrumbs([
-      ["Главная", `${BASE_URL}/`],
-      ["Услуги", `${BASE_URL}/#services`],
-      ["Сборные грузы", `${BASE_URL}/sbornye-gruzy/`],
-    ]),
-  },
-  "/vykup-tovarov/": {
-    title: "Выкуп товаров в Европе для российских компаний | BelTransit",
-    description:
-      "Выкупаем товары у европейских поставщиков от имени литовской компании. Решаем проблему платежей после 2022. Доставка в Россию за 12–16 дней.",
-    jsonld: _breadcrumbs([
-      ["Главная", `${BASE_URL}/`],
-      ["Услуги", `${BASE_URL}/#services`],
-      ["Выкуп товаров", `${BASE_URL}/vykup-tovarov/`],
-    ]),
-  },
-  "/tamozhnoe-oformlenie/": {
-    title: "Таможенное оформление грузов из Европы под ключ | BelTransit",
-    description:
-      "Таможенное оформление грузов из Европы: расчёт платежей, декларация, выпуск за 2–3 дня. Работаем с любыми ТН ВЭД кодами.",
-    jsonld: _breadcrumbs([
-      ["Главная", `${BASE_URL}/`],
-      ["Услуги", `${BASE_URL}/#services`],
-      ["Таможенное оформление", `${BASE_URL}/tamozhnoe-oformlenie/`],
-    ]),
-  },
-  "/sklad-vilnyus/": {
-    title: "Склад в Вильнюсе — консолидация грузов из Европы | BelTransit",
-    description:
-      "Склад в Вильнюсе для консолидации грузов из Европы. Принимаем от любых поставщиков, проверяем, маркируем. Фура в Россию раз в неделю.",
-    jsonld: _breadcrumbs([
-      ["Главная", `${BASE_URL}/`],
-      ["Услуги", `${BASE_URL}/#services`],
-      ["Склад в Вильнюсе", `${BASE_URL}/sklad-vilnyus/`],
-    ]),
-  },
-  "/stoimost-dostavki/": {
-    title: "Стоимость доставки груза из Европы в Россию — расчёт | BelTransit",
-    description:
-      "Из чего складывается стоимость доставки груза из Европы: вес, тип отправки, таможня, страна поставщика. Расчёт за 2 часа, без предоплаты.",
-    jsonld: _breadcrumbs([
-      ["Главная", `${BASE_URL}/`],
-      ["Услуги", `${BASE_URL}/#services`],
-      ["Стоимость доставки", `${BASE_URL}/stoimost-dostavki/`],
-    ]),
-  },
-  "/sankcionnye-gruzy/": {
-    title: "Доставка санкционных грузов из Европы в Россию | BelTransit",
-    description:
-      "Выкуп и доставка санкционных грузов из Европы в Россию. Переговоры от лица европейского юрлица без российского следа, выкуп с 0% НДС, оплата в рублях, таможня под ключ.",
-    jsonld: _breadcrumbs([
-      ["Главная", `${BASE_URL}/`],
-      ["Услуги", `${BASE_URL}/#services`],
-      ["Санкционные грузы", `${BASE_URL}/sankcionnye-gruzy/`],
-    ]),
-  },
-  "/chto-vezem/": {
-    title: "Какие грузы можно заказать из Европы — каталог категорий | BelTransit",
-    description:
-      "Везём автозапчасти, технику, шины, инструменты, стройматериалы и другие товары из Европы. Узнайте условия на вашу категорию.",
-    jsonld: _breadcrumbs([
-      ["Главная", `${BASE_URL}/`],
-      ["Что мы везём", `${BASE_URL}/chto-vezem/`],
-    ]),
-  },
-  "/kerhery-i-moyki/": {
-    title: "Кёрхеры и моющее оборудование из Германии | BelTransit",
-    description:
-      "Доставка Kärcher и профессионального моющего оборудования из Германии. Выкуп у дилера, доставка в Россию за 11–14 дней. Экономия до 30%.",
-    jsonld: _breadcrumbs([
-      ["Главная", `${BASE_URL}/`],
-      ["Что мы везём", `${BASE_URL}/chto-vezem/`],
-      ["Кёрхеры", `${BASE_URL}/kerhery-i-moyki/`],
-    ]),
-  },
-  "/shiny-i-avtozapchasti/": {
-    title: "Шины и автозапчасти из Европы — выкуп и доставка | BelTransit",
-    description:
-      "Выкуп и доставка шин, автозапчастей из Германии, Польши, Чехии в Россию. Экономия до 25% от российских цен. Срок 10–14 дней.",
-    jsonld: _breadcrumbs([
-      ["Главная", `${BASE_URL}/`],
-      ["Что мы везём", `${BASE_URL}/chto-vezem/`],
-      ["Шины и автозапчасти", `${BASE_URL}/shiny-i-avtozapchasti/`],
-    ]),
-  },
-  "/bytovaya-tehnika/": {
-    title: "Бытовая техника из Европы — выкуп у поставщика | BelTransit",
-    description:
-      "Бытовая техника из Германии, Австрии, Италии напрямую от производителей. Выкуп от имени литовской компании, доставка в Россию за 12–15 дней.",
-    jsonld: _breadcrumbs([
-      ["Главная", `${BASE_URL}/`],
-      ["Что мы везём", `${BASE_URL}/chto-vezem/`],
-      ["Бытовая техника", `${BASE_URL}/bytovaya-tehnika/`],
-    ]),
-  },
-  "/mebel-iz-evropy/": {
-    title: "Мебель из Европы — доставка из Италии, Германии, Польши | BelTransit",
-    description:
-      "Доставка мебели из Италии, Германии, Польши в Россию. Консолидация на складе в Вильнюсе, несколько поставщиков — одна отправка.",
-    jsonld: _breadcrumbs([
-      ["Главная", `${BASE_URL}/`],
-      ["Что мы везём", `${BASE_URL}/chto-vezem/`],
-      ["Мебель из Европы", `${BASE_URL}/mebel-iz-evropy/`],
-    ]),
-  },
-  "/poisk-postavshchika/": {
-    title: "Поиск поставщика в Европе — находим за 5–7 дней | BelTransit",
-    description:
-      "Найдём европейского производителя за 5–7 дней. Проверяем производителей, запрашиваем прайсы, организуем первую поставку.",
-    jsonld: _breadcrumbs([
-      ["Главная", `${BASE_URL}/`],
-      ["Услуги", `${BASE_URL}/#services`],
-      ["Поиск поставщика", `${BASE_URL}/poisk-postavshchika/`],
-    ]),
-  },
-  "/dlya-logistov/": {
-    title: "Субподряд для логистов и экспедиторов | BelTransit",
-    description:
-      "Субподряд для российских логистических компаний: склад в Вильнюсе, таможенное оформление, плечо Европа–Россия. Работаем B2B.",
-    jsonld: _breadcrumbs([
-      ["Главная", `${BASE_URL}/`],
-      ["Для логистов", `${BASE_URL}/dlya-logistov/`],
-    ]),
-  },
-  "/kak-my-rabotaem/": {
-    title: "Как работает доставка из Европы — процесс | BelTransit",
-    description:
-      "Подробно о процессе доставки: от заявки до получения груза. 4 шага, прозрачное ценообразование, один менеджер на всём маршруте.",
-    jsonld: _breadcrumbs([
-      ["Главная", `${BASE_URL}/`],
-      ["Как мы работаем", `${BASE_URL}/kak-my-rabotaem/`],
-    ]),
-  },
-  "/o-kompanii/": {
-    title: "О компании — BelTransit с 2013 года | BelTransit",
-    description:
-      "БелТранзит — логистическая компания с 2013 года. Склад в Вильнюсе, офисы в России и Литве. Более 10 000 доставленных грузов.",
-    jsonld: _breadcrumbs([
-      ["Главная", `${BASE_URL}/`],
-      ["О компании", `${BASE_URL}/o-kompanii/`],
-    ]),
-  },
-  "/kejsy/": {
-    title: "Кейсы доставок из Европы — реальные истории | BelTransit",
-    description:
-      "Реальные примеры доставок из Европы: автозапчасти, оборудование, велосипеды, стройматериалы. Результаты, сроки, сэкономленные деньги.",
-    jsonld: _breadcrumbs([
-      ["Главная", `${BASE_URL}/`],
-      ["Кейсы", `${BASE_URL}/kejsy/`],
-    ]),
-  },
-  "/faq/": {
-    title: "Частые вопросы о доставке грузов из Европы | BelTransit",
-    description:
-      "Ответы на вопросы о доставке грузов из Европы: сроки, стоимость, таможня, выкуп, минимальные объёмы. Свяжитесь если не нашли ответ.",
-    jsonld: _breadcrumbs([
-      ["Главная", `${BASE_URL}/`],
-      ["FAQ", `${BASE_URL}/faq/`],
-    ]),
-  },
-  "/kontakty/": {
-    title: "Контакты BelTransit — телефон, Telegram, email",
-    description:
-      "Контакты BelTransit: +7 926 547-18-94, Telegram, beltransit2012@gmail.com. Офис в Вильнюсе. Работаем 6 дней в неделю.",
-    jsonld: _breadcrumbs([
-      ["Главная", `${BASE_URL}/`],
-      ["Контакты", `${BASE_URL}/kontakty/`],
-    ]),
-  },
-  "/blog/": {
-    title: "Блог о доставке грузов из Европы | BelTransit",
-    description:
-      "Статьи о логистике, таможне, маршрутах и поставщиках. Практические гиды для тех, кто везёт товар из Европы в Россию.",
-    jsonld: _breadcrumbs([
-      ["Главная", `${BASE_URL}/`],
-      ["Блог", `${BASE_URL}/blog/`],
-    ]),
-  },
-  "/blog/kak-rasschitat-tamozhennye-platezhi/": {
-    title: "Как рассчитать таможенные платежи в 2025 году | BelTransit",
-    description:
-      "Пошаговый расчёт: ввозная пошлина, НДС, таможенные сборы. Примеры для разных категорий товаров. Актуально в 2025 году.",
-    jsonld: _article(
-      "Как рассчитать таможенные платежи в 2025 году",
-      "Пошаговый расчёт таможенных платежей: пошлина, НДС, сборы. Примеры для разных товаров.",
-      `${BASE_URL}/blog/kak-rasschitat-tamozhennye-platezhi/`,
-      "2025-01-15",
-    ),
-  },
-  "/blog/marshrut-cherez-belarus/": {
-    title: "Маршрут через Беларусь для доставки из Европы | BelTransit",
-    description:
-      "Маршрут Европа–Беларусь–Россия: особенности, документы, стоимость. Сравнение с маршрутом через страны Балтии.",
-    jsonld: _article(
-      "Маршрут через Беларусь для доставки из Европы",
-      "Особенности, документы и стоимость маршрута через Беларусь.",
-      `${BASE_URL}/blog/marshrut-cherez-belarus/`,
-      "2025-02-10",
-    ),
-  },
-  "/blog/oplata-postavshchika-iz-rossii/": {
-    title: "Как оплатить европейского поставщика из России в 2025 | BelTransit",
-    description:
-      "Рабочие способы оплаты европейским поставщикам из России в 2025: через Литву, Армению, SWIFT, платёжные агенты.",
-    jsonld: _article(
-      "Как оплатить европейского поставщика из России в 2025",
-      "Рабочие способы оплаты поставщикам из Европы.",
-      `${BASE_URL}/blog/oplata-postavshchika-iz-rossii/`,
-      "2025-03-05",
-    ),
-  },
-  "/blog/sbornyy-gruz-ili-polnaya-fura/": {
-    title: "Сборный груз или полная фура — что выбрать | BelTransit",
-    description:
-      "Сравниваем сборные грузы и полные фуры: цена, сроки, минимальный объём, риски. Как выбрать тип перевозки.",
-    jsonld: _article(
-      "Сборный груз или полная фура — что выбрать",
-      "Сравнение LTL и FTL: цена, сроки, риски.",
-      `${BASE_URL}/blog/sbornyy-gruz-ili-polnaya-fura/`,
-      "2025-03-20",
-    ),
-  },
-  "/blog/pervyy-import-iz-evropy/": {
-    title: "Первый импорт из Европы — пошаговое руководство | BelTransit",
-    description:
-      "Как организовать первую поставку из Европы в Россию: поиск поставщика, оплата, таможня, документы. Пошаговый гид.",
-    jsonld: _article(
-      "Первый импорт из Европы — пошаговое руководство",
-      "Пошаговый гид по организации первой поставки из Европы.",
-      `${BASE_URL}/blog/pervyy-import-iz-evropy/`,
-      "2025-04-01",
-    ),
-  },
-  "/blog/tnved-kody/": {
-    title: "ТН ВЭД коды — что это и как найти нужный | BelTransit",
-    description:
-      "Что такое ТН ВЭД коды, зачем нужны при импорте, как найти правильный код для товара. Примеры и советы.",
-    jsonld: _article(
-      "ТН ВЭД коды — что это и как найти нужный",
-      "Объяснение ТН ВЭД кодов и советы по классификации товаров.",
-      `${BASE_URL}/blog/tnved-kody/`,
-      "2025-04-15",
-    ),
-  },
-};
-
-// ── useSEO: динамически обновляет head при смене страницы ─────────────────────
-function useSEO(path) {
-  React.useEffect(() => {
-    const normalised = path.endsWith("/") ? path : path + "/";
-    const data = SEO_DATA[normalised] || SEO_DATA["/"];
-    const canonical = `${BASE_URL}${normalised}`;
-
-    // Title
-    document.title = data.title;
-
-    // Helper: get-or-create head element
-    const meta = (sel, attrs) => {
-      let el = document.querySelector(sel);
-      if (!el) {
-        el = document.createElement("meta");
-        Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
-        document.head.appendChild(el);
-      }
-      return el;
-    };
-
-    // Description
-    meta('meta[name="description"]', { name: "description" }).setAttribute(
-      "content", data.description,
-    );
-
-    // Canonical
-    let link = document.querySelector('link[rel="canonical"]');
-    if (!link) {
-      link = document.createElement("link");
-      link.rel = "canonical";
-      document.head.appendChild(link);
-    }
-    link.href = canonical;
-
-    // Open Graph
-    const og = (prop, val) =>
-      meta(`meta[property="${prop}"]`, { property: prop }).setAttribute("content", val);
-    og("og:title", data.title);
-    og("og:description", data.description);
-    og("og:url", canonical);
-
-    // JSON-LD
-    let jsonLdEl = document.getElementById("seo-jsonld");
-    if (!jsonLdEl) {
-      jsonLdEl = document.createElement("script");
-      jsonLdEl.type = "application/ld+json";
-      jsonLdEl.id = "seo-jsonld";
-      document.head.appendChild(jsonLdEl);
-    }
-    jsonLdEl.textContent = JSON.stringify(data.jsonld || {});
-  }, [path]);
-}
-// ──────────────────────────────────────────────────────────────────────────────
+// SEO metadata and JSON-LD are injected into prerendered HTML by middleware.
 
 const services = [
   {
@@ -2820,7 +2459,7 @@ const aboutReviews = [
 function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const close = () => setIsMobileMenuOpen(false);
-  const path = window.location.pathname;
+  const path = typeof window === "undefined" ? "/" : window.location.pathname;
   const serviceRoutes = ["/sbornye-gruzy","/vykup-tovarov","/tamozhnoe-oformlenie","/chto-vezem","/sklad-vilnyus","/sankcionnye-gruzy","/kerhery","/zapchasti-i-shiny","/poisk-postavshchika","/kerhery-i-moyki","/shiny-i-avtozapchasti","/bytovaya-tehnika","/mebel-iz-evropy"];
   const companyRoutes = ["/o-kompanii","/kak-my-rabotaem","/kejsy","/dlya-logistov","/faq","/blog"];
   const isServicesActive = serviceRoutes.some((r) => path.startsWith(r));
@@ -2903,9 +2542,10 @@ function Header() {
         className={`mobile-nav-overlay${isMobileMenuOpen ? " is-open" : ""}`}
         onClick={close}
         aria-hidden="true"
+        hidden={!isMobileMenuOpen}
       />
 
-      <div className={`mobile-nav-panel${isMobileMenuOpen ? " is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Меню">
+      <div className={`mobile-nav-panel${isMobileMenuOpen ? " is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Меню" hidden={!isMobileMenuOpen}>
         <div className="mobile-nav-panel-header">
           <a className="brand" href="/" onClick={close}>
             <span className="brand-mark"><img src={logoMark} alt="" /></span>
@@ -3454,6 +3094,7 @@ function GroupageCountries() {
           </div>
         ))}
       </div>
+      <p className="cargo-section-note">Не нашли свою страну? Работаем со всеми странами ЕС — напишите, разберёмся.</p>
     </section>
   );
 }
@@ -3722,6 +3363,7 @@ function BuyoutCountries() {
           </div>
         ))}
       </div>
+      <p className="cargo-section-note">Не нашли свою страну? Работаем со всеми странами ЕС — напишите, разберёмся.</p>
     </section>
   );
 }
@@ -4090,6 +3732,7 @@ function CustomsCountries() {
           </div>
         ))}
       </div>
+      <p className="cargo-section-note">Не нашли свою страну? Работаем со всеми странами ЕС — напишите, разберёмся.</p>
     </section>
   );
 }
@@ -4894,6 +4537,7 @@ function WarehouseCountries() {
           </div>
         ))}
       </div>
+      <p className="cargo-section-note">Не нашли свою страну? Работаем со всеми странами ЕС — напишите, разберёмся.</p>
     </section>
   );
 }
@@ -5240,6 +4884,7 @@ function SanctionsCountries() {
           </div>
         ))}
       </div>
+      <p className="cargo-section-note">Не нашли свою страну? Работаем со всеми странами ЕС — напишите, разберёмся.</p>
     </section>
   );
 }
@@ -5895,11 +5540,11 @@ function WashersHero() {
         </div>
         <div className="washers-hero-visual">
           <img
-            src="/karcher.png"
+            src="/karcher.webp"
             alt="Кёрхер — моющее оборудование из Европы"
             className="washers-hero-img"
-            width="560"
-            height="560"
+            width="640"
+            height="362"
             loading="eager"
             fetchPriority="high"
           />
@@ -6114,7 +5759,7 @@ function TiresHero() {
           </a>
         </div>
         <div className="tires-hero-visual" aria-hidden="true">
-          <img src="/tires.png" alt="" className="tires-hero-img" />
+          <img src="/tires.webp" alt="" className="tires-hero-img" width="746" height="746" loading="eager" fetchPriority="high" />
         </div>
       </div>
     </section>
@@ -6175,6 +5820,7 @@ function TiresCountries() {
           </div>
         ))}
       </div>
+      <p className="cargo-section-note">Не нашли свою страну? Работаем со всеми странами ЕС — напишите, разберёмся.</p>
     </section>
   );
 }
@@ -6358,11 +6004,11 @@ function AppliancesHero() {
         </div>
         <div className="appliances-hero-visual">
           <img
-            src="/appliances.png"
+            src="/appliances.webp"
             alt="Бытовая техника из Европы"
             className="appliances-hero-img"
-            width="560"
-            height="560"
+            width="577"
+            height="433"
             loading="eager"
             fetchPriority="high"
           />
@@ -6420,6 +6066,7 @@ function AppliancesCountries() {
           </div>
         ))}
       </div>
+      <p className="cargo-section-note">Не нашли свою страну? Работаем со всеми странами ЕС — напишите, разберёмся.</p>
     </section>
   );
 }
@@ -6660,6 +6307,7 @@ function FurnitureCountries() {
           </div>
         ))}
       </div>
+      <p className="cargo-section-note">Не нашли свою страну? Работаем со всеми странами ЕС — напишите, разберёмся.</p>
     </section>
   );
 }
@@ -6901,6 +6549,7 @@ function SupplierSearchCountries() {
           </div>
         ))}
       </div>
+      <p className="cargo-section-note">Не нашли свою страну? Работаем со всеми странами ЕС — напишите, разберёмся.</p>
     </section>
   );
 }
@@ -7725,6 +7374,23 @@ function ThankYouPage() {
   );
 }
 
+function NotFoundPage() {
+  return (
+    <section className="not-found-page" aria-labelledby="not-found-title">
+      <div className="not-found-card">
+        <span className="not-found-code" aria-hidden="true">404</span>
+        <p className="eyebrow">Страница не найдена</p>
+        <h1 id="not-found-title">Похоже, этот маршрут больше не используется</h1>
+        <p>Проверьте адрес или вернитесь на главную — там есть все услуги и способы связаться с нами.</p>
+        <div className="not-found-actions">
+          <a className="button button-primary" href="/">На главную <ArrowRight size={17} /></a>
+          <a className="button button-secondary" href="/kontakty/">Связаться</a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ArticleShare() {
   const [copied, setCopied] = React.useState(false);
   const handleCopy = () => {
@@ -7732,7 +7398,8 @@ function ArticleShare() {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
-  const tgUrl = `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}`;
+  const currentUrl = typeof window === "undefined" ? `${BASE_URL}/blog/` : window.location.href;
+  const tgUrl = `https://t.me/share/url?url=${encodeURIComponent(currentUrl)}`;
   return (
     <div className="article-share">
       <span>Поделиться:</span>
@@ -9309,7 +8976,7 @@ function Footer() {
   );
 }
 
-function App() {
+export function App({ initialPath }) {
   useScrollReveal();
 
   // Sync CMS from server so all visitors see admin-saved content
@@ -9319,28 +8986,19 @@ function App() {
       .then(r => r.ok ? r.json() : {})
       .then(data => {
         if (!data || !Object.keys(data).length) return;
-        const { cases, faq, contacts, blogPosts: bp, newArticles, articleBodies } = data;
-        let changed = false;
-        if (cases)       { localStorage.setItem('bt_cms_cases',       JSON.stringify(cases));       changed = true; }
-        if (faq)         { localStorage.setItem('bt_cms_faq',         JSON.stringify(faq));         changed = true; }
-        if (contacts)    { localStorage.setItem('bt_cms_contacts',    JSON.stringify(contacts));    changed = true; }
-        if (bp)          { localStorage.setItem('bt_cms_blog_posts',  JSON.stringify(bp));          changed = true; }
-        if (newArticles) { localStorage.setItem('bt_cms_new_articles',JSON.stringify(newArticles)); changed = true; }
-        if (articleBodies) {
-          Object.entries(articleBodies).forEach(([slug, html]) => {
-            if (html) localStorage.setItem(`bt_cms_body_${slug}`, html);
-          });
-          if (Object.keys(articleBodies).length) changed = true;
-        }
-        if (changed) cmsForceUpdate();
+        if (hydrateCmsStorage(data)) cmsForceUpdate();
       })
       .catch(() => {});
   }, []);
 
-  const path = window.location.pathname;
+  const path = initialPath || (typeof window !== "undefined" ? window.location.pathname : "/");
 
   if (path === "/admin/" || path === "/admin") {
-    return <AdminPanel defaultCases={deliveryCases} defaultFaq={generalFaqCategories.map(({ title, questions }) => ({ title, questions }))} defaultPosts={blogPosts} />;
+    return (
+      <React.Suspense fallback={<div className="admin-loading" role="status">Загружаем панель…</div>}>
+        <AdminPanel defaultCases={deliveryCases} defaultFaq={generalFaqCategories.map(({ title, questions }) => ({ title, questions }))} defaultPosts={blogPosts} />
+      </React.Suspense>
+    );
   }
 
   const isGroupagePage = path === "/sbornye-gruzy/" || path === "/sbornye-gruzy";
@@ -9384,7 +9042,8 @@ function App() {
     path === "/shiny-i-avtozapchasti";
   const isThankYouPage = path === "/spasibo/" || path === "/spasibo";
   const isFurniturePage = path === "/mebel-iz-evropy/" || path === "/mebel-iz-evropy";
-  useSEO(path);
+  const normalisedPath = path.endsWith('/') ? path : `${path}/`;
+  const isNotFoundPage = !INDEXABLE_PATHS.has(normalisedPath) && normalisedPath !== '/spasibo/';
 
   // Scroll to hash anchor after SPA navigation (e.g. /#services from breadcrumbs)
   React.useEffect(() => {
@@ -9484,6 +9143,8 @@ function App() {
           <FurniturePage />
         ) : isCmsNewArticlePage ? (
           <CmsArticlePage post={cmsNewArticleMatch} />
+        ) : isNotFoundPage ? (
+          <NotFoundPage />
         ) : (
           <HomePage />
         )}
@@ -9504,4 +9165,6 @@ function App() {
   );
 }
 
-createRoot(document.getElementById("root")).render(<App />);
+if (typeof document !== "undefined") {
+  createRoot(document.getElementById("root")).render(<App />);
+}
