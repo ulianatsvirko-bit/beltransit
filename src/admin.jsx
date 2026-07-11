@@ -6,95 +6,58 @@ import {
   getCmsBlogPosts, saveCmsBlogPosts, resetCmsBlogPosts,
   getCmsArticleBody, saveCmsArticleBody,
   getCmsNewArticles, saveCmsNewArticles,
+  hydrateCmsStorage,
 } from './cms.js';
 
 // ── Storage helpers ────────────────────────────────────────────────────────────
 const KEYS = {
-  password: 'bt_admin_password',
-  session:  'bt_admin_session',
   leads:    'bt_leads',
 };
-const DEFAULT_PASSWORD = 'Beltransit2024!';
 
-function getPassword() {
-  return localStorage.getItem(KEYS.password) || DEFAULT_PASSWORD;
+async function login(password) {
+  const response = await fetch('/api/admin-auth', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password }),
+  });
+  return response.ok;
 }
 
-function isAuthenticated() {
-  try {
-    const s = JSON.parse(sessionStorage.getItem(KEYS.session) || '{}');
-    return s.expires > Date.now();
-  } catch { return false; }
-}
-
-function login(password) {
-  if (password !== getPassword()) return false;
-  sessionStorage.setItem(KEYS.session, JSON.stringify({
-    expires: Date.now() + 8 * 60 * 60 * 1000,
-  }));
-  return true;
-}
-
-function logout() {
-  sessionStorage.removeItem(KEYS.session);
+async function logout() {
+  await fetch('/api/admin-auth', { method: 'DELETE' }).catch(() => {});
 }
 
 // ── API helpers ────────────────────────────────────────────────────────────────
 
-export async function saveLead(data) {
+async function apiGetLeads() {
   try {
-    await fetch('/api/leads', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-  } catch (_) {}
-}
-
-async function apiGetLeads(password) {
-  try {
-    const r = await fetch('/api/leads', { headers: { 'x-admin-password': password } });
+    const r = await fetch('/api/leads');
     return r.ok ? (await r.json()) : [];
   } catch { return []; }
 }
 
-async function apiSaveLeads(leads, password) {
+async function apiSaveLeads(leads) {
   try {
     await fetch('/api/leads', {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(leads),
     });
   } catch (_) {}
 }
 
-async function apiClearLeads(password) {
+async function apiClearLeads() {
   try {
-    await fetch('/api/leads', { method: 'DELETE', headers: { 'x-admin-password': password } });
+    await fetch('/api/leads', { method: 'DELETE' });
   } catch (_) {}
 }
 
 function apiSaveCmsSection(section, data, key) {
-  const password = getPassword();
   fetch('/api/cms', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ section, data, key }),
   }).catch(() => {});
-}
-
-function hydrateCmsLocalStorage(data) {
-  if (!data) return;
-  if (data.cases)       saveCmsCases(data.cases);
-  if (data.faq)         saveCmsFaq(data.faq);
-  if (data.contacts)    saveCmsContacts(data.contacts);
-  if (data.blogPosts)   saveCmsBlogPosts(data.blogPosts);
-  if (data.newArticles) saveCmsNewArticles(data.newArticles);
-  if (data.articleBodies) {
-    Object.entries(data.articleBodies).forEach(([slug, html]) => {
-      saveCmsArticleBody(slug, html || '');
-    });
-  }
 }
 
 // ── Design tokens (inline — fully isolated from site CSS) ─────────────────────
@@ -432,18 +395,21 @@ function AdminLogin({ onLogin }) {
   const [error, setError] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(false);
-    setTimeout(() => {
-      if (login(password)) {
+    try {
+      if (await login(password)) {
         onLogin();
       } else {
         setError(true);
         setLoading(false);
       }
-    }, 400);
+    } catch {
+      setError(true);
+      setLoading(false);
+    }
   };
 
   return (
@@ -736,7 +702,7 @@ function DashboardPage({ leads }) {
 }
 
 // ── Leads page ─────────────────────────────────────────────────────────────────
-function LeadsPage({ leads, setLeads, password }) {
+function LeadsPage({ leads, setLeads }) {
   const [search, setSearch] = React.useState('');
   const [statusFilter, setStatusFilter] = React.useState('all');
   const [selectedLead, setSelectedLead] = React.useState(null);
@@ -744,7 +710,7 @@ function LeadsPage({ leads, setLeads, password }) {
 
   const refresh = async () => {
     setLoading(true);
-    const fresh = await apiGetLeads(password);
+    const fresh = await apiGetLeads();
     setLeads(fresh);
     setLoading(false);
   };
@@ -765,7 +731,7 @@ function LeadsPage({ leads, setLeads, password }) {
     const updated = leads.map(l => l.id === id ? { ...l, status } : l);
     setLeads(updated);
     if (selectedLead?.id === id) setSelectedLead({ ...selectedLead, status });
-    await apiSaveLeads(updated, password);
+    await apiSaveLeads(updated);
   };
 
   const deleteLead = async (id) => {
@@ -773,13 +739,13 @@ function LeadsPage({ leads, setLeads, password }) {
     const updated = leads.filter(l => l.id !== id);
     setLeads(updated);
     setSelectedLead(null);
-    await apiSaveLeads(updated, password);
+    await apiSaveLeads(updated);
   };
 
   const deleteAll = async () => {
     if (!confirm('Удалить все заявки? Это действие необратимо.')) return;
     setLeads([]);
-    await apiClearLeads(password);
+    await apiClearLeads();
   };
 
   return (
@@ -897,28 +863,6 @@ function LeadsPage({ leads, setLeads, password }) {
 
 // ── Settings page ──────────────────────────────────────────────────────────────
 function SettingsPage() {
-  const [oldPass, setOldPass] = React.useState('');
-  const [newPass, setNewPass] = React.useState('');
-  const [confirmPass, setConfirmPass] = React.useState('');
-  const [passMsg, setPassMsg] = React.useState(null);
-
-  const changePassword = (e) => {
-    e.preventDefault();
-    setPassMsg(null);
-    if (oldPass !== getPassword()) {
-      return setPassMsg({ type: 'error', text: 'Неверный текущий пароль.' });
-    }
-    if (newPass.length < 8) {
-      return setPassMsg({ type: 'error', text: 'Новый пароль должен содержать не менее 8 символов.' });
-    }
-    if (newPass !== confirmPass) {
-      return setPassMsg({ type: 'error', text: 'Пароли не совпадают.' });
-    }
-    localStorage.setItem(KEYS.password, newPass);
-    setPassMsg({ type: 'success', text: 'Пароль успешно изменён!' });
-    setOldPass(''); setNewPass(''); setConfirmPass('');
-  };
-
   const exportCSV = () => {
     const leads = getLeads();
     if (!leads.length) return alert('Нет заявок для экспорта.');
@@ -948,52 +892,16 @@ function SettingsPage() {
     <>
       <div style={s.header}>
         <h1 style={s.pageTitle}>Настройки</h1>
-        <p style={s.pageDesc}>Управление паролем и данными</p>
+        <p style={s.pageDesc}>Управление данными</p>
       </div>
       <div style={s.main}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, alignItems: 'start' }}>
-          <div style={s.card}>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: C.text, margin: '0 0 18px' }}>
-              Изменить пароль
-            </h3>
-            <form onSubmit={changePassword}>
-              <div style={s.formGroup}>
-                <label style={s.label}>Текущий пароль</label>
-                <input type="password" value={oldPass}
-                  onChange={e => setOldPass(e.target.value)} style={s.input} />
-              </div>
-              <div style={s.formGroup}>
-                <label style={s.label}>Новый пароль</label>
-                <input type="password" value={newPass}
-                  onChange={e => setNewPass(e.target.value)} style={s.input}
-                  placeholder="Не менее 8 символов" />
-              </div>
-              <div style={s.formGroup}>
-                <label style={s.label}>Повторите пароль</label>
-                <input type="password" value={confirmPass}
-                  onChange={e => setConfirmPass(e.target.value)} style={s.input} />
-              </div>
-              {passMsg && (
-                <p style={{
-                  fontSize: 12, marginBottom: 12,
-                  color: passMsg.type === 'error' ? C.red : C.green,
-                }}>
-                  {passMsg.text}
-                </p>
-              )}
-              <button type="submit" style={{ ...s.btn('primary'), padding: '8px 18px' }}>
-                Сохранить пароль
-              </button>
-            </form>
-          </div>
-
+        <div style={{ width: '100%', maxWidth: 720 }}>
           <div style={s.card}>
             <h3 style={{ fontSize: 14, fontWeight: 700, color: C.text, margin: '0 0 8px' }}>
               Данные и экспорт
             </h3>
             <p style={{ fontSize: 13, color: C.muted, marginBottom: 20, lineHeight: 1.6 }}>
-              Заявки хранятся в браузере (localStorage). Экспортируйте их в CSV, чтобы
-              перенести в Excel или CRM.
+              Заявки хранятся на сервере. Экспортируйте их в CSV для Excel или CRM.
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -1011,9 +919,9 @@ function SettingsPage() {
               background: C.raised, borderRadius: 8, padding: '12px 14px',
               fontSize: 12, color: C.muted, lineHeight: 1.7,
             }}>
-              <div><strong style={{ color: C.text }}>Пароль по умолчанию:</strong> <code style={{ fontFamily: F.mono }}>Beltransit2024!</code></div>
-              <div style={{ marginTop: 4 }}><strong style={{ color: C.text }}>Хранилище:</strong> localStorage (только этот браузер)</div>
+              <div><strong style={{ color: C.text }}>Авторизация:</strong> защищённая серверная сессия</div>
               <div style={{ marginTop: 4 }}><strong style={{ color: C.text }}>Сессия:</strong> 8 часов</div>
+              <div style={{ marginTop: 4 }}>Пароль меняется через переменную <code style={{ fontFamily: F.mono }}>ADMIN_PASSWORD</code> в Vercel.</div>
             </div>
           </div>
         </div>
@@ -1500,7 +1408,8 @@ const BLOG_CATEGORIES = ['Таможня', 'Маршруты', 'Платежи �
 
 const EMPTY_POST = {
   category: 'Другое', title: '', text: '', time: '5 минут чтения',
-  date: '', href: '', isNew: true, draft: false,
+  date: '', datePublished: '', dateModified: '', author: 'BelTransit',
+  image: '/og-image.png', href: '', isNew: true, draft: false,
 };
 
 const EMPTY_TEMPLATE = () => ({
@@ -1714,6 +1623,18 @@ function BlogPostForm({ value, onChange, onSave, onCancel, saved, isNew }) {
       <Field label="Дата публикации">
         <input style={s.input} value={value.date}
           onChange={e => update('date', e.target.value)} placeholder="14 мая 2026" />
+      </Field>
+      <Field label="Дата для SEO">
+        <input type="date" style={s.input} value={value.datePublished || ''}
+          onChange={e => update('datePublished', e.target.value)} />
+      </Field>
+      <Field label="Автор">
+        <input style={s.input} value={value.author || ''}
+          onChange={e => update('author', e.target.value)} placeholder="BelTransit" />
+      </Field>
+      <Field label="OG-изображение">
+        <input style={s.input} value={value.image || ''}
+          onChange={e => update('image', e.target.value)} placeholder="/og-image.png" />
       </Field>
       <Field label={isNew ? 'URL-slug (напр. moya-statya)' : 'URL статьи'}>
         {isNew ? (
@@ -1992,11 +1913,17 @@ function BlogEditor({ defaultPosts }) {
   };
 
   const commitEdit = () => {
+    if (editing.isNew && !editDraft.draft && !editDraft.datePublished) {
+      return alert('Укажите SEO-дату публикации');
+    }
+    const nextDraft = editing.isNew
+      ? { ...editDraft, dateModified: new Date().toISOString().slice(0, 10) }
+      : editDraft;
     if (editing.isNew) {
-      const updated = newArticles.map((p, i) => i === editing.idx ? editDraft : p);
+      const updated = newArticles.map((p, i) => i === editing.idx ? nextDraft : p);
       persistNew(updated);
     } else {
-      const updated = posts.map((p, i) => i === editing.idx ? editDraft : p);
+      const updated = posts.map((p, i) => i === editing.idx ? nextDraft : p);
       persistPosts(updated);
     }
     setEditSaved(true);
@@ -2015,8 +1942,14 @@ function BlogEditor({ defaultPosts }) {
   };
 
   const startAdd = () => {
+    const today = new Date().toISOString().slice(0, 10);
     setAdding(true);
-    setNewDraft({ ...EMPTY_POST, date: new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }) });
+    setNewDraft({
+      ...EMPTY_POST,
+      date: new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }),
+      datePublished: today,
+      dateModified: today,
+    });
     setEditing(null);
     setBodySlug(null);
   };
@@ -2024,6 +1957,7 @@ function BlogEditor({ defaultPosts }) {
   const commitAdd = () => {
     if (!newDraft.title.trim()) return alert('Введите заголовок');
     if (!newDraft.href.trim()) return alert('Введите URL статьи');
+    if (!newDraft.draft && !newDraft.datePublished) return alert('Укажите SEO-дату публикации');
     const article = { ...newDraft, id: Date.now().toString(36), template: EMPTY_TEMPLATE() };
     persistNew([...newArticles, article]);
     setAdding(false);
@@ -2192,29 +2126,36 @@ function ContentPage({ defaultCases, defaultFaq, defaultPosts }) {
 
 // ── Main admin app ─────────────────────────────────────────────────────────────
 export function AdminPanel({ defaultCases = [], defaultFaq = [], defaultPosts = [] }) {
-  const [authed, setAuthed] = React.useState(isAuthenticated);
+  const [authed, setAuthed] = React.useState(null);
   const [page, setPage] = React.useState('dashboard');
   const [leads, setLeads] = React.useState([]);
   const [cmsKey, setCmsKey] = React.useState(0);
 
+  React.useEffect(() => {
+    fetch('/api/admin-auth')
+      .then(response => setAuthed(response.ok))
+      .catch(() => setAuthed(false));
+  }, []);
+
   // On login: load leads from API + hydrate CMS from API into localStorage
   React.useEffect(() => {
     if (!authed) return;
-    const pw = getPassword();
-    apiGetLeads(pw).then(data => setLeads(data || []));
+    apiGetLeads().then(data => setLeads(data || []));
     fetch('/api/cms')
       .then(r => r.ok ? r.json() : {})
       .then(data => {
-        hydrateCmsLocalStorage(data);
+        hydrateCmsStorage(data);
         setCmsKey(k => k + 1); // re-mount content editors with fresh data
       })
       .catch(() => {});
   }, [authed]);
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     setAuthed(false);
   };
+
+  if (authed === null) return <div className="admin-loading" role="status">Проверяем сессию…</div>;
 
   if (!authed) {
     return <AdminLogin onLogin={() => setAuthed(true)} />;
@@ -2261,7 +2202,7 @@ export function AdminPanel({ defaultCases = [], defaultFaq = [], defaultPosts = 
 
       <div style={s.content}>
         {page === 'dashboard' && <DashboardPage leads={leads} />}
-        {page === 'leads'     && <LeadsPage leads={leads} setLeads={setLeads} password={getPassword()} />}
+        {page === 'leads'     && <LeadsPage leads={leads} setLeads={setLeads} />}
         {page === 'content'   && <ContentPage key={cmsKey} defaultCases={defaultCases} defaultFaq={defaultFaq} defaultPosts={defaultPosts} />}
         {page === 'settings'  && <SettingsPage />}
       </div>

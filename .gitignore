@@ -1,7 +1,11 @@
 node_modules/
 dist/
+dist-ssr/
 .claude/
 .DS_Store
 *.log
+.env*
+!.env.example
 beltransit-*.png
 !src/assets/beltransit-logo-orange.png
+.vercel

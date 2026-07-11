@@ -9,13 +9,14 @@
  * index.html, injects the correct title/description/canonical/OG tags
  * for that specific URL, and returns the modified HTML — before any JS runs.
  *
- * Client-side useSEO() hook still runs in the browser for runtime updates.
+ * Static routes are prerendered; this layer keeps route metadata fresh at the edge.
  */
 
-const BASE_URL = "https://beltransit.ru";
+import { SITE_URL as BASE_URL } from "./lib/site-routes.js";
+import { ROUTE_FAQS } from "./lib/generated-faq-data.js";
 
-// Per-page SEO data — keep in sync with SEO_DATA in src/main.jsx
-const SEO = {
+// Per-page SEO data is server-owned; the client no longer duplicates this map.
+export const SEO = {
   "/": {
     title: "Доставка и выкуп грузов из Европы в Россию — BelTransit",
     description:
@@ -117,9 +118,9 @@ const SEO = {
       "Статьи о логистике, таможне, маршрутах и поставщиках. Практические гиды для тех, кто везёт товар из Европы в Россию.",
   },
   "/blog/kak-rasschitat-tamozhennye-platezhi/": {
-    title: "Как рассчитать таможенные платежи в 2025 году | BelTransit",
+    title: "Как рассчитать таможенные платежи в 2026 году | BelTransit",
     description:
-      "Пошаговый расчёт: ввозная пошлина, НДС, таможенные сборы. Примеры для разных категорий товаров. Актуально в 2025 году.",
+      "Пошаговый расчёт: ввозная пошлина, НДС, таможенные сборы. Примеры для разных категорий товаров. Актуально в 2026 году.",
   },
   "/blog/marshrut-cherez-belarus/": {
     title: "Маршрут через Беларусь для доставки из Европы | BelTransit",
@@ -127,9 +128,9 @@ const SEO = {
       "Маршрут Европа–Беларусь–Россия: особенности, документы, стоимость. Сравнение с маршрутом через страны Балтии.",
   },
   "/blog/oplata-postavshchika-iz-rossii/": {
-    title: "Как оплатить европейского поставщика из России в 2025 | BelTransit",
+    title: "Как оплатить европейского поставщика из России в 2026 | BelTransit",
     description:
-      "Рабочие способы оплаты европейским поставщикам из России в 2025: через Литву, Армению, SWIFT, платёжные агенты.",
+      "Рабочие способы оплаты европейским поставщикам из России в 2026: через Литву, Армению, SWIFT, платёжные агенты.",
   },
   "/blog/sbornyy-gruz-ili-polnaya-fura/": {
     title: "Сборный груз или полная фура — что выбрать | BelTransit",
@@ -151,6 +152,126 @@ const SEO = {
     description: "Ваша заявка принята. Менеджер свяжется с вами в течение 2 часов.",
   },
 };
+
+const SERVICE_PATHS = new Set([
+  "/sbornye-gruzy/", "/vykup-tovarov/", "/tamozhnoe-oformlenie/",
+  "/sklad-vilnyus/", "/stoimost-dostavki/", "/sankcionnye-gruzy/",
+  "/poisk-postavshchika/", "/dlya-logistov/",
+]);
+
+const ARTICLE_DATES = {
+  "/blog/kak-rasschitat-tamozhennye-platezhi/": "2026-05-14",
+  "/blog/marshrut-cherez-belarus/": "2026-04-02",
+  "/blog/oplata-postavshchika-iz-rossii/": "2026-03-18",
+  "/blog/sbornyy-gruz-ili-polnaya-fura/": "2026-02-27",
+  "/blog/pervyy-import-iz-evropy/": "2026-02-05",
+  "/blog/tnved-kody/": "2026-01-22",
+};
+
+const PAGE_LABELS = {
+  "/sbornye-gruzy/": "Сборные грузы",
+  "/vykup-tovarov/": "Выкуп товаров",
+  "/tamozhnoe-oformlenie/": "Таможенное оформление",
+  "/sklad-vilnyus/": "Склад в Вильнюсе",
+  "/stoimost-dostavki/": "Стоимость доставки",
+  "/sankcionnye-gruzy/": "Санкционные грузы",
+  "/chto-vezem/": "Что мы везём",
+  "/poisk-postavshchika/": "Поиск поставщика",
+  "/dlya-logistov/": "Для логистов",
+  "/kak-my-rabotaem/": "Как мы работаем",
+  "/o-kompanii/": "О компании",
+  "/kejsy/": "Кейсы",
+  "/faq/": "FAQ",
+  "/kontakty/": "Контакты",
+  "/blog/": "Блог",
+};
+
+function organisationSchema() {
+  return {
+    "@type": "LocalBusiness",
+    "@id": `${BASE_URL}/#business`,
+    name: "BelTransit",
+    url: `${BASE_URL}/`,
+    logo: `${BASE_URL}/og-image.png`,
+    image: `${BASE_URL}/og-image.png`,
+    telephone: "+79265471894",
+    email: "beltransit2012@gmail.com",
+    foundingDate: "2013",
+    address: { "@type": "PostalAddress", addressLocality: "Вильнюс", addressCountry: "LT" },
+    sameAs: ["https://t.me/beltransit"],
+  };
+}
+
+export function buildJsonLd(path, data, cms) {
+  const graph = [organisationSchema()];
+  const canonical = `${BASE_URL}${path}`;
+
+  if (path === "/") {
+    graph.push({ "@type": "WebSite", "@id": `${BASE_URL}/#website`, url: `${BASE_URL}/`, name: "BelTransit" });
+  } else {
+    graph.push({
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Главная", item: `${BASE_URL}/` },
+        ...(path.startsWith("/blog/") && path !== "/blog/"
+          ? [{ "@type": "ListItem", position: 2, name: "Блог", item: `${BASE_URL}/blog/` }]
+          : []),
+        {
+          "@type": "ListItem",
+          position: path.startsWith("/blog/") && path !== "/blog/" ? 3 : 2,
+          name: PAGE_LABELS[path] || data.title.replace(/\s*[|—].*$/, ""),
+          item: canonical,
+        },
+      ],
+    });
+  }
+
+  if (SERVICE_PATHS.has(path)) {
+    graph.push({
+      "@type": "Service",
+      "@id": `${canonical}#service`,
+      name: data.title.replace(/\s*[|—].*$/, ""),
+      description: data.description,
+      url: canonical,
+      provider: { "@id": `${BASE_URL}/#business` },
+      areaServed: ["RU", "LT", "EU"],
+    });
+  }
+
+  if (path.startsWith("/blog/") && path !== "/blog/") {
+    graph.push({
+      "@type": "BlogPosting",
+      "@id": `${canonical}#article`,
+      headline: data.title.replace(/\s*[|—].*$/, ""),
+      description: data.description,
+      url: canonical,
+      mainEntityOfPage: canonical,
+      image: data.image?.startsWith("http") ? data.image : `${BASE_URL}${data.image || "/og-image.png"}`,
+      datePublished: data.datePublished || ARTICLE_DATES[path],
+      dateModified: data.dateModified || data.datePublished || ARTICLE_DATES[path],
+      author: { "@type": "Organization", name: data.author || "BelTransit" },
+      publisher: { "@id": `${BASE_URL}/#business` },
+    });
+  }
+
+  const questions = path === "/faq/" && Array.isArray(cms?.faq)
+    ? cms.faq.flatMap((category) => category.questions || [])
+    : ROUTE_FAQS[path];
+  if (Array.isArray(questions)) {
+    if (questions.length) {
+      graph.push({
+        "@type": "FAQPage",
+        mainEntity: questions.map(([question, answer]) => ({
+          "@type": "Question",
+          name: question,
+          acceptedAnswer: { "@type": "Answer", text: answer },
+        })),
+      });
+    }
+  }
+
+  return { "@context": "https://schema.org", "@graph": graph };
+}
 
 // Header used to skip middleware on internal index.html fetch (prevents loops)
 const SKIP_HEADER = "x-bt-mw-skip";
@@ -178,13 +299,57 @@ export default async function middleware(request) {
 
   // Normalise trailing slash
   const path = rawPath.endsWith("/") ? rawPath : rawPath + "/";
-  const data = SEO[path] || SEO["/"];
-  const canonical = `${BASE_URL}${path}`;
+  if (rawPath !== path) {
+    const redirectUrl = new URL(request.url);
+    redirectUrl.pathname = path;
+    return Response.redirect(redirectUrl, 308);
+  }
+
+  let cms = null;
+  if (path === "/faq/" || (!SEO[path] && path.startsWith("/blog/"))) {
+    try {
+      const cmsResponse = await fetch(new URL("/api/cms", url.origin));
+      if (cmsResponse.ok) cms = await cmsResponse.json();
+    } catch {
+      // The static routes still work when CMS is temporarily unavailable.
+    }
+  }
+
+  const isStaticRoute = Boolean(SEO[path]);
+  let isDynamicCmsRoute = false;
+  let data = SEO[path];
+  if (!data && path.startsWith("/blog/") && cms) {
+    const post = [...(cms.blogPosts || []), ...(cms.newArticles || [])]
+      .find((item) => !item.draft && `${item.href || ""}`.replace(/\/?$/, "/") === path);
+    if (post) {
+      isDynamicCmsRoute = true;
+      data = {
+        title: `${post.title} | BelTransit`,
+        description: post.text || post.description || "Практическая статья о логистике и импорте из Европы.",
+        datePublished: post.datePublished || post.date,
+        dateModified: post.dateModified || post.datePublished || post.date,
+        author: post.author,
+        image: post.image,
+      };
+    }
+  }
+
+  const isKnownRoute = Boolean(data);
+  data = data || {
+        title: "Страница не найдена — BelTransit",
+        description: "Такой страницы нет. Вернитесь на главную или выберите нужную услугу.",
+      };
+  const canonical = isKnownRoute ? `${BASE_URL}${path}` : null;
 
   // Fetch the static index.html — skip header prevents re-entry
   let res;
   try {
-    res = await fetch(new URL("/index.html", url.origin), {
+    const htmlPath = isDynamicCmsRoute
+      ? "/shell.html"
+      : isStaticRoute
+        ? (path === "/" ? "/index.html" : `${path}index.html`)
+        : "/404.html";
+    res = await fetch(new URL(htmlPath, url.origin), {
       headers: { [SKIP_HEADER]: "1" },
     });
   } catch {
@@ -205,6 +370,13 @@ export default async function middleware(request) {
   const t = esc(data.title);
   const d = esc(data.description);
 
+  if (isDynamicCmsRoute) {
+    html = html.replace(
+      '<div id="root"></div>',
+      `<div id="root"><main><article class="dynamic-article-shell"><p class="eyebrow">Блог BelTransit</p><h1>${t}</h1><p>${d}</p></article></main></div>`,
+    );
+  }
+
   // ── title ────────────────────────────────────────────────────────────────
   html = html.replace(/<title>[^<]*<\/title>/, `<title>${t}</title>`);
 
@@ -215,7 +387,9 @@ export default async function middleware(request) {
   );
 
   // ── canonical ─────────────────────────────────────────────────────────────
-  if (/<link\s[^>]*rel="canonical"/i.test(html)) {
+  if (!isKnownRoute) {
+    html = html.replace(/\s*<link\s[^>]*rel="canonical"[^>]*>/i, "");
+  } else if (/<link\s[^>]*rel="canonical"/i.test(html)) {
     html = html.replace(
       /<link\s[^>]*rel="canonical"[^>]*>/i,
       `<link rel="canonical" href="${canonical}">`,
@@ -235,8 +409,23 @@ export default async function middleware(request) {
   );
   html = html.replace(
     /<meta\s+property="og:url"[^>]*>/i,
-    `<meta property="og:url" content="${canonical}">`,
+    `<meta property="og:url" content="${canonical || `${BASE_URL}/`}">`,
   );
+  html = html.replace(
+    /<meta\s+property="og:type"[^>]*>/i,
+    `<meta property="og:type" content="${path.startsWith("/blog/") && path !== "/blog/" ? "article" : "website"}">`,
+  );
+  if (data.image) {
+    const socialImage = data.image.startsWith("http") ? data.image : `${BASE_URL}${data.image}`;
+    html = html.replace(
+      /<meta\s+property="og:image"[^>]*>/i,
+      `<meta property="og:image" content="${esc(socialImage)}">`,
+    );
+    html = html.replace(
+      /<meta\s+name="twitter:image"[^>]*>/i,
+      `<meta name="twitter:image" content="${esc(socialImage)}">`,
+    );
+  }
 
   // ── Twitter / X ───────────────────────────────────────────────────────────
   html = html.replace(
@@ -248,12 +437,22 @@ export default async function middleware(request) {
     `<meta name="twitter:description" content="${d}">`,
   );
 
+  if (isKnownRoute && path !== "/spasibo/") {
+    const jsonLd = JSON.stringify(buildJsonLd(path, data, cms)).replace(/</g, "\\u003c");
+    const jsonLdTag = `<script id="seo-jsonld" type="application/ld+json">${jsonLd}</script>`;
+    if (/<script\s+id="seo-jsonld"[^>]*>[\s\S]*?<\/script>/i.test(html)) {
+      html = html.replace(/<script\s+id="seo-jsonld"[^>]*>[\s\S]*?<\/script>/i, jsonLdTag);
+    } else {
+      html = html.replace("</head>", `  ${jsonLdTag}\n</head>`);
+    }
+  }
+
   return new Response(html, {
-    status: 200,
+    status: isKnownRoute ? 200 : 404,
     headers: {
       "content-type": "text/html; charset=utf-8",
       "cache-control": "public, max-age=0, must-revalidate",
-      "x-robots-tag": path === "/spasibo/" ? "noindex, follow" : "index, follow",
+      "x-robots-tag": !isKnownRoute || path === "/spasibo/" ? "noindex, follow" : "index, follow",
     },
   });
 }

@@ -19,6 +19,67 @@ function write(key, val) {
   try { localStorage.setItem(key, JSON.stringify(val)); } catch (_) {}
 }
 
+function hasOwn(object, key) {
+  return Object.prototype.hasOwnProperty.call(object, key);
+}
+
+// Hydrates the browser cache from the persistent CMS response. The response is
+// authoritative: empty arrays/objects are valid values, and article bodies that
+// disappeared from the server must also disappear from localStorage.
+export function hydrateCmsStorage(data) {
+  if (!data || typeof data !== 'object') return false;
+
+  const sections = [
+    ['cases', K.cases],
+    ['faq', K.faq],
+    ['contacts', K.contacts],
+    ['blogPosts', K.blogPosts],
+    ['newArticles', K.newArticles],
+  ];
+  let changed = false;
+
+  for (const [section, key] of sections) {
+    if (!hasOwn(data, section)) continue;
+    try {
+      const next = JSON.stringify(data[section]);
+      if (localStorage.getItem(key) !== next) {
+        localStorage.setItem(key, next);
+        changed = true;
+      }
+    } catch (_) {}
+  }
+
+  if (hasOwn(data, 'articleBodies') && data.articleBodies && typeof data.articleBodies === 'object') {
+    const bodies = data.articleBodies;
+    const expectedKeys = new Set(
+      Object.entries(bodies)
+        .filter(([, html]) => typeof html === 'string' && html.trim())
+        .map(([slug]) => articleBodyKey(slug)),
+    );
+
+    try {
+      for (let index = localStorage.length - 1; index >= 0; index -= 1) {
+        const key = localStorage.key(index);
+        if (key?.startsWith('bt_cms_body_') && !expectedKeys.has(key)) {
+          localStorage.removeItem(key);
+          changed = true;
+        }
+      }
+
+      for (const [slug, html] of Object.entries(bodies)) {
+        if (typeof html !== 'string' || !html.trim()) continue;
+        const key = articleBodyKey(slug);
+        if (localStorage.getItem(key) !== html) {
+          localStorage.setItem(key, html);
+          changed = true;
+        }
+      }
+    } catch (_) {}
+  }
+
+  return changed;
+}
+
 // Cases
 export function getCmsCases(fallback) {
   const v = read(K.cases);

@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 
-Sitemap: https://beltransit.ru/sitemap.xml
+Sitemap: https://www.beltransit.ru/sitemap.xml
