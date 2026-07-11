@@ -800,7 +800,21 @@ const buyoutAdvantages = [
   "Везём и груз который вы уже выкупили сами — просто доставим и растаможим",
 ];
 
+const buyoutCountries = [
+  "Германия",
+  "Италия",
+  "Польша",
+  "Франция",
+  "Чехия",
+  "Нидерланды",
+  "Австрия",
+];
+
 const buyoutFaq = [
+  [
+    "Из каких стран Европы вы выкупаете товары?",
+    "Из любой страны ЕС. Чаще всего выкупаем у поставщиков в Германии, Италии, Польше, Франции, Чехии, Нидерландах и Австрии.",
+  ],
   [
     "Как вы оплачиваете поставщику?",
     "Мы согласуем счёт, проверяем поставщика и оплачиваем товар через оптимальное юрлицо под ваш кейс (ЕС, ОАЭ, Сингапур). После этого забираем груз и ведём доставку.",
@@ -909,7 +923,21 @@ const customsCargo = [
   ["Товары народного потребления", Package],
 ];
 
+const customsCountries = [
+  "Германия",
+  "Италия",
+  "Польша",
+  "Франция",
+  "Чехия",
+  "Нидерланды",
+  "Австрия",
+];
+
 const customsFaq = [
+  [
+    "Из каких стран вы оформляете таможню?",
+    "Из любой страны ЕС. Чаще всего оформляем грузы из Германии, Италии, Польши, Франции, Чехии, Нидерландов и Австрии — независимо от страны происхождения работаем по одной схеме.",
+  ],
   [
     "Сколько стоит таможенное оформление?",
     "Стоимость зависит от товара, документов, страны происхождения, кода ТНВЭД и схемы ввоза. Первичный расчёт делаем по описанию партии.",
@@ -3619,6 +3647,25 @@ function BuyoutProblem() {
   );
 }
 
+function BuyoutCountries() {
+  return (
+    <section className="section cargo-section">
+      <div className="section-heading">
+        <span className="eyebrow">География</span>
+        <h2>Из каких стран Европы выкупаем товары</h2>
+      </div>
+      <div className="cargo-grid">
+        {buyoutCountries.map((name) => (
+          <div className="cargo-tile" key={name}>
+            <Globe2 size={25} />
+            <span>{name}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function BuyoutProcess() {
   return (
     <section className="section process-section buyout-process">
@@ -3744,6 +3791,7 @@ function BuyoutPage() {
       <BuyoutHero />
       <BuyoutStats />
       <BuyoutProblem />
+      <BuyoutCountries />
       <BuyoutProcess />
       <BuyoutAudience />
       <BuyoutSafety />
@@ -3967,6 +4015,25 @@ function CustomsFinalCta() {
   );
 }
 
+function CustomsCountries() {
+  return (
+    <section className="section cargo-section">
+      <div className="section-heading">
+        <span className="eyebrow">География</span>
+        <h2>Из каких стран Европы оформляем таможню</h2>
+      </div>
+      <div className="cargo-grid">
+        {customsCountries.map((name) => (
+          <div className="cargo-tile" key={name}>
+            <Globe2 size={25} />
+            <span>{name}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function CustomsCalcExample() {
   return (
     <section className="section customs-calc-section">
@@ -4034,6 +4101,7 @@ function CustomsPage() {
       <CustomsHero />
       <CustomsStats />
       <CustomsProblem />
+      <CustomsCountries />
       <CustomsCalcExample />
       <CustomsIncluded />
       <CustomsProcess />
