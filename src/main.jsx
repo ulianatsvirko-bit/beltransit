@@ -182,7 +182,7 @@ const cargo = [
   ["Автозапчасти", Settings, "/shiny-i-avtozapchasti/"],
   ["Велосипеды", Bike, "/chto-vezem/"],
   ["Бытовая техника", Zap, "/bytovaya-tehnika/"],
-  ["Инструменты", Wrench, "/chto-vezem/"],
+  ["Кёрхеры и мойки", Wrench, "/kerhery-i-moyki/"],
   ["Стройматериалы", Factory, "/chto-vezem/"],
   ["Сантехника", ShieldCheck, "/chto-vezem/"],
   ["Мебель", Sofa, "/mebel-iz-evropy/"],
@@ -475,7 +475,7 @@ const buyoutFaq = [
   ],
   [
     "Как вы оплачиваете поставщику?",
-    "Мы согласуем счёт, проверяем поставщика и оплачиваем товар через оптимальное юрлицо под ваш кейс (ЕС, ОАЭ, Сингапур). После этого забираем груз и ведём доставку. Общую механику того, как сейчас вообще платят европейским поставщикам из России, разбираем подробно [в отдельной статье](/blog/oplata-postavshchika-iz-rossii/).",
+    "Работаем как платёжный агент: согласуем счёт, проверяем поставщика и оплачиваем товар через оптимальное юрлицо под ваш кейс (ЕС, ОАЭ, Сингапур). После этого забираем груз и ведём доставку. Общую механику того, как сейчас вообще платят европейским поставщикам из России, разбираем подробно [в отдельной статье](/blog/oplata-postavshchika-iz-rossii/).",
   ],
   [
     "Что если поставщик откажется работать с посредником?",
@@ -2510,7 +2510,7 @@ function Header() {
       <header className="site-header">
         <a className="brand" href="/" aria-label="BelTransit главная">
           <span className="brand-mark">
-            <img src={logoMark} alt="" />
+            <img src={logoMark} alt="" width="512" height="378" />
           </span>
           <span>
             <strong>BelTransit</strong>
@@ -2587,7 +2587,7 @@ function Header() {
       <div className={`mobile-nav-panel${isMobileMenuOpen ? " is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Меню" hidden={!isMobileMenuOpen}>
         <div className="mobile-nav-panel-header">
           <a className="brand" href="/" onClick={close}>
-            <span className="brand-mark"><img src={logoMark} alt="" /></span>
+            <span className="brand-mark"><img src={logoMark} alt="" width="512" height="378" /></span>
             <span><strong>BelTransit</strong><small>Логистика из Европы</small></span>
           </a>
           <button className="mobile-nav-close" type="button" onClick={close} aria-label="Закрыть меню">
@@ -2728,7 +2728,8 @@ function Hero() {
           </h1>
           <p>
             Везём тогда, когда другие говорят "невозможно". Сборные грузы, склад в Вильнюсе,
-            выкуп у поставщика, таможня, склад в Москве. От 20 кг. Работаем с 2013 года.
+            выкуп у поставщика, таможня, склад в Москве. От 20 кг. Работаем с юридическими лицами
+            и ИП с 2013 года.
           </p>
           <div className="hero-actions">
             <a className="button button-primary" href="#request">
@@ -8988,7 +8989,7 @@ function Footer() {
       <div className="footer-brand">
         <a className="brand" href="/">
           <span className="brand-mark">
-            <img src={logoMark} alt="" />
+            <img src={logoMark} alt="" width="512" height="378" />
           </span>
           <span>
             <strong>BelTransit</strong>

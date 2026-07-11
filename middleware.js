@@ -188,7 +188,9 @@ function organisationSchema() {
     telephone: "+79265471894",
     email: "beltransit2012@gmail.com",
     foundingDate: "2013",
+    priceRange: "Стоимость рассчитывается индивидуально",
     address: { "@type": "PostalAddress", addressLocality: "Вильнюс", addressCountry: "LT" },
+    areaServed: ["EU", "BY", "RU"],
     sameAs: ["https://t.me/beltransit"],
   };
 }
@@ -225,7 +227,7 @@ export function buildJsonLd(path, data, cms) {
       description: data.description,
       url: canonical,
       provider: { "@id": `${BASE_URL}/#business` },
-      areaServed: ["RU", "LT", "EU"],
+      areaServed: ["EU", "BY", "RU"],
     });
   }
 
