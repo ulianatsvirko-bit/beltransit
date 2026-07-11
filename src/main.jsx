@@ -171,6 +171,16 @@ const SEO_DATA = {
       ["Склад в Вильнюсе", `${BASE_URL}/sklad-vilnyus/`],
     ]),
   },
+  "/stoimost-dostavki/": {
+    title: "Стоимость доставки груза из Европы в Россию — расчёт | BelTransit",
+    description:
+      "Из чего складывается стоимость доставки груза из Европы: вес, тип отправки, таможня, страна поставщика. Расчёт за 2 часа, без предоплаты.",
+    jsonld: _breadcrumbs([
+      ["Главная", `${BASE_URL}/`],
+      ["Услуги", `${BASE_URL}/#services`],
+      ["Стоимость доставки", `${BASE_URL}/stoimost-dostavki/`],
+    ]),
+  },
   "/sankcionnye-gruzy/": {
     title: "Доставка санкционных грузов из Европы в Россию | BelTransit",
     description:
@@ -5050,6 +5060,210 @@ function SanctionsPage() {
   );
 }
 
+const pricingStats = [
+  ["2 часа", "готовим расчёт по заявке"],
+  ["до 50%", "экономия при консолидации груза"],
+  ["0% НДС", "при выкупе у поставщика в ЕС"],
+  ["от 20 кг", "минимальный вес для сборного груза"],
+];
+
+const pricingFactors = [
+  {
+    icon: Package,
+    title: "Вес и объём",
+    text: "Сборный груз считаем от 20 кг — платите только за свою часть фуры. Полная фура — отдельный тариф на весь объём.",
+  },
+  {
+    icon: Truck,
+    title: "Тип отправки",
+    text: "Сборный груз дешевле на кг, но идёт по расписанию раз в неделю. Полная фура дороже, зато выделенный рейс и более короткий срок.",
+  },
+  {
+    icon: ClipboardCheck,
+    title: "Таможенные платежи",
+    text: "Код ТН ВЭД определяет размер пошлины и НДС. Мы таможенный оператор — считаем платежи заранее, до отправки груза.",
+  },
+  {
+    icon: Globe2,
+    title: "Страна и схема закупки",
+    text: "Прямая доставка или выкуп от лица нашей литовской компании — при выкупе поставщик отгружает по цене нетто, без НДС (–20%).",
+  },
+];
+
+const pricingProcessSteps = [
+  ["1", "Оставляете заявку", "Укажите откуда везём, что за груз и примерный вес — этого достаточно для первого расчёта."],
+  ["2", "Уточняем детали", "Менеджер задаст пару вопросов по маршруту, документам и срокам — если что-то неясно."],
+  ["3", "Присылаем расчёт", "Готовим стоимость с разбивкой на доставку и таможню. Занимает около 2 часов."],
+];
+
+const pricingFaq = [
+  [
+    "Какой минимальный вес для сборного груза?",
+    "Берём от 20 кг. Платите только за свою часть фуры — никакого минимального тоннажа.",
+  ],
+  [
+    "Сколько стоит таможенное оформление?",
+    "Зависит от типа товара и стоимости партии. Считаем индивидуально — напишите нам параметры груза.",
+  ],
+  [
+    "Какая минимальная сумма для выкупа?",
+    "От €1 000. Обсуждаем индивидуально — зависит от страны, товара и экономики сделки.",
+  ],
+  [
+    "Как происходит оплата?",
+    "Вы платите по факту получения товара в России — никакой предоплаты. Всё фиксируем в договоре.",
+  ],
+];
+
+function PricingHero() {
+  return (
+    <section className="page-hero">
+      <div className="page-hero-shell">
+        <div className="page-hero-inner">
+          <span className="eyebrow">Расчёт стоимости · Европа → Россия</span>
+          <h1>Сколько стоит доставка груза из Европы в Россию</h1>
+          <p>
+            Стоимость зависит от веса, типа отправки, категории товара и схемы закупки. Присылаем
+            точный расчёт за 2 часа — без предоплаты и скрытых платежей.
+          </p>
+          <a className="button button-primary" href="#pricing-request">
+            Рассчитать стоимость <ArrowRight size={18} />
+          </a>
+        </div>
+        <div className="page-route-card" aria-hidden="true">
+          <RouteMap />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PricingStats() {
+  return (
+    <section className="service-stats" aria-label="Показатели расчёта стоимости">
+      {pricingStats.map(([value, label]) => (
+        <div className="service-stat" key={value}>
+          <strong>{value}</strong>
+          <span>{label}</span>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function PricingFactorsSection() {
+  return (
+    <section className="section">
+      <div className="section-heading">
+        <span className="eyebrow">Из чего складывается цена</span>
+        <h2>4 фактора, которые определяют стоимость</h2>
+      </div>
+      <div className="service-audience-grid">
+        {pricingFactors.map(({ icon: Icon, title, text }) => (
+          <article className="service-audience-card" key={title}>
+            <Icon size={30} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function PricingProcess() {
+  return (
+    <section className="section process-section">
+      <div className="section-heading">
+        <span className="eyebrow">Как мы считаем</span>
+        <h2>От заявки до расчёта — 2 часа</h2>
+      </div>
+      <div className="process-track process-track-three">
+        {pricingProcessSteps.map(([num, title, text]) => (
+          <article className="process-step" key={num}>
+            <span>{num}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function PricingCase() {
+  return <FeaturedCaseBlock item={deliveryCases[7]} heading="Пример: во сколько обошлась растаможка" />;
+}
+
+function PricingFaq() {
+  return (
+    <section className="section faq-section">
+      <div className="section-heading">
+        <span className="eyebrow">FAQ</span>
+        <h2>Частые вопросы о стоимости</h2>
+      </div>
+      <div className="faq-list">
+        {pricingFaq.map(([question, answer], index) => (
+          <details className="faq-item" key={question} open={index === 0}>
+            <summary>{question}</summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function PricingFinalCta() {
+  const handleSubmit = (e) => submitForm(e, "Стоимость доставки");
+  return (
+    <section className="section request-section" id="pricing-request">
+      <div className="request-copy">
+        <span className="eyebrow">Расчёт</span>
+        <h2>Узнайте точную стоимость вашего груза</h2>
+        <p>Укажите базовые данные — менеджер проверит маршрут, вес и документы и вернётся с расчётом.</p>
+      </div>
+      <form className="request-form" onSubmit={handleSubmit}>
+        <label>
+          <span>Откуда везём</span>
+          <input type="text" name="from" placeholder="Страна / город" />
+        </label>
+        <label>
+          <span>Что везём</span>
+          <input type="text" name="cargo" placeholder="Тип товара" />
+        </label>
+        <label>
+          <span>Примерный вес</span>
+          <input type="number" name="weight" min="0" placeholder="кг" />
+        </label>
+        <label>
+          <span>Телефон / Telegram</span>
+          <input type="text" name="contact" placeholder="+7..." />
+        </label>
+        <button className="button button-primary" type="submit">
+          Получить расчёт <Send size={18} />
+        </button>
+        <small>Считаем за 2 часа. Без спама и предоплаты.</small>
+      </form>
+    </section>
+  );
+}
+
+function PricingPage() {
+  return (
+    <>
+      <Breadcrumbs items={[{ label: "Услуги", href: "/#services" }, { label: "Стоимость доставки" }]} />
+      <PricingHero />
+      <PricingStats />
+      <PricingFactorsSection />
+      <PricingProcess />
+      <PricingCase />
+      <PricingFaq />
+      <PricingFinalCta />
+    </>
+  );
+}
+
 function WorkHero() {
   return (
     <section className="page-hero work-hero">
@@ -8779,6 +8993,7 @@ function Footer() {
         <a href="/tamozhnoe-oformlenie/">Таможенное оформление</a>
         <a href="/sklad-vilnyus/">Склад в Вильнюсе</a>
         <a href="/sankcionnye-gruzy/">Санкционные грузы</a>
+        <a href="/stoimost-dostavki/">Стоимость доставки</a>
       </div>
       <div>
         <h3>Контакты</h3>
@@ -8855,6 +9070,7 @@ function App() {
   const isPartnersPage = path === "/dlya-logistov/" || path === "/dlya-logistov";
   const isWarehousePage = path === "/sklad-vilnyus/" || path === "/sklad-vilnyus";
   const isSanctionsPage = path === "/sankcionnye-gruzy/" || path === "/sankcionnye-gruzy";
+  const isPricingPage = path === "/stoimost-dostavki/" || path === "/stoimost-dostavki";
   const isWorkPage = path === "/kak-my-rabotaem/" || path === "/kak-my-rabotaem";
   const isAboutPage = path === "/o-kompanii/" || path === "/o-kompanii";
   const isGeneralFaqPage = path === "/faq/" || path === "/faq";
@@ -8948,6 +9164,8 @@ function App() {
           <WarehousePage />
         ) : isSanctionsPage ? (
           <SanctionsPage />
+        ) : isPricingPage ? (
+          <PricingPage />
         ) : isWorkPage ? (
           <WorkPage />
         ) : isAboutPage ? (
