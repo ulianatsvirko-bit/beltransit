@@ -1,4 +1,4 @@
-import { INDEXABLE_ROUTES, SITE_URL, normalisePublicPath } from "../lib/site-routes.js";
+import { INDEXABLE_ROUTES, SITE_URL, ARTICLE_DATES, DEFAULT_LASTMOD, normalisePublicPath } from "../lib/site-routes.js";
 
 const escapeXml = (value) => String(value)
   .replace(/&/g, "&amp;")
@@ -9,9 +9,14 @@ const escapeXml = (value) => String(value)
 export default async function handler(req, res) {
   if (req.method !== "GET") return res.status(405).end();
 
-  const routes = new Map(INDEXABLE_ROUTES.map((route) => [route[0], route]));
+  const routes = new Map(
+    INDEXABLE_ROUTES.map(([path, priority, changefreq]) => [
+      path,
+      [path, priority, changefreq, ARTICLE_DATES[path] || DEFAULT_LASTMOD],
+    ]),
+  );
   const cmsUrl = process.env.VPS_API_URL;
-  if (cmsUrl?.startsWith("https://")) {
+  if (cmsUrl?.startsWith("https://") || process.env.ALLOW_INSECURE_VPS_HTTP === "true") {
     try {
       const response = await fetch(`${cmsUrl.replace(/\/$/, "")}/cms`);
       if (response.ok) {
@@ -19,7 +24,8 @@ export default async function handler(req, res) {
         for (const post of cms.newArticles || []) {
           if (!post?.draft && post?.href) {
             const path = normalisePublicPath(post.href);
-            routes.set(path, [path, "0.7", "monthly"]);
+            const lastmod = post.dateModified || post.datePublished || post.date || DEFAULT_LASTMOD;
+            routes.set(path, [path, "0.7", "monthly", lastmod]);
           }
         }
       }
@@ -29,8 +35,8 @@ export default async function handler(req, res) {
   }
 
   const urls = [...routes.values()]
-    .map(([path, priority, changefreq]) =>
-      `  <url><loc>${escapeXml(`${SITE_URL}${path}`)}</loc><priority>${priority}</priority><changefreq>${changefreq}</changefreq></url>`,
+    .map(([path, priority, changefreq, lastmod]) =>
+      `  <url><loc>${escapeXml(`${SITE_URL}${path}`)}</loc><lastmod>${lastmod}</lastmod><priority>${priority}</priority><changefreq>${changefreq}</changefreq></url>`,
     )
     .join("\n");
 

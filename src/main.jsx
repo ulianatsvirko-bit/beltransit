@@ -166,7 +166,7 @@ const cargo = [
   ["Инструменты", Wrench, "/chto-vezem/"],
   ["Стройматериалы", Factory, "/chto-vezem/"],
   ["Сантехника", ShieldCheck, "/chto-vezem/"],
-  ["Мебель", Sofa, "/chto-vezem/"],
+  ["Мебель", Sofa, "/mebel-iz-evropy/"],
   ["Другие товары", Package, "/chto-vezem/"],
 ];
 

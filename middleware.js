@@ -12,7 +12,7 @@
  * Static routes are prerendered; this layer keeps route metadata fresh at the edge.
  */
 
-import { SITE_URL as BASE_URL } from "./lib/site-routes.js";
+import { SITE_URL as BASE_URL, ARTICLE_DATES } from "./lib/site-routes.js";
 import { ROUTE_FAQS } from "./lib/generated-faq-data.js";
 
 // Per-page SEO data is server-owned; the client no longer duplicates this map.
@@ -158,15 +158,6 @@ const SERVICE_PATHS = new Set([
   "/sklad-vilnyus/", "/stoimost-dostavki/", "/sankcionnye-gruzy/",
   "/poisk-postavshchika/", "/dlya-logistov/",
 ]);
-
-const ARTICLE_DATES = {
-  "/blog/kak-rasschitat-tamozhennye-platezhi/": "2026-05-14",
-  "/blog/marshrut-cherez-belarus/": "2026-04-02",
-  "/blog/oplata-postavshchika-iz-rossii/": "2026-03-18",
-  "/blog/sbornyy-gruz-ili-polnaya-fura/": "2026-02-27",
-  "/blog/pervyy-import-iz-evropy/": "2026-02-05",
-  "/blog/tnved-kody/": "2026-01-22",
-};
 
 const PAGE_LABELS = {
   "/sbornye-gruzy/": "Сборные грузы",
