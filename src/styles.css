@@ -7929,36 +7929,9 @@ h1 small {
   text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
 }
 
-.furniture-hero-visual {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.furniture-hero .page-hero-shell {
+  grid-template-columns: 1fr;
 }
-
-.furniture-hero-tiles {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  padding: 1rem;
-}
-
-.furniture-tile {
-  width: 7rem;
-  height: 7rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.8rem;
-  border-radius: 1.2rem;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  backdrop-filter: blur(6px);
-}
-
-.furniture-tile-a { transform: rotate(-4deg); }
-.furniture-tile-b { transform: rotate(3deg) translateY(-0.5rem); }
-.furniture-tile-c { transform: rotate(5deg) translateY(0.3rem); }
-.furniture-tile-d { transform: rotate(-2deg); }
 
 /* ══════════════════════════════════════════════════════════════════════════════
    DESKTOP — warehouse reasons two-column layout + photo stack

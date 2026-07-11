@@ -440,13 +440,13 @@ const buyoutAdvantages = [
 ];
 
 const buyoutCountries = [
-  "Германия",
   "Италия",
-  "Польша",
+  "Германия",
   "Франция",
+  "Польша",
+  "Австрия",
   "Чехия",
   "Нидерланды",
-  "Австрия",
 ];
 
 const buyoutFaq = [
@@ -563,13 +563,13 @@ const customsCargo = [
 ];
 
 const customsCountries = [
-  "Германия",
-  "Италия",
   "Польша",
-  "Франция",
   "Чехия",
+  "Германия",
   "Нидерланды",
+  "Италия",
   "Австрия",
+  "Франция",
 ];
 
 const customsFaq = [
@@ -892,12 +892,12 @@ const warehouseAdvantages = [
 ];
 
 const warehouseCountries = [
-  "Германия",
-  "Италия",
-  "Польша",
-  "Франция",
-  "Чехия",
   "Нидерланды",
+  "Германия",
+  "Чехия",
+  "Италия",
+  "Франция",
+  "Польша",
   "Австрия",
 ];
 
@@ -1000,13 +1000,13 @@ const sanctionsCase = {
 };
 
 const sanctionsCountries = [
-  "Германия",
-  "Италия",
-  "Польша",
-  "Франция",
-  "Чехия",
-  "Нидерланды",
   "Австрия",
+  "Франция",
+  "Италия",
+  "Чехия",
+  "Польша",
+  "Германия",
+  "Нидерланды",
 ];
 
 const sanctionsFaq = [
@@ -1449,13 +1449,13 @@ const supplierSearchPricing = [
 ];
 
 const supplierSearchCountries = [
-  "Германия",
-  "Италия",
-  "Польша",
-  "Франция",
   "Чехия",
+  "Польша",
   "Нидерланды",
   "Австрия",
+  "Германия",
+  "Франция",
+  "Италия",
 ];
 
 const supplierSearchFaq = [
@@ -3094,7 +3094,7 @@ function GroupageCountries() {
           </div>
         ))}
       </div>
-      <p className="cargo-section-note">Не нашли свою страну? Работаем со всеми странами ЕС — напишите, разберёмся.</p>
+      <p className="cargo-section-note">Нет вашей страны в списке? Собираем сборные грузы из любой точки ЕС — уточните у менеджера.</p>
     </section>
   );
 }
@@ -3363,7 +3363,7 @@ function BuyoutCountries() {
           </div>
         ))}
       </div>
-      <p className="cargo-section-note">Не нашли свою страну? Работаем со всеми странами ЕС — напишите, разберёмся.</p>
+      <p className="cargo-section-note">Вашей страны нет в списке? Мы выкупаем товары у поставщиков в любой стране Евросоюза.</p>
     </section>
   );
 }
@@ -3732,7 +3732,7 @@ function CustomsCountries() {
           </div>
         ))}
       </div>
-      <p className="cargo-section-note">Не нашли свою страну? Работаем со всеми странами ЕС — напишите, разберёмся.</p>
+      <p className="cargo-section-note">Груз идёт из другой страны ЕС? Таможню оформим независимо от страны отправки — напишите нам.</p>
     </section>
   );
 }
@@ -4537,7 +4537,7 @@ function WarehouseCountries() {
           </div>
         ))}
       </div>
-      <p className="cargo-section-note">Не нашли свою страну? Работаем со всеми странами ЕС — напишите, разберёмся.</p>
+      <p className="cargo-section-note">Принимаем грузы на склад в Вильнюсе из любой страны ЕС, даже если её нет в списке выше.</p>
     </section>
   );
 }
@@ -4884,7 +4884,7 @@ function SanctionsCountries() {
           </div>
         ))}
       </div>
-      <p className="cargo-section-note">Не нашли свою страну? Работаем со всеми странами ЕС — напишите, разберёмся.</p>
+      <p className="cargo-section-note">Список не полный — по санкционным категориям решение почти всегда находится, уточните вашу страну.</p>
     </section>
   );
 }
@@ -5820,7 +5820,7 @@ function TiresCountries() {
           </div>
         ))}
       </div>
-      <p className="cargo-section-note">Не нашли свою страну? Работаем со всеми странами ЕС — напишите, разберёмся.</p>
+      <p className="cargo-section-note">Возим шины и запчасти и из других стран Европы — спросите у менеджера.</p>
     </section>
   );
 }
@@ -6066,7 +6066,7 @@ function AppliancesCountries() {
           </div>
         ))}
       </div>
-      <p className="cargo-section-note">Не нашли свою страну? Работаем со всеми странами ЕС — напишите, разберёмся.</p>
+      <p className="cargo-section-note">Технику возим и из других стран Европы — напишите, обсудим ваш вариант.</p>
     </section>
   );
 }
@@ -6246,14 +6246,6 @@ function FurnitureHero() {
             Рассчитать стоимость доставки <ArrowRight size={18} />
           </a>
         </div>
-        <div className="furniture-hero-visual" aria-hidden="true">
-          <div className="furniture-hero-tiles">
-            <div className="furniture-tile furniture-tile-a">🛋️</div>
-            <div className="furniture-tile furniture-tile-b">💡</div>
-            <div className="furniture-tile furniture-tile-c">🪞</div>
-            <div className="furniture-tile furniture-tile-d">🍽️</div>
-          </div>
-        </div>
       </div>
     </section>
   );
@@ -6307,7 +6299,7 @@ function FurnitureCountries() {
           </div>
         ))}
       </div>
-      <p className="cargo-section-note">Не нашли свою страну? Работаем со всеми странами ЕС — напишите, разберёмся.</p>
+      <p className="cargo-section-note">Мебель везём и из других стран ЕС — напишите нам, обсудим доставку.</p>
     </section>
   );
 }
@@ -6549,7 +6541,7 @@ function SupplierSearchCountries() {
           </div>
         ))}
       </div>
-      <p className="cargo-section-note">Не нашли свою страну? Работаем со всеми странами ЕС — напишите, разберёмся.</p>
+      <p className="cargo-section-note">Ищем поставщиков и в других странах Европы по запросу — расскажите, что нужно.</p>
     </section>
   );
 }
