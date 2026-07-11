@@ -48,16 +48,21 @@ function arrayLiteral(name) {
   throw new Error(`FAQ source ${name} is not a complete array`);
 }
 
+// Strips the `[label](url)` link syntax some FAQ answers use for in-page links,
+// leaving just the label — schema.org FAQPage text should match visible text.
+const stripLinkSyntax = (text) => text.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
+const plainTextPairs = (pairs) => pairs.map(([q, a]) => [q, stripLinkSyntax(a)]);
+
 const routeFaqs = Object.fromEntries(
   Object.entries(faqRoutes).map(([route, variable]) => [
     route,
-    vm.runInNewContext(`(${arrayLiteral(variable)})`, Object.create(null), { timeout: 1000 }),
+    plainTextPairs(vm.runInNewContext(`(${arrayLiteral(variable)})`, Object.create(null), { timeout: 1000 })),
   ]),
 );
 const generalFaqLiteral = arrayLiteral("generalFaqCategories")
   .replace(/\bicon:\s*[A-Za-z0-9_]+\s*,/g, "");
 const generalFaq = vm.runInNewContext(`(${generalFaqLiteral})`, Object.create(null), { timeout: 1000 });
-routeFaqs["/faq/"] = generalFaq.flatMap((category) => category.questions || []);
+routeFaqs["/faq/"] = plainTextPairs(generalFaq.flatMap((category) => category.questions || []));
 
 const output = `// Generated from visible FAQ arrays in src/main.jsx. Do not edit manually.\nexport const ROUTE_FAQS = ${JSON.stringify(routeFaqs, null, 2)};\n`;
 await writeFile(path.join(root, "lib/generated-faq-data.js"), output);
