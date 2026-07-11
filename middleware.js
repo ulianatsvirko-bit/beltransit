@@ -285,6 +285,18 @@ export default async function middleware(request) {
   const url = new URL(request.url);
   const rawPath = url.pathname;
 
+  // Enforce a single host. Catches the bare apex, stray/legacy subdomains
+  // (e.g. m.beltransit.ru from an old mobile site), and any future DNS
+  // leftovers pointed at this deployment — all get 308'd to the canonical
+  // www host with the path preserved.
+  const canonicalHost = new URL(BASE_URL).host;
+  if (url.host !== canonicalHost) {
+    const redirectUrl = new URL(request.url);
+    redirectUrl.protocol = "https:";
+    redirectUrl.host = canonicalHost;
+    return Response.redirect(redirectUrl, 308);
+  }
+
   // Pass through static assets and admin panel (no SEO injection needed)
   if (ASSET_RE.test(rawPath) || FILE_RE.test(rawPath) || ADMIN_RE.test(rawPath)) return;
 
