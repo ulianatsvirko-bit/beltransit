@@ -384,6 +384,14 @@ const groupageFaq = [
     "Цена зависит от страны, веса, объёма, типа товара и документов. Первичный расчёт готовим за 2 часа в рабочее время.",
   ],
   [
+    "Можно отправить одну паллету и как считается цена?",
+    "Да. Одну паллету отправляем как сборный груз: считаем её фактический и объёмный вес, маршрут и особенности товара. Страхование груза включаем в схему доставки.",
+  ],
+  [
+    "Когда LTL-перевозка выгоднее полной фуры?",
+    "Если партия не занимает всю машину, LTL позволяет платить только за своё место. При большом объёме сравниваем оба варианта — подробный расчёт есть [в статье про LTL и FTL](/blog/sbornyy-gruz-ili-polnaya-fura/).",
+  ],
+  [
     "Как вы выкупаете товар у поставщика?",
     "Проверяем счёт и условия, оплачиваем поставщику, забираем груз и дальше ведём перевозку, склад и таможню в одном окне.",
   ],
@@ -606,7 +614,7 @@ const customsFaq = [
   ],
   [
     "Что такое ТНВЭД и почему это важно?",
-    "ТНВЭД — код товара для таможни. От него зависят ставка пошлины, требования к документам и риск задержки на выпуске.",
+    "ТН ВЭД — код товара для таможни. От него зависят ставка пошлины, требования к документам и риск задержки на выпуске. Практический алгоритм подбора и частые ошибки разобраны [в отдельной статье](/blog/tnved-kody/).",
   ],
   [
     "Как быстро проходит таможенное оформление?",
@@ -949,6 +957,10 @@ const warehouseFaq = [
     "Как я узнаю что мой груз прибыл на склад?",
     "После приёмки менеджер подтверждает прибытие, сообщает статус, комплектность и следующий шаг по консолидации или отправке.",
   ],
+  [
+    "Почему склад находится именно в Вильнюсе?",
+    "Вильнюс удобно собирает грузы из разных стран ЕС перед отправкой через Беларусь в Россию. Почему этот коридор остаётся основным, объясняем [в разборе маршрута](/blog/marshrut-cherez-belarus/).",
+  ],
 ];
 
 const sanctionsStats = [
@@ -1039,7 +1051,7 @@ const sanctionsFaq = [
   ],
   [
     "Как определить, санкционный груз или нет?",
-    "Смотрим на код ТН ВЭД, страну происхождения и назначение товара. По каждой позиции проверяем ограничения на вывоз из ЕС и на ввоз в Россию и подбираем легальную схему поставки.",
+    "Единого списка брендов недостаточно: ограничения зависят от конкретного товара. Смотрим код ТН ВЭД, страну происхождения и назначение, затем проверяем ограничения на вывоз из ЕС и на ввоз в Россию и подбираем легальную схему поставки.",
   ],
   [
     "Это параллельный импорт?",
@@ -1063,7 +1075,7 @@ const sanctionsFaq = [
   ],
   [
     "Везёте только через Литву и Беларусь, или есть другие маршруты?",
-    "Для большинства грузов маршрут через Вильнюс и Беларусь — самый быстрый и предсказуемый. Для отдельных категорий рассматриваем и другие направления — например, через Казахстан. Сравнение маршрутов с цифрами есть [в этой статье](/blog/marshrut-cherez-belarus/).",
+    "Наш основной и самый предсказуемый маршрут — из Евросоюза через Вильнюс и Беларусь в Россию. Другой коридор рассматриваем индивидуально только тогда, когда прямой вариант объективно не подходит. Почему основной маршрут выгоднее, показали [в отдельном разборе](/blog/marshrut-cherez-belarus/).",
   ],
   [
     "Это легально?",
@@ -2510,7 +2522,7 @@ function Header() {
       <header className="site-header">
         <a className="brand" href="/" aria-label="BelTransit главная">
           <span className="brand-mark">
-            <img src={logoMark} alt="" width="512" height="378" />
+            <img src={logoMark} alt="Логотип BelTransit" width="512" height="378" />
           </span>
           <span>
             <strong>BelTransit</strong>
@@ -2587,7 +2599,7 @@ function Header() {
       <div className={`mobile-nav-panel${isMobileMenuOpen ? " is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Меню" hidden={!isMobileMenuOpen}>
         <div className="mobile-nav-panel-header">
           <a className="brand" href="/" onClick={close}>
-            <span className="brand-mark"><img src={logoMark} alt="" width="512" height="378" /></span>
+            <span className="brand-mark"><img src={logoMark} alt="Логотип BelTransit" width="512" height="378" /></span>
             <span><strong>BelTransit</strong><small>Логистика из Европы</small></span>
           </a>
           <button className="mobile-nav-close" type="button" onClick={close} aria-label="Закрыть меню">
@@ -3071,7 +3083,7 @@ function ServicePageHero() {
           <h1>Сборные грузы из Европы в Россию — от 20 кг, склад в Вильнюсе</h1>
           <p>
             Собираем грузы от разных поставщиков на нашем складе в Вильнюсе и везём одной машиной.
-            Быстро, дёшево, под ключ.
+            Такой формат также называют LTL-перевозкой: вы платите только за место своего груза.
           </p>
           <a className="button button-primary" href="#groupage-request">
             Рассчитать стоимость <ArrowRight size={18} />
@@ -3258,7 +3270,7 @@ function GroupageFaq() {
         {groupageFaq.map(([question, answer], index) => (
           <details className="faq-item" key={question} open={index === 0}>
             <summary>{question}</summary>
-            <p>{answer}</p>
+            <p>{renderFaqAnswer(answer)}</p>
           </details>
         ))}
       </div>
@@ -3329,7 +3341,7 @@ function BuyoutHero() {
           <h1>Выкуп товаров у европейских поставщиков — платим от нашего европейского юрлица</h1>
           <p>
             Не можете оплатить поставщику из России? Мы выкупаем товар в Европе от нашего европейского
-            юрлица и доставляем в Россию под ключ.
+            юрлица и доставляем в Россию под ключ — выступаем вашим платёжным и закупочным агентом.
           </p>
           <a className="button button-primary" href="#buyout-request">
             Обсудить выкуп <ArrowRight size={18} />
@@ -3712,7 +3724,7 @@ function CustomsFaq() {
         {customsFaq.map(([question, answer], index) => (
           <details className="faq-item" key={question} open={index === 0}>
             <summary>{question}</summary>
-            <p>{answer}</p>
+            <p>{renderFaqAnswer(answer)}</p>
           </details>
         ))}
       </div>
@@ -4658,7 +4670,7 @@ function WarehouseFaq() {
         {warehouseFaq.map(([question, answer], index) => (
           <details className="faq-item" key={question} open={index === 0}>
             <summary>{question}</summary>
-            <p>{answer}</p>
+            <p>{renderFaqAnswer(answer)}</p>
           </details>
         ))}
       </div>
@@ -5605,9 +5617,14 @@ function WashersHero() {
             Везём оптовые партии моющего оборудования европейских брендов. Выкупаем у поставщика,
             доставляем под ключ, растаможиваем. От 20 кг.
           </p>
-          <a className="button button-primary" href="#washers-request">
-            Рассчитать стоимость доставки <ArrowRight size={18} />
-          </a>
+          <div className="page-hero-actions">
+            <a className="button button-primary" href="#washers-request">
+              Рассчитать стоимость доставки <ArrowRight size={18} />
+            </a>
+            <a className="button button-secondary" href="https://t.me/beltransit" target="_blank" rel="noopener noreferrer">
+              Проверить возможность доставки <MessageCircle size={18} />
+            </a>
+          </div>
         </div>
         <div className="washers-hero-visual">
           <img
@@ -5825,9 +5842,14 @@ function TiresHero() {
             Везём оптовые партии шин и запчастей европейских брендов. Выкупаем у поставщика,
             доставляем сборным грузом или полной фурой, растаможиваем под ключ.
           </p>
-          <a className="button button-primary" href="#tires-request">
-            Рассчитать стоимость доставки <ArrowRight size={18} />
-          </a>
+          <div className="page-hero-actions">
+            <a className="button button-primary" href="#tires-request">
+              Рассчитать стоимость доставки <ArrowRight size={18} />
+            </a>
+            <a className="button button-secondary" href="https://t.me/beltransit" target="_blank" rel="noopener noreferrer">
+              Проверить возможность доставки <MessageCircle size={18} />
+            </a>
+          </div>
         </div>
         <div className="tires-hero-visual" aria-hidden="true">
           <img src="/tires.webp" alt="" className="tires-hero-img" width="746" height="746" loading="eager" fetchPriority="high" />
@@ -6069,9 +6091,14 @@ function AppliancesHero() {
             Выкупаем у европейских производителей и дистрибьюторов, везём сборным грузом или
             полной фурой, растаможиваем. От 20 кг. Работаем с оптовиками и маркетплейс-продавцами.
           </p>
-          <a className="button button-primary" href="#appliances-request">
-            Рассчитать стоимость доставки <ArrowRight size={18} />
-          </a>
+          <div className="page-hero-actions">
+            <a className="button button-primary" href="#appliances-request">
+              Рассчитать стоимость доставки <ArrowRight size={18} />
+            </a>
+            <a className="button button-secondary" href="https://t.me/beltransit" target="_blank" rel="noopener noreferrer">
+              Проверить возможность доставки <MessageCircle size={18} />
+            </a>
+          </div>
         </div>
         <div className="appliances-hero-visual">
           <img
@@ -6313,9 +6340,14 @@ function FurnitureHero() {
             Везём итальянскую, немецкую и польскую мебель напрямую от поставщика. Выкуп, склад
             в Вильнюсе, таможня и доставка до двери — под ключ. От 20 кг.
           </p>
-          <a className="button button-primary" href="#furniture-request">
-            Рассчитать стоимость доставки <ArrowRight size={18} />
-          </a>
+          <div className="page-hero-actions">
+            <a className="button button-primary" href="#furniture-request">
+              Рассчитать стоимость доставки <ArrowRight size={18} />
+            </a>
+            <a className="button button-secondary" href="https://t.me/beltransit" target="_blank" rel="noopener noreferrer">
+              Проверить возможность доставки <MessageCircle size={18} />
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -8989,7 +9021,7 @@ function Footer() {
       <div className="footer-brand">
         <a className="brand" href="/">
           <span className="brand-mark">
-            <img src={logoMark} alt="" width="512" height="378" />
+            <img src={logoMark} alt="Логотип BelTransit" width="512" height="378" />
           </span>
           <span>
             <strong>BelTransit</strong>

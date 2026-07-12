@@ -446,6 +446,13 @@ textarea {
   border-color: var(--line);
 }
 
+.page-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .header-cta {
   display: none;
 }
@@ -3247,6 +3254,7 @@ h1 small {
 .service-audience-card {
   position: relative;
   z-index: 1;
+  min-width: 0;
   min-height: 18rem;
   padding: clamp(1.2rem, 3vw, 1.7rem);
   overflow: visible;
@@ -3286,6 +3294,15 @@ h1 small {
   font-family: "Unbounded", sans-serif;
   font-size: clamp(1.35rem, 3vw, 2rem);
   line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.process-step {
+  min-width: 0;
+}
+
+.process-step h3 {
+  overflow-wrap: anywhere;
 }
 
 .service-audience-card p {
