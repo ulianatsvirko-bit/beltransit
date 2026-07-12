@@ -54,6 +54,7 @@ assert.equal(service.headers.get("x-robots-tag"), "index, follow");
 assert.match(serviceHtml, /rel="canonical" href="https:\/\/www\.beltransit\.ru\/sbornye-gruzy\/"/);
 assert.match(serviceHtml, /"@type":"Service"/);
 assert.match(serviceHtml, /"@type":"FAQPage"/);
+assert.match(serviceHtml, /"openingHours":"Mo-Su 10:00-22:00"/);
 assert.match(serviceHtml, /<h1[\s>]/);
 assert.equal((serviceHtml.match(/id="seo-jsonld"/g) || []).length, 1);
 

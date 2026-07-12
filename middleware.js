@@ -189,6 +189,7 @@ function organisationSchema() {
     email: "beltransit2012@gmail.com",
     foundingDate: "2013",
     priceRange: "Стоимость рассчитывается индивидуально",
+    openingHours: "Mo-Su 10:00-22:00",
     address: { "@type": "PostalAddress", addressLocality: "Вильнюс", addressCountry: "LT" },
     areaServed: ["EU", "BY", "RU"],
     sameAs: ["https://t.me/beltransit"],
