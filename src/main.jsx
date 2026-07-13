@@ -3333,12 +3333,12 @@ function GroupagePage() {
       <ServicePageHero />
       <ServiceStats />
       <GroupageExplainer />
-      <GroupageCountries />
       <GroupageProcess />
       <GroupageAudience />
       <GroupageWhy />
       <FrequentCargo />
       <GroupageCase />
+      <GroupageCountries />
       <GroupageFaq />
       <GroupageFinalCta />
     </>
@@ -3559,11 +3559,11 @@ function BuyoutPage() {
       <BuyoutHero />
       <BuyoutStats />
       <BuyoutProblem />
-      <BuyoutCountries />
       <BuyoutProcess />
       <BuyoutAudience />
       <BuyoutSafety />
       <BuyoutCase />
+      <BuyoutCountries />
       <BuyoutFaq />
       <BuyoutFinalCta />
     </>
@@ -3871,7 +3871,6 @@ function CustomsPage() {
       <CustomsHero />
       <CustomsStats />
       <CustomsProblem />
-      <CustomsCountries />
       <CustomsCalcExample />
       <CustomsIncluded />
       <CustomsProcess />
@@ -3879,6 +3878,7 @@ function CustomsPage() {
       <CustomsBlogLink />
       <CustomsCargo />
       <CustomsCase />
+      <CustomsCountries />
       <CustomsFaq />
       <CustomsFinalCta />
     </>
@@ -4744,11 +4744,11 @@ function WarehousePage() {
         <img src="/warehouse-photo-3.jpg" alt="Паллеты на складе БелТранзит" width="800" height="600" loading="lazy" />
       </div>
       <WarehouseOperations />
-      <WarehouseCountries />
       <WarehouseProcess />
       <WarehouseAudience />
       <WarehouseAdvantages />
       <WarehouseCase />
+      <WarehouseCountries />
       <WarehouseFaq />
       <WarehouseFinalCta />
     </>
@@ -4968,11 +4968,11 @@ function SanctionsPage() {
       <SanctionsHero />
       <SanctionsStats />
       <SanctionsTriggers />
-      <SanctionsCountries />
       <SanctionsCargoTypes />
       <SanctionsProcess />
       <SanctionsAdvantages />
       <SanctionsCase />
+      <SanctionsCountries />
       <SanctionsFaq />
       <SanctionsFinalCta />
     </>
@@ -6090,12 +6090,12 @@ function TiresPage() {
       <TiresHero />
       <TiresStats />
       <TiresCargo />
-      <TiresCountries />
       <TiresAudience />
       <TiresReasons />
       <TiresProcess />
       <TiresAdvantages />
       <TiresCase />
+      <TiresCountries />
       <TiresFaq />
       <TiresFinalCta />
     </>
@@ -6338,12 +6338,12 @@ function AppliancesPage() {
       <AppliancesHero />
       <AppliancesStats />
       <AppliancesWhatWe />
-      <AppliancesCountries />
       <AppliancesForWho />
       <AppliancesReasons />
       <AppliancesProcess />
       <AppliancesAdvantages />
       <AppliancesCase />
+      <AppliancesCountries />
       <AppliancesFaq />
       <AppliancesFinalCta />
     </>
@@ -6578,12 +6578,12 @@ function FurniturePage() {
       <FurnitureHero />
       <FurnitureStats />
       <FurnitureWhatWe />
-      <FurnitureCountries />
       <FurnitureForWho />
       <FurnitureReasons />
       <FurnitureProcess />
       <FurnitureAdvantages />
       <FurnitureCase />
+      <FurnitureCountries />
       <FurnitureFaq />
       <FurnitureFinalCta />
     </>
@@ -6900,13 +6900,13 @@ function SupplierSearchPage() {
       <SupplierSearchHero />
       <SupplierSearchStats />
       <SupplierSearchProblem />
-      <SupplierSearchCountries />
       <SupplierSearchIncluded />
       <SupplierSearchProcess />
       <SupplierSearchAudience />
       <SupplierSearchAdvantages />
       <SupplierSearchPricing />
       <SupplierSearchCase />
+      <SupplierSearchCountries />
       <SupplierSearchFaq />
       <SupplierSearchFinalCta />
     </>
