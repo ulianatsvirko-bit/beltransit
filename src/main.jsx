@@ -92,6 +92,16 @@ function renderFaqAnswer(text) {
   return parts;
 }
 
+// Personal-data consent checkbox shown on every lead form, pre-checked by default.
+function ConsentCheckbox() {
+  return (
+    <label className="consent-checkbox">
+      <input type="checkbox" name="consent" defaultChecked />
+      <span>Согласен на обработку персональных данных</span>
+    </label>
+  );
+}
+
 // SEO metadata and JSON-LD are injected into prerendered HTML by middleware.
 
 const services = [
@@ -2827,7 +2837,8 @@ function PartnerModal({ isOpen, onClose }) {
             <span>Что хотите обсудить</span>
             <textarea name="message" placeholder="Маршруты, объёмы, схема работы — любые детали" rows={3} />
           </label>
-          <button className="button button-primary" type="submit">
+          <ConsentCheckbox />
+        <button className="button button-primary" type="submit">
             Отправить <Send size={18} />
           </button>
           <small>Ответим в течение 2 часов</small>
@@ -3065,6 +3076,7 @@ function RequestForm() {
           <span>Телефон / Telegram</span>
           <input type="text" name="contact" placeholder="+7..." />
         </label>
+        <ConsentCheckbox />
         <button className="button button-primary" type="submit">
           Получить расчёт <Send size={18} />
         </button>
@@ -3304,6 +3316,7 @@ function GroupageFinalCta() {
           <span>Телефон / Telegram</span>
           <input type="text" name="contact" placeholder="+7..." />
         </label>
+        <ConsentCheckbox />
         <button className="button button-primary" type="submit">
           Получить расчёт <Send size={18} />
         </button>
@@ -3529,6 +3542,7 @@ function BuyoutFinalCta() {
           <span>Телефон / Telegram</span>
           <input type="text" name="contact" placeholder="+7..." />
         </label>
+        <ConsentCheckbox />
         <button className="button button-primary" type="submit">
           Обсудить выкуп <Send size={18} />
         </button>
@@ -3760,6 +3774,7 @@ function CustomsFinalCta() {
           <span>Телефон / Telegram</span>
           <input type="text" name="contact" placeholder="+7..." />
         </label>
+        <ConsentCheckbox />
         <button className="button button-primary" type="submit">
           Получить расчёт <Send size={18} />
         </button>
@@ -4022,6 +4037,7 @@ function CargoFinalCta() {
           <span>Телефон / Telegram</span>
           <input type="text" name="contact" placeholder="+7..." />
         </label>
+        <ConsentCheckbox />
         <button className="button button-primary" type="submit">
           Уточнить по моему товару <Send size={18} />
         </button>
@@ -4153,6 +4169,7 @@ function CasesFinalCta() {
           <span>Телефон / Telegram</span>
           <input type="text" name="contact" placeholder="+7..." />
         </label>
+        <ConsentCheckbox />
         <button className="button button-primary" type="submit">
           Обсудить мой груз <Send size={18} />
         </button>
@@ -4393,6 +4410,7 @@ function PartnerFinalCta() {
           <span>Телефон / Telegram</span>
           <input type="text" name="contact" placeholder="+7..." />
         </label>
+        <ConsentCheckbox />
         <button className="button button-primary" type="submit">
           Обсудить партнёрство <Send size={18} />
         </button>
@@ -4703,6 +4721,7 @@ function WarehouseFinalCta() {
           <span>Телефон / Telegram</span>
           <input type="text" name="contact" placeholder="+7..." />
         </label>
+        <ConsentCheckbox />
         <button className="button button-primary" type="submit">
           Обсудить условия <Send size={18} />
         </button>
@@ -4912,6 +4931,7 @@ function SanctionsFinalCta() {
           <span>Телефон / Telegram</span>
           <input type="text" name="contact" placeholder="+7..." />
         </label>
+        <ConsentCheckbox />
         <button className="button button-primary" type="submit">
           Рассчитать стоимость <Send size={18} />
         </button>
@@ -5169,6 +5189,7 @@ function PricingFinalCta() {
           <span>Телефон / Telegram</span>
           <input type="text" name="contact" placeholder="+7..." />
         </label>
+        <ConsentCheckbox />
         <button className="button button-primary" type="submit">
           Получить расчёт <Send size={18} />
         </button>
@@ -5333,6 +5354,7 @@ function WorkFinalCta() {
           <span>Телефон / Telegram</span>
           <input type="text" name="contact" placeholder="+7..." />
         </label>
+        <ConsentCheckbox />
         <button className="button button-primary" type="submit">
           Оставить заявку <Send size={18} />
         </button>
@@ -5562,6 +5584,7 @@ function AboutFinalCta() {
           <span>Телефон / Telegram</span>
           <input type="text" name="contact" placeholder="+7..." />
         </label>
+        <ConsentCheckbox />
         <button className="button button-primary" type="submit">
           Оставить заявку <Send size={18} />
         </button>
@@ -5804,6 +5827,7 @@ function WashersFinalCta() {
           <span>Телефон / Telegram</span>
           <input type="text" name="contact" placeholder="+7... или @username" />
         </label>
+        <ConsentCheckbox />
         <button className="button button-primary" type="submit">
           Получить расчёт <Send size={18} />
         </button>
@@ -6049,6 +6073,7 @@ function TiresFinalCta() {
           <span>Телефон / Telegram</span>
           <input type="text" name="contact" placeholder="+7... или @username" />
         </label>
+        <ConsentCheckbox />
         <button className="button button-primary" type="submit">
           Получить расчёт <Send size={18} />
         </button>
@@ -6296,6 +6321,7 @@ function AppliancesFinalCta() {
           <span>Телефон / Telegram</span>
           <input type="text" name="contact" placeholder="+7... или @username" />
         </label>
+        <ConsentCheckbox />
         <button className="button button-primary" type="submit">
           Получить расчёт <Send size={18} />
         </button>
@@ -6535,6 +6561,7 @@ function FurnitureFinalCta() {
           <span>Телефон / Telegram</span>
           <input type="text" name="contact" placeholder="+7... или @username" />
         </label>
+        <ConsentCheckbox />
         <button className="button button-primary" type="submit">
           Получить расчёт <Send size={18} />
         </button>
@@ -6771,7 +6798,8 @@ function SupplierRequestModal({ isOpen, onClose }) {
             <span>Телефон / Telegram</span>
             <input type="text" name="contact" placeholder="+7... или @username" />
           </label>
-          <button className="button button-primary" type="submit">
+          <ConsentCheckbox />
+        <button className="button button-primary" type="submit">
             Оставить заявку на поиск <Send size={18} />
           </button>
           <small>Ответим в течение 2 часов — обсудим детали</small>
@@ -6855,6 +6883,7 @@ function SupplierSearchFinalCta() {
           <span>Телефон / Telegram</span>
           <input type="text" name="contact" placeholder="+7... или @username" />
         </label>
+        <ConsentCheckbox />
         <button className="button button-primary" type="submit">
           Оставить заявку на поиск <Send size={18} />
         </button>
@@ -7061,7 +7090,8 @@ function ContactsPage() {
                 <span>Комментарий</span>
                 <textarea name="comment" rows="3" placeholder="Объём, сроки, вопрос" />
               </label>
-              <button className="button button-primary" type="submit">
+              <ConsentCheckbox />
+        <button className="button button-primary" type="submit">
                 Отправить <Send size={17} />
               </button>
               <small>Ответим в течение 2 часов</small>
@@ -7546,7 +7576,8 @@ function QuoteRequestModal({ isOpen, onClose }) {
             <span>Что везёте или какой вопрос</span>
             <textarea name="message" placeholder="Товар, откуда везёте, объём — любые детали помогут дать точный ответ" rows={3} />
           </label>
-          <button className="button button-primary" type="submit">
+          <ConsentCheckbox />
+        <button className="button button-primary" type="submit">
             Отправить <Send size={18} />
           </button>
           <small>Ответим в течение 2 часов</small>

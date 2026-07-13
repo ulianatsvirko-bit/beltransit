@@ -4267,6 +4267,26 @@ h1 small {
   box-shadow: 0 0 0 3px rgba(243, 107, 33, 0.16);
 }
 
+.request-form .consent-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.request-form .consent-checkbox input {
+  width: auto;
+  min-height: 0;
+  margin-top: 0.2rem;
+  accent-color: var(--orange);
+}
+
+.request-form .consent-checkbox span {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
 .request-form button {
   width: 100%;
 }
